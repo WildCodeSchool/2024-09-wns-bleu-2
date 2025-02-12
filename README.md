@@ -7,12 +7,12 @@ Developed by a team of four, this project aims to fulfill the requirements for t
   <details>
     <summary>Expand</summary>
     
-    - [Passenger Stories](#passager) :motorway:
-    - [Driver Stories](#conducteur) :car:
-    - [Registered User Stories](#utilisateur-inscrit) :man: :woman:
+    - [Passenger Stories](#passager-motorway) :motorway:
+    - [Driver Stories](#conducteur-car) :car:
+    - [Registered User Stories](#utilisateur-inscrit-man-woman) :man: :woman:
   </details>
 - ### [Features](#) :hammer_and_pick:
-- ### [Technologies Used](#techlogies-utilisees) :atom:
+- ### [Technologies Used](#) :atom:
 - ### [Getting Started](#) :rocket:
 
 ## User stories :dart:
