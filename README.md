@@ -1,5 +1,18 @@
-# User stories
-## Passager
+# GrumpyCar
+GrumpyCar is a carpooling application designed to connect drivers and passengers, allowing them to share rides conveniently and efficiently.
+Developed by a team of four, this project aims to fulfill the requirements for the RNCP "Application Development Designer" certification.
+
+## Table of contents
+- [User Stories](#user-stories)
+  - [Passenger Stories](#passager)
+  - [Driver Stories](#conducteur)
+  - [Registered User Stories](#utilisateur-inscrit)
+- [Features](#)
+- [Technologies Used](#)
+- [Getting Started](#)
+
+## User stories
+### Passager
 | En tant que | Je veux                          | Afin de                                      | Priorité |
 |------------|--------------------------------|--------------------------------|-----------|
 | Passager   | rechercher un covoiturage disponible en fonction de ma ville de départ, ma ville d’arrivée et ma date de départ      | trouver un moyen de transport correspondant à mes besoins | 1 |
@@ -14,7 +27,7 @@
 | Passager   | pouvoir annuler ma réservation                        | libérer ma place pour un autre passager                                  | 3 |
 | Passager   | recevoir une alerte pour le départ du trajet X minutes avant le trajet                        | ne pas oublier le voyage                                  | 10 |
 
-## Conducteur
+### Conducteur
 | En tant que | Je veux                          | Afin de                                      | Priorité |
 |------------|--------------------------------|--------------------------------|-----------|
 | Conducteur   | proposer un trajet d'une ville A à une ville B, à une date donnée, en précisant le nombre de places disponibles et l'heure       | permettre à des passagers de réserver une place dans mon véhicule | 1 |
@@ -28,7 +41,7 @@
 | Conducteur   | recevoir une notification de demande de covoioturage                        | voir qui est dans mon covoiturage                                  | 4 |
 | Conducteur   | recevoir une notification X heures avant le départ                        | ne pas oublier le voyage                                  | 10 |
 
-## Utilisateur (inscrit)
+### Utilisateur (inscrit)
 | En tant que | Je veux                          | Afin de                                      | Priorité |
 |------------|--------------------------------|--------------------------------|-----------|
 | Utilisateur   | pouvoir mettre un avatar via upload       | personnaliser mon profil | 2 |
