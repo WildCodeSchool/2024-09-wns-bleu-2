@@ -3,16 +3,16 @@ GrumpyCar is a carpooling application designed to connect drivers and passengers
 Developed by a team of four, this project aims to fulfill the requirements for the RNCP "Application Development Designer" certification.
 
 ## Table of contents :bookmark:
-- [User Stories](#user-stories)
-  - [Passenger Stories](#passager)
-  - [Driver Stories](#conducteur)
-  - [Registered User Stories](#utilisateur-inscrit)
-- [Features](#)
-- [Technologies Used](#)
-- [Getting Started](#)
+- [User Stories](#user-stories) :dart:
+  - [Passenger Stories](#passager) :motorway:
+  - [Driver Stories](#conducteur) :car:
+  - [Registered User Stories](#utilisateur-inscrit) :man: :woman:
+- [Features](#) :hammer_and_pick:
+- [Technologies Used](#) :atom:
+- [Getting Started](#) :rocket:
 
-## User stories
-### Passager
+## User stories :dart:
+### Passager :motorway:
 | En tant que | Je veux                          | Afin de                                      | Priorité |
 |------------|--------------------------------|--------------------------------|-----------|
 | Passager   | rechercher un covoiturage disponible en fonction de ma ville de départ, ma ville d’arrivée et ma date de départ      | trouver un moyen de transport correspondant à mes besoins | 1 |
@@ -27,7 +27,7 @@ Developed by a team of four, this project aims to fulfill the requirements for t
 | Passager   | pouvoir annuler ma réservation                        | libérer ma place pour un autre passager                                  | 3 |
 | Passager   | recevoir une alerte pour le départ du trajet X minutes avant le trajet                        | ne pas oublier le voyage                                  | 10 |
 
-### Conducteur
+### Conducteur :car:
 | En tant que | Je veux                          | Afin de                                      | Priorité |
 |------------|--------------------------------|--------------------------------|-----------|
 | Conducteur   | proposer un trajet d'une ville A à une ville B, à une date donnée, en précisant le nombre de places disponibles et l'heure       | permettre à des passagers de réserver une place dans mon véhicule | 1 |
@@ -41,7 +41,7 @@ Developed by a team of four, this project aims to fulfill the requirements for t
 | Conducteur   | recevoir une notification de demande de covoioturage                        | voir qui est dans mon covoiturage                                  | 4 |
 | Conducteur   | recevoir une notification X heures avant le départ                        | ne pas oublier le voyage                                  | 10 |
 
-### Utilisateur (inscrit)
+### Utilisateur (inscrit) :man: :woman:
 | En tant que | Je veux                          | Afin de                                      | Priorité |
 |------------|--------------------------------|--------------------------------|-----------|
 | Utilisateur   | pouvoir mettre un avatar via upload       | personnaliser mon profil | 2 |
