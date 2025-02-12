@@ -5,11 +5,11 @@
 | Passager   | rechercher un covoiturage disponible en fonction de ma ville de départ, ma ville d’arrivée et ma date de départ      | trouver un moyen de transport correspondant à mes besoins | 1 |
 | Passager   | m'inscrire sur le site        | me connecter et réserver un voyage        | 1 |
 | Passager   | que ma recherche de covoiturage inclue des résultats appliquant une flexibilité de X km autour du point d'arrivée                        | avoir plus d'options de trajet                                  | 1 |
-| Passager   | que ma recherche de covoiturage inclue des résultats appliquant une flexibilité de X km autour du point d'arrivée                        | avoir plus d'options de trajet                                  | 1 |
-| Passager   | pouvoir aller sur le site via mon telephone                        | pouvoir consulter les trajets disponibles où que je sois                                  | 1 |
-| Passager   | pouvoir naviguer entre les pages sur telephone                        | me déplacer via menu burger                                  | 1 |
+| Passager   | réserver un trajet                        | prendre une place sur un trajet                                  | 1 |
+| Passager   | que ma recherche de covoiturage inclue des résultats appliquant une flexibilité de X km autour du point d'arrivée                        | avoir plus d'options de trajet                                  | 2 |
+| Passager   | pouvoir aller sur le site via mon telephone                        | pouvoir consulter les trajets disponibles où que je sois                                  | 2 |
+| Passager   | pouvoir naviguer entre les pages sur telephone                        | me déplacer via menu burger                                  | 2 |
 | Passager   | pouvoir ajouter des filtres à ma recherche                        | gérer les options de trajet et choisir celui qui me correspond le mieux                                  | 2 |
-| Passager   | réserver un trajet                        | prendre une place sur un trajet                                  | 3 |
 | Passager   | recevoir une notification                        | pouvoir m'organiser si un trajet réservé est supprimé                                  | 3 |
 | Passager   | pouvoir annuler ma réservation                        | libérer ma place pour un autre passager                                  | 3 |
 | Passager   | recevoir une alerte pour le départ du trajet X minutes avant le trajet                        | ne pas oublier le voyage                                  | 10 |
@@ -31,7 +31,6 @@
 ## Utilisateur (inscrit)
 | En tant que | Je veux                          | Afin de                                      | Priorité |
 |------------|--------------------------------|--------------------------------|-----------|
-| Utilisateur   | pouvoir selectionner mon rôle (passager / conducteur)       | gérer mes trajets selon si je conduis ou me fais conduire | 1 |
 | Utilisateur   | pouvoir mettre un avatar via upload       | personnaliser mon profil | 2 |
 | Utilisateur   | pouvoir changer son avatar via upload       | personnaliser mon profil | 2 |
 | Utilisateur   | pouvoir réinitialiser mon mot de passe        | pouvoir me connecter si je l'oublie | 2 |
