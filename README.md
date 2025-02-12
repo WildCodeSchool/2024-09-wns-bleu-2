@@ -12,7 +12,7 @@ Developed by a team of four, this project aims to fulfill the requirements for t
     - [Registered User Stories](#utilisateur-inscrit) :man: :woman:
   </details>
 - ### [Features](#) :hammer_and_pick:
-- ### [Technologies Used](#) :atom:
+- ### [Technologies Used](#techlogies-utilisees) :atom:
 - ### [Getting Started](#) :rocket:
 
 ## User stories :dart:
@@ -55,3 +55,5 @@ Developed by a team of four, this project aims to fulfill the requirements for t
 | Utilisateur   | recevoir un mail de confirmation à l'inscription       | sécuriser mon inscription | 2 |
 | Utilisateur   | pouvoir modifier mon mot de passe         | pouvoir changer mes informations | 3 |
 | Utilisateur   | pouvoir attribuer des informations à mon véhicule si je suis conducteur       | donner des infos à mes passagers | 3 |
+
+## Technologies utilisées :atom:
