@@ -3,13 +3,17 @@ GrumpyCar is a carpooling application designed to connect drivers and passengers
 Developed by a team of four, this project aims to fulfill the requirements for the RNCP "Application Development Designer" certification.
 
 ## Table of contents :bookmark:
-- [User Stories](#user-stories) :dart:
-  - [Passenger Stories](#passager) :motorway:
-  - [Driver Stories](#conducteur) :car:
-  - [Registered User Stories](#utilisateur-inscrit) :man: :woman:
-- [Features](#) :hammer_and_pick:
-- [Technologies Used](#) :atom:
-- [Getting Started](#) :rocket:
+- ### [User Stories](#user-stories) :dart:
+  <details>
+    <summary>Expand</summary>
+    
+    - [Passenger Stories](#passager) :motorway:
+    - [Driver Stories](#conducteur) :car:
+    - [Registered User Stories](#utilisateur-inscrit) :man: :woman:
+  </details>
+- ### [Features](#) :hammer_and_pick:
+- ### [Technologies Used](#) :atom:
+- ### [Getting Started](#) :rocket:
 
 ## User stories :dart:
 ### Passager :motorway:
