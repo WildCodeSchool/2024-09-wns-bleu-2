@@ -60,10 +60,8 @@ export class User extends BaseEntity {
   @JoinTable()
   carpools: Carpool[];
 
-  @OneToOne(() => CarInfos, (carInfos) => carInfos.user, {
-    cascade: true,
-    nullable: true,
-  })
+  @Field(() => CarInfos, { nullable: true })
+  @OneToOne(() => CarInfos, { nullable: true })
   @JoinColumn()
-  carInfos: CarInfos;
+  car: CarInfos;
 }

@@ -1,12 +1,5 @@
 import { Field, ObjectType, ID } from "type-graphql";
-import {
-  BaseEntity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToOne,
-  Entity,
-} from "typeorm";
-import { User } from "./User";
+import { BaseEntity, PrimaryGeneratedColumn, Column, Entity } from "typeorm";
 
 @ObjectType()
 @Entity()
@@ -15,22 +8,19 @@ export class CarInfos extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field()
-  @Column()
-  model: string;
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  model?: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  year?: number;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  color?: string;
 
   @Field()
-  @Column()
-  year: number;
-
-  @Field()
-  @Column()
-  color: string;
-
-  @Field()
-  @Column()
+  @Column({ nullable: true })
   brand: string;
-
-  @OneToOne(() => User, (user) => user.carInfos)
-  user: User;
 }

@@ -2,6 +2,7 @@ import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import * as argon2 from "argon2";
 import { User } from "../entities/User";
 import { UserInput } from "../inputs/UserInput";
+import { CarInfos } from "../entities/CarInfos";
 
 @Resolver(User)
 export class UserResolver {
@@ -19,6 +20,25 @@ export class UserResolver {
     });
     console.log("result", result);
     return "The user was created";
+  }
+
+  @Mutation(() => User)
+  async setUserCar(
+    @Arg("userId") userId: number,
+    @Arg("carId") carId: number
+  ): Promise<User> {
+    const user = await User.findOne({
+      where: { id: userId },
+      relations: ["car"],
+    });
+    if (!user) throw new Error("User not found");
+
+    const car = await CarInfos.findOne({ where: { id: carId } });
+    if (!car) throw new Error("Car model not found");
+
+    user.car = car;
+    await user.save();
+    return user;
   }
 
   @Query(() => [User])
