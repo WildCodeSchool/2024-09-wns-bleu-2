@@ -2,17 +2,19 @@ services:
   db:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: example
+      POSTGRES_PASSWORD: grumpy
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
       interval: 1s
       timeout: 2s
       retries: 100
+
   adminer:
     image: adminer
     depends_on:
       db:
         condition: service_healthy
+
   backend:
     build: ./backend
     volumes:
@@ -22,11 +24,10 @@ services:
       interval: 1s
       timeout: 2s
       retries: 100
-    env_file:
-      - .env
     depends_on:
       db:
         condition: service_healthy
+
   frontend:
     build: ./frontend
     volumes:
@@ -39,6 +40,7 @@ services:
       interval: 1s
       timeout: 2s
       retries: 100
+
   api_gateway:
     image: nginx
     volumes:
@@ -48,17 +50,5 @@ services:
         condition: service_healthy
       frontend:
         condition: service_healthy
-      img:
-        condition: service_healthy
     ports:
-      - 7000:80
-  img:
-    build: ./img
-    healthcheck:
-      test: "curl --fail --request GET --url 'http://localhost:4000' || exit 1"
-      interval: 1s
-      timeout: 2s
-      retries: 100
-    volumes:
-      - ./img/uploads:/app/uploads
-      - ./img/clean.js:/app/clean.js
+      - 8000:80

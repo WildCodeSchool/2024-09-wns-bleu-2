@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { User } from "./User";
 
-enum Options {
+export enum Options {
   AnimalFriendly = "Animal Friendly",
   Fumeur = "Fumeur",
   Musique = "Musique",

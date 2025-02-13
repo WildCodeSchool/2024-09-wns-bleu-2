@@ -12,7 +12,7 @@ import {
 import { Carpool } from "./Carpool";
 import { CarInfos } from "./CarInfos";
 
-enum Gender {
+export enum Gender {
   Homme = "Homme",
   Femme = "Femme",
 }
