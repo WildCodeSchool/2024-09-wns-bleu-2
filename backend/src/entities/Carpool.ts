@@ -3,7 +3,7 @@ import {
   BaseEntity,
   Column,
   Entity,
-  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
@@ -21,15 +21,15 @@ export class Carpool extends BaseEntity {
   id: number;
 
   @Field()
-  @Column()
-  departue_date: Date;
+  @Column({ type: "date", nullable: false })
+  departure_date: string; //AAAA-MM-JJ
 
   @Column()
   departure_city: string;
 
   @Field()
-  @Column()
-  departure_time: Date;
+  @Column({ type: "time", nullable: false })
+  departure_time: String; //HH:MM:SS
 
   @Field()
   @Column()
@@ -55,11 +55,10 @@ export class Carpool extends BaseEntity {
   @Column()
   options: Options;
 
-  @Field(() => [User])
-  @ManyToMany(() => User, (user: User) => user.carpools, {
+  @Field(() => User)
+  @ManyToOne(() => User, (user: User) => user.carpools, {
     cascade: true,
     onDelete: "CASCADE",
   })
-  @Field(() => [User])
-  driver_id: User;
+  driver: User;
 }

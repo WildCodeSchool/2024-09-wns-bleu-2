@@ -1,18 +1,17 @@
-import { Field, ID, InputType } from "type-graphql";
+import { Field, InputType } from "type-graphql";
 import { Options } from "../entities/Carpool";
 import { Carpool } from "../entities/Carpool";
-import { User } from "../entities/User";
 
 @InputType()
 export default class CarpoolInput implements Partial<Carpool> {
   @Field()
-  departure_date: Date;
+  departure_date: string;
 
   @Field()
   departure_city: string;
 
   @Field()
-  departure_time: Date;
+  departure_time: string;
 
   @Field()
   arrival_city: string;
@@ -32,6 +31,6 @@ export default class CarpoolInput implements Partial<Carpool> {
   @Field()
   options: Options;
 
-  @Field(() => ID)
-  driver_id: User;
+  @Field()
+  driver_id: number;
 }

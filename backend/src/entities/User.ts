@@ -5,7 +5,7 @@ import {
   Entity,
   JoinColumn,
   JoinTable,
-  ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -20,6 +20,7 @@ export enum Gender {
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
+  @Field()
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -55,7 +56,7 @@ export class User extends BaseEntity {
   avatar: string;
 
   @Field(() => [Carpool], { nullable: true })
-  @ManyToMany(() => Carpool, (carpool) => carpool.driver_id)
+  @OneToMany(() => Carpool, (carpool) => carpool.driver)
   @JoinTable()
   carpools: Carpool[];
 
