@@ -23,6 +23,6 @@ export class UserResolver {
 
   @Query(() => [User])
   async getAllUsers() {
-    return await User.find();
+    return await User.find({ relations: ["carpools"] });
   }
 }
