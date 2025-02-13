@@ -7,7 +7,7 @@ import { User } from "../entities/User";
 export default class CarpoolResolver {
   @Query(() => [Carpool])
   async getCarpools() {
-    return await Carpool.find();
+    return await Carpool.find({ relations: ["driver"] });
   }
 
   @Mutation(() => Carpool)
