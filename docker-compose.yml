@@ -24,9 +24,13 @@ services:
       interval: 1s
       timeout: 2s
       retries: 100
+    env_file:
+      - "./backend/.env"
     depends_on:
       db:
         condition: service_healthy
+    ports:
+      - "4000:4000"
 
   frontend:
     build: ./frontend
@@ -40,6 +44,8 @@ services:
       interval: 1s
       timeout: 2s
       retries: 100
+    ports:
+      - "5173:5173"
 
   api_gateway:
     image: nginx
