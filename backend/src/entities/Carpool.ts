@@ -4,9 +4,11 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
+import { Booking } from "./Booking";
 
 export enum Options {
   AnimalFriendly = "Animal Friendly",
@@ -52,7 +54,7 @@ export class Carpool extends BaseEntity {
   price: number;
 
   @Field()
-  @Column()
+  @Column({ nullable: true })
   options: Options;
 
   @Field(() => User)
@@ -61,4 +63,7 @@ export class Carpool extends BaseEntity {
     onDelete: "CASCADE",
   })
   driver: User;
+
+  @OneToMany(() => Booking, (booking) => booking.carpool)
+  bookings: Booking[];
 }

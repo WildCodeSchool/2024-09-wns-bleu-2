@@ -11,6 +11,7 @@ import {
 } from "typeorm";
 import { Carpool } from "./Carpool";
 import { CarInfos } from "./CarInfos";
+import { Booking } from "./Booking";
 
 export enum Gender {
   Homme = "Homme",
@@ -64,4 +65,7 @@ export class User extends BaseEntity {
   @OneToOne(() => CarInfos, { nullable: true })
   @JoinColumn()
   car: CarInfos;
+
+  @OneToMany(() => Booking, (booking) => booking.passenger)
+  bookings: Booking[];
 }
