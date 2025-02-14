@@ -53,7 +53,7 @@ export class User extends BaseEntity {
   phone: string;
 
   @Field()
-  @Column()
+  @Column({ nullable: true })
   avatar: string;
 
   @Field(() => [Carpool], { nullable: true })
