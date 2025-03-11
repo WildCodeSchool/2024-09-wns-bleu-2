@@ -9,14 +9,19 @@ import { CarInfosResolver } from "./resolvers/CarInfosResolver";
 import { importCar } from "./scripts/importCar";
 import { BookingResolver } from "./resolvers/BookingResolver";
 
-const port = process.env.PORT || "3000";
+const port = process.env.PORT || "4000";
 console.log(`Le serveur tourne sur le port ${port}`);
 
 const start = async () => {
   await dataSourceGrumpyCar.initialize();
 
   const schema = await buildSchema({
-    resolvers: [CarpoolResolver, UserResolver, CarInfosResolver, BookingResolver],
+    resolvers: [
+      CarpoolResolver,
+      UserResolver,
+      CarInfosResolver,
+      BookingResolver,
+    ],
   });
 
   const server = new ApolloServer({
