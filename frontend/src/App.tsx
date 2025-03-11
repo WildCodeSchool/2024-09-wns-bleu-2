@@ -4,16 +4,16 @@ import Layout from "./pages/Layout";
 import PublishRoute from "./pages/PublishRoute";
 
 function App() {
-	return (
-		<>
-			<Routes>
+  return (
+    <>
+      <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="publishRoute" element={<PublishRoute />} />
         </Route>
       </Routes>
-      </>
-	);
+    </>
+  );
 }
 
 export default App;
