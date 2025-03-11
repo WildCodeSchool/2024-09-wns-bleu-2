@@ -10,6 +10,19 @@ export default class CarpoolResolver {
     return await Carpool.find({ relations: ["driver"] });
   }
 
+  @Query(() => Carpool)
+  async getCarpoolById(@Arg("id") id: number) {
+    const car = await Carpool.findOne({
+      where: { id: id },
+      //order: { pictures: { id: "DESC" } },
+      relations: ["driver"],
+    });
+    if (car === null) {
+      throw new Error("Cannot find carpool with id " + id);
+    }
+    return car;
+  }
+
   @Mutation(() => Carpool)
   async createCarpool(@Arg("data") data: CarpoolInput): Promise<Carpool> {
     const carpool = Carpool.create({ ...data });

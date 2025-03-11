@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { User } from "./User";
 import { Booking } from "./Booking";
+//import { Options } from "./options";
 
 export enum Options {
   AnimalFriendly = "Animal Friendly",
@@ -67,4 +68,6 @@ export class Carpool extends BaseEntity {
 
   @OneToMany(() => Booking, (booking) => booking.carpool)
   bookings: Booking[];
+
+
 }
