@@ -2,7 +2,8 @@ import "../styles/navbar.scss";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Logo from "./Logo";
-import Burger from "./mobile/Burger";
+import Burger from "./responsive/Burger";
+import Dropdown from "./Dropdown";
 
 export default function Navbar() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -67,25 +68,32 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="navbar-right">
-            <Link
-              onClick={() => handleClick("connexion")}
-              to="/"
-              className={`navbar-link ${
-                isActive === "connexion" && "is-active"
-              }`}
-            >
-              Se connecter
-            </Link>
-            <Link
-              onClick={() => handleClick("register")}
-              to="/"
-              className={`navbar-link ${
-                isActive === "register" && "is-active"
-              }`}
-              id="last-link"
-            >
-              S'inscrire
-            </Link>
+            {/* TODO edit when logged */}
+            {windowWidth < 1025 && windowWidth > 884 ? (
+              <Dropdown isActive={isActive} handleClick={handleClick} />
+            ) : (
+              <>
+                <Link
+                  onClick={() => handleClick("connexion")}
+                  to="/"
+                  className={`navbar-link ${
+                    isActive === "connexion" && "is-active"
+                  }`}
+                >
+                  Se connecter
+                </Link>
+                <Link
+                  onClick={() => handleClick("register")}
+                  to="/"
+                  className={`navbar-link ${
+                    isActive === "register" && "is-active"
+                  }`}
+                  id="last-link"
+                >
+                  S'inscrire
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
