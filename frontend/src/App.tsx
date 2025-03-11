@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
+import PublishRoute from "./pages/PublishRoute";
 
 function App() {
 	return (
@@ -8,6 +9,7 @@ function App() {
 			<Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="publishRoute" element={<PublishRoute />} />
         </Route>
       </Routes>
       </>
