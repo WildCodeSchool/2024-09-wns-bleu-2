@@ -1,9 +1,9 @@
+import "dotenv/config";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { dataSourceGrumpyCar } from "./config/db";
 import { buildSchema } from "type-graphql";
 import CarpoolResolver from "./resolvers/CarpoolResolver";
-import "dotenv/config";
 import { UserResolver } from "./resolvers/UserResolver";
 import { CarInfosResolver } from "./resolvers/CarInfosResolver";
 import { importCar } from "./scripts/importCar";
@@ -16,7 +16,12 @@ const start = async () => {
   await dataSourceGrumpyCar.initialize();
 
   const schema = await buildSchema({
-    resolvers: [CarpoolResolver, UserResolver, CarInfosResolver, BookingResolver],
+    resolvers: [
+      CarpoolResolver,
+      UserResolver,
+      CarInfosResolver,
+      BookingResolver,
+    ],
   });
 
   const server = new ApolloServer({
