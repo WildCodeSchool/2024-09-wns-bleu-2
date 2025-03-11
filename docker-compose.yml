@@ -3,6 +3,8 @@ services:
     image: postgres
     environment:
       POSTGRES_PASSWORD: grumpy
+      POSTGRES_USER: postgres
+      POSTGRES_DB: grumpyPostgres  # Add this line to create the database
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
       interval: 1s
