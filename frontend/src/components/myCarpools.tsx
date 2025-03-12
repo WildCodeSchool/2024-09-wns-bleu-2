@@ -23,11 +23,11 @@ const { id } = useParams<{ id: string }>(); // Get the userId from the URL
         <div key={carpool.id} className="carpool-item">
            <div className="info-container">
               <div className="departure-info">
-                <span className="time">{carpool.departure_time}</span>
+                <span className="time">{carpool.departure_time.split(":")[0] + "h"+ (carpool.departure_time.split(":")[1] !== "00" ? carpool.departure_time.split(":")[1] : "")}</span>
                 <span className="city">{carpool.departure_city}</span>
               </div>
               <div className="arrival-info">
-                <span className="time">{carpool.arrival_time}</span>
+                <span className="time">{carpool.arrival_time.split(":")[0] + "h"+ (carpool.arrival_time.split(":")[1] !== "00" ? carpool.arrival_time.split(":")[1] : "")}</span>
                 <span className="city">{carpool.arrival_city}</span>
               </div>
             </div>
