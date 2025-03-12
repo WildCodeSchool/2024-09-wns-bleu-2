@@ -10,12 +10,15 @@
   top: 0;
   backdrop-filter: blur(3px);
   height: 65px;
+  margin-bottom: 15px;
+
   @media screen and (min-width: 885px) {
     justify-content: start;
     padding: 0px 15px;
     max-width: 1900px;
     justify-content: center;
     height: 70px;
+    margin-bottom: 35px;
   }
   .navbar-container {
     background-color: rgba(185, 155, 110, 0.6);
