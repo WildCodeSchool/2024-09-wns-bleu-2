@@ -28,7 +28,9 @@ export default function Navbar() {
   return (
     <nav className="navbar-wrapper">
       <div className="navbar-logo">
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
       </div>
       {/* 885 for galaxy Fold (===884px) */}
       {windowWidth < 885 ? (

@@ -4,13 +4,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 3px 15px 0;
   margin: 0 auto;
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(3px);
+  height: 65px;
   @media screen and (min-width: 885px) {
     justify-content: start;
     padding: 0px 15px;
     max-width: 1900px;
     justify-content: center;
+    height: 70px;
   }
   .navbar-container {
     background-color: rgba(185, 155, 110, 0.6);
@@ -44,14 +49,15 @@
         font-size: $font-size-text-desk;
 
         &:hover {
+          transform: scale(1.05);
+          transition: transform 0.2s;
           &:after {
-            content: "";
+            content: "" !important;
             display: block;
             margin-top: 15px;
-            width: 100%;
+            width: 100% !important;
             height: 1px;
             background: rgba(0, 0, 0, 0.3);
-            transition: width 0.3s;
           }
         }
       }
@@ -118,9 +124,6 @@
   }
   .hamburger-react {
     z-index: 1000;
-    /* @media screen and (min-width: 885px) {
-      display: none;
-    } */
   }
   .burger {
     position: absolute;
@@ -129,12 +132,4 @@
     width: auto;
     height: 434px;
   }
-  /*  .open {
-    display: block;
-  }
-  .closed {
-    @media screen and (max-width: 885px) {
-      display: none;
-    }
-  } */
 }
