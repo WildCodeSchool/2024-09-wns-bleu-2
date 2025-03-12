@@ -83,6 +83,24 @@ h2 {
     }
   }
 
+  .duration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Ensures full width */
+    gap: 15px; /* Adds spacing between the lines and time */
+    font-weight: 500;
+    font-size: 18px;
+    color: #444;
+  }
+  
+  .line {
+    flex-grow: 1; /* Makes lines flexible to take available space */
+    height: 1px;
+    background-color: #444; /* Darker gray for better visibility */
+    max-width: 100px; /* Limits the length of the line */
+  }  
+
  /* .departure-info {
     color: $color-card-red;
   }
