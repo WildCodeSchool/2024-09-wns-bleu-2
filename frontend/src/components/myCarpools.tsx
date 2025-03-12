@@ -72,10 +72,14 @@ const { id } = useParams<{ id: string }>(); // Get the userId from the URL
             <div className="separator-line"></div>
             
             <div className="down-row">
-
-            <div className="carpool-details">
-              Conducteur: {carpool.driver.firstname} | Nombre de places: {carpool.num_passenger} | Type de route: {carpool.type_of_road}
-            </div>
+              <div className="carpool-details">
+              <div className="driver">
+                <img src="https://yt3.googleusercontent.com/qGrcViAdsmfdL8NhR03s6jZVi2AP4A03XeBFShu2M4Jd88k1fNXDnpMEmHU6CvNJuMyA2z1maA0=s900-c-k-c0x00ffffff-no-rj" alt="Avatar" className="driver-avatar" />
+                <span className="driver-name">{carpool.driver.firstname}</span>
+              </div>
+                <div className="seats">Nombre de places: {carpool.num_passenger}</div>
+                <div className="road-type">Type de route: {carpool.type_of_road}</div>
+              </div>
             </div>
         </div>
      

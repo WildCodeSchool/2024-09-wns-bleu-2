@@ -159,10 +159,31 @@ h2 {
   }
 
   .carpool-details {
+    display: flex;
+    justify-content: space-between; // Aligns the items in a row
+    gap: 15px; // Space between items
     font-size: 16px;
     margin-top: 10px;
-    width: 100%; /* Forces it to start on a new row */
   }
+
+  .driver {
+    display: flex;
+    align-items: center;
+    gap: 10px; // Space between avatar and name
+  }
+  
+  .driver-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid black;
+  }
+  
+  .driver-name {
+    font-weight: 500;
+  }
+  
+
 }
 
 // Automatic background color rotation for the carpool item and delete button separately
