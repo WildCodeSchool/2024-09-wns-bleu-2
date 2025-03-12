@@ -8,6 +8,7 @@ COPY package.json package.json
 RUN npm install
 
 COPY src src
+COPY codegen.ts codegen.ts
 COPY index.html index.html
 COPY tsconfig.app.json tsconfig.app.json
 COPY tsconfig.json tsconfig.json
