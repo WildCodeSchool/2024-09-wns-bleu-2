@@ -13,41 +13,46 @@ import jwt, { Secret } from "jsonwebtoken";
 export class UserResolver {
   @Mutation(() => String)
   async register(@Arg("data") newUserData: UserInput) {
-    // On génère un code aléatoire
-    const randomCode = uuidv4();
-    // On sauvegarde l'utilisateur dans la table TempUser ave toutes ses infos
-    const result = await TempUser.save({
-      email: newUserData.email,
-      password: await argon2.hash(newUserData.password),
-      randomCode: randomCode,
-      firstname: newUserData.firstname,
-      lastname: newUserData.lastname,
-      birthdate: newUserData.birthdate,
-      gender: newUserData.gender as Gender,
-      phone: newUserData.phone,
-    });
-    const resend = new Resend(process.env.RESEND_API_KEY);
-
-    (async function () {
-      const { data, error } = await resend.emails.send({
-        from: "Acme <onboarding@resend.dev>",
-        to: [newUserData.email],
-        subject: "Verify Email",
-        html: `
-              <p>Merci de cliquer sur le lien ci-dessous pour valider votre adresse email</p>
-              <a href="http://localhost:8000/email-confirmation/${randomCode}">
-                http://localhost:8000/email-confirmation/${randomCode}
-              </a>
-              `,
+    // Vérifie si l'email existe déjà
+    const existingUser = await User.findOne({ where: { email: newUserData.email } });
+    if (existingUser) {
+      throw new Error("This email is already used.");
+    } else {
+      // On génère un code aléatoire
+      const randomCode = uuidv4();
+      // On sauvegarde l'utilisateur dans la table TempUser ave toutes ses infos
+      const result = await TempUser.save({
+        email: newUserData.email,
+        password: await argon2.hash(newUserData.password),
+        randomCode: randomCode,
+        firstname: newUserData.firstname,
+        lastname: newUserData.lastname,
+        birthdate: newUserData.birthdate,
+        gender: newUserData.gender as Gender,
+        phone: newUserData.phone,
       });
+      const resend = new Resend(process.env.RESEND_API_KEY);
 
-      if (error) {
-        return console.error({ error });
-      }
-      console.log({ data });
-    })();
+      (async function () {
+        const { data, error } = await resend.emails.send({
+          from: "Acme <onboarding@resend.dev>",
+          to: [newUserData.email],
+          subject: "Verify Email",
+          html: `
+                <p>Merci de cliquer sur le lien ci-dessous pour valider votre adresse email</p>
+                <a href="http://localhost:8000/email-confirmation/${randomCode}">
+                  http://localhost:8000/email-confirmation/${randomCode}
+                </a>
+                `,
+        });
 
-    console.log("result", result);
+        if (error) {
+          return console.error({ error });
+        }
+        console.log({ data });
+      })();
+      console.log("result", result);
+    }
     return "The user is temporarily created. Please check your email for the confirmation code.";
   }
 

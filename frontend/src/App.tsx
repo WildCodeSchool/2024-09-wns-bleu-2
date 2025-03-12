@@ -4,6 +4,7 @@ import Layout from "./pages/Layout";
 import Register from "./pages/Register";
 import EmailConfirmation from "./pages/EmailConfirmation";
 import Login from "./pages/Login";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="email-confirmation/:code?" element={<EmailConfirmation /> } />
         </Route>
       </Routes>
+      <ToastContainer theme="colored" />
     </>
   );
 }

@@ -53,8 +53,12 @@ const Register = () => {
                navigate("/");
             },
             onError: (error: any) => {
-               console.log("error", error);
-               toast.error("Une erreur s'est produite lors de la création de votre compte.");
+               console.log("Error details:", error);
+               if (error) {
+                  toast.error("Cet email est déjà utilisé. Veuillez en choisir un autre.");
+              } else {
+                  toast.error("Une erreur s'est produite lors de la création de votre compte.");
+              }
             },
          });
       }
