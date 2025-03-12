@@ -12,7 +12,8 @@ export const GET_CARPOOL_BY_ID = gql`
       price
       type_of_road
       driver {
-        id
+        firstname
+        lastname
       }
     }
   }
@@ -29,7 +30,8 @@ export const SEARCH_CARPOOLS = gql`
       num_passenger
       price
       driver {
-        id
+        firstname
+        lastname
       }
     }
   }
