@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manjari:wght@100;400;700&display=swap");
+
+$bp-mobile: 885px; //to include galaxy fold and tablets
+$bp-desktop-large: 1220px; //to adapt to larger screen
+
+$primary-color-bg: #f8f4ee;
+$color-card-green: #bcc6ad;
+$color-card-red: #eba095;
+$color-card-blue: #a7b6c2;
+$color-card-yellow: #f9eac3;
+
+///////FONT///////
+$font-family: Popins, sans-serif;
+$font-family-secondary: Manjari, sans-serif;
+//desktop
+$font-size-title-desk: 48px;
+$font-size-text-desk: 20px;
+$font-size-search-desk: 20px;
+$font-size-card-desk: 32px;
+
+//mobile
+$font-size-title-mobile: 24px;
+$font-size-text-mobile: 14px;
+$font-size-search-mobile: 16px;
+$font-size-card-mobile: 20px;
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: $font-family;
+}
+body {
+  background-color: $primary-color-bg;
+}
