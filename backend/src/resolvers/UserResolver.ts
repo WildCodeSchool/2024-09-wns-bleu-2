@@ -71,26 +71,35 @@ export class UserResolver {
 
   @Mutation(() => String)
   async login(@Arg("data") loginData: LoginInput, @Ctx() context: any) {
-     let isPasswordCorrect = false;
-     // On récupère l'utilisateur via son email s'il existe
-     // "findOneByOrFail" nous renverrait comme erreur que l'email n'est pas bon, pour des raisons de sécurité, on utilise findOneBy
-     const user = await User.findOneBy({ email: loginData.email });
-     if (user) {
-        isPasswordCorrect = await argon2.verify(user.password, loginData.password);
-     }
-     // On vérifie son mdp => retourne un booléen
-     if (isPasswordCorrect && user) {
-        /* Le jwt prend 2 arguments :
-           1. Les éléments du payload (exemple : email, role, etc)
-           2. La clé secrète (stockée dans un fichier .env pour plus de sécurité)
-        */
-        const token = jwt.sign({email: user.email}, process.env.JWT_SECRET_KEY as Secret);
-        // Stockage du token dans les cookies
-        context.res.setHeader("Set-Cookie", `token=${token}; Secure; HttpOnly`);
-        return "User logged in.";
-     } else {
-        throw new Error('Incorrect login');
-     }
+    let isPasswordCorrect = false;
+    // On récupère l'utilisateur via son email s'il existe
+    // "findOneByOrFail" nous renverrait comme erreur que l'email n'est pas bon, pour des raisons de sécurité, on utilise findOneBy
+    const user = await User.findOneBy({ email: loginData.email });
+    if (user) {
+      isPasswordCorrect = await argon2.verify(user.password, loginData.password);
+    }
+    // On vérifie son mdp => retourne un booléen
+    if (isPasswordCorrect && user) {
+      /* Le jwt prend 2 arguments :
+         1. Les éléments du payload (exemple : email, role, etc)
+         2. La clé secrète (stockée dans un fichier .env pour plus de sécurité)
+      */
+      const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY as Secret);
+      // Stockage du token dans les cookies
+      context.res.setHeader("Set-Cookie", `token=${token}; Secure; HttpOnly`);
+      return "User logged in.";
+    } else {
+      throw new Error('Incorrect login');
+    }
+  }
+
+  @Mutation(() => String)
+  async logout(@Ctx() context: any) {
+    context.res.setHeader(
+      "Set-Cookie",
+      `token=; Secure; HttpOnly;expires=${new Date(Date.now()).toUTCString()}`
+    );
+    return "User logged out.";
   }
 
   @Mutation(() => User)
