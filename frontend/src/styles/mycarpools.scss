@@ -3,6 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Manjari:wght@100;400;700&display=swap");
 
 $colors: $color-card-green, $color-card-red, $color-card-blue, $color-card-yellow;
+$delete-button-colors: $color-card-yellow, $color-card-blue, $color-card-red, $color-card-green;
 $primary-color-bg: #f8f4ee;
 $font-family: Poppins, sans-serif;
 
@@ -43,8 +44,11 @@ h2 {
   font-weight: 400;
   text-align: left;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; // Space between rows
 
-  // Automatic background color rotation
+  // Automatic background color rotation for the carpool item
   @for $i from 1 through length($colors) {
     &:nth-child(#{$i}) {
       background-color: nth($colors, $i);
@@ -62,12 +66,21 @@ h2 {
     margin-bottom: 10px;
     text-align: center;
   }
-
+  
+  // TOP ROW: Contains info, date and delete button
+  .top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+  }
+  
   .info-container {
     display: flex;
     justify-content: space-between; // Align departure and arrival to each side
     align-items: center;
-    width: 50%;
+    flex: 0 0 40%; // Takes available space
   }
 
   .departure-info,
@@ -76,7 +89,7 @@ h2 {
     flex-direction: column;
     gap: 5px;
     text-align: center;
-
+    
     span {
       font-size: 18px;
       font-weight: 500;
@@ -96,15 +109,15 @@ h2 {
   
   .time {
     align-self: flex-start; /* Aligns the time to the top */
-    margin: 0; /* Remove any margin that could push it down */
-    padding: 0; /* Remove any padding */
+    margin: 0;
+    padding: 0;
   }
 
   .line {
-    flex-grow: 1; /* Makes lines flexible to take available space */
+    flex-grow: 1;
     height: 1px;
-    background-color: #444; /* Darker gray for better visibility */
-    max-width: 40px; /* Limits the length of the line */
+    background-color: #444;
+    max-width: 40px;
   }  
 
   .city {
@@ -113,22 +126,42 @@ h2 {
   }
 
   .circle {
-    width: 10px; /* Size of the circle */
-    height: 10px; /* Size of the circle */
-    border-radius: 50%; /* Makes it circular */
-    background-color: #949191; /* Color of the circle */
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #9a9898;
   }
 
- /* .departure-info {
-    color: $color-card-red;
+  .date {
+    font-size: 13px;
+    font-weight: bold;
+    color: #444;
+    margin-top: 0;
+    text-align: right;
+    flex: 0 0 auto; // Keep intrinsic width
   }
 
-  .arrival-info {
-    color: $color-card-blue;
+  .delete-button {
+    color: #0a0a0a;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    padding: 6px 12px;
+    cursor: pointer;
+    flex: 0 0 auto; // Keep intrinsic size
   }
-*/
+
   .carpool-details {
     font-size: 16px;
     margin-top: 10px;
+    width: 100%; /* Forces it to start on a new row */
   }
+}
+
+// Automatic background color rotation for the carpool item and delete button separately
+@for $i from 1 through length($colors) {
+  
+    .carpool-item:nth-child(#{$i}) .delete-button {
+      background-color: nth($delete-button-colors, $i); // Delete button background color
+    }
 }

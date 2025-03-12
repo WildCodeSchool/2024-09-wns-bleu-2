@@ -37,6 +37,7 @@ const { id } = useParams<{ id: string }>(); // Get the userId from the URL
       <div>
       {data.getCarpoolsByUserId.map((carpool) => (
         <div key={carpool.id} className="carpool-item">
+          <div className="top-row">
            <div className="info-container">
               <div className="departure-info">
                 <span className="time">{carpool.departure_time.split(":")[0] + "h"+ (carpool.departure_time.split(":")[1] !== "00" ? carpool.departure_time.split(":")[1] : "")}</span>
@@ -57,10 +58,20 @@ const { id } = useParams<{ id: string }>(); // Get the userId from the URL
                 <span className="city">{carpool.arrival_city}</span>
               </div>
             </div>
-          <div className="carpool-details">
-            Conducteur: {carpool.driver.firstname} | Nombre de places: {carpool.num_passenger} | Type de route: {carpool.type_of_road}
-          </div>
+
+            <div className="date">
+                {carpool.departure_date}
+            </div>
+
+            <div>
+              <button className="delete-button">ANNULER</button>
+            </div>
+            </div>
+            <div className="carpool-details">
+              Conducteur: {carpool.driver.firstname} | Nombre de places: {carpool.num_passenger} | Type de route: {carpool.type_of_road}
+            </div>
         </div>
+     
       ))}
       </div>
     ) : (
