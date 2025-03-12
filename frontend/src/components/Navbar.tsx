@@ -61,7 +61,7 @@ export default function Navbar() {
             </Link>
             <Link
               onClick={() => handleClick("my-trips")}
-              to="/"
+              to="/search/3"
               className={`navbar-link ${
                 isActive === "my-trips" && "is-active"
               }`}
