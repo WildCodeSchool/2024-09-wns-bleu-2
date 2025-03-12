@@ -5,3 +5,21 @@ export const REGISTER = gql`
       register(data: $data)
    }
 `;
+
+export const CONFIRM_EMAIL = gql`
+   mutation ConfirmEmail($codeByUser: String!) {
+      confirmEmail(codeByUser: $codeByUser)
+   }
+`;
+
+export const LOGIN = gql`
+   mutation Login($data: LoginInput!) {
+      login(data: $data)
+   }
+`;
+
+export const LOGOUT = gql`
+   mutation Logout {
+      logout
+   }
+`;
