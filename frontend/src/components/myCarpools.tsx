@@ -1,5 +1,7 @@
 import { useGetCarpoolsByUserIdQuery } from "../generated/graphql-types"; // Adjust the import based on where the generated file is located.
 import { useParams } from "react-router-dom";
+import "../styles/mycarpools.scss"; // Import your SCSS file
+
 
 const SearchCarpoolByUser = () => {
 const { id } = useParams<{ id: string }>(); // Get the userId from the URL
@@ -13,7 +15,7 @@ const { id } = useParams<{ id: string }>(); // Get the userId from the URL
   if (error) return <div className="error-message">Erreur : {error.message}</div>;
 
   return (
-    <div>
+    <div className="carpool-list-container">
     <h2>Mes grumpy trips à venir </h2>
     {data && data.getCarpoolsByUserId.length > 0 ? (
       <ul>
