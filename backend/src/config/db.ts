@@ -1,7 +1,11 @@
 import { DataSource } from "typeorm";
-import dotenv from "dotenv";
 
-dotenv.config();
+console.log(
+  "DB_NAME",
+  process.env.DB_NAME,
+  "DB_PASSWORD",
+  process.env.DB_PASSWORD
+);
 
 export const dataSourceGrumpyCar = new DataSource({
   type: "postgres",
