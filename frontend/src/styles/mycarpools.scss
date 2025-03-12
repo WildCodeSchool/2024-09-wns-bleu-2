@@ -1,12 +1,64 @@
 @import "../styles/root.scss";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manjari:wght@100;400;700&display=swap");
+
+$primary-color-bg: #f8f4ee;
+$font-family: Poppins, sans-serif;
+
+// General body and font settings
+* {
+  margin: 0;
+  padding: 0;
+  font-family: $font-family;
+}
+
+body {
+  background-color: $primary-color-bg;
+}
 
 .carpool-list-container {
-    margin-top: 30px; // Adjust the margin to move the div down
+  margin-top: 30px; // Moves the div down
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Center items horizontally
+  //height: 100vh; // Full viewport height for vertical centering
+  margin: 0 auto; // Center the container horizontally
+  padding: 20px; // Optional: Add padding for better spacing around the content
+}
+
+h2 {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.carpool-item {
+    background-color: $color-card-green;
+    border: 2px solid #ccc; // Visible border
+    border-radius: 8px;
+    width: 100%; // Ensure the div takes the full width of its container
+    max-width: 600px; // Limit the width to prevent stretching
+    margin-bottom: 20px; // Spacing between carpool divs
+    padding: 20px;
+    font-size: 18px;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    text-align: left; // Align text to the left for readability
+
+  &:hover {
+    background-color: $color-card-yellow; // Change color on hover
+    border-color: #888;
   }
-  
-  h2 {
-    text-align: center;
-    font-size: 36px; // Adjust the font size as needed
-    font-weight: 600; // Optional: adjust the font weight
-    margin-bottom: 20px; // Optional: add spacing below the header
+
+  .carpool-header {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
   }
+
+  .carpool-details {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+}

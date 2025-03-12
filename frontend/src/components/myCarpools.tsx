@@ -18,19 +18,19 @@ const { id } = useParams<{ id: string }>(); // Get the userId from the URL
     <div className="carpool-list-container">
     <h2>Mes grumpy trips à venir </h2>
     {data && data.getCarpoolsByUserId.length > 0 ? (
-      <ul>
-        {data.getCarpoolsByUserId.map((carpool) => (
-          <li key={carpool.id}>
-            {carpool.departure_date} à {carpool.departure_time} | {carpool.arrival_city} | {carpool.price}€
-            <br />
-            Conducteur: {carpool.driver.firstname}
-            <br />
-            Type de route: {carpool.type_of_road} {/* Display type_of_road */}
-            <br />
-            Nombre de places: {carpool.num_passenger} {/* Display the number of places */}
-          </li>
-        ))}
-      </ul>
+      <div>
+      {data.getCarpoolsByUserId.map((carpool) => (
+        <div key={carpool.id} className="carpool-item">
+          <div className="carpool-header">
+            {carpool.departure_date} à {carpool.departure_time} |{" "}
+            {carpool.arrival_city} | {carpool.price}€
+          </div>
+          <div className="carpool-details">
+            Conducteur: {carpool.driver.firstname} | Nombre de places: {carpool.num_passenger} | Type de route: {carpool.type_of_road}
+          </div>
+        </div>
+      ))}
+      </div>
     ) : (
       <p>Aucun covoiturage trouvé pour cet utilisateur.</p>
     )}
