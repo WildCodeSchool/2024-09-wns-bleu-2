@@ -62,13 +62,20 @@ const { id } = useParams<{ id: string }>(); // Get the userId from the URL
             <div className="date">
                 {carpool.departure_date}
             </div>
-
+          
             <div>
               <button className="delete-button">ANNULER</button>
             </div>
             </div>
+            
+            {/* Separator line between top-row and down-row */}
+            <div className="separator-line"></div>
+            
+            <div className="down-row">
+
             <div className="carpool-details">
               Conducteur: {carpool.driver.firstname} | Nombre de places: {carpool.num_passenger} | Type de route: {carpool.type_of_road}
+            </div>
             </div>
         </div>
      

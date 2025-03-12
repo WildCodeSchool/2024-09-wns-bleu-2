@@ -68,7 +68,7 @@ h2 {
   }
   
   // TOP ROW: Contains info, date and delete button
-  .top-row {
+  .top-row, .down-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -120,6 +120,12 @@ h2 {
     max-width: 40px;
   }  
 
+  .separator-line {
+    border-top: 2px solid #444; // Light gray border for separation
+    margin: 10px 0; // Adds space above and below the line
+    width: 100%; // Ensures the line takes full width
+  }
+
   .city {
     font-size: 13px !important;
     font-weight: 200 !important;
@@ -129,7 +135,8 @@ h2 {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: #9a9898;
+    background-color: #f9f8f8;
+    border: 1px solid black;
   }
 
   .date {
