@@ -26,12 +26,17 @@ export class Carpool extends BaseEntity {
   @Column({ type: "date", nullable: false })
   departure_date: string; //AAAA-MM-JJ
 
+  @Field()
   @Column()
   departure_city: string;
 
   @Field()
   @Column({ type: "time", nullable: false })
   departure_time: String; //HH:MM:SS
+
+  @Field()
+  @Column({ type: "time", nullable: true })
+  arrival_time: String; //HH:MM:SS
 
   @Field()
   @Column()

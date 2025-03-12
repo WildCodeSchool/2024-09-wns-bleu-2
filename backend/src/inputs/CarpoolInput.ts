@@ -14,6 +14,9 @@ export default class CarpoolInput implements Partial<Carpool> {
   departure_time: string;
 
   @Field()
+  arrival_time: string;
+
+  @Field()
   arrival_city: string;
 
   @Field()

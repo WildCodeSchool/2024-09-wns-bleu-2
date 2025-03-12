@@ -1,7 +1,8 @@
 @import "../styles/root.scss";
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Manjari:wght@100;400;700&display=swap");
 
+$colors: $color-card-green, $color-card-red, $color-card-blue, $color-card-yellow;
 $primary-color-bg: #f8f4ee;
 $font-family: Poppins, sans-serif;
 
@@ -21,9 +22,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center; // Center items horizontally
-  //height: 100vh; // Full viewport height for vertical centering
-  margin: 0 auto; // Center the container horizontally
-  padding: 20px; // Optional: Add padding for better spacing around the content
+  padding: 20px;
 }
 
 h2 {
@@ -34,20 +33,26 @@ h2 {
 }
 
 .carpool-item {
-    background-color: $color-card-green;
-    border: 2px solid #ccc; // Visible border
-    border-radius: 8px;
-    width: 100%; // Ensure the div takes the full width of its container
-    max-width: 600px; // Limit the width to prevent stretching
-    margin-bottom: 20px; // Spacing between carpool divs
-    padding: 20px;
-    font-size: 18px;
-    font-weight: 400;
-    transition: all 0.3s ease;
-    text-align: left; // Align text to the left for readability
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: 400;
+  text-align: left;
+  transition: all 0.3s ease;
+
+  // Automatic background color rotation
+  @for $i from 1 through length($colors) {
+    &:nth-child(#{$i}) {
+      background-color: nth($colors, $i);
+    }
+  }
 
   &:hover {
-    background-color: $color-card-yellow; // Change color on hover
+    background-color: lighten($color-card-yellow, 10%); // Lighter yellow on hover
     border-color: #888;
   }
 
@@ -55,10 +60,39 @@ h2 {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 10px;
+    text-align: center;
   }
 
+  .info-container {
+    display: flex;
+    justify-content: space-between; // Align departure and arrival to each side
+    align-items: center;
+    width: 50%;
+  }
+
+  .departure-info,
+  .arrival-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+
+    span {
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+
+ /* .departure-info {
+    color: $color-card-red;
+  }
+
+  .arrival-info {
+    color: $color-card-blue;
+  }
+*/
   .carpool-details {
     font-size: 16px;
-    margin-bottom: 5px;
+    margin-top: 10px;
   }
 }

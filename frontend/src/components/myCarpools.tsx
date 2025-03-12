@@ -21,10 +21,16 @@ const { id } = useParams<{ id: string }>(); // Get the userId from the URL
       <div>
       {data.getCarpoolsByUserId.map((carpool) => (
         <div key={carpool.id} className="carpool-item">
-          <div className="carpool-header">
-            {carpool.departure_date} à {carpool.departure_time} |{" "}
-            {carpool.arrival_city} | {carpool.price}€
-          </div>
+           <div className="info-container">
+              <div className="departure-info">
+                <span className="time">{carpool.departure_time}</span>
+                <span className="city">{carpool.departure_city}</span>
+              </div>
+              <div className="arrival-info">
+                <span className="time">{carpool.arrival_time}</span>
+                <span className="city">{carpool.arrival_city}</span>
+              </div>
+            </div>
           <div className="carpool-details">
             Conducteur: {carpool.driver.firstname} | Nombre de places: {carpool.num_passenger} | Type de route: {carpool.type_of_road}
           </div>

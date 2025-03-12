@@ -6,6 +6,8 @@ export const GET_CARPOOLS_BY_USER_ID = gql`
       id
       departure_date
       departure_time
+      departure_city
+      arrival_time
       arrival_city
       num_passenger
       type_of_road
