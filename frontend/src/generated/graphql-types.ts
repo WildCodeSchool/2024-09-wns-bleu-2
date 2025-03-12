@@ -70,6 +70,11 @@ export type CarpoolInput = {
   type_of_road: Scalars['String']['input'];
 };
 
+export type LoginInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   confirmEmail: Scalars['String']['output'];
@@ -97,7 +102,7 @@ export type MutationCreateCarpoolArgs = {
 
 
 export type MutationLoginArgs = {
-  data: UserInput;
+  data: LoginInput;
 };
 
 
@@ -159,7 +164,7 @@ export type ConfirmEmailMutationVariables = Exact<{
 export type ConfirmEmailMutation = { __typename?: 'Mutation', confirmEmail: string };
 
 export type LoginMutationVariables = Exact<{
-  data: UserInput;
+  data: LoginInput;
 }>;
 
 
@@ -229,7 +234,7 @@ export type ConfirmEmailMutationHookResult = ReturnType<typeof useConfirmEmailMu
 export type ConfirmEmailMutationResult = Apollo.MutationResult<ConfirmEmailMutation>;
 export type ConfirmEmailMutationOptions = Apollo.BaseMutationOptions<ConfirmEmailMutation, ConfirmEmailMutationVariables>;
 export const LoginDocument = gql`
-    mutation Login($data: UserInput!) {
+    mutation Login($data: LoginInput!) {
   login(data: $data)
 }
     `;

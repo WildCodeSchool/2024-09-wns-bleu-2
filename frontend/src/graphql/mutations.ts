@@ -11,3 +11,9 @@ export const CONFIRM_EMAIL = gql`
       confirmEmail(codeByUser: $codeByUser)
    }
 `;
+
+export const LOGIN = gql`
+   mutation Login($data: LoginInput!) {
+      login(data: $data)
+   }
+`;

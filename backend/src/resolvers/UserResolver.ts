@@ -3,9 +3,11 @@ import * as argon2 from "argon2";
 import { v4 as uuidv4 } from "uuid";
 import { Gender, User } from "../entities/User";
 import { UserInput } from "../inputs/UserInput";
+import { LoginInput } from "../inputs/LoginInput";
 import { CarInfos } from "../entities/CarInfos";
 import { TempUser } from "../entities/TempUser";
 import { Resend } from "resend";
+import jwt, { Secret } from "jsonwebtoken";
 
 @Resolver(User)
 export class UserResolver {
@@ -66,7 +68,31 @@ export class UserResolver {
     tempUser.remove();
     return "User email confirmed with success.";
   }
-  
+
+  @Mutation(() => String)
+  async login(@Arg("data") loginData: LoginInput, @Ctx() context: any) {
+     let isPasswordCorrect = false;
+     // On récupère l'utilisateur via son email s'il existe
+     // "findOneByOrFail" nous renverrait comme erreur que l'email n'est pas bon, pour des raisons de sécurité, on utilise findOneBy
+     const user = await User.findOneBy({ email: loginData.email });
+     if (user) {
+        isPasswordCorrect = await argon2.verify(user.password, loginData.password);
+     }
+     // On vérifie son mdp => retourne un booléen
+     if (isPasswordCorrect && user) {
+        /* Le jwt prend 2 arguments :
+           1. Les éléments du payload (exemple : email, role, etc)
+           2. La clé secrète (stockée dans un fichier .env pour plus de sécurité)
+        */
+        const token = jwt.sign({email: user.email}, process.env.JWT_SECRET_KEY as Secret);
+        // Stockage du token dans les cookies
+        context.res.setHeader("Set-Cookie", `token=${token}; Secure; HttpOnly`);
+        return "User logged in.";
+     } else {
+        throw new Error('Incorrect login');
+     }
+  }
+
   @Mutation(() => User)
   async setUserCar(
     @Arg("userId") userId: number,
