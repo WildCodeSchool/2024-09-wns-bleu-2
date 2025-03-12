@@ -3,11 +3,19 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { BrowserRouter } from 'react-router-dom'
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>,
-)
+const client = new ApolloClient({
+  uri: "/api", // Ensure this is correct
+  cache: new InMemoryCache(),
+});
+
+createRoot(document.getElementById("root")!).render(
+  <ApolloProvider client={client}>
+    <StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </StrictMode>
+  </ApolloProvider>
+);
