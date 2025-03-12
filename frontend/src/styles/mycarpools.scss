@@ -88,18 +88,36 @@ h2 {
     align-items: center;
     justify-content: center;
     width: 100%; /* Ensures full width */
-    gap: 15px; /* Adds spacing between the lines and time */
+    gap: 10px; /* Adds spacing between the lines and time */
     font-weight: 500;
-    font-size: 18px;
+    font-size: 15px;
     color: #444;
   }
   
+  .time {
+    align-self: flex-start; /* Aligns the time to the top */
+    margin: 0; /* Remove any margin that could push it down */
+    padding: 0; /* Remove any padding */
+  }
+
   .line {
     flex-grow: 1; /* Makes lines flexible to take available space */
     height: 1px;
     background-color: #444; /* Darker gray for better visibility */
-    max-width: 100px; /* Limits the length of the line */
+    max-width: 40px; /* Limits the length of the line */
   }  
+
+  .city {
+    font-size: 13px !important;
+    font-weight: 200 !important;
+  }
+
+  .circle {
+    width: 10px; /* Size of the circle */
+    height: 10px; /* Size of the circle */
+    border-radius: 50%; /* Makes it circular */
+    background-color: #949191; /* Color of the circle */
+  }
 
  /* .departure-info {
     color: $color-card-red;

@@ -45,9 +45,11 @@ const { id } = useParams<{ id: string }>(); // Get the userId from the URL
 
               {/* Duration Calculation */}
               <div className="duration">
+                  <div className="circle"></div>
                 <div className="line"></div>
-                <span className="time">{calculateDuration(carpool.departure_time, carpool.arrival_time)}</span>
+                <div className="time">{calculateDuration(carpool.departure_time, carpool.arrival_time)}</div>
                 <div className="line"></div>
+                <div className="circle"></div>
               </div>
 
               <div className="arrival-info">
