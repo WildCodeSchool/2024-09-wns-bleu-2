@@ -39,12 +39,12 @@ const Login = () => {
             
          <form className="form login-form" onSubmit={handleSubmit(onSubmit)}>
             <label htmlFor="login">Votre email
-               <input className="text-field" type="email" placeholder="monemail@gmail.com" {...register("login", { required: true })} defaultValue="nono@gmail.com" />
+               <input className="text-field" type="email" placeholder="monemail@gmail.com" {...register("login", { required: true })} />
                {errors.login && <span>Ce champ est requis.</span>}
             </label>
 
             <label htmlFor="password">Votre mot de passe
-               <input className="text-field pwd" type="password" defaultValue="monmdp" {...register("password", { required: true })} />
+               <input className="text-field pwd" type="password" {...register("password", { required: true })} />
                {errors.password && <span>Ce champ est requis.</span>}
             </label>
             <div className="forgotten-pwd">
