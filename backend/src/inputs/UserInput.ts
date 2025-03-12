@@ -17,7 +17,7 @@ export class UserInput implements Partial<User> {
   lastname: string;
 
   @Field()
-  birthDate: Date;
+  birthdate: Date;
 
   @Field()
   gender: Gender;

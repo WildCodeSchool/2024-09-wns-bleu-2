@@ -13,7 +13,7 @@ export class UserResolver {
       password: await argon2.hash(newUserData.password),
       firstname: newUserData.firstname,
       lastname: newUserData.lastname,
-      birthdate: newUserData.birthDate,
+      birthdate: newUserData.birthdate,
       gender: newUserData.gender,
       phone: newUserData.phone,
       avatar: newUserData.avatar,
