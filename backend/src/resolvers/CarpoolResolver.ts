@@ -23,6 +23,20 @@ export default class CarpoolResolver {
     return car;
   }
 
+  @Query(() => [Carpool])
+  async searchCarpools(
+    @Arg("departure", { nullable: true }) departure?: string,
+    @Arg("arrival", { nullable: true }) arrival?: string,
+    @Arg("date", { nullable: true }) date?: string
+  ) {
+    const whereClause: any = {};
+    if (departure) whereClause.departure_city = departure;
+    if (arrival) whereClause.arrival_city = arrival;
+    if (date) whereClause.departure_date = date;
+  
+    return await Carpool.find({ where: whereClause, relations: ["driver"] });
+  }
+
   @Mutation(() => Carpool)
   async createCarpool(@Arg("data") data: CarpoolInput): Promise<Carpool> {
     const carpool = Carpool.create({ ...data });

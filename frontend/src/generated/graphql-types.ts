@@ -107,11 +107,19 @@ export type Query = {
   getCarInfos: Array<CarInfos>;
   getCarpoolById: Carpool;
   getCarpools: Array<Carpool>;
+  searchCarpools: Array<Carpool>;
 };
 
 
 export type QueryGetCarpoolByIdArgs = {
   id: Scalars['Float']['input'];
+};
+
+
+export type QuerySearchCarpoolsArgs = {
+  arrival?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
+  departure?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
@@ -144,7 +152,16 @@ export type GetCarpoolByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', arrival_city: string, departure_city: string, departure_date: string, departure_time: string, num_passenger: number, options: string, price: number, type_of_road: string } };
+export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', arrival_city: string, departure_city: string, departure_date: string, departure_time: string, num_passenger: number, options: string, price: number, type_of_road: string, driver: { __typename?: 'User', id: number } } };
+
+export type SearchCarpoolsQueryVariables = Exact<{
+  departure: Scalars['String']['input'];
+  arrival: Scalars['String']['input'];
+  date: Scalars['String']['input'];
+}>;
+
+
+export type SearchCarpoolsQuery = { __typename?: 'Query', searchCarpools: Array<{ __typename?: 'Carpool', id: string, departure_city: string, arrival_city: string, departure_date: string, departure_time: string, num_passenger: number, price: number, driver: { __typename?: 'User', id: number } }> };
 
 
 export const GetCarpoolByIdDocument = gql`
@@ -158,6 +175,9 @@ export const GetCarpoolByIdDocument = gql`
     options
     price
     type_of_road
+    driver {
+      id
+    }
   }
 }
     `;
@@ -194,3 +214,54 @@ export type GetCarpoolByIdQueryHookResult = ReturnType<typeof useGetCarpoolByIdQ
 export type GetCarpoolByIdLazyQueryHookResult = ReturnType<typeof useGetCarpoolByIdLazyQuery>;
 export type GetCarpoolByIdSuspenseQueryHookResult = ReturnType<typeof useGetCarpoolByIdSuspenseQuery>;
 export type GetCarpoolByIdQueryResult = Apollo.QueryResult<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>;
+export const SearchCarpoolsDocument = gql`
+    query SearchCarpools($departure: String!, $arrival: String!, $date: String!) {
+  searchCarpools(departure: $departure, arrival: $arrival, date: $date) {
+    id
+    departure_city
+    arrival_city
+    departure_date
+    departure_time
+    num_passenger
+    price
+    driver {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchCarpoolsQuery__
+ *
+ * To run a query within a React component, call `useSearchCarpoolsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchCarpoolsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchCarpoolsQuery({
+ *   variables: {
+ *      departure: // value for 'departure'
+ *      arrival: // value for 'arrival'
+ *      date: // value for 'date'
+ *   },
+ * });
+ */
+export function useSearchCarpoolsQuery(baseOptions: Apollo.QueryHookOptions<SearchCarpoolsQuery, SearchCarpoolsQueryVariables> & ({ variables: SearchCarpoolsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchCarpoolsQuery, SearchCarpoolsQueryVariables>(SearchCarpoolsDocument, options);
+      }
+export function useSearchCarpoolsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchCarpoolsQuery, SearchCarpoolsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchCarpoolsQuery, SearchCarpoolsQueryVariables>(SearchCarpoolsDocument, options);
+        }
+export function useSearchCarpoolsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SearchCarpoolsQuery, SearchCarpoolsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchCarpoolsQuery, SearchCarpoolsQueryVariables>(SearchCarpoolsDocument, options);
+        }
+export type SearchCarpoolsQueryHookResult = ReturnType<typeof useSearchCarpoolsQuery>;
+export type SearchCarpoolsLazyQueryHookResult = ReturnType<typeof useSearchCarpoolsLazyQuery>;
+export type SearchCarpoolsSuspenseQueryHookResult = ReturnType<typeof useSearchCarpoolsSuspenseQuery>;
+export type SearchCarpoolsQueryResult = Apollo.QueryResult<SearchCarpoolsQuery, SearchCarpoolsQueryVariables>;

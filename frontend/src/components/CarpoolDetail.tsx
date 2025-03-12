@@ -34,9 +34,9 @@ const CarpoolDetails = () => {
 
         <button
           className="button-primary"
-          onClick={() => navigate(`/carpool/modify/${id}`)}
+          onClick={() => navigate('')}
         >
-          Modifier
+          Supprimer
         </button>
       </section>
     </div>

@@ -1,4 +1,7 @@
-@import "./root.scss"; 
+@use "sass:color";
+@use "./root" as *; 
+
+
 .carpool-container {
     max-width: 800px;
     margin: 40px auto;
@@ -42,7 +45,7 @@
     transition: background 0.3s;
   
     &:hover {
-      background: darken($color-card-blue, 10%);
+        background: color.adjust($color-card-blue, $lightness: -10%);
     }
   }
   
