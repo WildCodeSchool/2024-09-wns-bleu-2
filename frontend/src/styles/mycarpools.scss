@@ -33,6 +33,17 @@ h2 {
   margin-bottom: 20px;
 }
 
+.carpool-main {
+  width: 100%;  /* Ensure it takes the full width of the parent container */
+  max-width: 1200px; /* Set a maximum width (optional) */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px; /* Optional: Add some space around the content */
+  align-items: center; 
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 .carpool-item {
   border: 2px solid #ccc;
   border-radius: 8px;
@@ -176,13 +187,47 @@ h2 {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    border: 2px solid black;
+    border: 1px solid black;
   }
   
   .driver-name {
     font-weight: 500;
   }
+
+  .carpool-details > div {
+    padding: 0 10px;
+  }
   
+  /* Add vertical line between elements */
+  .carpool-details > div:not(:first-child) {
+    border-left: 2px solid black; /* Vertical line */
+    padding-left: 10px; /* Space after the line */
+  }
+
+  .seats {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .passenger-icon {
+    width: 12px;  /* Adjust size */
+    height: 16px;
+  }
+
+  .available {
+    color: #029407; /* Green for available seats */
+  }
+  
+  .unavailable {
+    color: #6a6a6a; /* Grey for unavailable seats */
+  }
+
+  .toll-icon {
+    margin-left: 5px;
+    display: inline-flex;
+    align-items: center;
+  }
 
 }
 

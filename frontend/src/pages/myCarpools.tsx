@@ -1,6 +1,7 @@
 import { useGetCarpoolsByUserIdQuery } from "../generated/graphql-types"; // Adjust the import based on where the generated file is located.
 import { useParams } from "react-router-dom";
 import "../styles/mycarpools.scss"; // Import your SCSS file
+import { Users, Landmark, BadgeEuro } from "lucide-react"; 
 
 
 const SearchCarpoolByUser = () => {
@@ -14,7 +15,7 @@ const { id } = useParams<{ id: string }>(); // Get the userId from the URL
   if (loading) return <div className="loading-message">Chargement...</div>;
   if (error) return <div className="error-message">Erreur : {error.message}</div>;
 
-  const calculateDuration = (departure: any, arrival: any) => {
+  const calculateDuration = (departure: string, arrival: string) => {
     const [depH, depM] = departure.split(":").map(Number);
     const [arrH, arrM] = arrival.split(":").map(Number);
   
@@ -34,7 +35,7 @@ const { id } = useParams<{ id: string }>(); // Get the userId from the URL
     <div className="carpool-list-container">
     <h2>Mes grumpy trips à venir </h2>
     {data && data.getCarpoolsByUserId.length > 0 ? (
-      <div>
+      <div className="carpool-main">
       {data.getCarpoolsByUserId.map((carpool) => (
         <div key={carpool.id} className="carpool-item">
           <div className="top-row">
@@ -77,8 +78,25 @@ const { id } = useParams<{ id: string }>(); // Get the userId from the URL
                 <img src="https://yt3.googleusercontent.com/qGrcViAdsmfdL8NhR03s6jZVi2AP4A03XeBFShu2M4Jd88k1fNXDnpMEmHU6CvNJuMyA2z1maA0=s900-c-k-c0x00ffffff-no-rj" alt="Avatar" className="driver-avatar" />
                 <span className="driver-name">{carpool.driver.firstname}</span>
               </div>
-                <div className="seats">Nombre de places: {carpool.num_passenger}</div>
-                <div className="road-type">Type de route: {carpool.type_of_road}</div>
+              <div className="seats"> 
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <Users key={index} 
+                  className={`passenger-icon ${index < carpool.num_passenger ? "available" : "unavailable"}`} />
+                ))}
+              </div>
+                <div className="road-type">
+                {carpool.type_of_road !== "National Road" && (
+                      <span className="toll-icon">
+                        <Landmark size={16} color="#f39c12" />
+                      </span>
+                    )}
+                </div>
+              </div>
+              <div className="price">
+                <span className="price-value">{carpool.price}</span>
+                <span className="price-icon">
+                  <BadgeEuro size={16} />
+                </span>
               </div>
             </div>
         </div>

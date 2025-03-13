@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
-import SearchCarpoolByUser from "./components/myCarpools";
+import SearchCarpoolByUser from "./pages/myCarpools";
 
 function App() {
   return (
