@@ -19,9 +19,9 @@ body {
 }
 
 .carpool-list-container {
-  margin-top: 30px; // Moves the div down
+  margin-top: 10px; // Moves the div down
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center; // Center items horizontally
   padding: 20px;
 }
@@ -31,6 +31,19 @@ h2 {
   font-size: 36px;
   font-weight: 600;
   margin-bottom: 20px;
+}
+
+
+.carpool-section {
+  width: 50%;  /* Ensure it takes the full width of the parent container */
+  max-width: 650px; /* Set a maximum width (optional) */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px; /* Optional: Add some space around the content */
+  //align-items: center; 
+  display: flex;
+  flex-direction: column;
+  /*height: 100vh;*/
+  flex-wrap: wrap;
 }
 
 .carpool-main {

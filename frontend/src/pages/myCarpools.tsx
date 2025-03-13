@@ -20,18 +20,35 @@ const SearchCarpoolByUser = () => {
     const { upcomingTrips, pastTrips } = separateTripsByDate(carpools);
   
     return (
-        <div className="carpool-list-container">
+      <div className="carpool-list-container">
+        {/* Upcoming Trips Section */}
+        <div className="carpool-section">
           <h2>Mes grumpy trips à venir</h2>
           <div className="carpool-main">
             {upcomingTrips.length > 0 ? (
               upcomingTrips.map((carpool) => (
-                <TripCart key={carpool.id} carpool={carpool} />
+                <TripCart key={carpool.id} carpool={carpool} isUpcoming={true}/>
               ))
             ) : (
               <div className="no-carpools">Aucune voiture trouvée</div>
             )}
           </div>
         </div>
+
+        {/* Past Trips Section */}
+        <div className="carpool-section">
+          <h2>Mes anciens grumpy trips</h2>
+          <div className="carpool-main">
+            {pastTrips.length > 0 ? (
+              pastTrips.map((carpool) => (
+                <TripCart key={carpool.id} carpool={carpool} isUpcoming={false}/>
+              ))
+            ) : (
+              <div className="no-carpools">Aucun voyage passé</div>
+            )}
+          </div>
+        </div>
+      </div>
       );
     };
     
