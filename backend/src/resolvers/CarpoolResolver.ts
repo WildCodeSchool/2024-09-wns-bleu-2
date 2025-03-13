@@ -28,13 +28,27 @@ export default class CarpoolResolver {
     @Arg("departure", { nullable: true }) departure?: string,
     @Arg("arrival", { nullable: true }) arrival?: string,
     @Arg("date", { nullable: true }) date?: string
-  ) {
-    const whereClause: any = {};
-    if (departure) whereClause.departure_city = departure;
-    if (arrival) whereClause.arrival_city = arrival;
-    if (date) whereClause.departure_date = date;
+  ) : Promise<Carpool[]> {
+    // requête dynamique au lieu de 'find()'
+    const query = Carpool.createQueryBuilder("carpool")
+      .leftJoinAndSelect("carpool.driver", "driver"); // On récupère les infos du conducteur en même temps
+
+    if (departure) {
+      query.andWhere("LOWER(carpool.departure_city) LIKE LOWER(:departure)", { // LOWER et LIKE LOWER : l'utilisateur peut taper en majuscule ou minuscule
+        departure: `%${departure}%`, // Recherche avec ('%mot%') pour trouver "Paris" avec "Par"
+      });
+    }
+
+    if (arrival) {
+      query.andWhere("LOWER(carpool.arrival_city) LIKE LOWER(:arrival)", {
+      arrival: `%${arrival}%`,
+    });}
+
+    if (date) {
+      query.andWhere("carpool.departure_date = :date", { date });
+    }
   
-    return await Carpool.find({ where: whereClause, relations: ["driver"] });
+    return await query.getMany(); // `getMany()` retourne un tableau contenant tous les trajets trouvés.
   }
 
   @Mutation(() => Carpool)

@@ -36,3 +36,13 @@ export const SEARCH_CARPOOLS = gql`
     }
   }
 `;
+
+export const GET_CITIES = gql`
+  query GetCities {
+    getCities {
+      id
+      name
+    }
+  }
+`;
+

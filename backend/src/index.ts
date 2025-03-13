@@ -8,6 +8,8 @@ import { UserResolver } from "./resolvers/UserResolver";
 import { CarInfosResolver } from "./resolvers/CarInfosResolver";
 import { importCar } from "./scripts/importCar";
 import { BookingResolver } from "./resolvers/BookingResolver";
+import { importCities } from "./scripts/importCities";
+import { CityResolver } from "./resolvers/CityResolver";
 
 const port = process.env.PORT || "4000";
 console.log(`Le serveur tourne sur le port ${port}`);
@@ -21,6 +23,7 @@ const start = async () => {
       UserResolver,
       CarInfosResolver,
       BookingResolver,
+      CityResolver,
     ],
   });
 
@@ -35,5 +38,6 @@ const start = async () => {
   console.log("test hot reload");
 
   await importCar();
+  await importCities();
 };
 start();

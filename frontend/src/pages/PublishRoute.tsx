@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SearchBar from "../components/SearchBar";
-import styles from "../styles/PublishRoute.module.scss";
+import styles from "../styles/publishRoute.module.scss";
 
 
 const PublishRoute = () => {
