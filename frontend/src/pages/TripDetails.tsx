@@ -20,13 +20,12 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
 
   const tripDetails = {
     ...data.getCarpoolById,
-    toll: data.getCarpoolById.options.includes("toll"),
   };
 
   return (
     <div className="page-container">
       <h1>Mon Grumpy Trip du {formatDate(tripDetails.departure_date)}</h1>
-      <TripCard trip={tripDetails} tripIndex={tripIndex} />
+      <TripCard tripDetails={tripDetails} tripIndex={tripIndex} />
     </div>
   );
 }

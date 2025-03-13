@@ -18,6 +18,14 @@ export const GET_CARPOOL_BY_ID = gql`
         id
         avatar
       }
+      bookings {
+        numPassenger
+        passenger {
+          id
+          firstname
+          avatar
+        }
+      }
     }
   }
 `;

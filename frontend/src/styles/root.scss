@@ -80,21 +80,27 @@ body {
   }
 }
 
-.bg-default {
+.bg-default,
+.btn-default {
   background-color: $color-card-red;
 }
-.bg-blue {
-  background-color: $color-card-blue;
+.bg-blue,
+.btn-blue {
+  background-color: $color-card-blue !important;
 }
-.bg-green {
-  background-color: $color-card-green;
+.bg-green,
+.btn-green {
+  background-color: $color-card-green !important;
 }
-.bg-blue {
-  background-color: $color-card-blue;
+.bg-blue,
+.btn-blue {
+  background-color: $color-card-blue !important;
 }
-.bg-yellow {
-  background-color: $color-card-yellow;
+.bg-yellow,
+.btn-yellow {
+  background-color: $color-card-yellow !important;
 }
-.bg-red {
-  background-color: $color-card-red;
+.bg-red,
+.btn-red {
+  background-color: $color-card-red !important;
 }

@@ -26,10 +26,16 @@ export class Booking extends BaseEntity {
   numPassenger: number;
 
   @Field(() => Carpool)
-  @ManyToOne(() => Carpool, (carpool) => carpool.bookings, { onDelete: "CASCADE" })
-  carpool: Carpool;
+  @ManyToOne(() => Carpool, (carpool) => carpool.bookings, {
+    onDelete: "CASCADE",
+    nullable: false,
+  })
+  carpool?: Carpool;
 
-   @Field(() => User)
-   @ManyToOne(() => User, (user) => user.bookings, { onDelete: "CASCADE" })
-   passenger: User;
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.bookings, {
+    onDelete: "CASCADE",
+    nullable: false,
+  })
+  passenger: User;
 }

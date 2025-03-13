@@ -67,5 +67,5 @@ export class Carpool extends BaseEntity {
 
   @Field(() => [Booking])
   @OneToMany(() => Booking, (booking) => booking.carpool)
-  bookings: Booking[];
+  bookings?: Booking[];
 }

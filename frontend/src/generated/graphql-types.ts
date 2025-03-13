@@ -152,7 +152,7 @@ export type GetCarpoolByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: string, driver: { __typename?: 'User', firstname: string, id: number, avatar: string } } };
+export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: string, driver: { __typename?: 'User', firstname: string, id: number, avatar: string }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, passenger: { __typename?: 'User', id: number, firstname: string, avatar: string } }> } };
 
 
 export const RegisterDocument = gql`
@@ -203,6 +203,14 @@ export const GetCarpoolByIdDocument = gql`
       firstname
       id
       avatar
+    }
+    bookings {
+      numPassenger
+      passenger {
+        id
+        firstname
+        avatar
+      }
     }
   }
 }
