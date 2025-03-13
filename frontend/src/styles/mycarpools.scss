@@ -60,9 +60,9 @@ h2 {
   gap: 10px; // Space between rows
 
   // Automatic background color rotation for the carpool item
-  @for $i from 1 through length($colors) {
+  @for $i from 1 through 100 {  // Adjust based on your maximum expected list size
     &:nth-child(#{$i}) {
-      background-color: nth($colors, $i);
+      background-color: nth($colors, ($i - 1) % length($colors) + 1); // Cycling through the colors array
     }
   }
 
@@ -77,7 +77,7 @@ h2 {
     margin-bottom: 10px;
     text-align: center;
   }
-  
+
   // TOP ROW: Contains info, date and delete button
   .top-row, .down-row {
     display: flex;
@@ -86,7 +86,7 @@ h2 {
     width: 100%;
     gap: 10px;
   }
-  
+
   .info-container {
     display: flex;
     justify-content: space-between; // Align departure and arrival to each side
@@ -117,7 +117,7 @@ h2 {
     font-size: 15px;
     color: #444;
   }
-  
+
   .time {
     align-self: flex-start; /* Aligns the time to the top */
     margin: 0;
@@ -182,14 +182,14 @@ h2 {
     align-items: center;
     gap: 10px; // Space between avatar and name
   }
-  
+
   .driver-avatar {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     border: 1px solid black;
   }
-  
+
   .driver-name {
     font-weight: 500;
   }
@@ -197,7 +197,7 @@ h2 {
   .carpool-details > div {
     padding: 0 10px;
   }
-  
+
   /* Add vertical line between elements */
   .carpool-details > div:not(:first-child) {
     border-left: 2px solid black; /* Vertical line */
@@ -209,7 +209,7 @@ h2 {
     align-items: center;
     gap: 5px;
   }
-  
+
   .passenger-icon {
     width: 12px;  /* Adjust size */
     height: 16px;
@@ -218,7 +218,7 @@ h2 {
   .available {
     color: #029407; /* Green for available seats */
   }
-  
+
   .unavailable {
     color: #6a6a6a; /* Grey for unavailable seats */
   }
@@ -231,10 +231,9 @@ h2 {
 
 }
 
-// Automatic background color rotation for the carpool item and delete button separately
-@for $i from 1 through length($colors) {
-  
-    .carpool-item:nth-child(#{$i}) .delete-button {
-      background-color: nth($delete-button-colors, $i); // Delete button background color
-    }
+// Automatic background color rotation for the delete button
+@for $i from 1 through 100 {  // Adjust based on your maximum expected list size
+  .carpool-item:nth-child(#{$i}) .delete-button {
+    background-color: nth($delete-button-colors, ($i - 1) % length($delete-button-colors) + 1); // Cycling through the delete button colors
+  }
 }
