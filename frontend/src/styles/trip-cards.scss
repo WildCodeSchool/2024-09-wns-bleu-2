@@ -10,11 +10,15 @@
 }
 
 .trip-card {
-  width: 90%;
+  width: 80%;
   display: flex;
   flex-direction: column;
   border-radius: 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 10px;
+  gap: 10px;
+  min-height: 190px;
+  justify-content: center;
   p {
     font-family: $font-family-secondary;
   }
@@ -24,11 +28,13 @@
     .trip-card-infos-left {
       display: flex;
       flex-direction: column;
+      gap: 5px;
       .trip-card-trip-duration {
         display: flex;
         justify-content: space-around;
         align-items: center;
         gap: 10px;
+        position: relative;
         .time,
         .duration {
           font-family: $font-family-secondary;
@@ -36,21 +42,113 @@
         .time {
           font-size: $font-size-card-mobile;
         }
+
         .duration {
           font-size: 15px;
         }
-        .small {
+        .horizontal-line.small {
           width: 25%;
+        }
+        .horizontal-line.small.departure {
+          &:not(:last-child) {
+            &:before {
+              content: "";
+              width: 10px;
+              height: 10px;
+              background-color: white;
+              border-radius: 50%;
+              position: absolute;
+              top: 5.5px;
+              border: 1px solid rgba(0, 0, 0, 0.7);
+            }
+          }
+        }
+        .horizontal-line.small.arrival {
+          &:not(:last-child) {
+            &:after {
+              content: "";
+              width: 10px;
+              height: 10px;
+              background-color: white;
+              border-radius: 50%;
+              position: absolute;
+              top: 5.5px;
+              right: 60px;
+              border: 1px solid rgba(0, 0, 0, 0.7);
+            }
+          }
         }
       }
       .trip-card-cities {
         display: flex;
         justify-content: space-between;
-        padding: 0 10px;
+
         .city {
           font-family: $font-family-secondary;
           font-size: $font-size-search-mobile;
           font-weight: 300;
+        }
+      }
+    }
+    .trip-card-infos-right {
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 5px;
+      .date {
+        font-weight: 500;
+      }
+      button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        &:hover {
+          transform: scale(1.05);
+          transition: transform 0.2s;
+        }
+      }
+    }
+  }
+  .trip-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+    min-height: 50px;
+    align-items: center;
+    .trip-bottom-left {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      .trip-driver {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        img {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          border: 1px solid rgba(0, 0, 0, 0.3);
+        }
+      }
+      .trip-road {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+    }
+    .trip-right {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: flex-end;
+      justify-content: center;
+      .trip-passengers {
+        display: flex;
+        gap: 10px;
+        padding-right: 15px;
+        align-items: center;
+      }
+      .trip-price {
+        p {
+          font-size: $font-size-card-desk;
         }
       }
     }
@@ -60,6 +158,12 @@
 .horizontal-line {
   width: 90%;
   height: 1px;
+  background-color: rgba(0, 0, 0, 0.3);
+  margin: 0 auto;
+}
+.vertical-line {
+  width: 1px;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
   margin: 0 auto;
 }

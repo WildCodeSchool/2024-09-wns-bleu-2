@@ -18,7 +18,10 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
     return <p>No data found for the given ID.</p>;
   }
 
-  const tripDetails = data.getCarpoolById;
+  const tripDetails = {
+    ...data.getCarpoolById,
+    toll: data.getCarpoolById.options.includes("toll"),
+  };
 
   return (
     <div className="page-container">

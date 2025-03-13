@@ -9,7 +9,7 @@ export const GET_CARPOOL_BY_ID = gql`
       departure_city
       arrival_city
       num_passenger
-      type_of_road
+      toll
       duration
       price
       options

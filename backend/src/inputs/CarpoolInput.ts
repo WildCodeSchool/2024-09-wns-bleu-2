@@ -20,7 +20,7 @@ export default class CarpoolInput implements Partial<Carpool> {
   num_passenger: number;
 
   @Field()
-  type_of_road: string;
+  toll: Boolean;
 
   @Field()
   duration: number;

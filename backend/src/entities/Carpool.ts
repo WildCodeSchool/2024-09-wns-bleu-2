@@ -44,7 +44,7 @@ export class Carpool extends BaseEntity {
 
   @Field()
   @Column()
-  type_of_road: string;
+  toll: Boolean;
 
   @Field()
   @Column()
@@ -65,6 +65,7 @@ export class Carpool extends BaseEntity {
   })
   driver: User;
 
+  @Field(() => [Booking])
   @OneToMany(() => Booking, (booking) => booking.carpool)
   bookings: Booking[];
 }

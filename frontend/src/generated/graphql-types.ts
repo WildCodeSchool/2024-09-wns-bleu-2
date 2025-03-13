@@ -46,6 +46,7 @@ export type CarInfos = {
 export type Carpool = {
   __typename?: 'Carpool';
   arrival_city: Scalars['String']['output'];
+  bookings: Array<Booking>;
   departure_city: Scalars['String']['output'];
   departure_date: Scalars['String']['output'];
   departure_time: Scalars['String']['output'];
@@ -55,7 +56,7 @@ export type Carpool = {
   num_passenger: Scalars['Float']['output'];
   options: Scalars['String']['output'];
   price: Scalars['Float']['output'];
-  type_of_road: Scalars['String']['output'];
+  toll: Scalars['Boolean']['output'];
 };
 
 export type CarpoolInput = {
@@ -68,7 +69,7 @@ export type CarpoolInput = {
   num_passenger: Scalars['Float']['input'];
   options: Scalars['String']['input'];
   price: Scalars['Float']['input'];
-  type_of_road: Scalars['String']['input'];
+  toll: Scalars['Boolean']['input'];
 };
 
 export type Mutation = {
@@ -151,7 +152,7 @@ export type GetCarpoolByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, type_of_road: string, duration: number, price: number, options: string, driver: { __typename?: 'User', firstname: string, id: number, avatar: string } } };
+export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: string, driver: { __typename?: 'User', firstname: string, id: number, avatar: string } } };
 
 
 export const RegisterDocument = gql`
@@ -194,7 +195,7 @@ export const GetCarpoolByIdDocument = gql`
     departure_city
     arrival_city
     num_passenger
-    type_of_road
+    toll
     duration
     price
     options
