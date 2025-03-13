@@ -2,6 +2,7 @@ import { useGetCarpoolsByUserIdQuery } from "../generated/graphql-types"; // Adj
 import { useParams } from "react-router-dom";
 import "../styles/mycarpools.scss"; // Import your SCSS file
 import TripCart from '../components/TripCard';  // Importing the TripCart component
+import { separateTripsByDate } from "../utils/seperatedate"; // Import the separateTripsByDate function
 
 const SearchCarpoolByUser = () => {
     const { id } = useParams<{ id: string }>(); // Get the userId from the URL
@@ -16,13 +17,14 @@ const SearchCarpoolByUser = () => {
   
     // Make sure data exists and is an array
     const carpools = data?.getCarpoolsByUserId || [];
+    const { upcomingTrips, pastTrips } = separateTripsByDate(carpools);
   
     return (
         <div className="carpool-list-container">
           <h2>Mes grumpy trips à venir</h2>
           <div className="carpool-main">
-            {carpools.length > 0 ? (
-              carpools.map((carpool) => (
+            {upcomingTrips.length > 0 ? (
+              upcomingTrips.map((carpool) => (
                 <TripCart key={carpool.id} carpool={carpool} />
               ))
             ) : (
