@@ -1,0 +1,152 @@
+@import "./root.scss";
+
+.search-bar {
+  display: flex;
+  width: 90%;
+  max-width: 360px;
+  margin: 0 auto;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  background-color: #d8d8d3;
+  border-radius: 12px;
+  padding-top: 28px;
+  box-shadow: 0 10px 3px -3px #cfccc9;
+
+  .input-container {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 8px;
+    flex: 1;
+    .datepicker-container {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      gap: 8px;
+      flex: 1;
+      position: relative;
+    }
+
+    .react-datepicker__input-container input {
+      border: none;
+      outline: none;
+      font-size: $font-size-search-desk;
+      background-color: transparent;
+      width: 100%;
+      cursor: pointer;
+    }
+  }
+
+  #hidden-arrow {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+  }
+
+  .separator {
+    width: 22rem;
+    height: 0.5px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    background-color: black;
+  }
+
+  .icon {
+    color: #e38a83;
+  }
+  select {
+    border: none;
+    outline: none;
+    font-size: $font-size-search-desk;
+    background-color: transparent;
+  }
+
+  .flex-container {
+    display: flex;
+    padding-left: 1em;
+    .select-container {
+      display: flex;
+      align-items: center;
+      select {
+        border: none;
+        outline: none;
+        font-size: $font-size-search-desk;
+        background-color: transparent;
+      }
+      #sr-only {
+        visibility: hidden;
+        font-size: 0;
+      }
+      #passenger-select {
+        padding-left: 14px;
+      }
+    }
+  }
+
+  #hidden-separator {
+    visibility: hidden;
+  }
+
+  .search-button {
+    background-color: #d8d8d3;
+    border: none;
+    padding: 14px;
+    cursor: pointer;
+    position: relative;
+    left: 8em;
+  }
+}
+
+/* Responsive */
+@media screen and (min-width: $bp-mobile) {
+  .search-bar {
+    padding: 10px 20px;
+    gap: 15px;
+    flex-direction: row;
+    align-items: center;
+    width: 90%;
+    max-width: 1900px;
+    flex-wrap: wrap;
+
+    #hidden-arrow {
+      visibility: visible !important;
+      width: 1em !important;
+      height: 1em !important;
+      color: black;
+    }
+
+    .separator {
+      width: 0.5px;
+      height: 45px;
+      background-color: black;
+      margin-right: 14px;
+    }
+
+    #visible-separator {
+      visibility: hidden;
+      width: 0;
+      height: 0;
+    }
+
+    #hidden-separator {
+      visibility: visible !important;
+      width: 0.5px;
+      height: 45px;
+      background-color: black;
+      margin-right: 14px;
+      margin-left: 6em;
+    }
+
+    .flex-container {
+      align-items: center;
+      padding-left: 0;
+    }
+
+    .search-button {
+      position: static;
+    }
+  }
+}

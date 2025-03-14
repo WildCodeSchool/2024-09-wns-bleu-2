@@ -1,0 +1,9 @@
+[
+    { "id": 1, "name": "Paris" },
+    { "id": 2, "name": "Lyon" },
+    { "id": 3, "name": "Marseille" },
+    { "id": 4, "name": "Bordeaux" },
+    { "id": 5, "name": "Lille" },
+    { "id": 6, "name": "Nantes" },
+    { "id": 7, "name": "Strasbourg" }
+  ]
