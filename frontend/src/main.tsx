@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 
 const client = new ApolloClient({
-  uri: "/api", // Ensure this is correct
+  uri: "http://localhost:8000/api",
   cache: new InMemoryCache(),
 });
 

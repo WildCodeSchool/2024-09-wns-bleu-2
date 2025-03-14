@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SearchBar from "../components/SearchBar";
-import styles from "../styles/publishRoute.module.scss";
+import "../styles/publishRoute.scss";
 
 
 const PublishRoute = () => {
@@ -10,8 +10,8 @@ const PublishRoute = () => {
   const [passengers, setPassengers] = useState(1);
 
   return (
-    <div className={styles["publish-route"]}>
-      <h2>Publier une Route</h2>
+    <div className="publish-route">
+      <h1>Publier une Route</h1>
       <SearchBar
         departure={departure}
         arrival={arrival}

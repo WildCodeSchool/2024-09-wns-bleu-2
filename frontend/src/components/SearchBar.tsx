@@ -1,9 +1,19 @@
 import { ChangeEvent, useMemo, useState } from "react";
-import { MapPin, CalendarDays, Users, ArrowRightLeft } from "lucide-react";
+import {
+  MapPin,
+  CalendarDays,
+  Users,
+  ArrowRightLeft,
+  ChevronRight,
+} from "lucide-react";
 import DatePicker from "react-datepicker";
-import styles from "../styles/searchBar.module.scss";
+import "../styles/searchBar.scss";
 import "react-datepicker/dist/react-datepicker.css";
-import { useSearchCarpoolsLazyQuery, useGetCitiesQuery } from "../generated/graphql-types";
+import { fr } from "date-fns/locale";
+import {
+  useSearchCarpoolsLazyQuery,
+  useGetCitiesQuery,
+} from "../generated/graphql-types";
 
 type SearchBarProps = {
   departure: string;
@@ -27,8 +37,16 @@ const SearchBar: React.FC<SearchBarProps> = ({
   onPassengersChange,
 }) => {
   const [results, setResults] = useState<any[]>([]);
-  
-  const { data: cityData, loading: loadingCities, error: errorCities } = useGetCitiesQuery();
+
+  const {
+    data: cityData,
+    loading: loadingCities,
+    error: errorCities,
+  } = useGetCitiesQuery();
+
+  if (errorCities) {
+    console.error("Erreur GraphQL GET_CITIES:", errorCities);
+  }
 
   const [searchCarpools] = useSearchCarpoolsLazyQuery({
     onCompleted: (data) => setResults(data.searchCarpools),
@@ -45,7 +63,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   const handleSearch = () => {
     if (!departure || !arrival || !date) {
-      console.error("Veuillez sélectionner une ville de départ, d'arrivée et une date.");
+      console.error(
+        "Veuillez sélectionner une ville de départ, d'arrivée et une date."
+      );
       return;
     }
 
@@ -59,81 +79,100 @@ const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   return (
-    <div className={styles["search-bar"]}>
-    {/* Ville de départ */}
-    <div className={styles["input-container"]}>
-      <MapPin className={styles.icon} size={20} />
-      {loadingCities ? (
-        <p>Chargement des villes...</p>
-      ) : errorCities ? (
-        <p>Erreur de chargement</p>
-      ) : (
-        <select value={departure} onChange={onDepartureChange}>
-          <option value="">Choisissez une ville</option>
-          {cityOptions}
-        </select>
-      )}
-    </div>
+    <div className="search-bar">
+      {/* Ville de départ */}
+      <div className="input-container">
+        <MapPin className="icon" size={22} />
+        {loadingCities ? (
+          <p>Chargement des villes...</p>
+        ) : errorCities ? (
+          <p>Erreur de chargement</p>
+        ) : (
+          <select value={departure} onChange={onDepartureChange}>
+            <option value="">Choisissez une ville</option>
+            {cityOptions}
+          </select>
+        )}
+      </div>
 
-    <ArrowRightLeft className={styles.icon} size={20} />
+      <ArrowRightLeft size={20} id="hidden-arrow" />
+      <div className="separator" id="visible-separator" />
 
-    {/* Ville d'arrivée */}
-    <div className={styles["input-container"]}>
-      <MapPin className={styles.icon} size={20} />
-      {loadingCities ? (
-        <p>Chargement des villes...</p>
-      ) : errorCities ? (
-        <p>Erreur de chargement</p>
-      ) : (
-        <select value={arrival} onChange={onArrivalChange}>
-          <option value="">Choisissez une ville</option>
-          {cityOptions}
-        </select>
-      )}
-    </div>
+      {/* Ville d'arrivée */}
+      <div className="input-container">
+        <MapPin className="icon" size={22} />
+        {loadingCities ? (
+          <p>Chargement des villes...</p>
+        ) : errorCities ? (
+          <p>Erreur de chargement</p>
+        ) : (
+          <select value={arrival} onChange={onArrivalChange}>
+            <option value="">Choisissez une ville</option>
+            {cityOptions}
+          </select>
+        )}
+      </div>
 
-    <div className={styles.separator} />
+      <div className="separator" />
 
-    {/* Sélecteur de date */}
-    <div className={styles["input-container"]}>
-      <CalendarDays className={styles.icon} size={30} />
-      <DatePicker
-        selected={date}
-        onChange={(date) => date && onDateChange(date)}
-        dateFormat="dd/MM/yyyy"
-        className={styles["datepicker-input"]}
-        popperPlacement="bottom-start"
-      />
-    </div>
+      {/* Calendrier */}
+      <div className="input-container">
+        <CalendarDays className="icon" size={22} />
+        <DatePicker
+          selected={date}
+          onChange={(date) => date && onDateChange(date)}
+          dateFormat="dd/MM/yyyy"
+          className="datepicker-input"
+          popperPlacement="bottom-start"
+          locale={fr}
+  
+        />
+      </div>
 
-    <div className={styles.separator} />
+      <div className="separator" />
 
-    {/* Sélecteur de passagers */}
-    <div className={styles["select-container"]}>
-      <Users className={styles.icon} size={20} />
-      <label htmlFor="passenger-select" className="sr-only">Nombre de passagers</label>
-      <select id="passenger-select" value={passengers} onChange={onPassengersChange}>
-        {[...Array(4)].map((_, i) => (
-          <option key={i + 1} value={i + 1}>
-            {i + 1} Passager{i > 0 ? "s" : ""}
-          </option>
-        ))}
-      </select>
-    </div>
+      {/* Sélection de passagers */}
+      <div className="flex-container">
+        <div className="select-container">
+          <Users className="icon" size={20} />
+          <label htmlFor="passenger-select" id="sr-only">
+            Nombre de passagers
+          </label>
+          <select
+            id="passenger-select"
+            value={passengers}
+            onChange={onPassengersChange}
+          >
+            {Array.from({ length: 4 }, (_, i) => (
+              <option key={i + 1} value={i + 1}>
+                {i + 1} {i === 0 ? "Passager" : "Passagers"}
+              </option>
+            ))}
+          </select>
+        </div>
 
-    <button type="button" className={styles["search-button"]} onClick={handleSearch}>
-      ➝
-    </button>
+        <div id="hidden-separator" />
 
-      {/* Affichage des résultats */}
+        <button
+          type="button"
+          className="search-button"
+          onClick={handleSearch}
+          aria-label="Rechercher"
+        >
+          <ChevronRight size={30} />
+        </button>
+      </div>
+
+      {/* Pour affichage des résultats, pour le test,à enlever quand elle sera utilisée*/}
       {results.length > 0 && (
-        <div className={styles["results-container"]}>
+        <div className="results-container">
           <h3>Résultats :</h3>
           <ul>
             {results.map((carpool) => (
               <li key={carpool.id}>
-                {carpool.departure_city} ➝ {carpool.arrival_city} - {carpool.price}€ - 
-                {carpool.driver.firstname} {carpool.driver.lastname}
+                {carpool.departure_city} ➝ {carpool.arrival_city} -{" "}
+                {carpool.price}€ -{carpool.driver.firstname}{" "}
+                {carpool.driver.lastname}
               </li>
             ))}
           </ul>
