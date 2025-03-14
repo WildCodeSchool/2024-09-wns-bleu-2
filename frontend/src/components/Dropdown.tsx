@@ -23,7 +23,7 @@ export default function Dropdown({
       {isOpen && (
         <div className="dropdown-menu">
           <Link
-            to="/"
+            to="/login"
             onClick={() => {
               handleClick("connexion");
               setIsOpen(!isOpen);
@@ -35,7 +35,7 @@ export default function Dropdown({
             Se connecter
           </Link>
           <Link
-            to="/"
+            to="/register"
             onClick={() => {
               handleClick("register");
               setIsOpen(!isOpen);

@@ -78,7 +78,7 @@ export default function Navbar() {
               <>
                 <Link
                   onClick={() => handleClick("connexion")}
-                  to="/"
+                  to="/login"
                   className={`navbar-link ${
                     isActive === "connexion" && "is-active"
                   }`}
@@ -87,7 +87,7 @@ export default function Navbar() {
                 </Link>
                 <Link
                   onClick={() => handleClick("register")}
-                  to="/"
+                  to="/register"
                   className={`navbar-link ${
                     isActive === "register" && "is-active"
                   }`}
