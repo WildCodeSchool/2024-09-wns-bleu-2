@@ -1,21 +1,36 @@
 import { useEffect, useState } from "react";
 import { X, Tickets, Tractor, User, UserCheck } from "lucide-react";
-import { Carpool } from "../generated/graphql-types";
+import { Carpool, Booking } from "../generated/graphql-types";
 import {
   formatTime,
   calculateArrivalTime,
   formatDate,
   formatDuration,
 } from "../utils/dateUtils";
+import {
+  getCarpoolData,
+  getBookedSeats,
+  getAvailableSeats,
+} from "../utils/tripUtils";
 
 interface TripCardProps {
-  tripDetails: Carpool;
+  tripDetails: Carpool | Booking;
   tripIndex: number;
+  mode: "carpool" | "booking";
 }
 
-export default function TripCard({ tripDetails, tripIndex }: TripCardProps) {
+export default function TripCard({
+  tripDetails,
+  tripIndex,
+  mode,
+}: TripCardProps) {
+  const data = getCarpoolData(tripDetails, mode);
+  const bookedSeats = getBookedSeats(tripDetails, mode);
+  const availableSeats = getAvailableSeats(tripDetails, mode);
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  console.log("tripDetails", tripDetails, "mode", mode);
   ////to dynamicaly get the window width on resize
   useEffect(() => {
     const handleResize = () => {
@@ -29,33 +44,21 @@ export default function TripCard({ tripDetails, tripIndex }: TripCardProps) {
     };
   }, [setWindowWidth]);
 
-  const toll = tripDetails.toll ? "Avec péage" : "Sans péage";
-  const icon = tripDetails.toll ? (
+  const toll = data.toll ? "Avec péage" : "Sans péage";
+  const icon = data.toll ? (
     <Tickets color="#ffffff" width={30} strokeWidth={1.5} />
   ) : (
     <Tractor color="#ffffff" width={30} strokeWidth={1.5} />
   );
-  //sum the numbers of booked seats
-  const bookedSeats = tripDetails.bookings
-    ? tripDetails.bookings.reduce(
-        (sum, booking) => sum + booking.numPassenger,
-        0
-      )
-    : 0;
 
-  // calculate the number of available seats ans ensure we don't have - number
-  const availableSeats = Math.max(
-    0,
-    tripDetails.num_passenger - (isNaN(bookedSeats) ? 0 : bookedSeats)
-  );
-  console.log("bookedSeats", [tripDetails.bookings]);
   const seats = Array.from({ length: availableSeats }).map((_, index) => (
     <User key={index} color="#ffffff" strokeWidth={1.5} />
   ));
   const passengers = Array.from({ length: bookedSeats }).map((_, index) => (
     <UserCheck key={index} color="#999999" strokeWidth={1.5} />
   ));
-  console.log("seats", seats, "passengers", passengers);
+
+  //console.log("seats", seats, "passengers", passengers);
   //CSS classes for  background colors
   const backgroundClasses = ["bg-red", "bg-yellow", "bg-green", "bg-blue"];
   const bgClass = backgroundClasses[tripIndex % backgroundClasses.length];
@@ -67,28 +70,22 @@ export default function TripCard({ tripDetails, tripIndex }: TripCardProps) {
       <div className="trip-card-header">
         <div className="trip-card-infos-left">
           <div className="trip-card-trip-duration">
-            <p className="time">{formatTime(tripDetails.departure_time)}</p>
+            <p className="time">{formatTime(data.departure_time)}</p>
             <div className="horizontal-line small departure" />
-            <p className="duration">{formatDuration(tripDetails.duration)}</p>
+            <p className="duration">{formatDuration(data.duration)}</p>
             <div className="horizontal-line small arrival" />
             <p className="time">
-              {calculateArrivalTime(
-                tripDetails.departure_time,
-                tripDetails.duration
-              )}
+              {calculateArrivalTime(data.departure_time, data.duration)}
             </p>
           </div>
           <div className="trip-card-cities">
-            <p className="city">{tripDetails.departure_city}</p>
-            <p className="city">{tripDetails.arrival_city}</p>
+            <p className="city">{data.departure_city}</p>
+            <p className="city">{data.arrival_city}</p>
           </div>
         </div>
         <div className="trip-card-infos-right">
           <p>
-            le{" "}
-            <span className="date">
-              {formatDate(tripDetails.departure_date)}
-            </span>
+            le <span className="date">{formatDate(data.departure_date)}</span>
           </p>
           <button className={`${windowWidth > 885 ? btnClass : ""}`}>
             {windowWidth > 885 ? "ANNULER" : <X />}
@@ -99,9 +96,9 @@ export default function TripCard({ tripDetails, tripIndex }: TripCardProps) {
       <div className="trip-card-bottom">
         <div className="trip-bottom-left">
           <div className="trip-driver ">
-            <img src={tripDetails.driver.avatar} alt="Avatar" />
+            <img src={data.driver.avatar} alt="Avatar" />
             <div className="driver-infos">
-              <p>{tripDetails.driver.firstname}</p>
+              <p>{data.driver.firstname}</p>
             </div>
           </div>
           <div className="vertical-line" />
@@ -113,12 +110,12 @@ export default function TripCard({ tripDetails, tripIndex }: TripCardProps) {
         <div className="vertical-line" />
         <div className="trip-right">
           <div className="trip-passengers">
-            {tripDetails.bookings ? passengers : ""}
+            {data.bookings ? passengers : ""}
             {seats}
           </div>
           <div className="vertical-line" />
           <div className="trip-price">
-            <p>{tripDetails.price}€</p>
+            <p>{data.price}€</p>
           </div>
         </div>
       </div>

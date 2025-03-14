@@ -18,14 +18,16 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
     return <p>No data found for the given ID.</p>;
   }
 
-  const tripDetails = {
-    ...data.getCarpoolById,
-  };
+  const tripDetails = data.getCarpoolById;
 
   return (
     <div className="page-container">
       <h1>Mon Grumpy Trip du {formatDate(tripDetails.departure_date)}</h1>
-      <TripCard tripDetails={tripDetails} tripIndex={tripIndex} />
+      <TripCard
+        tripDetails={tripDetails}
+        tripIndex={tripIndex}
+        mode="carpool"
+      />
     </div>
   );
 }
