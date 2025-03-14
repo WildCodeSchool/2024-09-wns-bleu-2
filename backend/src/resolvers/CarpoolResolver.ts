@@ -24,19 +24,6 @@ export default class CarpoolResolver {
     });
   }
 
-  @Query(() => Carpool)
-  async getCarpoolById(@Arg("id") id: number) {
-    const car = await Carpool.findOne({
-      where: { id: id },
-      //order: { pictures: { id: "DESC" } },
-      relations: ["driver"],
-    });
-    if (car === null) {
-      throw new Error("Cannot find carpool with id " + id);
-    }
-    return car;
-  }
-
   @Query(() => [Carpool])
   async searchCarpools(
     @Arg("departure", { nullable: true }) departure?: string,
