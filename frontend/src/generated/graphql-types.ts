@@ -46,6 +46,8 @@ export type CarInfos = {
 export type Carpool = {
   __typename?: 'Carpool';
   arrival_city: Scalars['String']['output'];
+  bookings: Array<Booking>;
+  departure_city: Scalars['String']['output'];
   departure_date: Scalars['String']['output'];
   departure_time: Scalars['String']['output'];
   driver: User;
@@ -54,7 +56,7 @@ export type Carpool = {
   num_passenger: Scalars['Float']['output'];
   options: Scalars['String']['output'];
   price: Scalars['Float']['output'];
-  type_of_road: Scalars['String']['output'];
+  toll: Scalars['Boolean']['output'];
 };
 
 export type CarpoolInput = {
@@ -67,7 +69,7 @@ export type CarpoolInput = {
   num_passenger: Scalars['Float']['input'];
   options: Scalars['String']['input'];
   price: Scalars['Float']['input'];
-  type_of_road: Scalars['String']['input'];
+  toll: Scalars['Boolean']['input'];
 };
 
 export type LoginInput = {
@@ -122,7 +124,13 @@ export type Query = {
   getAllUsers: Array<User>;
   getBookings: Array<Booking>;
   getCarInfos: Array<CarInfos>;
+  getCarpoolById: Carpool;
   getCarpools: Array<Carpool>;
+};
+
+
+export type QueryGetCarpoolByIdArgs = {
+  id: Scalars['Float']['input'];
 };
 
 export type User = {
@@ -157,6 +165,13 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: string };
 
+
+export type GetCarpoolByIdQueryVariables = Exact<{
+  getCarpoolByIdId: Scalars['Float']['input'];
+}>;
+
+
+export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: string, driver: { __typename?: 'User', firstname: string, id: number, avatar: string }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, passenger: { __typename?: 'User', id: number, firstname: string, avatar: string } }> } };
 export type ConfirmEmailMutationVariables = Exact<{
   codeByUser: Scalars['String']['input'];
 }>;
@@ -175,6 +190,7 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: string };
+
 
 
 export const RegisterDocument = gql`
@@ -208,6 +224,70 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+
+export const GetCarpoolByIdDocument = gql`
+    query GetCarpoolById($getCarpoolByIdId: Float!) {
+  getCarpoolById(id: $getCarpoolByIdId) {
+    id
+    departure_date
+    departure_time
+    departure_city
+    arrival_city
+    num_passenger
+    toll
+    duration
+    price
+    options
+    driver {
+      firstname
+      id
+      avatar
+    }
+    bookings {
+      numPassenger
+      passenger {
+        id
+        firstname
+        avatar
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCarpoolByIdQuery__
+ *
+ * To run a query within a React component, call `useGetCarpoolByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCarpoolByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCarpoolByIdQuery({
+ *   variables: {
+ *      getCarpoolByIdId: // value for 'getCarpoolByIdId'
+ *   },
+ * });
+ */
+export function useGetCarpoolByIdQuery(baseOptions: Apollo.QueryHookOptions<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables> & ({ variables: GetCarpoolByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>(GetCarpoolByIdDocument, options);
+      }
+export function useGetCarpoolByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>(GetCarpoolByIdDocument, options);
+        }
+export function useGetCarpoolByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>(GetCarpoolByIdDocument, options);
+        }
+export type GetCarpoolByIdQueryHookResult = ReturnType<typeof useGetCarpoolByIdQuery>;
+export type GetCarpoolByIdLazyQueryHookResult = ReturnType<typeof useGetCarpoolByIdLazyQuery>;
+export type GetCarpoolByIdSuspenseQueryHookResult = ReturnType<typeof useGetCarpoolByIdSuspenseQuery>;
+export type GetCarpoolByIdQueryResult = Apollo.QueryResult<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>;
+
 export const ConfirmEmailDocument = gql`
     mutation ConfirmEmail($codeByUser: String!) {
   confirmEmail(codeByUser: $codeByUser)
