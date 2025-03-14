@@ -3,17 +3,28 @@ import { gql } from "@apollo/client";
 export const GET_CARPOOL_BY_ID = gql`
   query GetCarpoolById($getCarpoolByIdId: Float!) {
     getCarpoolById(id: $getCarpoolByIdId) {
-      arrival_city
-      departure_city
+      id
       departure_date
       departure_time
+      departure_city
+      arrival_city
       num_passenger
-      options
+      toll
+      duration
       price
-      type_of_road
+      options
       driver {
         firstname
-        lastname
+        id
+        avatar
+      }
+      bookings {
+        numPassenger
+        passenger {
+          id
+          firstname
+          avatar
+        }
       }
     }
   }

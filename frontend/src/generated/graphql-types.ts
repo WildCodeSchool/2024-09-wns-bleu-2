@@ -46,6 +46,7 @@ export type CarInfos = {
 export type Carpool = {
   __typename?: 'Carpool';
   arrival_city: Scalars['String']['output'];
+  bookings: Array<Booking>;
   departure_city: Scalars['String']['output'];
   departure_date: Scalars['String']['output'];
   departure_time: Scalars['String']['output'];
@@ -55,7 +56,7 @@ export type Carpool = {
   num_passenger: Scalars['Float']['output'];
   options: Scalars['String']['output'];
   price: Scalars['Float']['output'];
-  type_of_road: Scalars['String']['output'];
+  toll: Scalars['Boolean']['output'];
 };
 
 export type CarpoolInput = {
@@ -68,21 +69,28 @@ export type CarpoolInput = {
   num_passenger: Scalars['Float']['input'];
   options: Scalars['String']['input'];
   price: Scalars['Float']['input'];
-  type_of_road: Scalars['String']['input'];
+  toll: Scalars['Boolean']['input'];
 };
 
-export type City = {
-  __typename?: 'City';
-  id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
+export type LoginInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  confirmEmail: Scalars['String']['output'];
   createBooking: Booking;
   createCarpool: Carpool;
+  login: Scalars['String']['output'];
+  logout: Scalars['String']['output'];
   register: Scalars['String']['output'];
   setUserCar: User;
+};
+
+
+export type MutationConfirmEmailArgs = {
+  codeByUser: Scalars['String']['input'];
 };
 
 
@@ -93,6 +101,11 @@ export type MutationCreateBookingArgs = {
 
 export type MutationCreateCarpoolArgs = {
   data: CarpoolInput;
+};
+
+
+export type MutationLoginArgs = {
+  data: LoginInput;
 };
 
 
@@ -113,7 +126,6 @@ export type Query = {
   getCarInfos: Array<CarInfos>;
   getCarpoolById: Carpool;
   getCarpools: Array<Carpool>;
-  getCities: Array<City>;
   searchCarpools: Array<Carpool>;
 };
 
@@ -154,9 +166,18 @@ export type UserInput = {
   phone: Scalars['String']['input'];
 };
 
+
+export type RegisterMutationVariables = Exact<{
+  data: UserInput;
+}>;
+
+
+export type RegisterMutation = { __typename?: 'Mutation', register: string };
+
 export type GetCarpoolByIdQueryVariables = Exact<{
   getCarpoolByIdId: Scalars['Float']['input'];
 }>;
+
 
 
 export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', arrival_city: string, departure_city: string, departure_date: string, departure_time: string, num_passenger: number, options: string, price: number, type_of_road: string, driver: { __typename?: 'User', firstname: string, lastname: string } } };
@@ -176,20 +197,85 @@ export type GetCitiesQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetCitiesQuery = { __typename?: 'Query', getCities: Array<{ __typename?: 'City', id: string, name: string }> };
 
 
+export type ConfirmEmailMutationVariables = Exact<{
+  codeByUser: Scalars['String']['input'];
+}>;
+
+
+export type ConfirmEmailMutation = { __typename?: 'Mutation', confirmEmail: string };
+
+export type LoginMutationVariables = Exact<{
+  data: LoginInput;
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login: string };
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: string };
+
+
+
+export const RegisterDocument = gql`
+    mutation Register($data: UserInput!) {
+  register(data: $data)
+}
+    `;
+export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
+
+/**
+ * __useRegisterMutation__
+ *
+ * To run a mutation, you first call `useRegisterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [registerMutation, { data, loading, error }] = useRegisterMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
+      }
+export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
+export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+
 export const GetCarpoolByIdDocument = gql`
     query GetCarpoolById($getCarpoolByIdId: Float!) {
   getCarpoolById(id: $getCarpoolByIdId) {
-    arrival_city
-    departure_city
+    id
     departure_date
     departure_time
+    departure_city
+    arrival_city
     num_passenger
-    options
+    toll
+    duration
     price
-    type_of_road
+    options
     driver {
       firstname
-      lastname
+      id
+      avatar
+    }
+    bookings {
+      numPassenger
+      passenger {
+        id
+        firstname
+        avatar
+      }
+>>>>>>> 7b2f4f1cb475e751cdec6cd4201db41579f4a1bf
     }
   }
 }
@@ -227,95 +313,97 @@ export type GetCarpoolByIdQueryHookResult = ReturnType<typeof useGetCarpoolByIdQ
 export type GetCarpoolByIdLazyQueryHookResult = ReturnType<typeof useGetCarpoolByIdLazyQuery>;
 export type GetCarpoolByIdSuspenseQueryHookResult = ReturnType<typeof useGetCarpoolByIdSuspenseQuery>;
 export type GetCarpoolByIdQueryResult = Apollo.QueryResult<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>;
-export const SearchCarpoolsDocument = gql`
-    query SearchCarpools($departure: String!, $arrival: String!, $date: String!) {
-  searchCarpools(departure: $departure, arrival: $arrival, date: $date) {
-    id
-    departure_city
-    arrival_city
-    departure_date
-    departure_time
-    num_passenger
-    price
-    driver {
-      firstname
-      lastname
-    }
-  }
+
+export const ConfirmEmailDocument = gql`
+    mutation ConfirmEmail($codeByUser: String!) {
+  confirmEmail(codeByUser: $codeByUser)
 }
     `;
+export type ConfirmEmailMutationFn = Apollo.MutationFunction<ConfirmEmailMutation, ConfirmEmailMutationVariables>;
 
 /**
- * __useSearchCarpoolsQuery__
+ * __useConfirmEmailMutation__
  *
- * To run a query within a React component, call `useSearchCarpoolsQuery` and pass it any options that fit your needs.
- * When your component renders, `useSearchCarpoolsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useConfirmEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useConfirmEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useSearchCarpoolsQuery({
+ * const [confirmEmailMutation, { data, loading, error }] = useConfirmEmailMutation({
  *   variables: {
- *      departure: // value for 'departure'
- *      arrival: // value for 'arrival'
- *      date: // value for 'date'
+ *      codeByUser: // value for 'codeByUser'
  *   },
  * });
  */
-export function useSearchCarpoolsQuery(baseOptions: Apollo.QueryHookOptions<SearchCarpoolsQuery, SearchCarpoolsQueryVariables> & ({ variables: SearchCarpoolsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useConfirmEmailMutation(baseOptions?: Apollo.MutationHookOptions<ConfirmEmailMutation, ConfirmEmailMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SearchCarpoolsQuery, SearchCarpoolsQueryVariables>(SearchCarpoolsDocument, options);
+        return Apollo.useMutation<ConfirmEmailMutation, ConfirmEmailMutationVariables>(ConfirmEmailDocument, options);
       }
-export function useSearchCarpoolsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchCarpoolsQuery, SearchCarpoolsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SearchCarpoolsQuery, SearchCarpoolsQueryVariables>(SearchCarpoolsDocument, options);
-        }
-export function useSearchCarpoolsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SearchCarpoolsQuery, SearchCarpoolsQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<SearchCarpoolsQuery, SearchCarpoolsQueryVariables>(SearchCarpoolsDocument, options);
-        }
-export type SearchCarpoolsQueryHookResult = ReturnType<typeof useSearchCarpoolsQuery>;
-export type SearchCarpoolsLazyQueryHookResult = ReturnType<typeof useSearchCarpoolsLazyQuery>;
-export type SearchCarpoolsSuspenseQueryHookResult = ReturnType<typeof useSearchCarpoolsSuspenseQuery>;
-export type SearchCarpoolsQueryResult = Apollo.QueryResult<SearchCarpoolsQuery, SearchCarpoolsQueryVariables>;
-export const GetCitiesDocument = gql`
-    query GetCities {
-  getCities {
-    id
-    name
-  }
+export type ConfirmEmailMutationHookResult = ReturnType<typeof useConfirmEmailMutation>;
+export type ConfirmEmailMutationResult = Apollo.MutationResult<ConfirmEmailMutation>;
+export type ConfirmEmailMutationOptions = Apollo.BaseMutationOptions<ConfirmEmailMutation, ConfirmEmailMutationVariables>;
+export const LoginDocument = gql`
+    mutation Login($data: LoginInput!) {
+  login(data: $data)
 }
     `;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
- * __useGetCitiesQuery__
+ * __useLoginMutation__
  *
- * To run a query within a React component, call `useGetCitiesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useGetCitiesQuery({
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const LogoutDocument = gql`
+    mutation Logout {
+  logout
+}
+    `;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
  *   variables: {
  *   },
  * });
  */
-export function useGetCitiesQuery(baseOptions?: Apollo.QueryHookOptions<GetCitiesQuery, GetCitiesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetCitiesQuery, GetCitiesQueryVariables>(GetCitiesDocument, options);
-      }
-export function useGetCitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCitiesQuery, GetCitiesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetCitiesQuery, GetCitiesQueryVariables>(GetCitiesDocument, options);
-        }
-export function useGetCitiesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCitiesQuery, GetCitiesQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetCitiesQuery, GetCitiesQueryVariables>(GetCitiesDocument, options);
-        }
-export type GetCitiesQueryHookResult = ReturnType<typeof useGetCitiesQuery>;
-export type GetCitiesLazyQueryHookResult = ReturnType<typeof useGetCitiesLazyQuery>;
-export type GetCitiesSuspenseQueryHookResult = ReturnType<typeof useGetCitiesSuspenseQuery>;
 export type GetCitiesQueryResult = Apollo.QueryResult<GetCitiesQuery, GetCitiesQueryVariables>;
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+      }
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;

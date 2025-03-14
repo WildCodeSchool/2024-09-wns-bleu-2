@@ -7,7 +7,21 @@ import { User } from "../entities/User";
 export default class CarpoolResolver {
   @Query(() => [Carpool])
   async getCarpools() {
-    return await Carpool.find({ relations: ["driver"] });
+    return await Carpool.find({
+      relations: [
+        "driver",
+        "bookings",
+        "bookings.passenger",
+        "bookings.carpool",
+      ],
+    });
+  }
+  @Query(() => Carpool)
+  async getCarpoolById(@Arg("id") id: number) {
+    return await Carpool.findOne({
+      where: { id },
+      relations: ["driver", "bookings", "bookings.passenger"],
+    });
   }
 
   @Query(() => Carpool)

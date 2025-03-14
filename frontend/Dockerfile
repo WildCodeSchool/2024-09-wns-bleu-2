@@ -17,5 +17,7 @@ COPY tsconfig.app.json tsconfig.app.json
 COPY tsconfig.json tsconfig.json
 COPY tsconfig.node.json tsconfig.node.json
 COPY vite.config.ts vite.config.ts
+COPY public /app/public
+
 
 CMD npm run start

@@ -17,7 +17,7 @@ export class UserInput implements Partial<User> {
   lastname: string;
 
   @Field()
-  birthDate: Date;
+  birthdate: Date;
 
   @Field()
   gender: Gender;
@@ -25,8 +25,8 @@ export class UserInput implements Partial<User> {
   @Field()
   phone: string;
 
-  @Field()
-  avatar: string;
+  @Field({ nullable: true })
+  avatar?: string;
 
   /*
   @OneToOne(() => CarInfos, (carInfos) => carInfos.user, {
