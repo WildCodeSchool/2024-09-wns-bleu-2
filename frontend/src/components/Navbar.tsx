@@ -41,14 +41,14 @@ export default function Navbar() {
           <div className="navbar-left">
             <Link
               onClick={() => handleClick("search")}
-              to="/"
+              to="/search-page"
               className={`navbar-link ${isActive === "search" && "is-active"}`}
             >
               Rechercher
             </Link>
             <Link
               onClick={() => handleClick("publish")}
-              to="/"
+              to="/publish-route"
               className={`navbar-link ${isActive === "publish" && "is-active"}`}
             >
               Publier un Grumpy Trip
