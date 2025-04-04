@@ -33,7 +33,7 @@ const PublishRoute = () => {
 
   const { data: userData } = useGetUserInfoQuery();
   const userId = userData?.getUserInfo?.id;
-  console.log("⛔ userId:", userId);
+
   const handleDeparture = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setDeparture(e.target.value);
 
