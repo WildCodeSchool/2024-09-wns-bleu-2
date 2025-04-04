@@ -28,7 +28,8 @@ export default class CarpoolResolver {
   async searchCarpools(
     @Arg("departure", { nullable: true }) departure?: string,
     @Arg("arrival", { nullable: true }) arrival?: string,
-    @Arg("date", { nullable: true }) date?: string
+    @Arg("date", { nullable: true }) date?: string,
+    @Arg("time", { nullable: true }) time?: string
   ) : Promise<Carpool[]> {
     // requête dynamique au lieu de 'find()'
     const query = Carpool.createQueryBuilder("carpool")
@@ -49,12 +50,24 @@ export default class CarpoolResolver {
       query.andWhere("carpool.departure_date = :date", { date });
     }
   
+    if (time) {
+      query.andWhere("carpool.departure_time >= :time", { time });
+    }
     return await query.getMany(); // `getMany()` retourne un tableau contenant tous les trajets trouvés.
   }
 
   @Mutation(() => Carpool)
   async createCarpool(@Arg("data") data: CarpoolInput): Promise<Carpool> {
-    const carpool = Carpool.create({ ...data });
+    const toll = data.options?.includes("Autoroutes") || false;
+
+    const filteredOptions = data.options?.filter((o) => o != "Autoroute");
+
+
+    const carpool = Carpool.create({ 
+      ...data,
+      toll,
+      options: filteredOptions 
+    });
 
     // If a user ID is provided, assign the user to the carpool
     if (data.driver_id) {
