@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import CarpoolDetails from "./components/CarpoolDetail";
 import SearchCarpool from "./components/searchCarpool";
 import PublishRoute from "./pages/PublishRoute";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   return (
@@ -16,13 +17,18 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="register" element={<Register /> } />
-          <Route path="login" element={<Login /> } />
-          <Route path="email-confirmation/:code?" element={<EmailConfirmation /> } />
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+          <Route
+            path="email-confirmation/:code?"
+            element={<EmailConfirmation />}
+          />
           <Route path="trip/:id" element={<TripDetails tripIndex={0} />} />
           <Route path="carpool/:id" element={<CarpoolDetails />} />
-          <Route path="/search" element={<SearchCarpool />} />
+          <Route path="/search" element={<SearchCarpool />} />{" "}
+          {/* A enlever ? */}
           <Route path="publish-route" element={<PublishRoute />} />
+          <Route path="search-page" element={<SearchPage />} />
         </Route>
       </Routes>
       <ToastContainer theme="colored" />

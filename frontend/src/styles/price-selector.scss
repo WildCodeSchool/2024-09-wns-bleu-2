@@ -1,0 +1,100 @@
+@import "./root.scss";
+
+.price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: transparent;
+
+  .price-box {
+    background-color: $color-card-green;
+    padding: 10px 20px;
+    width: 96%;
+    max-width: 1900px;
+    margin: 0 auto;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    box-shadow: 0 10px 3px -3px #cfccc9;
+
+    .price-selector {
+      display: flex;
+    }
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    svg {
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+
+    .price-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    b {
+      font-weight: 900;
+    }
+    .separator {
+      width: 16em;
+      height: 2px;
+      background-color: white;
+    }
+
+    .price-info {
+      margin-top: 1rem;
+      text-align: center;
+      max-width: 320px;
+      text-align: start;
+
+      .tip {
+        margin-top: 0.5rem;
+      }
+    }
+  }
+  @media screen and (min-width: $bp-mobile) {
+    .price-box {
+      padding: 30px 20px;
+      max-width: 1900px;
+      flex-wrap: wrap;
+      flex-direction: row;
+      h2 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        margin-top: 2.5em;
+      }
+
+      .price-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #fff;
+        padding-right: 2em;
+        padding-left: 2em;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .separator {
+        width: 80%;
+        height: 1px;
+      }
+
+      .price-info {
+        max-width: 55em;
+      }
+    }
+  }
+}
