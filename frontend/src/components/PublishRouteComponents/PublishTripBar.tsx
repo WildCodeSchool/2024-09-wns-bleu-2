@@ -111,6 +111,7 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
       <div className="input-container">
         <Clock className="icon" size={22} />
         <DatePicker
+          data-testid="departure-time-picker"
           selected={departureTime}
           onChange={(time) => onTimeChange(time)}
           showTimeSelect
@@ -120,6 +121,7 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
           dateFormat="HH:mm"
           placeholderText="00:00"
           locale={fr}
+          customInput={<input data-testid="departure-time-picker" />}
         />
       </div>
 

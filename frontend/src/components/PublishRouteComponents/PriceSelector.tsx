@@ -36,7 +36,13 @@ const PriceSelector: React.FC<PriceSelectorProps> = ({ price, setPrice }) => {
             <CircleMinus size={28} style={{ color: "#fff" }} />
           </button>
 
-          <span className="price-value">{price} €</span>
+          <span
+            className="price-value"
+            aria-live="polite"
+            data-testid="price-value"
+          >
+            {price} €
+          </span>
 
           <button
             type="button"
