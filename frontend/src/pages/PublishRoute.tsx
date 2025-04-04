@@ -10,6 +10,7 @@ import PriceSelector from "../components/PublishRouteComponents/PriceSelector";
 import TripPreferences from "../components/PublishRouteComponents/TipsPreferences";
 import { ChevronRight } from "lucide-react";
 import { toast } from "react-toastify";
+import { formatDate, formatTime } from "../utils/format.utils";
 
 const PublishRoute = () => {
   const [departure, setDeparture] = useState("");
@@ -56,12 +57,8 @@ const PublishRoute = () => {
       return;
     }
 
-    const departure_date = date.toISOString().split("T")[0]; // format YYYY-MM-DD
-    const formattedTime =
-      departureTime?.toTimeString().split(" ")[0] || "12:00:00";
-    const departure_time = departureTime
-      ? departureTime.toTimeString().split(" ")[0] // format "HH:MM:SS"
-      : "12:00:00";
+    const departure_date = formatDate(date);
+    const departure_time = formatTime(departureTime);
 
     const toll = options.includes("Autoroute");
     const duration = hours * 60 + minutes;
@@ -77,7 +74,7 @@ const PublishRoute = () => {
           departure_city: departure,
           arrival_city: arrival,
           departure_date,
-          departure_time: formattedTime,
+          departure_time,
           num_passenger: passengers,
           price,
           toll,

@@ -16,6 +16,7 @@ import {
   useGetCitiesQuery,
 } from "../generated/graphql-types";
 import { toast } from "react-toastify";
+import { formatDate, formatTime } from "../utils/format.utils";
 
 type SearchBarProps = {
   departure: string;
@@ -73,10 +74,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
       return;
     }
 
-    const formattedDate = date.toISOString().split("T")[0];
-    const formattedTime = departureTime
-      ? departureTime.toTimeString().split(" ")[0]
-      : "00:00:00";
+    const formattedDate = formatDate(date);
+    const formattedTime = formatTime(departureTime);
 
     console.log("🔍 Recherche envoyée avec :", {
       departure,
