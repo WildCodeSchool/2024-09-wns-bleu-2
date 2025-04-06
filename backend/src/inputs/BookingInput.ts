@@ -13,5 +13,5 @@ export class BookingInput implements Partial<Booking> {
    carpool_id: number;
 
    @Field()
-   passenger_id: number;
+   driver_id: number;
 }

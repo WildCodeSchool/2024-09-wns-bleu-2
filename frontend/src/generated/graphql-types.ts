@@ -21,16 +21,16 @@ export type Scalars = {
 export type Booking = {
   __typename?: 'Booking';
   carpool: Carpool;
+  driver: User;
   id: Scalars['Float']['output'];
   numPassenger: Scalars['Float']['output'];
-  passenger: User;
   reservedAt: Scalars['DateTimeISO']['output'];
 };
 
 export type BookingInput = {
   carpool_id: Scalars['Float']['input'];
+  driver_id: Scalars['Float']['input'];
   numPassenger: Scalars['Float']['input'];
-  passenger_id: Scalars['Float']['input'];
   reservedAt: Scalars['DateTimeISO']['input'];
 };
 
@@ -105,10 +105,16 @@ export type Query = {
   __typename?: 'Query';
   getAllUsers: Array<User>;
   getBookings: Array<Booking>;
+  getBookingsByUserId: Array<Booking>;
   getCarInfos: Array<CarInfos>;
   getCarpoolById: Carpool;
   getCarpools: Array<Carpool>;
   getCarpoolsByUserId: Array<Carpool>;
+};
+
+
+export type QueryGetBookingsByUserIdArgs = {
+  userId: Scalars['Float']['input'];
 };
 
 
@@ -151,14 +157,21 @@ export type GetCarpoolByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: string, driver: { __typename?: 'User', firstname: string, id: number, avatar: string }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, passenger: { __typename?: 'User', id: number, firstname: string, avatar: string } }> } };
+export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: string, driver: { __typename?: 'User', firstname: string, id: number, avatar: string }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, driver: { __typename?: 'User', id: number, firstname: string, avatar: string } }> } };
 
 export type GetCarpoolsByUserIdQueryVariables = Exact<{
   userId: Scalars['Float']['input'];
 }>;
 
 
-export type GetCarpoolsByUserIdQuery = { __typename?: 'Query', getCarpoolsByUserId: Array<{ __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: string, driver: { __typename?: 'User', firstname: string, id: number, avatar: string }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, passenger: { __typename?: 'User', id: number, firstname: string, avatar: string } }> }> };
+export type GetCarpoolsByUserIdQuery = { __typename?: 'Query', getCarpoolsByUserId: Array<{ __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: string, driver: { __typename?: 'User', firstname: string, id: number, avatar: string }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, driver: { __typename?: 'User', id: number, firstname: string, avatar: string } }> }> };
+
+export type GetBookingsByUserIdQueryVariables = Exact<{
+  userId: Scalars['Float']['input'];
+}>;
+
+
+export type GetBookingsByUserIdQuery = { __typename?: 'Query', getBookingsByUserId: Array<{ __typename?: 'Booking', id: number, numPassenger: number, reservedAt: any, carpool: { __typename?: 'Carpool', id: string, arrival_city: string, departure_city: string, departure_date: string, departure_time: string, duration: number, num_passenger: number, options: string, price: number, toll: boolean }, driver: { __typename?: 'User', id: number, avatar: string, birthdate: any, email: string, firstname: string, gender: string, lastname: string, phone: string, car?: { __typename?: 'CarInfos', brand: string, color?: string | null, model?: string | null, year?: number | null } | null } }> };
 
 
 export const GetCarpoolByIdDocument = gql`
@@ -181,7 +194,7 @@ export const GetCarpoolByIdDocument = gql`
     }
     bookings {
       numPassenger
-      passenger {
+      driver {
         id
         firstname
         avatar
@@ -243,7 +256,7 @@ export const GetCarpoolsByUserIdDocument = gql`
     }
     bookings {
       numPassenger
-      passenger {
+      driver {
         id
         firstname
         avatar
@@ -285,3 +298,73 @@ export type GetCarpoolsByUserIdQueryHookResult = ReturnType<typeof useGetCarpool
 export type GetCarpoolsByUserIdLazyQueryHookResult = ReturnType<typeof useGetCarpoolsByUserIdLazyQuery>;
 export type GetCarpoolsByUserIdSuspenseQueryHookResult = ReturnType<typeof useGetCarpoolsByUserIdSuspenseQuery>;
 export type GetCarpoolsByUserIdQueryResult = Apollo.QueryResult<GetCarpoolsByUserIdQuery, GetCarpoolsByUserIdQueryVariables>;
+export const GetBookingsByUserIdDocument = gql`
+    query GetBookingsByUserId($userId: Float!) {
+  getBookingsByUserId(userId: $userId) {
+    id
+    numPassenger
+    reservedAt
+    carpool {
+      id
+      arrival_city
+      departure_city
+      departure_date
+      departure_time
+      duration
+      num_passenger
+      options
+      price
+      toll
+    }
+    driver {
+      id
+      avatar
+      birthdate
+      car {
+        brand
+        color
+        model
+        year
+      }
+      email
+      firstname
+      gender
+      lastname
+      phone
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetBookingsByUserIdQuery__
+ *
+ * To run a query within a React component, call `useGetBookingsByUserIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBookingsByUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBookingsByUserIdQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetBookingsByUserIdQuery(baseOptions: Apollo.QueryHookOptions<GetBookingsByUserIdQuery, GetBookingsByUserIdQueryVariables> & ({ variables: GetBookingsByUserIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBookingsByUserIdQuery, GetBookingsByUserIdQueryVariables>(GetBookingsByUserIdDocument, options);
+      }
+export function useGetBookingsByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBookingsByUserIdQuery, GetBookingsByUserIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBookingsByUserIdQuery, GetBookingsByUserIdQueryVariables>(GetBookingsByUserIdDocument, options);
+        }
+export function useGetBookingsByUserIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetBookingsByUserIdQuery, GetBookingsByUserIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetBookingsByUserIdQuery, GetBookingsByUserIdQueryVariables>(GetBookingsByUserIdDocument, options);
+        }
+export type GetBookingsByUserIdQueryHookResult = ReturnType<typeof useGetBookingsByUserIdQuery>;
+export type GetBookingsByUserIdLazyQueryHookResult = ReturnType<typeof useGetBookingsByUserIdLazyQuery>;
+export type GetBookingsByUserIdSuspenseQueryHookResult = ReturnType<typeof useGetBookingsByUserIdSuspenseQuery>;
+export type GetBookingsByUserIdQueryResult = Apollo.QueryResult<GetBookingsByUserIdQuery, GetBookingsByUserIdQueryVariables>;

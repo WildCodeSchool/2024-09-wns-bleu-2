@@ -66,6 +66,6 @@ export class User extends BaseEntity {
   @JoinColumn()
   car: CarInfos;
 
-  @OneToMany(() => Booking, (booking) => booking.passenger)
+  @OneToMany(() => Booking, (booking) => booking.driver)
   bookings: Booking[];
 }

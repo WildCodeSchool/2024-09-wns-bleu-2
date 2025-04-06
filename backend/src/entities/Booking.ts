@@ -37,5 +37,5 @@ export class Booking extends BaseEntity {
     onDelete: "CASCADE",
     nullable: false,
   })
-  passenger: User;
+  driver: User;
 }
