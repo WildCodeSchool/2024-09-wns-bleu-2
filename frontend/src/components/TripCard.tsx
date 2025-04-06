@@ -19,21 +19,23 @@ import {
     tripIndex: number;
     mode: "carpool" | "booking";
     isUpcoming: boolean;
+    carpoolData?: Carpool; // Optional prop to pass in carpool data when the mode is "booking"
   }
 
   export default function TripCard({
     tripDetails,
     tripIndex,
     mode,
-    isUpcoming
+    isUpcoming,
+    carpoolData, // Optionally pass the carpool data
   }: TripCardProps) {
-    const data = getCarpoolData(tripDetails, mode);
+    const data = getCarpoolData(tripDetails, mode, carpoolData); // Pass the carpool data if mode is booking
     const bookedSeats = getBookedSeats(tripDetails, mode);
     const availableSeats = getAvailableSeats(tripDetails, mode);
   
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   
-    console.log("tripDetails", tripDetails, "mode", mode);
+    console.log("tripDetails", tripDetails, "mode", mode, "data", data);
     ////to dynamicaly get the window width on resize
     useEffect(() => {
       const handleResize = () => {

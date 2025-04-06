@@ -20,7 +20,7 @@ export const GET_CARPOOL_BY_ID = gql`
       }
       bookings {
         numPassenger
-        driver {
+        passenger {
           id
           firstname
           avatar
@@ -50,7 +50,7 @@ export const GET_CARPOOLS_BY_USER_ID = gql`
       }
       bookings {
         numPassenger
-        driver {
+        passenger {
           id
           firstname
           avatar
@@ -60,40 +60,58 @@ export const GET_CARPOOLS_BY_USER_ID = gql`
   }
 `;
 
-export const GET_BOOKINGS_BY_USER_ID = gql`
-  query GetBookingsByUserId($userId: Float!) {
-    getBookingsByUserId(userId: $userId) {
-      id
-      numPassenger
-      reservedAt
-      carpool {
-        id
-        arrival_city
-        departure_city
-        departure_date
-        departure_time
-        duration
-        num_passenger
-        options
-        price
-        toll
-      }
+export const GET_BOOKINGS_FOR_PASSENGER = gql`
+  query getBookingsForPassenger($passengerId: Float!) {
+    getBookingsForPassenger(passengerId: $passengerId) {
+     carpool {
+      arrival_city
+      departure_city
+      departure_date
+      departure_time
       driver {
-        id
         avatar
         birthdate
         car {
           brand
           color
+          id
           model
           year
         }
         email
         firstname
         gender
+        id
         lastname
         phone
       }
+      duration
+      id
+      num_passenger
+      price
+      toll
+      options
     }
+    id
+    numPassenger
+    passenger {
+      avatar
+      birthdate
+      car {
+        brand
+        color
+        id
+        model
+        year
+      }
+      email
+      firstname
+      gender
+      lastname
+      phone
+      id
+    }
+    reservedAt
+  }
   }
 `;

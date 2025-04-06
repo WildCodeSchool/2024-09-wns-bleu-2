@@ -36,13 +36,14 @@ type TripListProps = {
               <h2>{titleUpcoming}</h2>
               <div className="carpool-main">
                 {upcomingTrips.length > 0 ? (
-                  upcomingTrips.map((trip, index) => (
+                  upcomingTrips.map((trip: any, index: number) => (
                     <TripCard
                       key={trip.id}
                       tripDetails={trip}
                       isUpcoming={true}
                       tripIndex={index}
                       mode={mode}
+                      carpoolData={mode === "booking" ? trip.carpool : undefined}
                     />
                   ))
                 ) : (
@@ -56,13 +57,14 @@ type TripListProps = {
               <h2>{titlePast}</h2>
               <div className="carpool-main">
                 {pastTrips.length > 0 ? (
-                  pastTrips.map((trip, index) => (
+                  pastTrips.map((trip:any, index: number) => (
                     <TripCard
                       key={trip.id}
                       tripDetails={trip}
                       isUpcoming={false}
                       tripIndex={index}
                       mode={mode}
+                      carpoolData={mode === "booking" ? trip.carpool : undefined}
                     />
                   ))
                 ) : (
