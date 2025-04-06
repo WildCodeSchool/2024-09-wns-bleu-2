@@ -9,6 +9,7 @@ $color-card-green: #bcc6ad;
 $color-card-red: #eba095;
 $color-card-blue: #a7b6c2;
 $color-card-yellow: #f9eac3;
+$color-search: #666666;
 
 ///////FONT///////
 $font-family: Popins, sans-serif;
@@ -77,4 +78,29 @@ body {
       }
     }
   }
+}
+
+.bg-default,
+.btn-default {
+  background-color: $color-card-red;
+}
+.bg-blue,
+.btn-blue {
+  background-color: $color-card-blue !important;
+}
+.bg-green,
+.btn-green {
+  background-color: $color-card-green !important;
+}
+.bg-blue,
+.btn-blue {
+  background-color: $color-card-blue !important;
+}
+.bg-yellow,
+.btn-yellow {
+  background-color: $color-card-yellow !important;
+}
+.bg-red,
+.btn-red {
+  background-color: $color-card-red !important;
 }

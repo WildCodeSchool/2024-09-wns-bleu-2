@@ -1,93 +1,129 @@
-import React from 'react';
-import { Users, Landmark, BadgeEuro } from 'lucide-react';
-import { calculateDuration, formatTime } from '../utils/dateUtils'; // Importing utils
+import { useEffect, useState } from "react";
+import { X, Tickets, Tractor, User, UserCheck } from "lucide-react";
+import { Booking, Carpool } from "../generated/graphql-types";
+import {
+  formatTime,
+  calculateArrivalTime,
+  formatDate,
+  formatDuration,
+} from "../utils/dateUtils";
 
-interface TripCartProps {
-    carpool: {
-      id: string;
-      departure_time: string;
-      arrival_time: string;
-      departure_city: string;
-      arrival_city: string;
-      departure_date: string;
-      driver: { firstname: string };
-      num_passenger: number;
-      type_of_road: string;
-      price: number;
-    };
-    isUpcoming: boolean; // New prop to indicate if the trip is upcoming or past
+import {
+    getCarpoolData,
+    getBookedSeats,
+    getAvailableSeats,
+  } from "../utils/tripUtils";
+
+  interface TripCardProps {
+    tripDetails: Carpool | Booking;
+    tripIndex: number;
+    mode: "carpool" | "booking";
+    isUpcoming: boolean;
   }
 
-  const TripCart: React.FC<TripCartProps> = ({ carpool, isUpcoming }) => {
+  export default function TripCard({
+    tripDetails,
+    tripIndex,
+    mode,
+    isUpcoming
+  }: TripCardProps) {
+    const data = getCarpoolData(tripDetails, mode);
+    const bookedSeats = getBookedSeats(tripDetails, mode);
+    const availableSeats = getAvailableSeats(tripDetails, mode);
+  
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  
+    console.log("tripDetails", tripDetails, "mode", mode);
+    ////to dynamicaly get the window width on resize
+    useEffect(() => {
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+      };
+  
+      window.addEventListener("resize", handleResize);
+  
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }, [setWindowWidth]);
+  
+    const toll = data.toll ? "Avec péage" : "Sans péage";
+    const icon = data.toll ? (
+      <Tickets color="#ffffff" width={30} strokeWidth={1.5} />
+    ) : (
+      <Tractor color="#ffffff" width={30} strokeWidth={1.5} />
+    );
+  
+    const seats = Array.from({ length: availableSeats }).map((_, index) => (
+      <User key={index} color="#ffffff" strokeWidth={1.5} />
+    ));
+    const passengers = Array.from({ length: bookedSeats }).map((_, index) => (
+      <UserCheck key={index} color="#999999" strokeWidth={1.5} />
+    ));
+  
+    //console.log("seats", seats, "passengers", passengers);
+    //CSS classes for  background colors
+    const backgroundClasses = ["bg-red", "bg-yellow", "bg-green", "bg-blue"];
+    const bgClass = backgroundClasses[tripIndex % backgroundClasses.length];
+    const btnClasses = ["btn-yellow", "btn-red", "btn-blue", "btn-green"];
+    const btnClass = btnClasses[tripIndex % btnClasses.length];
+  
     return (
-      <div key={carpool.id} className="carpool-item">
-      <div className="top-row">
-        <div className="info-container">
-          <div className="departure-info">
-            <span className="time">{formatTime(carpool.departure_time)}</span>
-            <span className="city">{carpool.departure_city}</span>
+      <div className={`trip-card ${bgClass ? bgClass : "bg-default"}`}>
+        <div className="trip-card-header">
+          <div className="trip-card-infos-left">
+            <div className="trip-card-trip-duration">
+              <p className="time">{formatTime(data.departure_time)}</p>
+              <div className="horizontal-line small departure" />
+              <p className="duration">{formatDuration(data.duration)}</p>
+              <div className="horizontal-line small arrival" />
+              <p className="time">
+                {calculateArrivalTime(data.departure_time, data.duration)}
+              </p>
+            </div>
+            <div className="trip-card-cities">
+              <p className="city">{data.departure_city}</p>
+              <p className="city">{data.arrival_city}</p>
+            </div>
           </div>
-
-          {/* Duration Calculation */}
-          <div className="duration">
-            <div className="circle"></div>
-            <div className="line"></div>
-            <div className="time">{calculateDuration(carpool.departure_time, carpool.arrival_time)}</div>
-            <div className="line"></div>
-            <div className="circle"></div>
-          </div>
-
-          <div className="arrival-info">
-            <span className="time">{formatTime(carpool.arrival_time)}</span>
-            <span className="city">{carpool.arrival_city}</span>
-          </div>
-        </div>
-
-        {isUpcoming && (
-          <div>
-            <button className="delete-button">ANNULER</button>
-          </div>
-        )}
-      </div>
-
-      {/* Separator line between top-row and down-row */}
-      <div className="separator-line"></div>
-
-      <div className="down-row">
-        <div className="carpool-details">
-          <div className="driver">
-            <img
-              src="https://yt3.googleusercontent.com/qGrcViAdsmfdL8NhR03s6jZVi2AP4A03XeBFShu2M4Jd88k1fNXDnpMEmHU6CvNJuMyA2z1maA0=s900-c-k-c0x00ffffff-no-rj"
-              alt="Avatar"
-              className="driver-avatar"
-            />
-            <span className="driver-name">{carpool.driver.firstname}</span>
-          </div>
-          <div className="seats">
-            {Array.from({ length: 4 }).map((_, index) => (
-              <Users
-                key={index}
-                className={`passenger-icon ${index < carpool.num_passenger ? 'available' : 'unavailable'}`}
-              />
-            ))}
-          </div>
-          <div className="road-type">
-            {carpool.type_of_road !== 'National Road' && (
-              <span className="toll-icon">
-                <Landmark size={16} color="#6a6a6a" />
-              </span>
+          <div className="trip-card-infos-right">
+            <p>
+              le <span className="date">{formatDate(data.departure_date)}</span>
+            </p>
+            {isUpcoming && (
+              <button className={`${windowWidth > 885 ? btnClass : ""}`}>
+                {windowWidth > 885 ? "ANNULER" : <X />}
+              </button>
             )}
           </div>
         </div>
-        <div className="price">
-          <span className="price-value">{carpool.price}</span>
-          <span className="price-icon">
-            <BadgeEuro size={18} />
-          </span>
+        <div className="horizontal-line" />
+        <div className="trip-card-bottom">
+          <div className="trip-bottom-left">
+            <div className="trip-driver ">
+              <img src={data.driver.avatar} alt="Avatar" />
+              <div className="driver-infos">
+                <p>{data.driver.firstname}</p>
+              </div>
+            </div>
+            <div className="vertical-line" />
+            <div className="trip-road">
+              {icon}
+              <p>{toll}</p>
+            </div>
+          </div>
+          <div className="vertical-line" />
+          <div className="trip-right">
+            <div className="trip-passengers">
+              {data.bookings ? passengers : ""}
+              {seats}
+            </div>
+            <div className="vertical-line" />
+            <div className="trip-price">
+              <p>{data.price}€</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
-  
-  export default TripCart;
+    );
+  }

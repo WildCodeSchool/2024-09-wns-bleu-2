@@ -27,7 +27,7 @@ export class User extends BaseEntity {
 
   @Field()
   @Column()
-  email: string;
+  email?: string;
 
   @Column()
   password: string;
@@ -38,19 +38,19 @@ export class User extends BaseEntity {
 
   @Field()
   @Column()
-  lastname: string;
+  lastname?: string;
 
   @Field()
   @Column()
-  birthdate: Date;
+  birthdate?: Date;
 
   @Field()
   @Column()
-  gender: Gender;
+  gender?: Gender;
 
   @Field()
   @Column()
-  phone: string;
+  phone?: string;
 
   @Field()
   @Column({ nullable: true })

@@ -18,12 +18,22 @@ body {
   background-color: $primary-color-bg;
 }
 
+.overall-container {
+  //height: 100vh; /* Make it take full screen height */
+  //overflow-y: auto; /* Enable scrolling for the whole container */
+  display: flex;
+  flex-direction: column;
+}
+
 .carpool-list-container {
   margin-top: 10px; // Moves the div down
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
-  align-items: center; // Center items horizontally
+  align-items: flex-start; // Center items horizontally
   padding: 20px;
+  min-height: 100%;
+  overflow-y: auto; /* Handle overflow if content is larger */
 }
 
 h2 {
@@ -35,16 +45,34 @@ h2 {
 
 
 .carpool-section {
-  width: 50%;  /* Ensure it takes the full width of the parent container */
-  max-width: 650px; /* Set a maximum width (optional) */
+  width:  100%;  /* Ensure it takes the full width of the parent container */
+  //max-width: 650px; /* Set a maximum width (optional) */
   margin: 0 auto; /* Center the container horizontally */
   padding: 20px; /* Optional: Add some space around the content */
   //align-items: center; 
   display: flex;
   flex-direction: column;
-  /*height: 100vh;*/
-  flex-wrap: wrap;
+  margin-bottom: 40px;
+  //height: 70vh;
+  //flex-wrap: wrap;
+  flex-grow: 1;  /* Allow the section to grow based on content */
+  //height: 120px;
 }
+
+.carpool-section-2 {
+  width:  100%;  /* Ensure it takes the full width of the parent container */
+  //max-width: 650px; /* Set a maximum width (optional) */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px; /* Optional: Add some space around the content */
+  //align-items: center; 
+  display: flex;
+  flex-direction: column;
+  //height: 70vh;
+  //flex-wrap: wrap;
+  flex-grow: 1;  /* Allow the section to grow based on content */
+  //height: 120px;
+}
+
 
 .carpool-main {
   width: 100%;  /* Ensure it takes the full width of the parent container */
@@ -54,7 +82,37 @@ h2 {
   align-items: center; 
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  //height: 100vh;
+  gap: 10px; // Space between rows
+}
+
+.publish-trip-button-container {
+  margin-top: 20px; /* Add some space between the content and the button */
+  margin-bottom: 20px; /* Add some space between the content and the button */
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+}
+
+.publish-trip-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-family: $font-family;
+  background-color: $color-card-green;
+  color: #333; // Dark text for contrast
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: darken($color-card-green, 10%);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    background-color: darken($color-card-green, 15%);
+    transform: scale(0.98);
+  }
 }
 
 .carpool-item {

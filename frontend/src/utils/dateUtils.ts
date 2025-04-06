@@ -1,22 +1,27 @@
-// Function to calculate duration between departure and arrival times
-export const calculateDuration = (departure: string, arrival: string): string => {
-    const [depH, depM] = departure.split(":").map(Number);
-    const [arrH, arrM] = arrival.split(":").map(Number);
+export const formatTime = (time: string): string => {
+    const [hours, minutes] = time.split(":");
+    return `${hours}:${minutes}`;
+  };
+  export const calculateArrivalTime = (
+    departureTime: string,
+    duration: number
+  ): string => {
+    const [hours, minutes, seconds] = departureTime.split(":").map(Number);
+    const departureDate = new Date();
   
-    let totalMinutes = (arrH * 60 + arrM) - (depH * 60 + depM);
+    departureDate.setHours(hours, minutes, seconds);
+    departureDate.setMinutes(departureDate.getMinutes() + duration);
   
-    if (totalMinutes < 0) {
-      totalMinutes += 24 * 60; // Handles overnight trips
-    }
-  
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
-  
-    return `${hours}h${minutes > 0 ? minutes : ''}`; // Ex: "2h30" or "2h"
+    return departureDate.toTimeString().slice(0, 5);
   };
   
-  // Function to format time (e.g., 14:30 to "14h30")
-  export const formatTime = (time: string): string => {
-    const [hours, minutes] = time.split(":");
-    return `${hours}h${minutes !== "00" ? minutes : ""}`;
+  export const formatDuration = (duration: number): string => {
+    const hours = Math.floor(duration / 60);
+    const minutes = duration % 60;
+    return `${hours}h${minutes.toString().padStart(2, "0")}`;
+  };
+  
+  export const formatDate = (departureDate: string): string => {
+    const [year, month, day] = departureDate.split("-");
+    return `${day}/${month}/${year}`;
   };

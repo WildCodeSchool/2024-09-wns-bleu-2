@@ -46,7 +46,7 @@ export type CarInfos = {
 export type Carpool = {
   __typename?: 'Carpool';
   arrival_city: Scalars['String']['output'];
-  arrival_time: Scalars['String']['output'];
+  bookings: Array<Booking>;
   departure_city: Scalars['String']['output'];
   departure_date: Scalars['String']['output'];
   departure_time: Scalars['String']['output'];
@@ -56,12 +56,11 @@ export type Carpool = {
   num_passenger: Scalars['Float']['output'];
   options: Scalars['String']['output'];
   price: Scalars['Float']['output'];
-  type_of_road: Scalars['String']['output'];
+  toll: Scalars['Boolean']['output'];
 };
 
 export type CarpoolInput = {
   arrival_city: Scalars['String']['input'];
-  arrival_time: Scalars['String']['input'];
   departure_city: Scalars['String']['input'];
   departure_date: Scalars['String']['input'];
   departure_time: Scalars['String']['input'];
@@ -70,7 +69,7 @@ export type CarpoolInput = {
   num_passenger: Scalars['Float']['input'];
   options: Scalars['String']['input'];
   price: Scalars['Float']['input'];
-  type_of_road: Scalars['String']['input'];
+  toll: Scalars['Boolean']['input'];
 };
 
 export type Mutation = {
@@ -107,8 +106,14 @@ export type Query = {
   getAllUsers: Array<User>;
   getBookings: Array<Booking>;
   getCarInfos: Array<CarInfos>;
+  getCarpoolById: Carpool;
   getCarpools: Array<Carpool>;
   getCarpoolsByUserId: Array<Carpool>;
+};
+
+
+export type QueryGetCarpoolByIdArgs = {
+  id: Scalars['Float']['input'];
 };
 
 
@@ -132,7 +137,7 @@ export type User = {
 
 export type UserInput = {
   avatar: Scalars['String']['input'];
-  birthDate: Scalars['DateTimeISO']['input'];
+  birthdate: Scalars['DateTimeISO']['input'];
   email: Scalars['String']['input'];
   firstname: Scalars['String']['input'];
   gender: Scalars['String']['input'];
@@ -141,14 +146,83 @@ export type UserInput = {
   phone: Scalars['String']['input'];
 };
 
+export type GetCarpoolByIdQueryVariables = Exact<{
+  getCarpoolByIdId: Scalars['Float']['input'];
+}>;
+
+
+export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: string, driver: { __typename?: 'User', firstname: string, id: number, avatar: string }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, passenger: { __typename?: 'User', id: number, firstname: string, avatar: string } }> } };
+
 export type GetCarpoolsByUserIdQueryVariables = Exact<{
   userId: Scalars['Float']['input'];
 }>;
 
 
-export type GetCarpoolsByUserIdQuery = { __typename?: 'Query', getCarpoolsByUserId: Array<{ __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_time: string, arrival_city: string, num_passenger: number, type_of_road: string, duration: number, price: number, options: string, driver: { __typename?: 'User', firstname: string, lastname: string, avatar: string } }> };
+export type GetCarpoolsByUserIdQuery = { __typename?: 'Query', getCarpoolsByUserId: Array<{ __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: string, driver: { __typename?: 'User', firstname: string, id: number, avatar: string }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, passenger: { __typename?: 'User', id: number, firstname: string, avatar: string } }> }> };
 
 
+export const GetCarpoolByIdDocument = gql`
+    query GetCarpoolById($getCarpoolByIdId: Float!) {
+  getCarpoolById(id: $getCarpoolByIdId) {
+    id
+    departure_date
+    departure_time
+    departure_city
+    arrival_city
+    num_passenger
+    toll
+    duration
+    price
+    options
+    driver {
+      firstname
+      id
+      avatar
+    }
+    bookings {
+      numPassenger
+      passenger {
+        id
+        firstname
+        avatar
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCarpoolByIdQuery__
+ *
+ * To run a query within a React component, call `useGetCarpoolByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCarpoolByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCarpoolByIdQuery({
+ *   variables: {
+ *      getCarpoolByIdId: // value for 'getCarpoolByIdId'
+ *   },
+ * });
+ */
+export function useGetCarpoolByIdQuery(baseOptions: Apollo.QueryHookOptions<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables> & ({ variables: GetCarpoolByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>(GetCarpoolByIdDocument, options);
+      }
+export function useGetCarpoolByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>(GetCarpoolByIdDocument, options);
+        }
+export function useGetCarpoolByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>(GetCarpoolByIdDocument, options);
+        }
+export type GetCarpoolByIdQueryHookResult = ReturnType<typeof useGetCarpoolByIdQuery>;
+export type GetCarpoolByIdLazyQueryHookResult = ReturnType<typeof useGetCarpoolByIdLazyQuery>;
+export type GetCarpoolByIdSuspenseQueryHookResult = ReturnType<typeof useGetCarpoolByIdSuspenseQuery>;
+export type GetCarpoolByIdQueryResult = Apollo.QueryResult<GetCarpoolByIdQuery, GetCarpoolByIdQueryVariables>;
 export const GetCarpoolsByUserIdDocument = gql`
     query GetCarpoolsByUserId($userId: Float!) {
   getCarpoolsByUserId(userId: $userId) {
@@ -156,17 +230,24 @@ export const GetCarpoolsByUserIdDocument = gql`
     departure_date
     departure_time
     departure_city
-    arrival_time
     arrival_city
     num_passenger
-    type_of_road
+    toll
     duration
     price
     options
     driver {
       firstname
-      lastname
+      id
       avatar
+    }
+    bookings {
+      numPassenger
+      passenger {
+        id
+        firstname
+        avatar
+      }
     }
   }
 }

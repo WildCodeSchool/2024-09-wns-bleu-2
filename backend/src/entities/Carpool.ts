@@ -35,10 +35,6 @@ export class Carpool extends BaseEntity {
   departure_time: String; //HH:MM:SS
 
   @Field()
-  @Column({ type: "time", nullable: true })
-  arrival_time: String; //HH:MM:SS
-
-  @Field()
   @Column()
   arrival_city: string;
 
@@ -47,8 +43,8 @@ export class Carpool extends BaseEntity {
   num_passenger: number;
 
   @Field()
-  @Column()
-  type_of_road: string;
+  @Column({ type: "boolean", default: false })
+  toll: Boolean;
 
   @Field()
   @Column()
@@ -69,6 +65,7 @@ export class Carpool extends BaseEntity {
   })
   driver: User;
 
+  @Field(() => [Booking])
   @OneToMany(() => Booking, (booking) => booking.carpool)
-  bookings: Booking[];
+  bookings?: Booking[];
 }
