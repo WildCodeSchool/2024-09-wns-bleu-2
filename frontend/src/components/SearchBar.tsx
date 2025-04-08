@@ -29,6 +29,7 @@ type SearchBarProps = {
   onDateChange: (date: Date) => void;
   onTimeChange: (date: Date | null) => void;
   onPassengersChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  onSearch?: () => void;
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -42,6 +43,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   onDateChange,
   onTimeChange,
   onPassengersChange,
+  onSearch,
 }) => {
   const [results, setResults] = useState<any[]>([]);
 
@@ -73,6 +75,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
       toast.warning("Merci de remplir tous les champs !");
       return;
     }
+
+    onSearch?.();
 
     const formattedDate = formatDate(date);
     const formattedTime = formatTime(departureTime);

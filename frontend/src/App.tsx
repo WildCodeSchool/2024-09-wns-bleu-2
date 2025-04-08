@@ -10,6 +10,7 @@ import CarpoolDetails from "./components/CarpoolDetail";
 import SearchCarpool from "./components/searchCarpool";
 import PublishRoute from "./pages/PublishRoute";
 import SearchPage from "./pages/SearchPage";
+import SearchPageResult from "./pages/SearchPageResult";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           {/* A enlever ? */}
           <Route path="publish-route" element={<PublishRoute />} />
           <Route path="search-page" element={<SearchPage />} />
+          <Route path="search-page-result" element={<SearchPageResult />} />
         </Route>
       </Routes>
       <ToastContainer theme="colored" />
