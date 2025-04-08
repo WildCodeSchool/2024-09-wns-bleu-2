@@ -1,8 +1,14 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
 import "./styles/root.scss";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+
+const client = new ApolloClient({
+  uri: "http://localhost:8000/api",
+  cache: new InMemoryCache(),
+});
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
@@ -10,12 +16,17 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-createRoot(document.getElementById("root")!).render(
+createRoot(document.getElementById('root')!).render(
 <ApolloProvider client={client}>
     <StrictMode>
       <BrowserRouter>
-        <App />
+      <ApolloProvider client={client}>
+        <StrictMode>
+            <App />
+        </StrictMode>
+      </ApolloProvider>
       </BrowserRouter>
     </StrictMode>
   </ApolloProvider>
-);
+)
+

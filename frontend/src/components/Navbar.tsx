@@ -6,12 +6,9 @@ import Burger from "./responsive/Burger";
 import Dropdown from "./Dropdown";
 
 export default function Navbar() {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isActive, setIsActive] = useState("");
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  const handleClick = (url: string) => {
-    setIsActive(url);
-  };
   ////to dynamicaly get the window width on resize
   useEffect(() => {
     const handleResize = () => {
@@ -24,6 +21,10 @@ export default function Navbar() {
       window.removeEventListener("resize", handleResize);
     };
   }, [setWindowWidth]);
+
+  const handleClick = (url: string) => {
+    setIsActive(url);
+  };
 
   return (
     <nav className="navbar-wrapper">
@@ -40,14 +41,14 @@ export default function Navbar() {
           <div className="navbar-left">
             <Link
               onClick={() => handleClick("search")}
-              to="/"
+              to="/search-page"
               className={`navbar-link ${isActive === "search" && "is-active"}`}
             >
               Rechercher
             </Link>
             <Link
               onClick={() => handleClick("publish")}
-              to="/"
+              to="/publish-route"
               className={`navbar-link ${isActive === "publish" && "is-active"}`}
             >
               Publier un Grumpy Trip
@@ -77,7 +78,7 @@ export default function Navbar() {
               <>
                 <Link
                   onClick={() => handleClick("connexion")}
-                  to="/"
+                  to="/login"
                   className={`navbar-link ${
                     isActive === "connexion" && "is-active"
                   }`}
@@ -86,7 +87,7 @@ export default function Navbar() {
                 </Link>
                 <Link
                   onClick={() => handleClick("register")}
-                  to="/"
+                  to="/register"
                   className={`navbar-link ${
                     isActive === "register" && "is-active"
                   }`}

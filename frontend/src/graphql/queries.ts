@@ -115,3 +115,41 @@ export const GET_BOOKINGS_FOR_PASSENGER = gql`
   }
   }
 `;
+
+export const SEARCH_CARPOOLS = gql`
+  query SearchCarpools($departure: String!, $arrival: String!, $date: String!, $time: String!) {
+    searchCarpools(departure: $departure, arrival: $arrival, date: $date, time: $time) {
+      id
+      departure_city
+      arrival_city
+      departure_date
+      departure_time
+      num_passenger
+      price
+      driver {
+        firstname
+        lastname
+      }
+    }
+  }
+`;
+
+export const GET_CITIES = gql`
+  query GetCities {
+    getCities {
+      id
+      name
+    }
+  }
+`;
+
+export const GET_USER_INFO = gql`
+  query GetUserInfo {
+    getUserInfo {
+      id
+      firstname
+      lastname
+      email
+    }
+  }
+`;

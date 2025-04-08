@@ -1,5 +1,4 @@
 import { Field, Float, InputType } from "type-graphql";
-import { Options } from "../entities/Carpool";
 import { Carpool } from "../entities/Carpool";
 
 @InputType()
@@ -28,8 +27,8 @@ export default class CarpoolInput implements Partial<Carpool> {
   @Field(() => Float)
   price: number;
 
-  @Field()
-  options: Options;
+  @Field(() => [String], { nullable: true })
+  options?: string[];
 
   @Field()
   driver_id: number;

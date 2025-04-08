@@ -1,0 +1,52 @@
+@import "./root.scss";
+
+.trip-preferences {
+  text-align: center;
+  margin-top: 2rem;
+
+  h2 {
+    font-size: $font-size-title-mobile;
+    font-weight: bold;
+  }
+
+  .optional {
+    font-style: italic;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .preferences-box {
+    background-color: $color-card-yellow;
+    padding: 1.5rem;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: left;
+    max-width: 360px;
+    margin: 0 auto;
+    box-shadow: 0 10px 3px -3px #cfccc9;
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: $font-size-text-mobile;
+
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  /* Responsive */
+  @media screen and (min-width: $bp-mobile) {
+    .preferences-box {
+      width: 90%;
+      max-width: 1900px;
+      flex-wrap: wrap;
+      flex-direction: row;
+    }
+  }
+}
