@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import EmailConfirmation from "./pages/EmailConfirmation";
 import Login from "./pages/Login";
 import { ToastContainer } from "react-toastify";
+import Profile from "./pages/Profile";
 import CarpoolDetails from "./components/CarpoolDetail";
 import SearchCarpool from "./components/searchCarpool";
 import PublishRoute from "./pages/PublishRoute";
