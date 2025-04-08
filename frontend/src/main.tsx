@@ -2,11 +2,11 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles/root.scss";
 import App from "./App.tsx";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 
 const client = new ApolloClient({
-  uri: "/api",
+  uri: "http://localhost:8000/api",
   cache: new InMemoryCache(),
 });
 

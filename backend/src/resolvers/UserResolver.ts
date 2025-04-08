@@ -173,6 +173,25 @@ export class UserResolver {
     return await User.find({ relations: ["carpools"] });
   }
 
+  @Query(() => User, { nullable: true })
+  async getUserInfo(@Ctx() context: any): Promise<User | null> {
+    try {
+      const token = context.req.cookies.token;
+      if (!token) return null;
+
+      const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as Secret) as { email: string };
+
+      const user = await User.findOne({
+        where: { email: decoded.email },
+      });
+
+      return user || null;
+    } catch (error) {
+      console.error("Erreur getUserInfo:", error);
+      return null;
+    }
+  }
+
   @Mutation(() => User)
   async updateUserProfile(
     @Arg("email") email: string,

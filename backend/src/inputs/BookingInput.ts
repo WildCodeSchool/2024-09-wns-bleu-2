@@ -1,4 +1,4 @@
-import { Booking } from "src/entities/Booking";
+import { Booking } from "../entities/Booking";
 import { Field, InputType } from "type-graphql";
 
 @InputType()

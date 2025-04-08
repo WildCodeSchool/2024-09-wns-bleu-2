@@ -44,3 +44,25 @@ export const UPDATE_USER_PROFILE = gql`
     }
   }
 `;
+
+
+export const CREATE_CARPOOL = gql`
+  mutation CreateCarpool($data: CarpoolInput!) {
+    createCarpool(data: $data) {
+      id
+      departure_city
+      arrival_city
+      departure_date
+      departure_time
+      num_passenger
+      toll
+      duration
+      price
+      options
+      driver {
+        id
+        firstname
+      }
+    }
+  }
+`;

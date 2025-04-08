@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { User } from "./User";
 import { Booking } from "./Booking";
+//import { Options } from "./options";
 
 export enum Options {
   AnimalFriendly = "Animal Friendly",
@@ -26,6 +27,7 @@ export class Carpool extends BaseEntity {
   @Column({ type: "date", nullable: false })
   departure_date: string; //AAAA-MM-JJ
 
+  @Field()
   @Column()
   departure_city: string;
 
@@ -43,7 +45,7 @@ export class Carpool extends BaseEntity {
 
   @Field()
   @Column()
-  type_of_road: string;
+  toll: Boolean;
 
   @Field()
   @Column()
@@ -53,9 +55,9 @@ export class Carpool extends BaseEntity {
   @Column()
   price: number;
 
-  @Field()
-  @Column({ nullable: true })
-  options: Options;
+  @Field(() => [String])
+  @Column("simple-array", { nullable: true })
+  options: string[];
 
   @Field(() => User)
   @ManyToOne(() => User, (user: User) => user.carpools, {
@@ -64,6 +66,7 @@ export class Carpool extends BaseEntity {
   })
   driver: User;
 
+  @Field(() => [Booking])
   @OneToMany(() => Booking, (booking) => booking.carpool)
-  bookings: Booking[];
+  bookings?: Booking[];
 }
