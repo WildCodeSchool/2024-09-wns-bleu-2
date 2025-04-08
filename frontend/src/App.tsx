@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import EmailConfirmation from "./pages/EmailConfirmation";
 import Login from "./pages/Login";
 import { ToastContainer } from "react-toastify";
+import Profile from "./pages/Profile";
 import CarpoolDetails from "./components/CarpoolDetail";
 import SearchCarpool from "./components/searchCarpool";
 import PublishRoute from "./pages/PublishRoute";
@@ -29,6 +30,7 @@ function App() {
           {/* A enlever ? */}
           <Route path="publish-route" element={<PublishRoute />} />
           <Route path="search-page" element={<SearchPage />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
       <ToastContainer theme="colored" />
