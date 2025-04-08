@@ -30,6 +30,7 @@ function App() {
           {/* A enlever ? */}
           <Route path="publish-route" element={<PublishRoute />} />
           <Route path="search-page" element={<SearchPage />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
       <ToastContainer theme="colored" />

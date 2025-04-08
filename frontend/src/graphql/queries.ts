@@ -14,7 +14,6 @@ export const GET_USER_INFO = gql`
     }
   }
 `;
-import { gql } from "@apollo/client";
 
 export const GET_CARPOOL_BY_ID = gql`
   query GetCarpoolById($getCarpoolByIdId: Float!) {
@@ -47,8 +46,18 @@ export const GET_CARPOOL_BY_ID = gql`
 `;
 
 export const SEARCH_CARPOOLS = gql`
-  query SearchCarpools($departure: String!, $arrival: String!, $date: String!, $time: String!) {
-    searchCarpools(departure: $departure, arrival: $arrival, date: $date, time: $time) {
+  query SearchCarpools(
+    $departure: String!
+    $arrival: String!
+    $date: String!
+    $time: String!
+  ) {
+    searchCarpools(
+      departure: $departure
+      arrival: $arrival
+      date: $date
+      time: $time
+    ) {
       id
       departure_city
       arrival_city
@@ -69,17 +78,6 @@ export const GET_CITIES = gql`
     getCities {
       id
       name
-    }
-  }
-`;
-
-export const GET_USER_INFO = gql`
-  query GetUserInfo {
-    getUserInfo {
-      id
-      firstname
-      lastname
-      email
     }
   }
 `;
