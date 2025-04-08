@@ -4,6 +4,7 @@ export const GET_USER_INFO = gql`
   query GetUserInfo {
     getUserInfo {
       isLoggedIn
+      id
       email
       firstname
       lastname
