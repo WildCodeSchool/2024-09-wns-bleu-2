@@ -174,7 +174,7 @@ export class UserResolver {
   }
 
   @Query(() => User, { nullable: true })
-  async getUserInfo(@Ctx() context: any): Promise<User | null> {
+  async getUserInfoConnexion(@Ctx() context: any): Promise<User | null> {
     try {
       const token = context.req.cookies.token;
       if (!token) return null;
