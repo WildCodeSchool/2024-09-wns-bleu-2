@@ -16,6 +16,7 @@ import { Booking } from "./Booking";
 export enum Gender {
   Homme = "Homme",
   Femme = "Femme",
+  Autre = "Autre"
 }
 
 @ObjectType()
