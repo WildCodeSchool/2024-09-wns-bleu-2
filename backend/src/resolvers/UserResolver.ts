@@ -23,7 +23,11 @@ class UserInfo {
   isLoggedIn: boolean;
 
   @Field({ nullable: true })
+  id?: number;
+
+  @Field({ nullable: true })
   email?: String;
+
   @Field({ nullable: true })
   firstname?: string;
 
@@ -227,6 +231,7 @@ export class UserResolver {
       if (user) {
         return {
           isLoggedIn: true,
+          id: user.id,
           email: user.email,
           firstname: user.firstname,
           lastname: user.lastname,
