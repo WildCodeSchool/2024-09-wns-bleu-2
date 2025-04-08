@@ -55,9 +55,9 @@ export class Carpool extends BaseEntity {
   @Column()
   price: number;
 
-  @Field()
-  @Column({ nullable: true })
-  options: Options;
+  @Field(() => [String])
+  @Column("simple-array", { nullable: true })
+  options: string[];
 
   @Field(() => User)
   @ManyToOne(() => User, (user: User) => user.carpools, {

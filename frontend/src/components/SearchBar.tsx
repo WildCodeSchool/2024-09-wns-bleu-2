@@ -5,6 +5,7 @@ import {
   Users,
   ArrowRightLeft,
   ChevronRight,
+  Hourglass,
 } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "../styles/searchBar.scss";
@@ -14,15 +15,19 @@ import {
   useSearchCarpoolsLazyQuery,
   useGetCitiesQuery,
 } from "../generated/graphql-types";
+import { toast } from "react-toastify";
+import { formatDate, formatTime } from "../utils/format.utils";
 
 type SearchBarProps = {
   departure: string;
   arrival: string;
   date: Date;
   passengers: number;
+  departureTime: Date | null;
   onDepartureChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   onArrivalChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   onDateChange: (date: Date) => void;
+  onTimeChange: (date: Date | null) => void;
   onPassengersChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 };
 
@@ -31,9 +36,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
   arrival,
   date,
   passengers,
+  departureTime,
   onDepartureChange,
   onArrivalChange,
   onDateChange,
+  onTimeChange,
   onPassengersChange,
 }) => {
   const [results, setResults] = useState<any[]>([]);
@@ -62,18 +69,28 @@ const SearchBar: React.FC<SearchBarProps> = ({
   }, [cityData]);
 
   const handleSearch = () => {
-    if (!departure || !arrival || !date) {
-      console.error(
-        "Veuillez sélectionner une ville de départ, d'arrivée et une date."
-      );
+    if (!departure || !arrival || !date || !departureTime) {
+      toast.warning("Merci de remplir tous les champs !");
       return;
     }
+
+    const formattedDate = formatDate(date);
+    const formattedTime = formatTime(departureTime);
+
+    console.log("🔍 Recherche envoyée avec :", {
+      departure,
+      arrival,
+      date: formattedDate,
+      time: formattedTime,
+      passengers,
+    });
 
     searchCarpools({
       variables: {
         departure,
         arrival,
-        date: date.toISOString().split("T")[0],
+        date: formattedDate,
+        time: formattedTime,
       },
     });
   };
@@ -125,7 +142,25 @@ const SearchBar: React.FC<SearchBarProps> = ({
           className="datepicker-input"
           popperPlacement="bottom-start"
           locale={fr}
-  
+        />
+      </div>
+
+      <div className="separator" />
+
+      {/* Heure de départ */}
+      <div className="input-container">
+        <Hourglass className="icon" size={22} />
+        <DatePicker
+          selected={departureTime}
+          onChange={(time) => onTimeChange(time)}
+          showTimeSelect
+          showTimeSelectOnly
+          timeIntervals={15}
+          timeCaption="Heure"
+          dateFormat="HH:mm"
+          className="datepicker-input"
+          placeholderText="Heure de départ"
+          locale={fr}
         />
       </div>
 
