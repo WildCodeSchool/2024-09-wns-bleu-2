@@ -84,6 +84,7 @@ const Register = () => {
                </div>
             </div>
 
+
             <div className="input-row">
                <div className="input-group">
                   <label htmlFor="birthdate">Date de naissance</label>
@@ -96,11 +97,11 @@ const Register = () => {
                      <option value="">Sélectionner</option>
                      <option value="Homme">Homme</option>
                      <option value="Femme">Femme</option>
+                     <option value="Autre">Autre</option>
                   </select>
                   {errors.gender && <span className="error">{errors.gender.message}</span>}
                </div>
             </div>
-
             <div className="input-row">
                <div className="input-group">
                   <label htmlFor="email">Adresse email</label>

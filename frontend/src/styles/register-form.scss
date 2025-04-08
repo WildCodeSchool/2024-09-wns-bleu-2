@@ -1,134 +1,31 @@
 @import "../styles/root.scss";
 
-// .signup {
-//    width: 60%;
-//    max-width: 800px;
-//    margin: 4% auto 10%;
-//    background-color: $color-card-green;
-//    border-radius: 30px;
-//    padding: 2em;
-//    display: flex;
-//    flex-direction: column;
-//    align-items: center;
-//    .form-content {
-//       width: 100%;
-//       display: grid;
-//       grid-template-columns: repeat(2, 1fr);
-//       gap: 15px 30px;
-//       justify-content: center;
-//       align-items: center;
-//       padding: 1em 2em;
-//       h1 {
-//          grid-column: span 2;
-//          text-align: center;
-//          font-size: 2rem;
-//          margin-bottom: 20px;
-//       }
-//       .input-row {
-//          display: flex;
-//          flex-direction: column;
-//          align-items: center;
-//          text-align: left;
-//          width: 100%;
-//          label {
-//             font-weight: bold;
-//             font-size: 0.9rem;
-//             margin-bottom: 5px;
-//             display: block;
-//          }
-//          input, select {
-//             width: 100%;
-//             max-width: 250px;
-//             padding: 10px;
-//             border: none;
-//             border-radius: 20px;
-//             background-color: #f7f7f7;
-//             font-size: 1rem;
-//             outline: none;
-//          }
-//          select {
-//             max-width: 270px;
-//          }
-//       }
-//       .error {
-//          color: red;
-//          margin-top: 5px;
-//          text-align: center;
-//       }
-//       .checkbox-container {
-//          grid-column: span 2;
-//          display: flex;
-//          justify-content: center;
-//          align-items: center;
-//          font-size: 0.9rem;
-//          gap: 8px;
-//          margin-top: 30px;
-         
-//          input[type="checkbox"] {
-//             width: 16px;
-//             height: 16px;
-//             margin-right: 5px;
-//          }
-
-//          a {
-//             text-decoration: none;
-//             cursor: pointer;
-//             color: #000;
-//             &:hover {
-//                opacity: 0.7;
-//             }
-//          }
-//       }
-//       .login {
-//          grid-column: span 2;
-//          display: flex;
-//          justify-content: center;
-//          align-items: center;
-//          a {
-//             text-decoration: underline;
-//             color: #000;
-//             &:visited,
-//             &:active {
-//                color: #000;
-//             }
-//             &:hover {
-//                opacity: 0.7;
-//             }
-//          }
-//       }
-//       .submit-container {
-//          grid-column: span 2;
-//          display: flex;
-//          justify-content: center;
-//          margin-top: 15px;
-
-//          button {
-//             padding: 12px 30px;
-//             font-size: 1rem;
-//             border-radius: 30px;
-//             background-color: white;
-//             border: none;
-//             display: flex;
-//             align-items: center;
-//             gap: 10px;
-//             transition: 0.3s ease;
-//             cursor: pointer;
-//             &:hover {
-//                background-color: $color-card-red;
-//             }
-//          }
-//       }
-//    }
-//    @media (max-width: 885px) {
-//       width: 80%;
-//    }
-// }
-
 .form-container {
    background-color: $color-card-green;
    border-radius: 30px;
-   margin: 3em auto;
+   margin: 3em auto 6em;
    max-width: 80%;
+   position: relative;
+   &:after {
+      content: "";
+      position: absolute;
+      background-image: url(../../public/chat-register.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      width: 40%;
+      height: 80%;
+      bottom: -25%;
+      right: -12%;
+      z-index: 5;
+
+      @media (min-width: 885px) and (max-width: 1100px) {
+         bottom: -42%;
+         right: -15%;
+      }
+      @media (max-width: 885px) {
+         display: none;
+      }
+   }
    .form-content {
       padding: 2em 5em;
       display: flex;
@@ -174,6 +71,7 @@
       .checkbox-container {
          margin: 2em 0 0.5em;
          font-size: 0.75rem;
+         text-align: center;
          input {
             margin-right: 5px;
          }
