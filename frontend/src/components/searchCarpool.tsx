@@ -1,47 +1,46 @@
-import { useState } from "react";
-import { useLazyQuery } from "@apollo/client";
-import { SEARCH_CARPOOLS } from "../graphql/queries";
+import { useParams, useNavigate } from "react-router-dom";
+import { useGetCarpoolByIdQuery } from "../generated/graphql-types";
+import "../styles/carpoolDetails.scss";
 
-const SearchCarpool = () => {
-  const [departure, setDeparture] = useState("");
-  const [arrival, setArrival] = useState("");
-  const [date, setDate] = useState("");
 
-  const [searchCarpools, { data, loading, error }] = useLazyQuery(SEARCH_CARPOOLS);
+const CarpoolDetails = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const handleSearch = () => {
-    if (!departure || !arrival || !date) {
-      alert("Veuillez remplir tous les champs !");
-      return;
-    }
-    searchCarpools({ variables: { departure, arrival, date } });
-  };
+  // Récupérer les détails du covoiturage
+  const { data, loading, error } = useGetCarpoolByIdQuery({
+    variables: { getCarpoolByIdId: parseFloat(id!) },
+  });
+
+  if (loading) return <div className="loading-message">Chargement...</div>;
+  if (error) return <div className="error-message">Erreur : {error.message}</div>;
+
+  const carpoolDetails = data?.getCarpoolById;
 
   return (
-    <div>
-      <h2>Rechercher un covoiturage</h2>
-      <input type="text" placeholder="Ville de départ" value={departure} onChange={(e) => setDeparture(e.target.value)} />
-      <input type="text" placeholder="Ville d'arrivée" value={arrival} onChange={(e) => setArrival(e.target.value)} />
-      <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-      <button onClick={handleSearch}>Rechercher</button>
+    <div className="carpool-container">
+      <h2 className="carpool-title">Détails du Covoiturage {id}</h2>
+      <section className="carpool-details">
+        <div className="carpool-info">
+          <p><strong>Ville d'arrivée :</strong> {carpoolDetails?.arrival_city}</p>
+          <p><strong>Ville de départ :</strong> {carpoolDetails?.departure_city}</p>
+          <p><strong>Date de départ :</strong> {carpoolDetails?.departure_date}</p>
+          <p><strong>Heure de départ :</strong> {carpoolDetails?.departure_time}</p>
+          <p><strong>Nombre de passagers :</strong> {carpoolDetails?.num_passenger}</p>
+          <p><strong>Options :</strong> {carpoolDetails?.options}</p>
+          <p><strong>Prix :</strong> {carpoolDetails?.price} €</p>
+          <p><strong>Type de route :</strong> {carpoolDetails?.toll}</p>
+        </div>
 
-      {loading && <p>Chargement...</p>}
-      {error && <p>Erreur: {error.message}</p>}
-      {data && data.searchCarpools.length > 0 ? (
-        <ul>
-          {data.searchCarpools.map((carpool: any) => (
-            <li key={carpool.id}>
-              {carpool.departure_city} → {carpool.arrival_city} ({carpool.departure_date} à {carpool.departure_time}) | {carpool.price}€
-              <br />
-              Conducteur: {carpool.driver.firstname} {carpool.driver.lastname}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>Aucun covoiturage trouvé.</p>
-      )}
+        <button
+          className="button-primary"
+          onClick={() => navigate('')}
+        >
+          Supprimer
+        </button>
+      </section>
     </div>
   );
 };
 
-export default SearchCarpool;
+export default CarpoolDetails;

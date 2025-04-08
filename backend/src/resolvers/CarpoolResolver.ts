@@ -25,6 +25,12 @@ export default class CarpoolResolver {
   }
 
   @Query(() => [Carpool])
+  async getCarpoolsByUserId(@Arg("userId") userId: number) {
+    // Find all carpools where the user is the driver
+    return await Carpool.find({ where: { driver: { id: userId } }, relations: ["driver", "bookings", "bookings.passenger"] });
+  }
+
+  @Query(() => [Carpool])
   async searchCarpools(
     @Arg("departure", { nullable: true }) departure?: string,
     @Arg("arrival", { nullable: true }) arrival?: string,

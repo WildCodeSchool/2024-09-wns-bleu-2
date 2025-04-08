@@ -29,7 +29,7 @@ const CarpoolDetails = () => {
           <p><strong>Nombre de passagers :</strong> {carpoolDetails?.num_passenger}</p>
           <p><strong>Options :</strong> {carpoolDetails?.options}</p>
           <p><strong>Prix :</strong> {carpoolDetails?.price} €</p>
-          <p><strong>Type de route :</strong> {carpoolDetails?.type_of_road}</p>
+          <p><strong>Type de route :</strong> {carpoolDetails?.toll}</p>
         </div>
 
         <button
