@@ -26,7 +26,7 @@ type TripListProps = {
     const buttonLabel =
     mode === "carpool" ? "Publier un trajet" : "Réserver un autre trajet";
     const buttonRedirect =
-    mode === "carpool" ? "/publier-un-trajet" : "/trajets";
+    mode === "carpool" ? "/publish-route" : "/search-page";
 
     return (
         <div className="overall-container">

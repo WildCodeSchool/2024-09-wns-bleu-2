@@ -16,6 +16,7 @@ import { Booking } from "./Booking";
 export enum Gender {
   Homme = "Homme",
   Femme = "Femme",
+  Autre = "Autre"
 }
 
 @ObjectType()
@@ -26,7 +27,7 @@ export class User extends BaseEntity {
   id: number;
 
   @Field()
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
@@ -38,19 +39,19 @@ export class User extends BaseEntity {
 
   @Field()
   @Column()
-  lastname?: string;
+  lastname: string;
 
   @Field()
   @Column()
-  birthdate?: Date;
+  birthdate: Date;
 
   @Field()
   @Column()
-  gender?: Gender;
+  gender: Gender;
 
   @Field()
   @Column()
-  phone?: string;
+  phone: string;
 
   @Field()
   @Column({ nullable: true })

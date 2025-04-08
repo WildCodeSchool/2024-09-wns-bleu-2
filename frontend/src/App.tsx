@@ -11,7 +11,8 @@ import SearchCarpool from "./components/searchCarpool";
 import PublishRoute from "./pages/PublishRoute";
 import SearchPage from "./pages/SearchPage";
 import MesReservations from "./pages/MesReservations";
-import MesGrumpyTrips from "./pages/myCarpools";
+import MesGrumpyTrips from "./pages/MyCarpools";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           {/* A enlever ? */}
           <Route path="publish-route" element={<PublishRoute />} />
           <Route path="search-page" element={<SearchPage />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
       <ToastContainer theme="colored" />
