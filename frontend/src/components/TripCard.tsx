@@ -13,8 +13,24 @@ import {
   getAvailableSeats,
 } from "../utils/tripUtils";
 
-interface TripCardProps {
+/* interface TripCardProps {
   tripDetails: Carpool | Booking;
+  tripIndex: number;
+  mode: "carpool" | "booking";
+} */
+interface TripCardProps {
+  tripDetails:
+    | Carpool
+    | (Omit<Booking, "carpool" | "id" | "reservedAt"> & {
+        __typename?: "Booking";
+        numPassenger: number;
+        passenger: {
+          __typename?: "User";
+          id: number;
+          firstname: string;
+          avatar: string;
+        };
+      });
   tripIndex: number;
   mode: "carpool" | "booking";
 }
@@ -95,8 +111,15 @@ export default function TripCard({
       <div className="horizontal-line" />
       <div className="trip-card-bottom">
         <div className="trip-bottom-left">
-          <div className="trip-driver ">
-            <img src={data.driver.avatar} alt="Avatar" />
+          <div className="trip-user ">
+            <img
+              src={
+                data.driver.avatar !== "avatar.png"
+                  ? data.driver.avatar
+                  : "../../public/avatar.webp"
+              }
+              alt="Avatar"
+            />
             <div className="driver-infos">
               <p>{data.driver.firstname}</p>
             </div>
