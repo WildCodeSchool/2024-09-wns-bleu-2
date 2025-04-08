@@ -13,16 +13,16 @@ import PublishRoute from "./pages/PublishRoute";
 import SearchPage from "./pages/SearchPage";
 import MesReservations from "./pages/MesReservations";
 import MesGrumpyTrips from "./pages/MyCarpools";
-import Profile from "./pages/Profile";
+import SearchPageResult from "./pages/SearchPageResult";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
-        <Route path="/mytrips/:id" element={<MesGrumpyTrips />} />
-        <Route path="/myreservations/:id" element={<MesReservations />} />
-        <Route index element={<Home />} />
+          <Route path="/mytrips/:id" element={<MesGrumpyTrips />} />
+          <Route path="/myreservations/:id" element={<MesReservations />} />
+          <Route index element={<Home />} />
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
           <Route
@@ -35,6 +35,7 @@ function App() {
           {/* A enlever ? */}
           <Route path="publish-route" element={<PublishRoute />} />
           <Route path="search-page" element={<SearchPage />} />
+          <Route path="search-page-result" element={<SearchPageResult />} />
           <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
