@@ -7,46 +7,50 @@
   margin: 0 auto;
   flex-direction: column;
   gap: 10px;
-  padding: 15px;
+  padding: 28px 15px 42px;
   background-color: #d8d8d3;
   border-radius: 12px;
-  padding-top: 28px;
   box-shadow: 0 10px 3px -3px #cfccc9;
-
-  .input-container {
+  align-items: center;
+  .search-wrapper {
     display: flex;
-    align-items: center;
-    padding: 8px 12px;
-    gap: 8px;
-    flex: 1;
-    .datepicker-container {
+    flex-direction: column;
+    gap: 10px;
+    .input-container {
       display: flex;
       align-items: center;
-      background-color: white;
       padding: 8px 12px;
-      border-radius: 8px;
       gap: 8px;
       flex: 1;
-      position: relative;
-    }
+      .datepicker-container {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        padding: 8px 12px;
+        border-radius: 8px;
+        gap: 8px;
+        flex: 1;
+        position: relative;
+      }
 
-    .react-datepicker__input-container input {
-      border: none;
-      outline: none;
-      font-size: $font-size-search-desk;
-      background-color: transparent;
-      width: 100%;
-      cursor: pointer;
-    }
+      .react-datepicker__input-container input {
+        border: none;
+        outline: none;
+        font-size: $font-size-search-desk;
+        background-color: transparent;
+        width: 100%;
+        cursor: pointer;
+      }
 
-    .duration-selects {
-      display: flex;
-      align-items: center;
+      .duration-selects {
+        display: flex;
+        align-items: center;
+      }
     }
   }
 
   #hidden-arrow {
-    visibility: hidden;
+    display: none;
     width: 0;
     height: 0;
   }
@@ -114,8 +118,10 @@
     align-items: center;
     width: 90%;
     max-width: 1900px;
-    flex-wrap: wrap;
-
+    .search-wrapper {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
     #hidden-arrow {
       visibility: visible !important;
       width: 1em !important;

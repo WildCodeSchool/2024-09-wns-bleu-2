@@ -57,119 +57,121 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
 
   return (
     <div className="search-bar">
+      <div className="search-wrapper">
+        <div className="input-container">
+          <MapPin className="icon" size={22} />
+          {loadingCities ? (
+            <p>Chargement...</p>
+          ) : errorCities ? (
+            <p>Erreur</p>
+          ) : (
+            <select value={departure} onChange={onDepartureChange}>
+              <option value="">Adresse de départ</option>
+              {cityOptions}
+            </select>
+          )}
+        </div>
+
+        <ArrowRightLeft size={20} id="hidden-arrow" />
+        <div className="separator" />
+
+        {/* Ville d'arrivée */}
+        <div className="input-container">
+          <MapPin className="icon" size={22} />
+          {loadingCities ? (
+            <p>Chargement...</p>
+          ) : errorCities ? (
+            <p>Erreur</p>
+          ) : (
+            <select value={arrival} onChange={onArrivalChange}>
+              <option value="">Adresse d'arrivée</option>
+              {cityOptions}
+            </select>
+          )}
+        </div>
+
+        <div className="separator" />
+
+        {/* Date */}
+        <div className="input-container">
+          <CalendarDays className="icon" size={22} />
+          <DatePicker
+            selected={date}
+            onChange={(date) => date && onDateChange(date)}
+            dateFormat="dd/MM/yyyy"
+            className="datepicker-input"
+            popperPlacement="bottom-start"
+            locale={fr}
+          />
+        </div>
+
+        <div className="separator" />
+
+        {/* Heure de départ */}
+        <div className="input-container">
+          <Clock className="icon" size={22} />
+          <DatePicker
+            data-testid="departure-time-picker"
+            selected={departureTime}
+            onChange={(time) => onTimeChange(time)}
+            showTimeSelect
+            showTimeSelectOnly
+            timeIntervals={15}
+            timeCaption="Heure"
+            dateFormat="HH:mm"
+            placeholderText="00:00"
+            locale={fr}
+            customInput={<input data-testid="departure-time-picker" />}
+          />
+        </div>
+
+        <div className="separator" />
+
+        {/* Durée du trajet */}
+        <div className="input-container">
+          <Hourglass className="icon" size={22} />
+          <div className="duration-selects">
+            <select value={hours} onChange={onHourChange}>
+              {Array.from({ length: 25 }, (_, i) => (
+                <option key={i} value={i}>
+                  {i} h
+                </option>
+              ))}
+            </select>
+            <select value={minutes} onChange={onMinuteChange}>
+              {Array.from({ length: 60 }, (_, min) => (
+                <option key={min} value={min}>
+                  {min} min
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="separator" />
+
+        {/* Passagers */}
+        <div className="flex-container">
+          <div className="select-container">
+            <Users className="icon" size={20} />
+            <label htmlFor="passenger-select" id="sr-only">
+              Nombre de passagers
+            </label>
+            <select
+              id="passenger-select"
+              value={passengers}
+              onChange={onPassengersChange}
+            >
+              {Array.from({ length: 4 }, (_, i) => (
+                <option key={i + 1} value={i + 1}>
+                  {i + 1} {i === 0 ? "Passager" : "Passagers"}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
       {/* Ville de départ */}
-      <div className="input-container">
-        <MapPin className="icon" size={22} />
-        {loadingCities ? (
-          <p>Chargement...</p>
-        ) : errorCities ? (
-          <p>Erreur</p>
-        ) : (
-          <select value={departure} onChange={onDepartureChange}>
-            <option value="">Adresse de départ</option>
-            {cityOptions}
-          </select>
-        )}
-      </div>
-
-      <ArrowRightLeft size={20} id="hidden-arrow" />
-      <div className="separator" />
-
-      {/* Ville d'arrivée */}
-      <div className="input-container">
-        <MapPin className="icon" size={22} />
-        {loadingCities ? (
-          <p>Chargement...</p>
-        ) : errorCities ? (
-          <p>Erreur</p>
-        ) : (
-          <select value={arrival} onChange={onArrivalChange}>
-            <option value="">Adresse d'arrivée</option>
-            {cityOptions}
-          </select>
-        )}
-      </div>
-
-      <div className="separator" />
-
-      {/* Date */}
-      <div className="input-container">
-        <CalendarDays className="icon" size={22} />
-        <DatePicker
-          selected={date}
-          onChange={(date) => date && onDateChange(date)}
-          dateFormat="dd/MM/yyyy"
-          className="datepicker-input"
-          popperPlacement="bottom-start"
-          locale={fr}
-        />
-      </div>
-
-      <div className="separator" />
-
-      {/* Heure de départ */}
-      <div className="input-container">
-        <Clock className="icon" size={22} />
-        <DatePicker
-          data-testid="departure-time-picker"
-          selected={departureTime}
-          onChange={(time) => onTimeChange(time)}
-          showTimeSelect
-          showTimeSelectOnly
-          timeIntervals={15}
-          timeCaption="Heure"
-          dateFormat="HH:mm"
-          placeholderText="00:00"
-          locale={fr}
-          customInput={<input data-testid="departure-time-picker" />}
-        />
-      </div>
-
-      <div className="separator" />
-
-      {/* Durée du trajet */}
-      <div className="input-container">
-        <Hourglass className="icon" size={22} />
-        <div className="duration-selects">
-          <select value={hours} onChange={onHourChange}>
-            {Array.from({ length: 25 }, (_, i) => (
-              <option key={i} value={i}>
-                {i} h
-              </option>
-            ))}
-          </select>
-          <select value={minutes} onChange={onMinuteChange}>
-            {Array.from({ length: 60 }, (_, min) => (
-              <option key={min} value={min}>
-                {min} min
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div className="separator" />
-
-      {/* Passagers */}
-      <div className="flex-container">
-        <div className="select-container">
-          <Users className="icon" size={20} />
-          <label htmlFor="passenger-select" id="sr-only">
-            Nombre de passagers
-          </label>
-          <select
-            id="passenger-select"
-            value={passengers}
-            onChange={onPassengersChange}
-          >
-            {Array.from({ length: 4 }, (_, i) => (
-              <option key={i + 1} value={i + 1}>
-                {i + 1} {i === 0 ? "Passager" : "Passagers"}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
     </div>
   );
 };
