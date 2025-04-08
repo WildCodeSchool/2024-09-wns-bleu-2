@@ -1,32 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import "../styles/search-page.scss";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import SearchResults from "../components/searchPageResultsComponents/SearchResult";
 
-const SearchPage = () => {
+const SearchPageResult = () => {
+  const [params] = useSearchParams();
+
   const [departure, setDeparture] = useState("");
   const [arrival, setArrival] = useState("");
   const [date, setDate] = useState(new Date());
   const [passengers, setPassengers] = useState(1);
   const [departureTime, setDepartureTime] = useState<Date | null>(null);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    setDeparture(params.get("departure") || "");
+    setArrival(params.get("arrival") || "");
+    setPassengers(Number(params.get("passengers") || 1));
 
-  const handleSearch = () => {
-    const params = new URLSearchParams({
-      departure,
-      arrival,
-      date: date.toISOString().split("T")[0], // "YYYY-MM-DD"
-      time: departureTime ? departureTime.toTimeString().slice(0, 5) : "", // "HH:mm"
-      passengers: passengers.toString(),
-    });
+    const dateStr = params.get("date");
+    const timeStr = params.get("time");
 
-    navigate(`/search-page-result?${params.toString()}`);
-  };
+    if (dateStr) setDate(new Date(dateStr));
+    if (timeStr) setDepartureTime(new Date(`1970-01-01T${timeStr}:00`));
+  }, [params]);
 
   return (
     <div className="search-route">
-      <h1>Trouvez votre Grumpy trip en 1 clic !</h1>
+      <h1>Les trajets proposés</h1>
       <SearchBar
         departure={departure}
         arrival={arrival}
@@ -38,10 +39,15 @@ const SearchPage = () => {
         onPassengersChange={(e) => setPassengers(Number(e.target.value))}
         departureTime={departureTime}
         onTimeChange={setDepartureTime}
-        onSearch={handleSearch}
+      />
+      <SearchResults
+        departure={departure}
+        arrival={arrival}
+        date={date}
+        time={departureTime}
       />
     </div>
   );
 };
 
-export default SearchPage;
+export default SearchPageResult;

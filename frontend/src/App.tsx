@@ -12,7 +12,7 @@ import SearchCarpool from "./components/searchCarpool";
 import PublishRoute from "./pages/PublishRoute";
 import SearchPage from "./pages/SearchPage";
 import MesReservations from "./pages/MesReservations";
-import MesGrumpyTrips from "./pages/MyCarpools";
+import MesGrumpyTrips from "./pages/myCarpools";
 import SearchPageResult from "./pages/SearchPageResult";
 
 function App() {

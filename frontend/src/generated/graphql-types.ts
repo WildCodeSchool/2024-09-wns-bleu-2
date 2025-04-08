@@ -196,6 +196,7 @@ export type UserInfo = {
   email?: Maybe<Scalars['String']['output']>;
   firstname?: Maybe<Scalars['String']['output']>;
   gender?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['Float']['output']>;
   isLoggedIn: Scalars['Boolean']['output'];
   lastname?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
@@ -258,7 +259,7 @@ export type CreateCarpoolMutation = { __typename?: 'Mutation', createCarpool: { 
 export type GetUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserInfoQuery = { __typename?: 'Query', getUserInfo: { __typename?: 'UserInfo', isLoggedIn: boolean, email?: string | null, firstname?: string | null, lastname?: string | null, birthdate?: any | null, gender?: string | null, phone?: string | null, avatar?: string | null } };
+export type GetUserInfoQuery = { __typename?: 'Query', getUserInfo: { __typename?: 'UserInfo', isLoggedIn: boolean, id?: number | null, email?: string | null, firstname?: string | null, lastname?: string | null, birthdate?: any | null, gender?: string | null, phone?: string | null, avatar?: string | null } };
 
 export type GetCarpoolByIdQueryVariables = Exact<{
   getCarpoolByIdId: Scalars['Float']['input'];
@@ -514,6 +515,7 @@ export const GetUserInfoDocument = gql`
     query GetUserInfo {
   getUserInfo {
     isLoggedIn
+    id
     email
     firstname
     lastname
