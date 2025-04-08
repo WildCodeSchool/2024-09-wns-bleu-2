@@ -9,4 +9,4 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Goto client and run integration tests
-        run: cd frontend/src/tests/publishRouteTest/integrationTest && npm i && npm run test
+        run: cd frontend/src/tests/publishRouteTest/intergrationTest && npm i && npm run test
