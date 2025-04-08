@@ -1,0 +1,12 @@
+name: unit-test
+
+on: push
+
+jobs:
+  test-client:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Goto client and run unit tests
+        run: cd frontend/src/tests/searchBarTest/unitTest && npm run test
