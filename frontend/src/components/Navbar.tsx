@@ -54,14 +54,14 @@ export default function Navbar() {
             </Link>
             <Link
               onClick={() => handleClick("my-resa")}
-              to="/"
+              to="/myreservations/1" //to={`/search/${userId}`} // Dynamically setting the user ID in the URL
               className={`navbar-link ${isActive === "my-resa" && "is-active"}`}
             >
               Mes réservations
             </Link>
             <Link
               onClick={() => handleClick("my-trips")}
-              to="/search/3" //to={`/search/${userId}`} // Dynamically setting the user ID in the URL
+              to="/mytrips/1" //to={`/search/${userId}`} // Dynamically setting the user ID in the URL
               className={`navbar-link ${
                 isActive === "my-trips" && "is-active"
               }`}
