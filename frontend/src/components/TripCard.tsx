@@ -23,6 +23,7 @@ import { ApolloError } from "@apollo/client/errors";
     carpoolData?: Carpool; // Optional prop to pass in carpool data when the mode is "booking"
   }
 
+
   export default function TripCard({
     tripDetails,
     tripIndex,
@@ -72,6 +73,14 @@ import { ApolloError } from "@apollo/client/errors";
         });
       }
     };
+
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [setWindowWidth]);
 
     if (isDeleted) return null; // Do not render the card if deleted.
   

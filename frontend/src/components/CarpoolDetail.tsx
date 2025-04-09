@@ -2,7 +2,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useGetCarpoolByIdQuery } from "../generated/graphql-types";
 import "../styles/carpoolDetails.scss";
 
-
 const CarpoolDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -13,7 +12,8 @@ const CarpoolDetails = () => {
   });
 
   if (loading) return <div className="loading-message">Chargement...</div>;
-  if (error) return <div className="error-message">Erreur : {error.message}</div>;
+  if (error)
+    return <div className="error-message">Erreur : {error.message}</div>;
 
   const carpoolDetails = data?.getCarpoolById;
 
@@ -32,10 +32,7 @@ const CarpoolDetails = () => {
           <p><strong>Type de route :</strong> {carpoolDetails?.toll}</p>
         </div>
 
-        <button
-          className="button-primary"
-          onClick={() => navigate('')}
-        >
+        <button className="button-primary" onClick={() => navigate("")}>
           Supprimer
         </button>
       </section>
