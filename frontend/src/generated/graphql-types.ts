@@ -88,6 +88,7 @@ export type Mutation = {
   confirmEmail: Scalars['String']['output'];
   createBooking: Booking;
   createCarpool: Carpool;
+  deleteCarpool: Scalars['String']['output'];
   login: Scalars['String']['output'];
   logout: Scalars['String']['output'];
   register: Scalars['String']['output'];
@@ -108,6 +109,11 @@ export type MutationCreateBookingArgs = {
 
 export type MutationCreateCarpoolArgs = {
   data: CarpoolInput;
+};
+
+
+export type MutationDeleteCarpoolArgs = {
+  id: Scalars['Float']['input'];
 };
 
 
@@ -177,7 +183,7 @@ export type QuerySearchCarpoolsArgs = {
 
 export type User = {
   __typename?: 'User';
-  avatar: Scalars['String']['output'];
+  avatar?: Maybe<Scalars['String']['output']>;
   birthdate: Scalars['DateTimeISO']['output'];
   car?: Maybe<CarInfos>;
   carpools?: Maybe<Array<Carpool>>;
@@ -249,6 +255,13 @@ export type UpdateUserProfileMutationVariables = Exact<{
 
 export type UpdateUserProfileMutation = { __typename?: 'Mutation', updateUserProfile: { __typename?: 'User', email: string, firstname: string, lastname: string, phone: string } };
 
+export type DeleteCarpoolMutationVariables = Exact<{
+  id: Scalars['Float']['input'];
+}>;
+
+
+export type DeleteCarpoolMutation = { __typename?: 'Mutation', deleteCarpool: string };
+
 export type CreateCarpoolMutationVariables = Exact<{
   data: CarpoolInput;
 }>;
@@ -266,21 +279,21 @@ export type GetCarpoolByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string>, driver: { __typename?: 'User', firstname: string, id: number, avatar: string }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, passenger: { __typename?: 'User', id: number, firstname: string, avatar: string } }> } };
+export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string>, driver: { __typename?: 'User', firstname: string, id: number, avatar?: string | null }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, passenger: { __typename?: 'User', id: number, firstname: string, avatar?: string | null } }> } };
 
 export type GetCarpoolsByUserIdQueryVariables = Exact<{
   userId: Scalars['Float']['input'];
 }>;
 
 
-export type GetCarpoolsByUserIdQuery = { __typename?: 'Query', getCarpoolsByUserId: Array<{ __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string>, driver: { __typename?: 'User', firstname: string, id: number, avatar: string }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, passenger: { __typename?: 'User', id: number, firstname: string, avatar: string } }> }> };
+export type GetCarpoolsByUserIdQuery = { __typename?: 'Query', getCarpoolsByUserId: Array<{ __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string>, driver: { __typename?: 'User', firstname: string, id: number, avatar?: string | null }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, passenger: { __typename?: 'User', id: number, firstname: string, avatar?: string | null } }> }> };
 
 export type GetBookingsForPassengerQueryVariables = Exact<{
   passengerId: Scalars['Float']['input'];
 }>;
 
 
-export type GetBookingsForPassengerQuery = { __typename?: 'Query', getBookingsForPassenger: Array<{ __typename?: 'Booking', id: number, numPassenger: number, reservedAt: any, carpool: { __typename?: 'Carpool', arrival_city: string, departure_city: string, departure_date: string, departure_time: string, duration: number, id: string, num_passenger: number, price: number, toll: boolean, options: Array<string>, driver: { __typename?: 'User', avatar: string, birthdate: any, email: string, firstname: string, gender: string, id: number, lastname: string, phone: string, car?: { __typename?: 'CarInfos', brand: string, color?: string | null, id: string, model?: string | null, year?: number | null } | null } }, passenger: { __typename?: 'User', avatar: string, birthdate: any, email: string, firstname: string, gender: string, lastname: string, phone: string, id: number, car?: { __typename?: 'CarInfos', brand: string, color?: string | null, id: string, model?: string | null, year?: number | null } | null } }> };
+export type GetBookingsForPassengerQuery = { __typename?: 'Query', getBookingsForPassenger: Array<{ __typename?: 'Booking', id: number, numPassenger: number, reservedAt: any, carpool: { __typename?: 'Carpool', arrival_city: string, departure_city: string, departure_date: string, departure_time: string, duration: number, id: string, num_passenger: number, price: number, toll: boolean, options: Array<string>, driver: { __typename?: 'User', avatar?: string | null, birthdate: any, email: string, firstname: string, gender: string, id: number, lastname: string, phone: string, car?: { __typename?: 'CarInfos', brand: string, color?: string | null, id: string, model?: string | null, year?: number | null } | null } }, passenger: { __typename?: 'User', avatar?: string | null, birthdate: any, email: string, firstname: string, gender: string, lastname: string, phone: string, id: number, car?: { __typename?: 'CarInfos', brand: string, color?: string | null, id: string, model?: string | null, year?: number | null } | null } }> };
 
 export type SearchCarpoolsQueryVariables = Exact<{
   departure: Scalars['String']['input'];
@@ -465,6 +478,37 @@ export function useUpdateUserProfileMutation(baseOptions?: Apollo.MutationHookOp
 export type UpdateUserProfileMutationHookResult = ReturnType<typeof useUpdateUserProfileMutation>;
 export type UpdateUserProfileMutationResult = Apollo.MutationResult<UpdateUserProfileMutation>;
 export type UpdateUserProfileMutationOptions = Apollo.BaseMutationOptions<UpdateUserProfileMutation, UpdateUserProfileMutationVariables>;
+export const DeleteCarpoolDocument = gql`
+    mutation DeleteCarpool($id: Float!) {
+  deleteCarpool(id: $id)
+}
+    `;
+export type DeleteCarpoolMutationFn = Apollo.MutationFunction<DeleteCarpoolMutation, DeleteCarpoolMutationVariables>;
+
+/**
+ * __useDeleteCarpoolMutation__
+ *
+ * To run a mutation, you first call `useDeleteCarpoolMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCarpoolMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCarpoolMutation, { data, loading, error }] = useDeleteCarpoolMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteCarpoolMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCarpoolMutation, DeleteCarpoolMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCarpoolMutation, DeleteCarpoolMutationVariables>(DeleteCarpoolDocument, options);
+      }
+export type DeleteCarpoolMutationHookResult = ReturnType<typeof useDeleteCarpoolMutation>;
+export type DeleteCarpoolMutationResult = Apollo.MutationResult<DeleteCarpoolMutation>;
+export type DeleteCarpoolMutationOptions = Apollo.BaseMutationOptions<DeleteCarpoolMutation, DeleteCarpoolMutationVariables>;
 export const CreateCarpoolDocument = gql`
     mutation CreateCarpool($data: CarpoolInput!) {
   createCarpool(data: $data) {

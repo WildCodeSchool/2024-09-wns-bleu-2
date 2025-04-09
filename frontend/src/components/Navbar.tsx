@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Logo from "./Logo";
 import Burger from "./responsive/Burger";
 import Dropdown from "./Dropdown";
+import { useGetUserInfoQuery } from "../generated/graphql-types";
 
 export default function Navbar() {
   const [isActive, setIsActive] = useState("");
@@ -25,6 +26,9 @@ export default function Navbar() {
   const handleClick = (url: string) => {
     setIsActive(url);
   };
+
+  const { data: userData } = useGetUserInfoQuery();
+  const userId = userData?.getUserInfo?.id;
 
   return (
     <nav className="navbar-wrapper">
@@ -55,14 +59,14 @@ export default function Navbar() {
             </Link>
             <Link
               onClick={() => handleClick("my-resa")}
-              to="/myreservations/1" //to={`/search/${userId}`} // Dynamically setting the user ID in the URL
+              to={`/myreservations/${userId}`} // Dynamically setting the user ID in the URL
               className={`navbar-link ${isActive === "my-resa" && "is-active"}`}
             >
               Mes réservations
             </Link>
             <Link
               onClick={() => handleClick("my-trips")}
-              to="/mytrips/1" //to={`/search/${userId}`} // Dynamically setting the user ID in the URL
+              to={`/mytrips/${userId}`} // Dynamically setting the user ID in the URL
               className={`navbar-link ${
                 isActive === "my-trips" && "is-active"
               }`}

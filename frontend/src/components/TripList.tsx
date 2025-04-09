@@ -18,7 +18,7 @@ type TripListProps = {
     titleUpcoming,
     titlePast,
     showPublishButton = false,
-    mode
+    mode,
   }: TripListProps) {
     const { upcomingTrips, pastTrips } = separateTripsByDate(trips);
     const navigate = useNavigate();

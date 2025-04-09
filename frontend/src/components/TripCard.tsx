@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { X, Tickets, Tractor, User, UserCheck } from "lucide-react";
-import { Booking, Carpool } from "../generated/graphql-types";
+import { Booking, Carpool, useDeleteCarpoolMutation } from "../generated/graphql-types";
 import {
   formatTime,
   calculateArrivalTime,
@@ -13,6 +13,7 @@ import {
     getBookedSeats,
     getAvailableSeats,
   } from "../utils/tripUtils";
+import { ApolloError } from "@apollo/client/errors";
 
   interface TripCardProps {
     tripDetails: Carpool | Booking;
@@ -34,6 +35,8 @@ import {
     const availableSeats = getAvailableSeats(tripDetails, mode);
   
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+      // Local state to hide the card once deleted.
+    const [isDeleted, setIsDeleted] = useState(false);
   
     console.log("tripDetails", tripDetails, "mode", mode, "data", data);
     ////to dynamicaly get the window width on resize
@@ -48,6 +51,29 @@ import {
         window.removeEventListener("resize", handleResize);
       };
     }, [setWindowWidth]);
+
+      // Use the codegen generated hook.
+    const [deleteCarpool, { loading: deleteLoading }] = useDeleteCarpoolMutation({
+        // Optionally, you can update the Apollo cache here
+        onCompleted: () => {
+          setIsDeleted(true);
+        },
+        onError: (error: ApolloError) => {
+          console.error("Error deleting carpool:", error);
+          alert("Failed to delete the carpool.");
+        },
+    });
+
+      // Handler for delete button click.
+    const handleDeleteClick = () => {
+      if (window.confirm("Are you sure you want to delete this carpool?")) {
+        deleteCarpool({
+          variables: { id: Number(tripDetails.id) },
+        });
+      }
+    };
+
+    if (isDeleted) return null; // Do not render the card if deleted.
   
     const toll = data.toll ? "Avec péage" : "Sans péage";
     const icon = data.toll ? (
@@ -92,18 +118,22 @@ import {
             <p>
               le <span className="date">{formatDate(data.departure_date)}</span>
             </p>
-            {isUpcoming && (
-              <button className={`${windowWidth > 885 ? btnClass : ""}`}>
-                {windowWidth > 885 ? "ANNULER" : <X />}
-              </button>
-            )}
+            {isUpcoming && mode === "carpool" && (
+            <button
+              className={`${windowWidth > 885 ? btnClass : ""}`}
+              onClick={handleDeleteClick}
+              disabled={deleteLoading}
+            >
+              {windowWidth > 885 ? "ANNULER" : <X />}
+            </button>
+          )}
           </div>
         </div>
         <div className="horizontal-line" />
         <div className="trip-card-bottom">
           <div className="trip-bottom-left">
             <div className="trip-driver ">
-              <img src={data.driver.avatar} alt="Avatar" />
+              <img src={data.driver.avatar ?? "/public/avatarr.webp"} alt="Avatar" />
               <div className="driver-infos">
                 <p>{data.driver.firstname}</p>
               </div>
