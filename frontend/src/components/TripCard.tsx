@@ -78,14 +78,6 @@ export default function TripCard({
     }
   };
 
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [setWindowWidth]);
-
     if (isDeleted) return null; // Do not render the card if deleted.
   
     const toll = data.toll ? "Avec péage" : "Sans péage";
