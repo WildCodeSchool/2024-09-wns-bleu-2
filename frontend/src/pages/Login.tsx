@@ -1,3 +1,4 @@
+import "../styles/login.scss";
 import { toast } from "react-toastify";
 import { useLoginMutation  } from "../generated/graphql-types";
 import { SubmitHandler, useForm } from "react-hook-form"
@@ -35,29 +36,32 @@ const Login = () => {
 
    return (
       <>
-         <h1>Connexion</h1>
-            
-         <form className="form login-form" onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor="login">Votre email
-               <input className="text-field" type="email" placeholder="monemail@gmail.com" {...register("login", { required: true })} />
-               {errors.login && <span>Ce champ est requis.</span>}
-            </label>
+         <div className="modalContainer">
+            <div className="modalContent">
+               <h1>Se connecter</h1>
+               <form className="form login-form" onSubmit={handleSubmit(onSubmit)}>
+               <label htmlFor="login">Votre email
+                  <input className="text-field" type="email" placeholder="monemail@gmail.com" {...register("login", { required: true })} />
+                  {errors.login && <span>Ce champ est requis.</span>}
+               </label>
 
-            <label htmlFor="password">Votre mot de passe
-               <input className="text-field pwd" type="password" {...register("password", { required: true })} />
-               {errors.password && <span>Ce champ est requis.</span>}
-            </label>
-            <div className="forgotten-pwd">
-               <Link to="/forgotten-password" className="login-button">Mot de passe oublié ?</Link>
-            </div>
+               <label htmlFor="password">Votre mot de passe
+                  <input className="text-field pwd" type="password" {...register("password", { required: true })} />
+                  {errors.password && <span>Ce champ est requis.</span>}
+               </label>
+               <div className="forgotten-pwd">
+                  <Link to="/forgotten-password" className="login-button">Mot de passe oublié ?</Link>
+               </div>
 
-            <button className="button" type="submit">Connexion</button>
-            
-            <div className="switch-login">
-               <p>Pas encore de compte ?</p>
-               <Link to="/register" className="login-button">Inscrivez-vous</Link>
+               <button className="button" type="submit">Connexion</button>
+               
+               <div className="switch-login">
+                  <p>Pas encore de compte ?</p>
+                  <Link to="/register" className="login-button">Inscrivez-vous</Link>
+               </div>
+               </form>
             </div>
-         </form>
+         </div>
       </>
    );
 };
