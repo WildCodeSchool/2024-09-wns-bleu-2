@@ -88,6 +88,7 @@ export type Mutation = {
   confirmEmail: Scalars['String']['output'];
   createBooking: Booking;
   createCarpool: Carpool;
+  deleteCarpool: Scalars['String']['output'];
   login: Scalars['String']['output'];
   logout: Scalars['String']['output'];
   register: Scalars['String']['output'];
@@ -108,6 +109,11 @@ export type MutationCreateBookingArgs = {
 
 export type MutationCreateCarpoolArgs = {
   data: CarpoolInput;
+};
+
+
+export type MutationDeleteCarpoolArgs = {
+  id: Scalars['Float']['input'];
 };
 
 
@@ -248,6 +254,13 @@ export type UpdateUserProfileMutationVariables = Exact<{
 
 
 export type UpdateUserProfileMutation = { __typename?: 'Mutation', updateUserProfile: { __typename?: 'User', email: string, firstname: string, lastname: string, phone: string } };
+
+export type DeleteCarpoolMutationVariables = Exact<{
+  id: Scalars['Float']['input'];
+}>;
+
+
+export type DeleteCarpoolMutation = { __typename?: 'Mutation', deleteCarpool: string };
 
 export type CreateCarpoolMutationVariables = Exact<{
   data: CarpoolInput;
@@ -465,6 +478,37 @@ export function useUpdateUserProfileMutation(baseOptions?: Apollo.MutationHookOp
 export type UpdateUserProfileMutationHookResult = ReturnType<typeof useUpdateUserProfileMutation>;
 export type UpdateUserProfileMutationResult = Apollo.MutationResult<UpdateUserProfileMutation>;
 export type UpdateUserProfileMutationOptions = Apollo.BaseMutationOptions<UpdateUserProfileMutation, UpdateUserProfileMutationVariables>;
+export const DeleteCarpoolDocument = gql`
+    mutation DeleteCarpool($id: Float!) {
+  deleteCarpool(id: $id)
+}
+    `;
+export type DeleteCarpoolMutationFn = Apollo.MutationFunction<DeleteCarpoolMutation, DeleteCarpoolMutationVariables>;
+
+/**
+ * __useDeleteCarpoolMutation__
+ *
+ * To run a mutation, you first call `useDeleteCarpoolMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCarpoolMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCarpoolMutation, { data, loading, error }] = useDeleteCarpoolMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteCarpoolMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCarpoolMutation, DeleteCarpoolMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCarpoolMutation, DeleteCarpoolMutationVariables>(DeleteCarpoolDocument, options);
+      }
+export type DeleteCarpoolMutationHookResult = ReturnType<typeof useDeleteCarpoolMutation>;
+export type DeleteCarpoolMutationResult = Apollo.MutationResult<DeleteCarpoolMutation>;
+export type DeleteCarpoolMutationOptions = Apollo.BaseMutationOptions<DeleteCarpoolMutation, DeleteCarpoolMutationVariables>;
 export const CreateCarpoolDocument = gql`
     mutation CreateCarpool($data: CarpoolInput!) {
   createCarpool(data: $data) {

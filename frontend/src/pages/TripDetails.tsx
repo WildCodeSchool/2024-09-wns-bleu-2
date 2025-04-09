@@ -3,6 +3,8 @@ import { useGetCarpoolByIdQuery } from "../generated/graphql-types";
 import TripCard from "../components/TripCard";
 import { formatDate } from "../utils/dateUtils";
 import "../styles/trip-cards.scss";
+import { getBookedSeats } from "../utils/tripUtils";
+import { ChevronRight } from "lucide-react";
 
 export default function TripDetails({ tripIndex }: { tripIndex: number }) {
   const { id } = useParams();
@@ -19,15 +21,60 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
   }
 
   const tripDetails = data.getCarpoolById;
+  const mode = "carpool";
 
   return (
     <div className="page-container">
-      <h1>Mon Grumpy Trip du {formatDate(tripDetails.departure_date)}</h1>
-      <TripCard
-        tripDetails={tripDetails}
-        tripIndex={tripIndex}
-        mode="carpool"
-      />
+      <div className="page-wrapper">
+        <h1>Mon Grumpy Trip du {formatDate(tripDetails.departure_date)}</h1>
+        <TripCard
+          tripDetails={tripDetails}
+          tripIndex={tripIndex}
+          mode="carpool"
+        />
+        <div className="passengers-card">
+          <h2>{getBookedSeats(tripDetails, mode)} Passagers</h2>
+          <div className="horizontal-line" />
+          <div className="passengers-wrapper">
+            {tripDetails.bookings.map((booking, index) => (
+              <>
+                <div className="passenger" key={index}>
+                  <div className="row">
+                    <div className="trip-user">
+                      <img
+                        src={
+                          booking.passenger.avatar !== "avatar.png"
+                            ? booking.passenger.avatar
+                            : "../../public/avatar.webp"
+                        }
+                        alt="Avatar"
+                      />
+                      <div className="driver-infos">
+                        <p>{booking.passenger.firstname}</p>
+                      </div>
+                    </div>
+                    <small className="seats">
+                      {booking.numPassenger} place réservée
+                    </small>
+                  </div>
+                  <button className="delete-green">
+                    <ChevronRight width={15} color="white" /> Supprimer
+                  </button>
+                </div>
+                {index < tripDetails.bookings.length - 1 && (
+                  <div
+                    className={
+                      innerWidth < 885
+                        ? "horizontal-line small"
+                        : "vertical-line"
+                    }
+                  />
+                )}
+              </>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

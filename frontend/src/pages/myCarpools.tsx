@@ -1,19 +1,21 @@
-// pages/MesGrumpyTrips.tsx
-import { useParams } from "react-router-dom";
-import { useGetCarpoolsByUserIdQuery } from "../generated/graphql-types";
+import { useGetUserInfoQuery, useGetCarpoolsByUserIdQuery } from "../generated/graphql-types";
 import TripList from "../components/TripList";
 
 export default function MesGrumpyTrips() {
-  const { id } = useParams();
-  const { data, loading, error } = useGetCarpoolsByUserIdQuery({
-    variables: { userId: id ? parseFloat(id) : 0 },
-    skip: !id
+  const { data: userData } = useGetUserInfoQuery();
+  const userId = userData?.getUserInfo?.id;
+
+  console.log("userId", userId); // Log the userId to check if it's being fetched correctly
+
+  const { data: carpoolsData, loading: carpoolsLoading, error: carpoolsError } = useGetCarpoolsByUserIdQuery({
+    variables: { userId: userId  ?? 0 },  // Pass the userId to the query
+    fetchPolicy: 'network-only', // Add this line to always fetch fresh data
   });
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
-
-  const carpools = data?.getCarpoolsByUserId || [];
+  if (carpoolsLoading) return <p>Loading trips...</p>;
+  if (carpoolsError) return <p>Error: {carpoolsError.message}</p>;
+  
+  // Now you have the carpools data for the logged-in user
+  const carpools = carpoolsData?.getCarpoolsByUserId || [];
 
   return (
     <TripList

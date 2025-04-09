@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { X, Tickets, Tractor, User, UserCheck } from "lucide-react";
-import { Booking, Carpool } from "../generated/graphql-types";
+import {
+  Booking,
+  Carpool,
+  useDeleteCarpoolMutation,
+} from "../generated/graphql-types";
 import {
   formatTime,
   calculateArrivalTime,
@@ -9,10 +13,11 @@ import {
 } from "../utils/dateUtils";
 
 import {
-    getCarpoolData,
-    getBookedSeats,
-    getAvailableSeats,
-  } from "../utils/tripUtils";
+  getCarpoolData,
+  getBookedSeats,
+  getAvailableSeats,
+} from "../utils/tripUtils";
+import { ApolloError } from "@apollo/client/errors";
 
   interface TripCardProps {
     tripDetails: Carpool | Booking;
@@ -22,32 +27,58 @@ import {
     carpoolData?: Carpool; // Optional prop to pass in carpool data when the mode is "booking"
   }
 
-  export default function TripCard({
-    tripDetails,
-    tripIndex,
-    mode,
-    isUpcoming,
-    carpoolData, // Optionally pass the carpool data
-  }: TripCardProps) {
-    const data = getCarpoolData(tripDetails, mode, carpoolData); // Pass the carpool data if mode is booking
-    const bookedSeats = getBookedSeats(tripDetails, mode);
-    const availableSeats = getAvailableSeats(tripDetails, mode);
-  
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  
-    console.log("tripDetails", tripDetails, "mode", mode, "data", data);
-    ////to dynamicaly get the window width on resize
-    useEffect(() => {
-      const handleResize = () => {
-        setWindowWidth(window.innerWidth);
-      };
-  
-      window.addEventListener("resize", handleResize);
-  
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }, [setWindowWidth]);
+
+export default function TripCard({
+  tripDetails,
+  tripIndex,
+  mode,
+  isUpcoming,
+  carpoolData, // Optionally pass the carpool data
+}: TripCardProps) {
+  const data = getCarpoolData(tripDetails, mode, carpoolData); // Pass the carpool data if mode is booking
+  const bookedSeats = getBookedSeats(tripDetails, mode);
+  const availableSeats = getAvailableSeats(tripDetails, mode);
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // Local state to hide the card once deleted.
+  const [isDeleted, setIsDeleted] = useState(false);
+
+  console.log("tripDetails", tripDetails, "mode", mode, "data", data);
+  ////to dynamicaly get the window width on resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [setWindowWidth]);
+
+  // Use the codegen generated hook.
+  const [deleteCarpool, { loading: deleteLoading }] = useDeleteCarpoolMutation({
+    // Optionally, you can update the Apollo cache here
+    onCompleted: () => {
+      setIsDeleted(true);
+    },
+    onError: (error: ApolloError) => {
+      console.error("Error deleting carpool:", error);
+      alert("Failed to delete the carpool.");
+    },
+  });
+
+  // Handler for delete button click.
+  const handleDeleteClick = () => {
+    if (window.confirm("Are you sure you want to delete this carpool?")) {
+      deleteCarpool({
+        variables: { id: Number(tripDetails.id) },
+      });
+    }
+  };
+
+    if (isDeleted) return null; // Do not render the card if deleted.
   
     const toll = data.toll ? "Avec péage" : "Sans péage";
     const icon = data.toll ? (
@@ -92,40 +123,47 @@ import {
             <p>
               le <span className="date">{formatDate(data.departure_date)}</span>
             </p>
-            {isUpcoming && (
-              <button className={`${windowWidth > 885 ? btnClass : ""}`}>
-                {windowWidth > 885 ? "ANNULER" : <X />}
-              </button>
-            )}
-          </div>
+            {isUpcoming && mode === "carpool" && (
+            <button
+              className={`${windowWidth > 885 ? btnClass : ""}`}
+              onClick={handleDeleteClick}
+              disabled={deleteLoading}
+            >
+              {windowWidth > 885 ? "ANNULER" : <X />}
+            </button>
+          )}
         </div>
-        <div className="horizontal-line" />
-        <div className="trip-card-bottom">
-          <div className="trip-bottom-left">
-            <div className="trip-driver ">
-              <img src={data.driver.avatar} alt="Avatar" />
-              <div className="driver-infos">
-                <p>{data.driver.firstname}</p>
-              </div>
-            </div>
-            <div className="vertical-line" />
-            <div className="trip-road">
-              {icon}
-              <p>{toll}</p>
+      </div>
+      <div className="horizontal-line" />
+      <div className="trip-card-bottom">
+        <div className="trip-bottom-left">
+          <div className="trip-driver ">
+            <img
+              src={data.driver.avatar ?? "/public/avatarr.webp"}
+              alt="Avatar"
+            />
+            <div className="driver-infos">
+              <p>{data.driver.firstname}</p>
             </div>
           </div>
           <div className="vertical-line" />
-          <div className="trip-right">
-            <div className="trip-passengers">
-              {data.bookings ? passengers : ""}
-              {seats}
-            </div>
-            <div className="vertical-line" />
-            <div className="trip-price">
-              <p>{data.price}€</p>
-            </div>
+          <div className="trip-road">
+            {icon}
+            <p>{toll}</p>
+          </div>
+        </div>
+        <div className="vertical-line" />
+        <div className="trip-right">
+          <div className="trip-passengers">
+            {data.bookings ? passengers : ""}
+            {seats}
+          </div>
+          <div className="vertical-line" />
+          <div className="trip-price">
+            <p>{data.price}€</p>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}

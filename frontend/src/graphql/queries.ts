@@ -47,9 +47,9 @@ export const GET_CARPOOL_BY_ID = gql`
 `;
 
 export const GET_CARPOOLS_BY_USER_ID = gql`
-  query GetCarpoolsByUserId($userId: Float!) {
-    getCarpoolsByUserId(userId: $userId) {
-       id
+query GetCarpoolsByUserId($userId: Float!) {
+  getCarpoolsByUserId(userId: $userId) {
+      id
       departure_date
       departure_time
       departure_city
