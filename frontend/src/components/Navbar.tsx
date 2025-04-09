@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Logo from "./Logo";
 import Burger from "./responsive/Burger";
 import Dropdown from "./Dropdown";
+import LoginModal from "../components/LoginModal";
 import {
   useGetUserInfoQuery,
   useLogoutMutation,
@@ -12,6 +13,7 @@ import {
 export default function Navbar() {
   const [isActive, setIsActive] = useState("");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const { data, refetch } = useGetUserInfoQuery();
   const [logout] = useLogoutMutation();
@@ -94,8 +96,11 @@ export default function Navbar() {
                 {!isLoggedIn ? (
                   <>
                     <Link
-                      onClick={() => handleClick("connexion")}
-                      to="/login"
+                      onClick={() => {
+                        handleClick("connexion");
+                        setIsLoginModalOpen(true);
+                      }}
+                      to="#"
                       className={`navbar-link ${
                         isActive === "connexion" && "is-active"
                       }`}
@@ -135,6 +140,9 @@ export default function Navbar() {
             )}
           </div>
         </div>
+      )}
+      {isLoginModalOpen && (
+        <LoginModal setIsLoginModalOpen={setIsLoginModalOpen} />
       )}
     </nav>
   );
