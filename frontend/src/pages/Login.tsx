@@ -1,30 +1,37 @@
 import "../styles/login.scss";
 import { toast } from "react-toastify";
-import { useLoginMutation  } from "../generated/graphql-types";
-import { SubmitHandler, useForm } from "react-hook-form"
+import { useLoginMutation } from "../generated/graphql-types";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { useGetUserInfoQuery } from "../generated/graphql-types";
 
 const Login = () => {
    const [login] = useLoginMutation();
    const navigate = useNavigate();
+
+   const { refetch } = useGetUserInfoQuery();
+
    type Inputs = {
-      login: string
-      password: string
-   }
+      login: string;
+      password: string;
+   };
+
    const {
       register,
       handleSubmit,
       formState: { errors },
    } = useForm<Inputs>();
+
    const onSubmit: SubmitHandler<Inputs> = (data) => {
-      login({ 
+      login({
          variables: {
             data: {
                email: data.login,
-               password: data.password
-            }
+               password: data.password,
+            },
          },
-         onCompleted: () => {
+         onCompleted: async () => {
+            await refetch(); // 👈 Important
             toast.success("Ravi de vous revoir !");
             navigate("/");
          },
@@ -32,7 +39,7 @@ const Login = () => {
             console.log("error", error);
          },
       });
-   }
+   };
 
    return (
       <>

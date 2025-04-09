@@ -4,23 +4,35 @@ import { useState, useEffect } from "react";
 import Logo from "./Logo";
 import Burger from "./responsive/Burger";
 import Dropdown from "./Dropdown";
+import {
+  useGetUserInfoQuery,
+  useLogoutMutation,
+} from "../generated/graphql-types";
 
 export default function Navbar() {
   const [isActive, setIsActive] = useState("");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  ////to dynamicaly get the window width on resize
+  const { data, refetch } = useGetUserInfoQuery();
+  const [logout] = useLogoutMutation();
+
+  const isLoggedIn = data?.getUserInfo?.isLoggedIn;
+
+  const handleLogout = async () => {
+    await logout();
+    await refetch();
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
 
     window.addEventListener("resize", handleResize);
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [setWindowWidth]);
+  }, []);
 
   const handleClick = (url: string) => {
     setIsActive(url);
@@ -33,7 +45,6 @@ export default function Navbar() {
           <Logo />
         </Link>
       </div>
-      {/* 885 for galaxy Fold (===884px) */}
       {windowWidth < 885 ? (
         <Burger isActive={isActive} handleClick={handleClick} />
       ) : (
@@ -55,14 +66,14 @@ export default function Navbar() {
             </Link>
             <Link
               onClick={() => handleClick("my-resa")}
-              to="/myreservations/1" //to={`/search/${userId}`} // Dynamically setting the user ID in the URL
+              to="/myreservations/1"
               className={`navbar-link ${isActive === "my-resa" && "is-active"}`}
             >
               Mes réservations
             </Link>
             <Link
               onClick={() => handleClick("my-trips")}
-              to="/mytrips/1" //to={`/search/${userId}`} // Dynamically setting the user ID in the URL
+              to="/mytrips/1"
               className={`navbar-link ${
                 isActive === "my-trips" && "is-active"
               }`}
@@ -71,30 +82,55 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="navbar-right">
-            {/* TODO edit when logged */}
             {windowWidth < 1025 && windowWidth > 884 ? (
-              <Dropdown isActive={isActive} handleClick={handleClick} />
+              <Dropdown
+                isActive={isActive}
+                handleClick={handleClick}
+                isLoggedIn={isLoggedIn}
+                handleLogout={handleLogout}
+              />
             ) : (
               <>
-                <Link
-                  onClick={() => handleClick("connexion")}
-                  to="/login"
-                  className={`navbar-link ${
-                    isActive === "connexion" && "is-active"
-                  }`}
-                >
-                  Se connecter
-                </Link>
-                <Link
-                  onClick={() => handleClick("register")}
-                  to="/register"
-                  className={`navbar-link ${
-                    isActive === "register" && "is-active"
-                  }`}
-                  id="last-link"
-                >
-                  S'inscrire
-                </Link>
+                {!isLoggedIn ? (
+                  <>
+                    <Link
+                      onClick={() => handleClick("connexion")}
+                      to="/login"
+                      className={`navbar-link ${
+                        isActive === "connexion" && "is-active"
+                      }`}
+                    >
+                      Se connecter
+                    </Link>
+                    <Link
+                      onClick={() => handleClick("register")}
+                      to="/register"
+                      className={`navbar-link ${
+                        isActive === "register" && "is-active"
+                      }`}
+                      id="last-link"
+                    >
+                      S'inscrire
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/profile"
+                      className={`navbar-link ${
+                        isActive === "account" && "is-active"
+                      }`}
+                    >
+                      Mon compte
+                    </Link>
+                    <button
+                      className="navbar-link logout-button"
+                      onClick={handleLogout}
+                    >
+                      Déconnexion
+                    </button>
+                  </>
+                )}
               </>
             )}
           </div>
