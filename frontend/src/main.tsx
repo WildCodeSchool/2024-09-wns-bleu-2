@@ -1,5 +1,5 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
 import "./styles/root.scss";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";

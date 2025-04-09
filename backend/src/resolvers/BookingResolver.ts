@@ -13,6 +13,15 @@ export class BookingResolver {
     });
   }
 
+  @Query(() => [Booking])
+  async getBookingsForPassenger(@Arg('passengerId') passengerId: number) {
+    // Find bookings where the user is the passenger
+    return await Booking.find({
+      where: { passenger: { id: passengerId } },  // Get bookings where the user is the passenger
+      relations: ["carpool", "carpool.driver", "passenger"],  // Fetch related entities
+    });
+  }
+
   @Mutation(() => Booking)
   async createBooking(@Arg("data") bookingInput: BookingInput) {
     const { carpool_id, passenger_id, ...rest } = bookingInput;

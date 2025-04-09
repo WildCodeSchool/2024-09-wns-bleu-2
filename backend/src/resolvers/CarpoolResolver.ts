@@ -25,6 +25,25 @@ export default class CarpoolResolver {
   }
 
   @Query(() => [Carpool])
+  async getCarpoolsByUserId(@Arg('userId') userId: number) {
+    return await Carpool.find({
+      where: { driver: { id: userId } },  // Get carpools where the user is the driver
+      relations: ["driver", "bookings", "bookings.passenger"],  // Fetch related entities
+    });
+  }
+
+  @Mutation(() => String)
+  async deleteCarpool(@Arg("id") id: number) {
+    const result = await Carpool.delete(id);
+    console.log("result", result.affected);
+    if (result.affected === 1) {
+      return "Carpool has been deleted";
+    } else {
+      throw new Error("Carpool has not been found");
+    }
+  }
+
+  @Query(() => [Carpool])
   async searchCarpools(
     @Arg("departure", { nullable: true }) departure?: string,
     @Arg("arrival", { nullable: true }) arrival?: string,
