@@ -1,17 +1,20 @@
-// pages/MesReservations.tsx
-import { useParams } from "react-router-dom";
-import { useGetBookingsForPassengerQuery } from "../generated/graphql-types";
+import { useGetUserInfoQuery, useGetBookingsForPassengerQuery } from "../generated/graphql-types";
 import TripList from "../components/TripList";
 
 export default function MesReservations() {
-  const { id } = useParams();
+  const { data: userData } = useGetUserInfoQuery();
+  const userId = userData?.getUserInfo?.id;
+
+  console.log("userId", userId);
+
   const { data, loading, error } = useGetBookingsForPassengerQuery({
-    variables: { passengerId: id ? parseFloat(id) : 0 },
-    skip: !id
+    variables: { passengerId: userId ?? 0 },
+    skip: !userId,
+    fetchPolicy: 'network-only', // Add this line to always fetch fresh data
   });
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   const reservations = data?.getBookingsForPassenger || [];
 

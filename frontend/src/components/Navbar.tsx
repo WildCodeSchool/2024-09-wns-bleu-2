@@ -40,6 +40,9 @@ export default function Navbar() {
     setIsActive(url);
   };
 
+  const { data: userData } = useGetUserInfoQuery();
+  const userId = userData?.getUserInfo?.id;
+
   return (
     <nav className="navbar-wrapper">
       <div className="navbar-logo">
@@ -69,14 +72,14 @@ export default function Navbar() {
             </Link>
             <Link
               onClick={() => handleClick("my-resa")}
-              to="/myreservations/1" //to={`/search/${userId}`} // Dynamically setting the user ID in the URL
+              to={`/myreservations/${userId}`} // Dynamically setting the user ID in the URL
               className={`navbar-link ${isActive === "my-resa" && "is-active"}`}
             >
               Mes réservations
             </Link>
             <Link
               onClick={() => handleClick("my-trips")}
-              to="/mytrips/1" //to={`/search/${userId}`} // Dynamically setting the user ID in the URL
+              to={`/mytrips/${userId}`} // Dynamically setting the user ID in the URL
               className={`navbar-link ${
                 isActive === "my-trips" && "is-active"
               }`}
