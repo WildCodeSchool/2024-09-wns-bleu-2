@@ -1,4 +1,4 @@
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useMemo } from "react";
 import {
   MapPin,
   CalendarDays,
@@ -11,12 +11,8 @@ import DatePicker from "react-datepicker";
 import "../styles/searchBar.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import { fr } from "date-fns/locale";
-import {
-  useSearchCarpoolsLazyQuery,
-  useGetCitiesQuery,
-} from "../generated/graphql-types";
+import { useGetCitiesQuery } from "../generated/graphql-types";
 import { toast } from "react-toastify";
-import { formatDate, formatTime } from "../utils/format.utils";
 
 type SearchBarProps = {
   departure: string;
@@ -45,8 +41,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
   onPassengersChange,
   onSearch,
 }) => {
-  const [results, setResults] = useState<any[]>([]);
-
   const {
     data: cityData,
     loading: loadingCities,
@@ -56,10 +50,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
   if (errorCities) {
     console.error("Erreur GraphQL GET_CITIES:", errorCities);
   }
-
-  const [searchCarpools] = useSearchCarpoolsLazyQuery({
-    onCompleted: (data) => setResults(data.searchCarpools),
-  });
 
   // pour éviter de recalculer
   const cityOptions = useMemo(() => {
@@ -75,28 +65,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       toast.warning("Merci de remplir tous les champs !");
       return;
     }
-
     onSearch?.();
-
-    const formattedDate = formatDate(date);
-    const formattedTime = formatTime(departureTime);
-
-    console.log("🔍 Recherche envoyée avec :", {
-      departure,
-      arrival,
-      date: formattedDate,
-      time: formattedTime,
-      passengers,
-    });
-
-    searchCarpools({
-      variables: {
-        departure,
-        arrival,
-        date: formattedDate,
-        time: formattedTime,
-      },
-    });
   };
 
   return (
@@ -202,22 +171,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
             <ChevronRight size={30} />
           </button>
         </div>
-
-        {/* Pour affichage des résultats, pour le test,à enlever quand elle sera utilisée*/}
-        {results.length > 0 && (
-          <div className="results-container">
-            <h3>Résultats :</h3>
-            <ul>
-              {results.map((carpool) => (
-                <li key={carpool.id}>
-                  {carpool.departure_city} ➝ {carpool.arrival_city} -{" "}
-                  {carpool.price}€ -{carpool.driver.firstname}{" "}
-                  {carpool.driver.lastname}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
     </div>
   );

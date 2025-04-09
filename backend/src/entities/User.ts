@@ -53,9 +53,9 @@ export class User extends BaseEntity {
   @Column()
   phone: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ nullable: true })
-  avatar: string;
+  avatar?: string;
 
   @Field(() => [Carpool], { nullable: true })
   @OneToMany(() => Carpool, (carpool) => carpool.driver)
