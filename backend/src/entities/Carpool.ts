@@ -44,7 +44,7 @@ export class Carpool extends BaseEntity {
   num_passenger: number;
 
   @Field()
-  @Column()
+  @Column({ type: "boolean", default: false })
   toll: Boolean;
 
   @Field()

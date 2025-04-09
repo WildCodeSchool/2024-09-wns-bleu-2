@@ -1,0 +1,310 @@
+@import "../styles/root.scss";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manjari:wght@100;400;700&display=swap");
+
+$colors: $color-card-green, $color-card-red, $color-card-blue, $color-card-yellow;
+$delete-button-colors: $color-card-yellow, $color-card-blue, $color-card-red, $color-card-green;
+$primary-color-bg: #f8f4ee;
+$font-family: Poppins, sans-serif;
+
+// General body and font settings
+* {
+  margin: 0;
+  padding: 0;
+  font-family: $font-family;
+}
+
+body {
+  background-color: $primary-color-bg;
+}
+
+.overall-container {
+  //height: 100vh; /* Make it take full screen height */
+  //overflow-y: auto; /* Enable scrolling for the whole container */
+  display: flex;
+  flex-direction: column;
+}
+
+.carpool-list-container {
+  margin-top: 10px; // Moves the div down
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: flex-start; // Center items horizontally
+  padding: 20px;
+  min-height: 100%;
+  overflow-y: auto; /* Handle overflow if content is larger */
+}
+
+h2 {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+
+.carpool-section {
+  width:  100%;  /* Ensure it takes the full width of the parent container */
+  //max-width: 650px; /* Set a maximum width (optional) */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px; /* Optional: Add some space around the content */
+  //align-items: center; 
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+  //height: 70vh;
+  //flex-wrap: wrap;
+  flex-grow: 1;  /* Allow the section to grow based on content */
+  //height: 120px;
+}
+
+.carpool-section-2 {
+  width:  100%;  /* Ensure it takes the full width of the parent container */
+  //max-width: 650px; /* Set a maximum width (optional) */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px; /* Optional: Add some space around the content */
+  //align-items: center; 
+  display: flex;
+  flex-direction: column;
+  //height: 70vh;
+  //flex-wrap: wrap;
+  flex-grow: 1;  /* Allow the section to grow based on content */
+  //height: 120px;
+}
+
+
+.carpool-main {
+  width: 100%;  /* Ensure it takes the full width of the parent container */
+  max-width: 1200px; /* Set a maximum width (optional) */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px; /* Optional: Add some space around the content */
+  align-items: center; 
+  display: flex;
+  flex-direction: column;
+  //height: 100vh;
+  gap: 10px; // Space between rows
+}
+
+.publish-trip-button-container {
+  margin-top: 20px; /* Add some space between the content and the button */
+  margin-bottom: 20px; /* Add some space between the content and the button */
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+}
+
+.publish-trip-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-family: $font-family;
+  background-color: $color-card-green;
+  color: #333; // Dark text for contrast
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: darken($color-card-green, 10%);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    background-color: darken($color-card-green, 15%);
+    transform: scale(0.98);
+  }
+}
+
+.carpool-item {
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: 400;
+  text-align: left;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; // Space between rows
+
+  // Automatic background color rotation for the carpool item
+  @for $i from 1 through 100 {  // Adjust based on your maximum expected list size
+    &:nth-child(#{$i}) {
+      background-color: nth($colors, ($i - 1) % length($colors) + 1); // Cycling through the colors array
+    }
+  }
+
+  &:hover {
+    background-color: lighten($color-card-yellow, 10%); // Lighter yellow on hover
+    border-color: #888;
+  }
+
+  .carpool-header {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  // TOP ROW: Contains info, date and delete button
+  .top-row, .down-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .info-container {
+    display: flex;
+    justify-content: space-between; // Align departure and arrival to each side
+    align-items: center;
+    flex: 0 0 40%; // Takes available space
+  }
+
+  .departure-info,
+  .arrival-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+    
+    span {
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+
+  .duration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Ensures full width */
+    gap: 10px; /* Adds spacing between the lines and time */
+    font-weight: 500;
+    font-size: 15px;
+    color: #444;
+  }
+
+  .time {
+    align-self: flex-start; /* Aligns the time to the top */
+    margin: 0;
+    padding: 0;
+  }
+
+  .line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #444;
+    max-width: 40px;
+  }  
+
+  .separator-line {
+    border-top: 2px solid #444; // Light gray border for separation
+    margin: 10px 0; // Adds space above and below the line
+    width: 100%; // Ensures the line takes full width
+  }
+
+  .city {
+    font-size: 13px !important;
+    font-weight: 200 !important;
+  }
+
+  .circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #f9f8f8;
+    border: 1px solid black;
+  }
+
+  .date {
+    font-size: 13px;
+    font-weight: bold;
+    color: #444;
+    margin-top: 0;
+    text-align: right;
+    flex: 0 0 auto; // Keep intrinsic width
+  }
+
+  .delete-button {
+    color: #0a0a0a;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    padding: 6px 12px;
+    cursor: pointer;
+    flex: 0 0 auto; // Keep intrinsic size
+  }
+
+  .carpool-details {
+    display: flex;
+    justify-content: space-between; // Aligns the items in a row
+    gap: 15px; // Space between items
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  .driver {
+    display: flex;
+    align-items: center;
+    gap: 10px; // Space between avatar and name
+  }
+
+  .driver-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid black;
+  }
+
+  .driver-name {
+    font-weight: 500;
+  }
+
+  .carpool-details > div {
+    padding: 0 10px;
+  }
+
+  /* Add vertical line between elements */
+  .carpool-details > div:not(:first-child) {
+    border-left: 2px solid black; /* Vertical line */
+    padding-left: 10px; /* Space after the line */
+  }
+
+  .seats {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .passenger-icon {
+    width: 12px;  /* Adjust size */
+    height: 16px;
+  }
+
+  .available {
+    color: #029407; /* Green for available seats */
+  }
+
+  .unavailable {
+    color: #6a6a6a; /* Grey for unavailable seats */
+  }
+
+  .toll-icon {
+    margin-left: 5px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+}
+
+// Automatic background color rotation for the delete button
+@for $i from 1 through 100 {  // Adjust based on your maximum expected list size
+  .carpool-item:nth-child(#{$i}) .delete-button {
+    background-color: nth($delete-button-colors, ($i - 1) % length($delete-button-colors) + 1); // Cycling through the delete button colors
+  }
+}

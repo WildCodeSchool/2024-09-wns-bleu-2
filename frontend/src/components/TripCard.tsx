@@ -1,52 +1,48 @@
 import { useEffect, useState } from "react";
 import { X, Tickets, Tractor, User, UserCheck } from "lucide-react";
-import { Carpool, Booking } from "../generated/graphql-types";
+import {
+  Booking,
+  Carpool,
+  useDeleteCarpoolMutation,
+} from "../generated/graphql-types";
 import {
   formatTime,
   calculateArrivalTime,
   formatDate,
   formatDuration,
 } from "../utils/dateUtils";
+
 import {
   getCarpoolData,
   getBookedSeats,
   getAvailableSeats,
 } from "../utils/tripUtils";
+import { ApolloError } from "@apollo/client/errors";
 
-/* interface TripCardProps {
+interface TripCardProps {
   tripDetails: Carpool | Booking;
   tripIndex: number;
   mode: "carpool" | "booking";
-} */
-interface TripCardProps {
-  tripDetails:
-    | Carpool
-    | (Omit<Booking, "carpool" | "id" | "reservedAt"> & {
-        __typename?: "Booking";
-        numPassenger: number;
-        passenger: {
-          __typename?: "User";
-          id: number;
-          firstname: string;
-          avatar: string;
-        };
-      });
-  tripIndex: number;
-  mode: "carpool" | "booking";
+  isUpcoming: boolean;
+  carpoolData?: Carpool; // Optional prop to pass in carpool data when the mode is "booking"
 }
 
 export default function TripCard({
   tripDetails,
   tripIndex,
   mode,
+  isUpcoming,
+  carpoolData, // Optionally pass the carpool data
 }: TripCardProps) {
-  const data = getCarpoolData(tripDetails, mode);
+  const data = getCarpoolData(tripDetails, mode, carpoolData); // Pass the carpool data if mode is booking
   const bookedSeats = getBookedSeats(tripDetails, mode);
   const availableSeats = getAvailableSeats(tripDetails, mode);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  // Local state to hide the card once deleted.
+  const [isDeleted, setIsDeleted] = useState(false);
 
-  console.log("tripDetails", tripDetails, "mode", mode);
+  console.log("tripDetails", tripDetails, "mode", mode, "data", data);
   ////to dynamicaly get the window width on resize
   useEffect(() => {
     const handleResize = () => {
@@ -59,6 +55,29 @@ export default function TripCard({
       window.removeEventListener("resize", handleResize);
     };
   }, [setWindowWidth]);
+
+  // Use the codegen generated hook.
+  const [deleteCarpool, { loading: deleteLoading }] = useDeleteCarpoolMutation({
+    // Optionally, you can update the Apollo cache here
+    onCompleted: () => {
+      setIsDeleted(true);
+    },
+    onError: (error: ApolloError) => {
+      console.error("Error deleting carpool:", error);
+      alert("Failed to delete the carpool.");
+    },
+  });
+
+  // Handler for delete button click.
+  const handleDeleteClick = () => {
+    if (window.confirm("Are you sure you want to delete this carpool?")) {
+      deleteCarpool({
+        variables: { id: Number(tripDetails.id) },
+      });
+    }
+  };
+
+  if (isDeleted) return null; // Do not render the card if deleted.
 
   const toll = data.toll ? "Avec péage" : "Sans péage";
   const icon = data.toll ? (
@@ -103,21 +122,23 @@ export default function TripCard({
           <p>
             le <span className="date">{formatDate(data.departure_date)}</span>
           </p>
-          <button className={`${windowWidth > 885 ? btnClass : ""}`}>
-            {windowWidth > 885 ? "ANNULER" : <X />}
-          </button>
+          {isUpcoming && mode === "carpool" && (
+            <button
+              className={`${windowWidth > 885 ? btnClass : ""}`}
+              onClick={handleDeleteClick}
+              disabled={deleteLoading}
+            >
+              {windowWidth > 885 ? "ANNULER" : <X />}
+            </button>
+          )}
         </div>
       </div>
       <div className="horizontal-line" />
       <div className="trip-card-bottom">
         <div className="trip-bottom-left">
-          <div className="trip-user ">
+          <div className="trip-driver ">
             <img
-              src={
-                data.driver.avatar !== "avatar.png"
-                  ? data.driver.avatar
-                  : "../../public/avatar.webp"
-              }
+              src={data.driver.avatar ?? "/public/avatarr.webp"}
               alt="Avatar"
             />
             <div className="driver-infos">

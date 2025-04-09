@@ -1,7 +1,8 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useConfirmEmailMutation } from "../generated/graphql-types";
+//import { useConfirmEmailMutation } from "../generated/graphql-types";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+import { useConfirmEmailMutation } from "../generated/graphql-types";
 
 const EmailConfirmation = () => {
    const [confirmEmail] = useConfirmEmailMutation();
