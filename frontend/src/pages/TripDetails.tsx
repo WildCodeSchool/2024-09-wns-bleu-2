@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useGetCarpoolByIdQuery } from "../generated/graphql-types";
 import TripCard from "../components/TripCard";
 import { formatDate } from "../utils/dateUtils";
