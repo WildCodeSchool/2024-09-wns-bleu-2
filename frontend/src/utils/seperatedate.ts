@@ -1,22 +1,25 @@
 export const separateTripsByDate = (trips: any[]) => {
-  const today = new Date().toISOString().split("T")[0];
+  const today = Date.now();
 
-  return trips.reduce(
-    (acc, trip) => {
-      // Use trip.carpool.departure_date for bookings; otherwise, use trip.departure_date for carpools.
-      const departureDate = trip.carpool?.departure_date || trip.departure_date;
-      if (!departureDate) {
-        console.warn("Invalid trip format:", trip);
-        return acc;
-      }
+  const upcomingTrips: any[] = [];
+  const pastTrips: any[] = [];
 
-      if (departureDate >= today) {
-        acc.upcomingTrips.push(trip);
-      } else {
-        acc.pastTrips.push(trip);
-      }
-      return acc;
-    },
-    { upcomingTrips: [] as any[], pastTrips: [] as any[] }
-  );
+  for (const trip of trips) {
+    const departureDate = new Date(
+      trip.carpool?.departure_date || trip.departure_date
+    ).getTime();
+
+    if (isNaN(departureDate)) {
+      console.warn("Invalid trip format:", trip);
+      continue;
+    }
+
+    if (departureDate - today > 86400000) {
+      upcomingTrips.push(trip);
+    } else {
+      pastTrips.push(trip);
+    }
+  }
+
+  return { upcomingTrips, pastTrips };
 };
