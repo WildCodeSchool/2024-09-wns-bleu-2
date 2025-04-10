@@ -62,7 +62,7 @@ const PublishRoute = () => {
 
     const toll = options.includes("Autoroute");
     const duration = hours * 60 + minutes;
-
+    console.log("Options sélectionnées :", options);
     if (!userId) {
       toast.error("Vous devez être connecté pour publier un trajet.");
       return;

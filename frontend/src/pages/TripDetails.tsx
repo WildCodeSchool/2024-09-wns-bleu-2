@@ -5,10 +5,10 @@ import { formatDate } from "../utils/dateUtils";
 import "../styles/trip-cards.scss";
 import { getBookedSeats } from "../utils/tripUtils";
 import { ChevronRight } from "lucide-react";
+import avatar from "../../public/avatar.webp";
 
 export default function TripDetails({ tripIndex }: { tripIndex: number }) {
   const { id } = useParams();
-  console.log("id", id);
 
   const { data, loading, error } = useGetCarpoolByIdQuery({
     variables: { getCarpoolByIdId: Number(id) },
@@ -43,9 +43,7 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
                   <div className="row">
                     <div className="trip-user">
                       <img
-                        src={
-                          booking.passenger.avatar ?? "../../public/avatar.webp"
-                        }
+                        src={booking.passenger.avatar ?? avatar}
                         alt="Avatar"
                       />
                       <div className="driver-infos">
@@ -56,7 +54,7 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
                       {booking.numPassenger} place réservée
                     </small>
                   </div>
-                  <button className="delete-green">
+                  <button type="button" className="delete-green">
                     <ChevronRight width={15} color="white" /> Supprimer
                   </button>
                 </div>

@@ -77,7 +77,7 @@ export default class CarpoolResolver {
 
   @Mutation(() => Carpool)
   async createCarpool(@Arg("data") data: CarpoolInput): Promise<Carpool> {
-    const toll = data.options?.includes("Autoroutes") || false;
+    const toll = data.options?.includes("Autoroute") || false;
 
     const filteredOptions = data.options?.filter((o) => o != "Autoroute");
 

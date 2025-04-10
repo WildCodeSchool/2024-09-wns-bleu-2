@@ -279,7 +279,7 @@ export type GetCarpoolByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string>, driver: { __typename?: 'User', firstname: string, id: number, avatar?: string | null }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, passenger: { __typename?: 'User', id: number, firstname: string, avatar?: string | null } }> } };
+export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string>, driver: { __typename?: 'User', firstname: string, id: number, avatar?: string | null }, bookings: Array<{ __typename?: 'Booking', id: number, numPassenger: number, reservedAt: any, carpool: { __typename?: 'Carpool', id: string }, passenger: { __typename?: 'User', id: number, firstname: string, avatar?: string | null } }> } };
 
 export type GetCarpoolsByUserIdQueryVariables = Exact<{
   userId: Scalars['Float']['input'];
@@ -299,11 +299,11 @@ export type SearchCarpoolsQueryVariables = Exact<{
   departure: Scalars['String']['input'];
   arrival: Scalars['String']['input'];
   date: Scalars['String']['input'];
-  time: Scalars['String']['input'];
+  time?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type SearchCarpoolsQuery = { __typename?: 'Query', searchCarpools: Array<{ __typename?: 'Carpool', id: string, departure_city: string, arrival_city: string, departure_date: string, departure_time: string, num_passenger: number, price: number, driver: { __typename?: 'User', firstname: string, lastname: string } }> };
+export type SearchCarpoolsQuery = { __typename?: 'Query', searchCarpools: Array<{ __typename?: 'Carpool', id: string, departure_city: string, arrival_city: string, departure_date: string, departure_time: string, num_passenger: number, price: number, duration: number, toll: boolean, options: Array<string>, driver: { __typename?: 'User', firstname: string, lastname: string, avatar?: string | null } }> };
 
 export type GetCitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -621,7 +621,12 @@ export const GetCarpoolByIdDocument = gql`
       avatar
     }
     bookings {
+      id
       numPassenger
+      reservedAt
+      carpool {
+        id
+      }
       passenger {
         id
         firstname
@@ -815,7 +820,7 @@ export type GetBookingsForPassengerLazyQueryHookResult = ReturnType<typeof useGe
 export type GetBookingsForPassengerSuspenseQueryHookResult = ReturnType<typeof useGetBookingsForPassengerSuspenseQuery>;
 export type GetBookingsForPassengerQueryResult = Apollo.QueryResult<GetBookingsForPassengerQuery, GetBookingsForPassengerQueryVariables>;
 export const SearchCarpoolsDocument = gql`
-    query SearchCarpools($departure: String!, $arrival: String!, $date: String!, $time: String!) {
+    query SearchCarpools($departure: String!, $arrival: String!, $date: String!, $time: String) {
   searchCarpools(
     departure: $departure
     arrival: $arrival
@@ -829,9 +834,13 @@ export const SearchCarpoolsDocument = gql`
     departure_time
     num_passenger
     price
+    duration
+    toll
+    options
     driver {
       firstname
       lastname
+      avatar
     }
   }
 }
