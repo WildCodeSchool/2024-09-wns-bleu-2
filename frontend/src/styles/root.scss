@@ -54,6 +54,25 @@ body {
     }
   }
 }
+.submit-button {
+  margin-top: 2rem;
+  background-color: $color-card-green;
+  color: black;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  width: 13em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  &:hover {
+    background-color: darken($color-card-green, 5%);
+  }
+}
 .dropdown {
   position: relative;
   .dropdown-toggle {

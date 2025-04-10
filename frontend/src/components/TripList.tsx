@@ -4,6 +4,7 @@ import { separateTripsByDate } from "../utils/seperatedate";
 import "../styles/trip-cards.scss";
 import "../styles/mycarpools.scss";
 import { useNavigate } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
 
 type TripListProps = {
   trips: any[]; // Remplace `any` par le type correct si tu en as un
@@ -76,10 +77,10 @@ export default function TripList({
       {showPublishButton && (
         <div className="publish-trip-button-container">
           <button
-            className="publish-trip-button"
+            className="submit-button"
             onClick={() => navigate(buttonRedirect)}
           >
-            {buttonLabel}
+            <ChevronRight width={30} color="white" /> {buttonLabel}
           </button>
         </div>
       )}

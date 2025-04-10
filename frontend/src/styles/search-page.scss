@@ -4,10 +4,14 @@
   padding: 24px;
   font-family: $font-family;
   color: #333;
-
+  max-width: 1900px;
+  h1 {
+    text-align: center;
+  }
   h2 {
     font-size: 18px;
     font-weight: bold;
+    padding: 25px;
   }
 
   @media (max-width: $bp-mobile) {
