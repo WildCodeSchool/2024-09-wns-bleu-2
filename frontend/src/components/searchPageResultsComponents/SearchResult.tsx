@@ -4,10 +4,11 @@ import {
   formatTime,
   formatTimeFromString,
 } from "../../utils/format.utils";
+import "../../styles/trip-cards.scss";
 import "../../styles/search-result.scss";
-import defaultImage from "../../images/default-avatar.png";
+import defaultImage from "../../../public/default-avatar.png";
 import { calculateArrivalTime, formatDuration } from "../../utils/dateUtils";
-import { MoveLeft, MoveRight, Tractor, User } from "lucide-react";
+import { Tickets, Tractor, User } from "lucide-react";
 
 type SearchResultsProps = {
   departure: string;
@@ -58,78 +59,89 @@ const SearchResults: React.FC<SearchResultsProps> = ({
 
   return (
     <div className="results-container">
-      {filteredResults?.map((carpool) => (
-        <div className="carpool-card" key={carpool.id}>
-          <div className="travel-info">
-            <div className="travel_hours">
-              <p className="hours">
-                {formatTimeFromString(carpool.departure_time)}
-              </p>
+      {filteredResults?.map((carpool, index) => {
+        const toll = carpool.toll ? "Avec péage" : "Sans péage";
+        const icon = carpool.toll ? (
+          <Tickets color="#ffffff" width={30} strokeWidth={1.5} />
+        ) : (
+          <Tractor color="#ffffff" width={30} strokeWidth={1.5} />
+        );
 
-              <MoveRight size={22} />
+        const seats = Array.from({ length: carpool.num_passenger }).map(
+          (_, i) => <User key={i} color="#ffffff" strokeWidth={1.5} />
+        );
 
-              <p>{formatDuration(carpool.duration)}</p>
+        const bgClasses = ["bg-red", "bg-yellow", "bg-green", "bg-blue"];
+        const bg = bgClasses[index % bgClasses.length];
 
-              <MoveLeft size={22} />
-
-              <p className="hours">
-                {calculateArrivalTime(carpool.departure_time, carpool.duration)}
-              </p>
+        return (
+          <div className={`trip-card ${bg}`} key={carpool.id}>
+            <div className="trip-card-header">
+              <div className="trip-card-infos-left">
+                <div className="trip-card-trip-duration">
+                  <p className="time">
+                    {formatTimeFromString(carpool.departure_time)}
+                  </p>
+                  <div className="horizontal-line small departure" />
+                  <p className="duration">{formatDuration(carpool.duration)}</p>
+                  <div className="horizontal-line small arrival" />
+                  <p className="time">
+                    {calculateArrivalTime(
+                      carpool.departure_time,
+                      carpool.duration
+                    )}
+                  </p>
+                </div>
+                <div className="trip-card-cities">
+                  <p className="city">{carpool.departure_city}</p>
+                  <p className="city">{carpool.arrival_city}</p>
+                </div>
+              </div>
             </div>
 
-            <div className="travel_cities">
-              <p>{carpool.departure_city}</p>
-              <p>{carpool.arrival_city}</p>
+            <div className="horizontal-line" />
+
+            <div className="trip-card-bottom">
+              <div className="trip-bottom-left">
+                <div className="trip-user">
+                  <img
+                    src={
+                      carpool.driver.avatar && carpool.driver.avatar !== "null"
+                        ? carpool.driver.avatar
+                        : defaultImage
+                    }
+                    alt={`Avatar de ${carpool.driver.firstname}`}
+                  />
+                  <div className="driver-infos">
+                    <p>{carpool.driver.firstname}</p>
+                  </div>
+                </div>
+
+                <div className="vertical-line" />
+
+                <div className="trip-road">
+                  {icon}
+                  <p>{toll}</p>
+                </div>
+              </div>
+
+              <div className="vertical-line" />
+
+              <div className="trip-right">
+                <div className="trip-passengers">{seats}</div>
+
+                <div className="vertical-line" />
+
+                <div className="trip-price">
+                  <p>{carpool.price}€</p>
+                </div>
+              </div>
             </div>
           </div>
-
-          <div className="separator-filter" />
-
-          <div className="flex-div">
-            <div className="driver">
-              <img
-                src={
-                  carpool.driver.avatar && carpool.driver.avatar !== "null"
-                    ? carpool.driver.avatar
-                    : defaultImage
-                }
-                alt={`Avatar de ${carpool.driver.firstname}`}
-              />
-              <p>
-                {carpool.driver.firstname} {carpool.driver.lastname}
-              </p>
-            </div>
-            <p>{carpool.price} €</p>
-          </div>
-
-          <div className="flex-div">
-            {carpool.toll && (
-              <p>
-                <Tractor size={22} style={{ marginRight: "5px" }} /> Autoroute
-              </p>
-            )}
-
-            {carpool.num_passenger > 0 && (
-              <p>
-                {Array.from({ length: carpool.num_passenger }).map(
-                  (_, index) => (
-                    <User
-                      key={index}
-                      size={22}
-                      style={{ marginRight: "5px" }}
-                    />
-                  )
-                )}
-              </p>
-            )}
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
-{
-  /* <p>Options : {carpool.options.join(", ")}</p> => A personnaliser pour chaque option ? */
-}
 
 export default SearchResults;

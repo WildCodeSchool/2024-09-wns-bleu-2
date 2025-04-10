@@ -10,6 +10,7 @@
   flex-direction: column;
   gap: 1.5rem;
   font-family: $font-family;
+  margin-bottom: 2em;
 
   .filter-title-button {
     display: flex;
@@ -29,7 +30,6 @@
   }
 
   .separator-filter {
-    width: 18.2rem;
     height: 0.5px;
     margin-bottom: 12px;
     border-top: 1px solid black;
@@ -41,17 +41,10 @@
     gap: 0.6rem;
     font-size: $font-size-text-mobile;
     cursor: pointer;
-
-    input[type="checkbox"] {
-      width: 1rem;
-      height: 1rem;
-      accent-color: $color-card-blue;
-    }
   }
 
   @media screen and (min-width: $bp-mobile) {
     width: 260px;
-    flex-shrink: 0;
 
     button {
       align-self: flex-end;

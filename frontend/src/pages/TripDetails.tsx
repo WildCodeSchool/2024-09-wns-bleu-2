@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
-import { useGetCarpoolByIdQuery } from "../generated/graphql-types";
+import { Carpool, useGetCarpoolByIdQuery } from "../generated/graphql-types";
 import TripCard from "../components/TripCard";
 import { formatDate } from "../utils/dateUtils";
 import "../styles/trip-cards.scss";
 import { getBookedSeats } from "../utils/tripUtils";
 import { ChevronRight } from "lucide-react";
+import avatar from "../../public/avatar.webp";
 
 export default function TripDetails({ tripIndex }: { tripIndex: number }) {
   const { id } = useParams();
@@ -28,12 +29,12 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
       <div className="page-wrapper">
         <h1>Mon Grumpy Trip du {formatDate(tripDetails.departure_date)}</h1>
         <TripCard
-          tripDetails={tripDetails}
+          tripDetails={tripDetails as Carpool}
           tripIndex={tripIndex}
           mode="carpool"
         />
         <div className="passengers-card">
-          <h2>{getBookedSeats(tripDetails, mode)} Passagers</h2>
+          <h2>{getBookedSeats(tripDetails as Carpool, mode)} Passagers</h2>
           <div className="horizontal-line" />
           <div className="passengers-wrapper">
             {tripDetails.bookings.map((booking, index) => (
@@ -42,11 +43,7 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
                   <div className="row">
                     <div className="trip-user">
                       <img
-                        src={
-                          booking.passenger.avatar !== "avatar.png"
-                            ? booking.passenger.avatar
-                            : "../../public/avatar.webp"
-                        }
+                        src={booking.passenger.avatar ?? avatar}
                         alt="Avatar"
                       />
                       <div className="driver-infos">
@@ -57,7 +54,7 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
                       {booking.numPassenger} place réservée
                     </small>
                   </div>
-                  <button className="delete-green">
+                  <button type="button" className="delete-green">
                     <ChevronRight width={15} color="white" /> Supprimer
                   </button>
                 </div>

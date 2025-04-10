@@ -19,14 +19,13 @@ import {
 } from "../utils/tripUtils";
 import { ApolloError } from "@apollo/client/errors";
 
-  interface TripCardProps {
-    tripDetails: Carpool | Booking;
-    tripIndex: number;
-    mode: "carpool" | "booking";
-    isUpcoming: boolean;
-    carpoolData?: Carpool; // Optional prop to pass in carpool data when the mode is "booking"
-  }
-
+interface TripCardProps {
+  tripDetails: Carpool | Booking;
+  tripIndex: number;
+  mode: "carpool" | "booking";
+  isUpcoming?: boolean;
+  carpoolData?: Carpool; // Optional prop to pass in carpool data when the mode is "booking"
+}
 
 export default function TripCard({
   tripDetails,
@@ -78,52 +77,52 @@ export default function TripCard({
     }
   };
 
-    if (isDeleted) return null; // Do not render the card if deleted.
-  
-    const toll = data.toll ? "Avec péage" : "Sans péage";
-    const icon = data.toll ? (
-      <Tickets color="#ffffff" width={30} strokeWidth={1.5} />
-    ) : (
-      <Tractor color="#ffffff" width={30} strokeWidth={1.5} />
-    );
-  
-    const seats = Array.from({ length: availableSeats }).map((_, index) => (
-      <User key={index} color="#ffffff" strokeWidth={1.5} />
-    ));
-    const passengers = Array.from({ length: bookedSeats }).map((_, index) => (
-      <UserCheck key={index} color="#999999" strokeWidth={1.5} />
-    ));
-  
-    //console.log("seats", seats, "passengers", passengers);
-    //CSS classes for  background colors
-    const backgroundClasses = ["bg-red", "bg-yellow", "bg-green", "bg-blue"];
-    const bgClass = backgroundClasses[tripIndex % backgroundClasses.length];
-    const btnClasses = ["btn-yellow", "btn-red", "btn-blue", "btn-green"];
-    const btnClass = btnClasses[tripIndex % btnClasses.length];
-  
-    return (
-      <div className={`trip-card ${bgClass ? bgClass : "bg-default"}`}>
-        <div className="trip-card-header">
-          <div className="trip-card-infos-left">
-            <div className="trip-card-trip-duration">
-              <p className="time">{formatTime(data.departure_time)}</p>
-              <div className="horizontal-line small departure" />
-              <p className="duration">{formatDuration(data.duration)}</p>
-              <div className="horizontal-line small arrival" />
-              <p className="time">
-                {calculateArrivalTime(data.departure_time, data.duration)}
-              </p>
-            </div>
-            <div className="trip-card-cities">
-              <p className="city">{data.departure_city}</p>
-              <p className="city">{data.arrival_city}</p>
-            </div>
-          </div>
-          <div className="trip-card-infos-right">
-            <p>
-              le <span className="date">{formatDate(data.departure_date)}</span>
+  if (isDeleted) return null; // Do not render the card if deleted.
+
+  const toll = data.toll ? "Avec péage" : "Sans péage";
+  const icon = data.toll ? (
+    <Tickets color="#ffffff" width={30} strokeWidth={1.5} />
+  ) : (
+    <Tractor color="#ffffff" width={30} strokeWidth={1.5} />
+  );
+
+  const seats = Array.from({ length: availableSeats }).map((_, index) => (
+    <User key={index} color="#ffffff" strokeWidth={1.5} />
+  ));
+  const passengers = Array.from({ length: bookedSeats }).map((_, index) => (
+    <UserCheck key={index} color="#999999" strokeWidth={1.5} />
+  ));
+
+  //console.log("seats", seats, "passengers", passengers);
+  //CSS classes for  background colors
+  const backgroundClasses = ["bg-red", "bg-yellow", "bg-green", "bg-blue"];
+  const bgClass = backgroundClasses[tripIndex % backgroundClasses.length];
+  const btnClasses = ["btn-yellow", "btn-red", "btn-blue", "btn-green"];
+  const btnClass = btnClasses[tripIndex % btnClasses.length];
+
+  return (
+    <div className={`trip-card ${bgClass ? bgClass : "bg-default"}`}>
+      <div className="trip-card-header">
+        <div className="trip-card-infos-left">
+          <div className="trip-card-trip-duration">
+            <p className="time">{formatTime(data.departure_time)}</p>
+            <div className="horizontal-line small departure" />
+            <p className="duration">{formatDuration(data.duration)}</p>
+            <div className="horizontal-line small arrival" />
+            <p className="time">
+              {calculateArrivalTime(data.departure_time, data.duration)}
             </p>
-            {isUpcoming && mode === "carpool" && (
+          </div>
+          <div className="trip-card-cities">
+            <p className="city">{data.departure_city}</p>
+            <p className="city">{data.arrival_city}</p>
+          </div>
+        </div>
+        <div className="trip-card-infos-right">
+          <p>
+            le <span className="date">{formatDate(data.departure_date)}</span>
+          </p>
+          {isUpcoming && mode === "carpool" && (
             <button
               className={`${windowWidth > 885 ? btnClass : ""}`}
               onClick={handleDeleteClick}
