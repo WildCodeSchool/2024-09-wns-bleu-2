@@ -9,7 +9,6 @@ import avatar from "../../public/avatar.webp";
 
 export default function TripDetails({ tripIndex }: { tripIndex: number }) {
   const { id } = useParams();
-  console.log("id", id);
 
   const { data, loading, error } = useGetCarpoolByIdQuery({
     variables: { getCarpoolByIdId: Number(id) },
@@ -32,6 +31,7 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
           tripDetails={tripDetails as Carpool}
           tripIndex={tripIndex}
           mode="carpool"
+          isUpcoming={true}
         />
         <div className="passengers-card">
           <h2>{getBookedSeats(tripDetails as Carpool, mode)} Passagers</h2>

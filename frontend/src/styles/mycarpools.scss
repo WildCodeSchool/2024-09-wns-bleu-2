@@ -1,22 +1,9 @@
 @import "../styles/root.scss";
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Manjari:wght@100;400;700&display=swap");
 
-$colors: $color-card-green, $color-card-red, $color-card-blue, $color-card-yellow;
-$delete-button-colors: $color-card-yellow, $color-card-blue, $color-card-red, $color-card-green;
-$primary-color-bg: #f8f4ee;
-$font-family: Poppins, sans-serif;
-
-// General body and font settings
-* {
-  margin: 0;
-  padding: 0;
-  font-family: $font-family;
-}
-
-body {
-  background-color: $primary-color-bg;
-}
+$colors: $color-card-green, $color-card-red, $color-card-blue,
+  $color-card-yellow;
+$delete-button-colors: $color-card-yellow, $color-card-blue, $color-card-red,
+  $color-card-green;
 
 .overall-container {
   //height: 100vh; /* Make it take full screen height */
@@ -43,43 +30,20 @@ h2 {
   margin-bottom: 20px;
 }
 
-
 .carpool-section {
-  width:  100%;  /* Ensure it takes the full width of the parent container */
-  //max-width: 650px; /* Set a maximum width (optional) */
-  margin: 0 auto; /* Center the container horizontally */
-  padding: 20px; /* Optional: Add some space around the content */
-  //align-items: center; 
+  width: 100%;
+
   display: flex;
   flex-direction: column;
   margin-bottom: 40px;
-  //height: 70vh;
-  //flex-wrap: wrap;
-  flex-grow: 1;  /* Allow the section to grow based on content */
-  //height: 120px;
+  flex-grow: 1; /* Allow the section to grow based on content */
 }
-
-.carpool-section-2 {
-  width:  100%;  /* Ensure it takes the full width of the parent container */
-  //max-width: 650px; /* Set a maximum width (optional) */
-  margin: 0 auto; /* Center the container horizontally */
-  padding: 20px; /* Optional: Add some space around the content */
-  //align-items: center; 
-  display: flex;
-  flex-direction: column;
-  //height: 70vh;
-  //flex-wrap: wrap;
-  flex-grow: 1;  /* Allow the section to grow based on content */
-  //height: 120px;
-}
-
 
 .carpool-main {
-  width: 100%;  /* Ensure it takes the full width of the parent container */
+  width: 100%; /* Ensure it takes the full width of the parent container */
   max-width: 1200px; /* Set a maximum width (optional) */
   margin: 0 auto; /* Center the container horizontally */
-  padding: 20px; /* Optional: Add some space around the content */
-  align-items: center; 
+  align-items: center;
   display: flex;
   flex-direction: column;
   //height: 100vh;
@@ -131,14 +95,21 @@ h2 {
   gap: 10px; // Space between rows
 
   // Automatic background color rotation for the carpool item
-  @for $i from 1 through 100 {  // Adjust based on your maximum expected list size
+  @for $i from 1 through 100 {
+    // Adjust based on your maximum expected list size
     &:nth-child(#{$i}) {
-      background-color: nth($colors, ($i - 1) % length($colors) + 1); // Cycling through the colors array
+      background-color: nth(
+        $colors,
+        ($i - 1) % length($colors) + 1
+      ); // Cycling through the colors array
     }
   }
 
   &:hover {
-    background-color: lighten($color-card-yellow, 10%); // Lighter yellow on hover
+    background-color: lighten(
+      $color-card-yellow,
+      10%
+    ); // Lighter yellow on hover
     border-color: #888;
   }
 
@@ -150,7 +121,8 @@ h2 {
   }
 
   // TOP ROW: Contains info, date and delete button
-  .top-row, .down-row {
+  .top-row,
+  .down-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -171,7 +143,7 @@ h2 {
     flex-direction: column;
     gap: 5px;
     text-align: center;
-    
+
     span {
       font-size: 18px;
       font-weight: 500;
@@ -200,7 +172,7 @@ h2 {
     height: 1px;
     background-color: #444;
     max-width: 40px;
-  }  
+  }
 
   .separator-line {
     border-top: 2px solid #444; // Light gray border for separation
@@ -282,7 +254,7 @@ h2 {
   }
 
   .passenger-icon {
-    width: 12px;  /* Adjust size */
+    width: 12px; /* Adjust size */
     height: 16px;
   }
 
@@ -299,12 +271,15 @@ h2 {
     display: inline-flex;
     align-items: center;
   }
-
 }
 
 // Automatic background color rotation for the delete button
-@for $i from 1 through 100 {  // Adjust based on your maximum expected list size
+@for $i from 1 through 100 {
+  // Adjust based on your maximum expected list size
   .carpool-item:nth-child(#{$i}) .delete-button {
-    background-color: nth($delete-button-colors, ($i - 1) % length($delete-button-colors) + 1); // Cycling through the delete button colors
+    background-color: nth(
+      $delete-button-colors,
+      ($i - 1) % length($delete-button-colors) + 1
+    ); // Cycling through the delete button colors
   }
 }
