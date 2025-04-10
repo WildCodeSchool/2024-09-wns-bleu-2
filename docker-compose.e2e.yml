@@ -62,8 +62,7 @@ services:
     build: ./e2e
     depends_on:
       - api_gateway
-    environment:
-      - LOCAL=false
+    network_mode: "host"
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://api_gateway"]
       interval: 5s

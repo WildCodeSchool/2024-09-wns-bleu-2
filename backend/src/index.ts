@@ -10,7 +10,6 @@ import { CarInfosResolver } from "./resolvers/CarInfosResolver";
 import { importCar } from "./scripts/importCar";
 import { BookingResolver } from "./resolvers/BookingResolver";
 import jwt, { Secret } from "jsonwebtoken";
-import { ApolloServerPluginLandingPageDisabled } from "@apollo/server/plugin/disabled";
 import { importCities } from "./scripts/importCities";
 import { CityResolver } from "./resolvers/CityResolver";
 
@@ -36,7 +35,6 @@ const start = async () => {
 
   const server = new ApolloServer({
     schema,
-    plugins: [ApolloServerPluginLandingPageDisabled()],
   });
 
   const { url } = await startStandaloneServer(server, {
