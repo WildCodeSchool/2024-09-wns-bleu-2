@@ -9,12 +9,14 @@ const Profile = () => {
   if (loading) return <p>Chargement...</p>;
   if (error) return <p>Erreur: {error.message}</p>;
 
+  const user = data?.getUserInfo;
+
   return (
     <div className="principal-profile-container">
-      {data?.getUserInfo?.isLoggedIn ? (
+      {user?.isLoggedIn ? (
         <div className="second-profile-container">
           <h1>
-            Bienvenue {data.getUserInfo.firstname} {data.getUserInfo.lastname}
+            Bienvenue {user.firstname} {user.lastname}
           </h1>
           <div className="separator"></div>
           <div className="profile-content">
@@ -25,27 +27,24 @@ const Profile = () => {
             <div className="infos-user-container">
               <div className="sous-infos">
                 <p className="number">1</p>
-                <p className="infos-user">{data.getUserInfo.lastname}</p>
+                <p className="infos-user">{user.lastname}</p>
               </div>
               <div className="sous-infos">
                 <p className="number">2</p>
-                <p className="infos-user">{data.getUserInfo.firstname}</p>
+                <p className="infos-user">{user.firstname}</p>
               </div>
               <div className="sous-infos">
                 <p className="number">3</p>
-                <p>
-                  {new Date(data.getUserInfo.birthdate).toLocaleDateString()}
-                </p>
+                <p>{new Date(user.birthdate).toLocaleDateString()}</p>
               </div>
               <div className="sous-infos">
                 <p className="number">4</p>
-                <p>{data.getUserInfo.gender}</p>
+                <p>{user.gender}</p>
               </div>
               <div className="sous-infos">
                 <p className="number">5</p>
                 <p className="infos-user">
-                  {data.getUserInfo.email}{" "}
-                  <Pencil size={16} className="edit-icon" />
+                  {user.email} <Pencil size={16} className="edit-icon" />
                 </p>
               </div>
               <div className="sous-infos">
@@ -60,8 +59,21 @@ const Profile = () => {
           <div className="vehicle-section">
             <h3>Mon véhicule</h3>
             <div className="vehicle-form">
-              <input type="text" placeholder="Modèle" />
-              <input type="text" placeholder="Année" />
+              <input
+                type="text"
+                placeholder="Modèle"
+                defaultValue={user.car?.brand || ""}
+              />
+              <input
+                type="text"
+                placeholder="Année"
+                defaultValue={user.car?.year || ""}
+              />
+              <input
+                type="text"
+                placeholder="Couleur"
+                defaultValue={user.car?.color || ""}
+              />
             </div>
             <button className="validate-btn">Valider</button>
           </div>

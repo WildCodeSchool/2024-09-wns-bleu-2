@@ -28,6 +28,14 @@ export class UserInput implements Partial<User> {
   @Field({ nullable: true })
   avatar?: string;
 
+  @Field({ nullable: true })
+  brand?: string;
+
+  @Field({ nullable: true })
+  year?: number;
+
+  @Field({ nullable: true })
+  color?: string;
   /*
   @OneToOne(() => CarInfos, (carInfos) => carInfos.user, {
     cascade: true,

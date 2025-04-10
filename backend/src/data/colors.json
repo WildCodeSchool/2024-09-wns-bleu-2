@@ -1,0 +1,17 @@
+[
+  { "id": 1, "color": "Rouge" },
+  { "id": 2, "color": "Bleu" },
+  { "id": 3, "color": "Noir" },
+  { "id": 4, "color": "Blanc" },
+  { "id": 5, "color": "Argent" },
+  { "id": 6, "color": "Vert" },
+  { "id": 7, "color": "Jaune" },
+  { "id": 8, "color": "Orange" },
+  { "id": 9, "color": "Gris" },
+  { "id": 10, "color": "Violet" },
+  { "id": 11, "color": "Rose" },
+  { "id": 12, "color": "Gris Nardo" },
+  { "id": 13, "color": "Beige" },
+  { "id": 14, "color": "Marron" },
+  { "id": 15, "color": "Noir métallisé" }
+]
