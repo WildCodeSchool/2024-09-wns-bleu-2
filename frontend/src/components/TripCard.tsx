@@ -23,7 +23,8 @@ interface TripCardProps {
   tripDetails: Carpool | Booking;
   tripIndex: number;
   mode: "carpool" | "booking";
-  isUpcoming: boolean;
+
+  isUpcoming?: boolean;
   carpoolData?: Carpool; // Optional prop to pass in carpool data when the mode is "booking"
 }
 
@@ -90,9 +91,7 @@ export default function TripCard({
   const passengers = Array.from({ length: bookedSeats }).map((_, index) => (
     <UserCheck key={index} color="#999999" strokeWidth={1.5} />
   ));
-  console.log(data.departure_date, "date", new Date());
 
-  //console.log("seats", seats, "passengers", passengers);
   ////CSS classes for  background colors
   const backgroundClasses = ["bg-red", "bg-yellow", "bg-green", "bg-blue"];
   const bgClass =
@@ -131,6 +130,7 @@ export default function TripCard({
           <p>
             le <span className="date">{formatDate(data.departure_date)}</span>
           </p>
+
           {new Date(data.departure_date).getTime() - new Date().getTime() >
             86400000 &&
             mode === "carpool" && (
@@ -142,6 +142,7 @@ export default function TripCard({
                 {windowWidth > 885 ? "ANNULER" : <X />}
               </button>
             )}
+
         </div>
       </div>
       <div className="horizontal-line" />

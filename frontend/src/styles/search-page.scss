@@ -9,11 +9,22 @@
     font-size: 18px;
     font-weight: bold;
   }
-
-  @media (max-width: $bp-mobile) {
+}
+.result-layout {
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: $bp-mobile) {
+  .search-route {
     padding: 16px;
     h2 {
       font-size: $font-size-title-mobile;
     }
+  }
+
+  .result-layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
   }
 }
