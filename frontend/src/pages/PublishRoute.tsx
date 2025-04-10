@@ -131,7 +131,7 @@ const PublishRoute = () => {
       <TripPreferences options={options} setOptions={setOptions} />
 
       <button type="button" className="submit-button" onClick={handlePublish}>
-        <ChevronRight size={30} />
+        <ChevronRight size={30} color="white" />
         Publier mon trajet
       </button>
     </div>

@@ -4,10 +4,14 @@
   padding: 24px;
   font-family: $font-family;
   color: #333;
-
+  max-width: 1900px;
+  h1 {
+    text-align: center;
+  }
   h2 {
     font-size: 18px;
     font-weight: bold;
+    padding: 25px;
   }
 }
 .result-layout {
@@ -21,10 +25,11 @@
       font-size: $font-size-title-mobile;
     }
   }
-
   .result-layout {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    width: 100%;
+    gap: 35px;
   }
 }
