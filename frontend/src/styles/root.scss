@@ -35,6 +35,44 @@ body {
   background-color: $primary-color-bg;
 }
 
+.page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1900px;
+  align-items: center;
+
+  .page-wrapper {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    align-items: center;
+    @media screen and (min-width: $bp-mobile) {
+      width: 70%;
+      align-items: normal;
+    }
+  }
+}
+.submit-button {
+  margin-top: 2rem;
+  background-color: $color-card-green;
+  color: black;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  width: 13em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  &:hover {
+    background-color: darken($color-card-green, 5%);
+  }
+}
 .dropdown {
   position: relative;
   .dropdown-toggle {
@@ -54,6 +92,14 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    backdrop-filter: blur(3px) !important;
+    padding: 10px 2px;
+    background-color: rgba(185, 155, 110, 0.6);
+
+    border-radius: 0 0 0px 15px;
+    width: auto;
+    height: auto;
+
     .dropdown-item {
       text-decoration: none;
       font-weight: 300;
@@ -103,4 +149,8 @@ body {
 .bg-red,
 .btn-red {
   background-color: $color-card-red !important;
+}
+
+h1 {
+  margin-bottom: 40px !important;
 }

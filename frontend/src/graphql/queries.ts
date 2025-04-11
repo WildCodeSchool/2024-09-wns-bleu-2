@@ -40,7 +40,12 @@ export const GET_CARPOOL_BY_ID = gql`
         avatar
       }
       bookings {
+        id
         numPassenger
+        reservedAt
+        carpool {
+          id
+        } 
         passenger {
           id
           firstname
@@ -52,8 +57,8 @@ export const GET_CARPOOL_BY_ID = gql`
 `;
 
 export const GET_CARPOOLS_BY_USER_ID = gql`
-  query GetCarpoolsByUserId($userId: Float!) {
-    getCarpoolsByUserId(userId: $userId) {
+query GetCarpoolsByUserId($userId: Float!) {
+  getCarpoolsByUserId(userId: $userId) {
       id
       departure_date
       departure_time
@@ -140,7 +145,7 @@ export const SEARCH_CARPOOLS = gql`
     $departure: String!
     $arrival: String!
     $date: String!
-    $time: String!
+    $time: String
   ) {
     searchCarpools(
       departure: $departure
@@ -155,9 +160,13 @@ export const SEARCH_CARPOOLS = gql`
       departure_time
       num_passenger
       price
+      duration
+      toll
+      options
       driver {
         firstname
         lastname
+        avatar
       }
     }
   }

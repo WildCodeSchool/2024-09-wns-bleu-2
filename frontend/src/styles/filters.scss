@@ -1,0 +1,54 @@
+@import "./root.scss";
+
+.filters {
+  background-color: $primary-color-bg;
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-family: $font-family;
+  margin-bottom: 2em;
+  width: 100%;
+  max-width: 360px;
+  .filter-title-button {
+    display: flex;
+    justify-content: space-between;
+    button {
+      background: none;
+      border: none;
+      color: #e28b8b;
+    }
+  }
+
+  h3,
+  h4 {
+    font-family: $font-family-secondary;
+    font-size: $font-size-search-mobile;
+    font-weight: 600;
+  }
+
+  .separator-filter {
+    height: 0.5px;
+    margin-bottom: 12px;
+    border-top: 1px solid black;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: $font-size-text-mobile;
+    cursor: pointer;
+  }
+
+  @media screen and (min-width: $bp-mobile) {
+    width: 260px;
+
+    button {
+      align-self: flex-end;
+      cursor: pointer;
+    }
+  }
+}

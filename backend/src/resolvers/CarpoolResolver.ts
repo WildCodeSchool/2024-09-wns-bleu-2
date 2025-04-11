@@ -25,9 +25,22 @@ export default class CarpoolResolver {
   }
 
   @Query(() => [Carpool])
-  async getCarpoolsByUserId(@Arg("userId") userId: number) {
-    // Find all carpools where the user is the driver
-    return await Carpool.find({ where: { driver: { id: userId } }, relations: ["driver", "bookings", "bookings.passenger"] });
+  async getCarpoolsByUserId(@Arg('userId') userId: number) {
+    return await Carpool.find({
+      where: { driver: { id: userId } },  // Get carpools where the user is the driver
+      relations: ["driver", "bookings", "bookings.passenger"],  // Fetch related entities
+    });
+  }
+
+  @Mutation(() => String)
+  async deleteCarpool(@Arg("id") id: number) {
+    const result = await Carpool.delete(id);
+    console.log("result", result.affected);
+    if (result.affected === 1) {
+      return "Carpool has been deleted";
+    } else {
+      throw new Error("Carpool has not been found");
+    }
   }
 
   @Query(() => [Carpool])
@@ -64,7 +77,7 @@ export default class CarpoolResolver {
 
   @Mutation(() => Carpool)
   async createCarpool(@Arg("data") data: CarpoolInput): Promise<Carpool> {
-    const toll = data.options?.includes("Autoroutes") || false;
+    const toll = data.options?.includes("Autoroute") || false;
 
     const filteredOptions = data.options?.filter((o) => o != "Autoroute");
 

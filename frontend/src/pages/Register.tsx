@@ -230,6 +230,29 @@ const Register = () => {
                 <span className="error">{errors.confirmPassword.message}</span>
               )}
             </div>
+          <div className="input-row">
+            <div className="input-group">
+              <label htmlFor="password">Mot de passe</label>
+              <input
+                type="password"
+                {...register("password", { required: "Ce champ est requis." })}
+              />
+              {errors.password && (
+                <span className="error">{errors.password.message}</span>
+              )}
+            </div>
+            <div className="input-group">
+              <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
+              <input
+                type="password"
+                {...register("confirmPassword", {
+                  required: "Ce champ est requis.",
+                })}
+              />
+              {errors.confirmPassword && (
+                <span className="error">{errors.confirmPassword.message}</span>
+              )}
+            </div>
           </div>
           {/* Vérification des mots de passe */}
           {password && confirmPassword && password !== confirmPassword && (

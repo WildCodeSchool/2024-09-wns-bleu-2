@@ -62,7 +62,7 @@ const PublishRoute = () => {
 
     const toll = options.includes("Autoroute");
     const duration = hours * 60 + minutes;
-
+    console.log("Options sélectionnées :", options);
     if (!userId) {
       toast.error("Vous devez être connecté pour publier un trajet.");
       return;
@@ -131,7 +131,7 @@ const PublishRoute = () => {
       <TripPreferences options={options} setOptions={setOptions} />
 
       <button type="button" className="submit-button" onClick={handlePublish}>
-        <ChevronRight size={30} />
+        <ChevronRight size={30} color="white" />
         Publier mon trajet
       </button>
     </div>
