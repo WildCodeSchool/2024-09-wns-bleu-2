@@ -1,0 +1,49 @@
+@use "sass:color";
+@use "./root" as *;
+
+.carpool-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.carpool-title {
+  font-size: $font-size-title-desk;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.carpool-info {
+  font-size: $font-size-text-desk;
+  line-height: 1.6;
+  p {
+    margin-bottom: 10px;
+  }
+}
+
+.loading-message,
+.error-message {
+  text-align: center;
+  font-size: $font-size-text-desk;
+  font-weight: bold;
+}
+
+.button-primary {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 20px;
+  background: $color-card-blue;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: $font-size-text-desk;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background: color.adjust($color-card-blue, $lightness: -10%);
+  }
+}

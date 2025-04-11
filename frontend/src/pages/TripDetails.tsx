@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { Carpool, useGetCarpoolByIdQuery } from "../generated/graphql-types";
 import TripCard from "../components/TripCard";
 import { formatDate } from "../utils/dateUtils";
-import "../styles/trip-cards.scss";
+import "../styles/trip-details.scss";
 import { getBookedSeats } from "../utils/tripUtils";
 import { ChevronRight } from "lucide-react";
 import avatar from "../../public/avatar.webp";
@@ -15,14 +15,16 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
   });
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
+
+  if (error) {
+    return <p>Error : {error.message}</p>;
+  }
   if (!data || !data.getCarpoolById) {
     return <p>No data found for the given ID.</p>;
   }
 
   const tripDetails = data.getCarpoolById;
   const mode = "carpool";
-
   return (
     <div className="page-container">
       <div className="page-wrapper">
@@ -31,7 +33,6 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
           tripDetails={tripDetails as Carpool}
           tripIndex={tripIndex}
           mode="carpool"
-          isUpcoming={true}
         />
         <div className="passengers-card">
           <h2>{getBookedSeats(tripDetails as Carpool, mode)} Passagers</h2>
@@ -54,7 +55,7 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
                       {booking.numPassenger} place réservée
                     </small>
                   </div>
-                  <button type="button" className="delete-green">
+                  <button type="button" className="submit-button">
                     <ChevronRight width={15} color="white" /> Supprimer
                   </button>
                 </div>
