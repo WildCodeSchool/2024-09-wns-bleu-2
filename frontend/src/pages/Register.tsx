@@ -92,7 +92,6 @@ const Register = () => {
       <div className="form-content">
         <h1>Formulaire d'inscription</h1>
         <div className="register-wrapper">
-          {" "}
           <div className="input-row">
             <div className="input-group">
               <label htmlFor="lastname">Nom</label>
@@ -117,6 +116,7 @@ const Register = () => {
               )}
             </div>
           </div>
+
           <div className="input-row">
             <div className="input-group">
               <label htmlFor="birthdate">Date de naissance</label>
@@ -143,6 +143,7 @@ const Register = () => {
               )}
             </div>
           </div>
+
           <div className="input-row">
             <div className="input-group">
               <label htmlFor="email">Adresse email</label>
@@ -167,6 +168,7 @@ const Register = () => {
               )}
             </div>
           </div>
+
           <h3>Conducteur ? Renseigne ta voiture !</h3>
           <div className="input-row">
             <div className="input-group">
@@ -207,29 +209,7 @@ const Register = () => {
               </select>
             </div>
           </div>
-          <div className="input-row">
-            <div className="input-group">
-              <label htmlFor="password">Mot de passe</label>
-              <input
-                type="password"
-                {...register("password", { required: "Ce champ est requis." })}
-              />
-              {errors.password && (
-                <span className="error">{errors.password.message}</span>
-              )}
-            </div>
-            <div className="input-group">
-              <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
-              <input
-                type="password"
-                {...register("confirmPassword", {
-                  required: "Ce champ est requis.",
-                })}
-              />
-              {errors.confirmPassword && (
-                <span className="error">{errors.confirmPassword.message}</span>
-              )}
-            </div>
+
           <div className="input-row">
             <div className="input-group">
               <label htmlFor="password">Mot de passe</label>
@@ -254,7 +234,7 @@ const Register = () => {
               )}
             </div>
           </div>
-          {/* Vérification des mots de passe */}
+
           {password && confirmPassword && password !== confirmPassword && (
             <span className="error">
               Les mots de passe ne correspondent pas.
@@ -269,6 +249,7 @@ const Register = () => {
             GrumpyCar
           </label>
         </div>
+
         <div className="login">
           <Link to="/login">J'ai déjà un compte</Link>
         </div>
