@@ -76,7 +76,9 @@ export default function Navbar() {
             </Link>
             <Link
               onClick={() => handleClick("my-trips")}
+
               to={`/mytrips/${userId}`}
+              
               className={`navbar-link ${
                 isActive === "my-trips" && "is-active"
               }`}

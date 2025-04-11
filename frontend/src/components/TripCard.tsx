@@ -24,7 +24,7 @@ import {
   getBookedSeats,
   getAvailableSeats,
 } from "../utils/tripUtils";
-import { ApolloError } from "@apollo/client/errors";
+//import { ApolloError } from "@apollo/client/errors";
 import "../styles/trip-cards.scss";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -65,15 +65,25 @@ export default function TripCard({
     };
   }, [setWindowWidth]);
 
-  // Use the codegen generated hook.
   const [deleteCarpool, { loading: deleteLoading }] = useDeleteCarpoolMutation({
-    // Optionally, you can update the Apollo cache here
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          getCarpoolsByUserId(existingCarpools = [], { readField }) {
+            return existingCarpools.filter((carpoolRef: any) => {
+              return readField('id', carpoolRef) !== tripDetails.id;
+            });
+          },
+        },
+      });
+    
     onCompleted: () => {
       setIsDeleted(true);
       toast.success("Carpool deleted successfully");
       navigate("/mytrips/:id");
     },
-    onError: (error: ApolloError) => {
+    
+    onError: (error) => {
       console.error("Error deleting carpool:", error);
       alert("Failed to delete the carpool.");
     },
@@ -81,7 +91,9 @@ export default function TripCard({
 
   // Handler for delete button click.
   const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+
     event.stopPropagation();
+
     if (window.confirm("Are you sure you want to delete this carpool?")) {
       deleteCarpool({
         variables: { id: Number(tripDetails.id) },
