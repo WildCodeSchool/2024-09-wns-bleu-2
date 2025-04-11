@@ -12,6 +12,11 @@ export const GET_USER_INFO = gql`
       gender
       phone
       avatar
+      car {
+        brand
+        color
+        year
+      }
     }
   }
 `;
@@ -84,56 +89,54 @@ query GetCarpoolsByUserId($userId: Float!) {
 export const GET_BOOKINGS_FOR_PASSENGER = gql`
   query getBookingsForPassenger($passengerId: Float!) {
     getBookingsForPassenger(passengerId: $passengerId) {
-     carpool {
-      arrival_city
-      departure_city
-      departure_date
-      departure_time
-      driver {
+      carpool {
+        arrival_city
+        departure_city
+        departure_date
+        departure_time
+        driver {
+          avatar
+          birthdate
+          car {
+            brand
+            color
+            id
+            year
+          }
+          email
+          firstname
+          gender
+          id
+          lastname
+          phone
+        }
+        duration
+        id
+        num_passenger
+        price
+        toll
+        options
+      }
+      id
+      numPassenger
+      passenger {
         avatar
         birthdate
         car {
           brand
           color
           id
-          model
           year
         }
         email
         firstname
         gender
-        id
         lastname
         phone
-      }
-      duration
-      id
-      num_passenger
-      price
-      toll
-      options
-    }
-    id
-    numPassenger
-    passenger {
-      avatar
-      birthdate
-      car {
-        brand
-        color
         id
-        model
-        year
       }
-      email
-      firstname
-      gender
-      lastname
-      phone
-      id
+      reservedAt
     }
-    reservedAt
-  }
   }
 `;
 
@@ -175,5 +178,23 @@ export const GET_CITIES = gql`
       id
       name
     }
+  }
+`;
+
+export const GET_CAR_BRANDS = gql`
+  query GetCarBrands {
+    getCarBrands
+  }
+`;
+
+export const GET_CAR_COLORS = gql`
+  query GetCarColors {
+    getCarColors
+  }
+`;
+
+export const GET_CAR_YEARS = gql`
+  query GetCarYears {
+    getCarYears
   }
 `;

@@ -1,4 +1,10 @@
 import "../styles/register-form.scss";
+import { useQuery } from "@apollo/client";
+import {
+  GET_CAR_BRANDS,
+  GET_CAR_COLORS,
+  GET_CAR_YEARS,
+} from "../graphql/queries";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../generated/graphql-types";
@@ -8,6 +14,9 @@ import { ChevronRight } from "lucide-react";
 const Register = () => {
   const [signUp] = useRegisterMutation();
   const navigate = useNavigate();
+  const { data: brandsData } = useQuery(GET_CAR_BRANDS);
+  const { data: colorsData } = useQuery(GET_CAR_COLORS);
+  const { data: yearsData } = useQuery(GET_CAR_YEARS);
 
   type InputValues = {
     email: string;
@@ -18,6 +27,9 @@ const Register = () => {
     birthdate: string;
     gender: string;
     phone: string;
+    carBrand: string;
+    carColor: string;
+    carYear: number;
   };
 
   const {
@@ -45,6 +57,9 @@ const Register = () => {
       birthdate: birthdateForBackend,
       gender: data.gender,
       phone: data.phone,
+      brand: data.carBrand,
+      color: data.carColor,
+      year: Number(data.carYear),
     };
 
     console.log("data for backend", dataForBackend);
@@ -152,6 +167,69 @@ const Register = () => {
               )}
             </div>
           </div>
+          <h3>Conducteur ? Renseigne ta voiture !</h3>
+          <div className="input-row">
+            <div className="input-group">
+              <label htmlFor="carBrand">Marque de voiture</label>
+              <select {...register("carBrand")}>
+                <option value="">Sélectionner la marque</option>
+                {brandsData?.getCarBrands.map((brand: string) => (
+                  <option key={brand} value={brand}>
+                    {brand}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="input-group">
+              <label htmlFor="carColor">Couleur de voiture</label>
+              <select {...register("carColor")}>
+                <option value="">Sélectionner la couleur</option>
+                {colorsData?.getCarColors.map((color: string) => (
+                  <option key={color} value={color}>
+                    {color}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="input-group">
+              <label htmlFor="carYear">Année de construction</label>
+              <select
+                {...register("carYear", {
+                  valueAsNumber: true,
+                })}
+              >
+                <option value="">Sélectionner l'année</option>
+                {yearsData?.getCarYears.map((year: number) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="input-row">
+            <div className="input-group">
+              <label htmlFor="password">Mot de passe</label>
+              <input
+                type="password"
+                {...register("password", { required: "Ce champ est requis." })}
+              />
+              {errors.password && (
+                <span className="error">{errors.password.message}</span>
+              )}
+            </div>
+            <div className="input-group">
+              <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
+              <input
+                type="password"
+                {...register("confirmPassword", {
+                  required: "Ce champ est requis.",
+                })}
+              />
+              {errors.confirmPassword && (
+                <span className="error">{errors.confirmPassword.message}</span>
+              )}
+            </div>
           <div className="input-row">
             <div className="input-group">
               <label htmlFor="password">Mot de passe</label>

@@ -36,11 +36,16 @@ export type BookingInput = {
 
 export type CarInfos = {
   __typename?: 'CarInfos';
-  brand: Scalars['String']['output'];
+  brand?: Maybe<Scalars['String']['output']>;
   color?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
-  model?: Maybe<Scalars['String']['output']>;
   year?: Maybe<Scalars['Float']['output']>;
+};
+
+export type CarInfosInput = {
+  brand: Scalars['String']['input'];
+  color?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type Carpool = {
@@ -87,6 +92,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   confirmEmail: Scalars['String']['output'];
   createBooking: Booking;
+  createCarInfos: CarInfos;
   createCarpool: Carpool;
   deleteCarpool: Scalars['String']['output'];
   login: Scalars['String']['output'];
@@ -104,6 +110,11 @@ export type MutationConfirmEmailArgs = {
 
 export type MutationCreateBookingArgs = {
   data: BookingInput;
+};
+
+
+export type MutationCreateCarInfosArgs = {
+  data: CarInfosInput;
 };
 
 
@@ -148,7 +159,9 @@ export type Query = {
   getAllUsers: Array<User>;
   getBookings: Array<Booking>;
   getBookingsForPassenger: Array<Booking>;
-  getCarInfos: Array<CarInfos>;
+  getCarBrands: Array<Scalars['String']['output']>;
+  getCarColors: Array<Scalars['String']['output']>;
+  getCarYears: Array<Scalars['Float']['output']>;
   getCarpoolById: Carpool;
   getCarpools: Array<Carpool>;
   getCarpoolsByUserId: Array<Carpool>;
@@ -199,6 +212,7 @@ export type UserInfo = {
   __typename?: 'UserInfo';
   avatar?: Maybe<Scalars['String']['output']>;
   birthdate?: Maybe<Scalars['DateTimeISO']['output']>;
+  car?: Maybe<CarInfos>;
   email?: Maybe<Scalars['String']['output']>;
   firstname?: Maybe<Scalars['String']['output']>;
   gender?: Maybe<Scalars['String']['output']>;
@@ -211,12 +225,15 @@ export type UserInfo = {
 export type UserInput = {
   avatar?: InputMaybe<Scalars['String']['input']>;
   birthdate: Scalars['DateTimeISO']['input'];
+  brand?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
   email: Scalars['String']['input'];
   firstname: Scalars['String']['input'];
   gender: Scalars['String']['input'];
   lastname: Scalars['String']['input'];
   password: Scalars['String']['input'];
   phone: Scalars['String']['input'];
+  year?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type RegisterMutationVariables = Exact<{
@@ -272,7 +289,7 @@ export type CreateCarpoolMutation = { __typename?: 'Mutation', createCarpool: { 
 export type GetUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserInfoQuery = { __typename?: 'Query', getUserInfo: { __typename?: 'UserInfo', isLoggedIn: boolean, id?: number | null, email?: string | null, firstname?: string | null, lastname?: string | null, birthdate?: any | null, gender?: string | null, phone?: string | null, avatar?: string | null } };
+export type GetUserInfoQuery = { __typename?: 'Query', getUserInfo: { __typename?: 'UserInfo', isLoggedIn: boolean, id?: number | null, email?: string | null, firstname?: string | null, lastname?: string | null, birthdate?: any | null, gender?: string | null, phone?: string | null, avatar?: string | null, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null, year?: number | null } | null } };
 
 export type GetCarpoolByIdQueryVariables = Exact<{
   getCarpoolByIdId: Scalars['Float']['input'];
@@ -293,7 +310,8 @@ export type GetBookingsForPassengerQueryVariables = Exact<{
 }>;
 
 
-export type GetBookingsForPassengerQuery = { __typename?: 'Query', getBookingsForPassenger: Array<{ __typename?: 'Booking', id: number, numPassenger: number, reservedAt: any, carpool: { __typename?: 'Carpool', arrival_city: string, departure_city: string, departure_date: string, departure_time: string, duration: number, id: string, num_passenger: number, price: number, toll: boolean, options: Array<string>, driver: { __typename?: 'User', avatar?: string | null, birthdate: any, email: string, firstname: string, gender: string, id: number, lastname: string, phone: string, car?: { __typename?: 'CarInfos', brand: string, color?: string | null, id: string, model?: string | null, year?: number | null } | null } }, passenger: { __typename?: 'User', avatar?: string | null, birthdate: any, email: string, firstname: string, gender: string, lastname: string, phone: string, id: number, car?: { __typename?: 'CarInfos', brand: string, color?: string | null, id: string, model?: string | null, year?: number | null } | null } }> };
+
+export type GetBookingsForPassengerQuery = { __typename?: 'Query', getBookingsForPassenger: Array<{ __typename?: 'Booking', id: number, numPassenger: number, reservedAt: any, carpool: { __typename?: 'Carpool', arrival_city: string, departure_city: string, departure_date: string, departure_time: string, duration: number, id: string, num_passenger: number, price: number, toll: boolean, options: Array<string>, driver: { __typename?: 'User', avatar: string, birthdate: any, email: string, firstname: string, gender: string, id: number, lastname: string, phone: string, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null, id: string, year?: number | null } | null } }, passenger: { __typename?: 'User', avatar: string, birthdate: any, email: string, firstname: string, gender: string, lastname: string, phone: string, id: number, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null, id: string, year?: number | null } | null } }> };
 
 export type SearchCarpoolsQueryVariables = Exact<{
   departure: Scalars['String']['input'];
@@ -309,6 +327,21 @@ export type GetCitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetCitiesQuery = { __typename?: 'Query', getCities: Array<{ __typename?: 'City', id: string, name: string }> };
+
+export type GetCarBrandsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCarBrandsQuery = { __typename?: 'Query', getCarBrands: Array<string> };
+
+export type GetCarColorsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCarColorsQuery = { __typename?: 'Query', getCarColors: Array<string> };
+
+export type GetCarYearsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCarYearsQuery = { __typename?: 'Query', getCarYears: Array<number> };
 
 
 export const RegisterDocument = gql`
@@ -567,6 +600,11 @@ export const GetUserInfoDocument = gql`
     gender
     phone
     avatar
+    car {
+      brand
+      color
+      year
+    }
   }
 }
     `;
@@ -746,7 +784,6 @@ export const GetBookingsForPassengerDocument = gql`
           brand
           color
           id
-          model
           year
         }
         email
@@ -772,7 +809,6 @@ export const GetBookingsForPassengerDocument = gql`
         brand
         color
         id
-        model
         year
       }
       email
@@ -921,3 +957,114 @@ export type GetCitiesQueryHookResult = ReturnType<typeof useGetCitiesQuery>;
 export type GetCitiesLazyQueryHookResult = ReturnType<typeof useGetCitiesLazyQuery>;
 export type GetCitiesSuspenseQueryHookResult = ReturnType<typeof useGetCitiesSuspenseQuery>;
 export type GetCitiesQueryResult = Apollo.QueryResult<GetCitiesQuery, GetCitiesQueryVariables>;
+export const GetCarBrandsDocument = gql`
+    query GetCarBrands {
+  getCarBrands
+}
+    `;
+
+/**
+ * __useGetCarBrandsQuery__
+ *
+ * To run a query within a React component, call `useGetCarBrandsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCarBrandsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCarBrandsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCarBrandsQuery(baseOptions?: Apollo.QueryHookOptions<GetCarBrandsQuery, GetCarBrandsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCarBrandsQuery, GetCarBrandsQueryVariables>(GetCarBrandsDocument, options);
+      }
+export function useGetCarBrandsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCarBrandsQuery, GetCarBrandsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCarBrandsQuery, GetCarBrandsQueryVariables>(GetCarBrandsDocument, options);
+        }
+export function useGetCarBrandsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCarBrandsQuery, GetCarBrandsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCarBrandsQuery, GetCarBrandsQueryVariables>(GetCarBrandsDocument, options);
+        }
+export type GetCarBrandsQueryHookResult = ReturnType<typeof useGetCarBrandsQuery>;
+export type GetCarBrandsLazyQueryHookResult = ReturnType<typeof useGetCarBrandsLazyQuery>;
+export type GetCarBrandsSuspenseQueryHookResult = ReturnType<typeof useGetCarBrandsSuspenseQuery>;
+export type GetCarBrandsQueryResult = Apollo.QueryResult<GetCarBrandsQuery, GetCarBrandsQueryVariables>;
+export const GetCarColorsDocument = gql`
+    query GetCarColors {
+  getCarColors
+}
+    `;
+
+/**
+ * __useGetCarColorsQuery__
+ *
+ * To run a query within a React component, call `useGetCarColorsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCarColorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCarColorsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCarColorsQuery(baseOptions?: Apollo.QueryHookOptions<GetCarColorsQuery, GetCarColorsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCarColorsQuery, GetCarColorsQueryVariables>(GetCarColorsDocument, options);
+      }
+export function useGetCarColorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCarColorsQuery, GetCarColorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCarColorsQuery, GetCarColorsQueryVariables>(GetCarColorsDocument, options);
+        }
+export function useGetCarColorsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCarColorsQuery, GetCarColorsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCarColorsQuery, GetCarColorsQueryVariables>(GetCarColorsDocument, options);
+        }
+export type GetCarColorsQueryHookResult = ReturnType<typeof useGetCarColorsQuery>;
+export type GetCarColorsLazyQueryHookResult = ReturnType<typeof useGetCarColorsLazyQuery>;
+export type GetCarColorsSuspenseQueryHookResult = ReturnType<typeof useGetCarColorsSuspenseQuery>;
+export type GetCarColorsQueryResult = Apollo.QueryResult<GetCarColorsQuery, GetCarColorsQueryVariables>;
+export const GetCarYearsDocument = gql`
+    query GetCarYears {
+  getCarYears
+}
+    `;
+
+/**
+ * __useGetCarYearsQuery__
+ *
+ * To run a query within a React component, call `useGetCarYearsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCarYearsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCarYearsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCarYearsQuery(baseOptions?: Apollo.QueryHookOptions<GetCarYearsQuery, GetCarYearsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCarYearsQuery, GetCarYearsQueryVariables>(GetCarYearsDocument, options);
+      }
+export function useGetCarYearsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCarYearsQuery, GetCarYearsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCarYearsQuery, GetCarYearsQueryVariables>(GetCarYearsDocument, options);
+        }
+export function useGetCarYearsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCarYearsQuery, GetCarYearsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCarYearsQuery, GetCarYearsQueryVariables>(GetCarYearsDocument, options);
+        }
+export type GetCarYearsQueryHookResult = ReturnType<typeof useGetCarYearsQuery>;
+export type GetCarYearsLazyQueryHookResult = ReturnType<typeof useGetCarYearsLazyQuery>;
+export type GetCarYearsSuspenseQueryHookResult = ReturnType<typeof useGetCarYearsSuspenseQuery>;
+export type GetCarYearsQueryResult = Apollo.QueryResult<GetCarYearsQuery, GetCarYearsQueryVariables>;

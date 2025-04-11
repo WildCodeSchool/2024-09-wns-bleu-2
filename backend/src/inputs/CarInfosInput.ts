@@ -1,16 +1,12 @@
-import { Field, InputType } from "type-graphql";
-import { CarInfos } from "../entities/CarInfos";
+import { InputType, Field } from "type-graphql";
 
 @InputType()
-export default class CarInfosInput implements Partial<CarInfos> {
-  @Field()
-  model: string;
+export class CarInfosInput {
+  @Field({ nullable: true })
+  year?: number;
 
-  @Field()
-  year: number;
-
-  @Field()
-  color: string;
+  @Field({ nullable: true })
+  color?: string;
 
   @Field()
   brand: string;
