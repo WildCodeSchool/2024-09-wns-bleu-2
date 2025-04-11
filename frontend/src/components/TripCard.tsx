@@ -87,16 +87,16 @@ export default function TripCard({
 
   const toll = data.toll ? "Avec péage" : "Sans péage";
   const icon = data.toll ? (
-    <Tickets color="#ffffff" width={30} strokeWidth={1.5} />
+    <Tickets color="#ffffff" width={30} strokeWidth={2.5} />
   ) : (
-    <Tractor color="#ffffff" width={30} strokeWidth={1.5} />
+    <Tractor color="#ffffff" width={30} strokeWidth={2.5} />
   );
 
   const seats = Array.from({ length: availableSeats }).map((_, index) => (
-    <User key={index} color="#ffffff" strokeWidth={1.5} />
+    <User key={index} color="#ffffff" strokeWidth={2.5} />
   ));
   const passengers = Array.from({ length: bookedSeats }).map((_, index) => (
-    <UserCheck key={index} color="#999999" strokeWidth={1.5} />
+    <UserCheck key={index} color="#999999" strokeWidth={2.5} />
   ));
 
   ////CSS classes for  background colors
@@ -156,7 +156,7 @@ export default function TripCard({
         <div className="trip-bottom-left">
           <div className="trip-user ">
             <img
-              src={data.driver.avatar ?? "/public/avatarr.webp"}
+              src={data.driver.avatar ?? "/public/default-avatar.png"}
               alt="Avatar"
             />
             <div className="driver-infos">
@@ -181,7 +181,12 @@ export default function TripCard({
             {new Date(data.departure_date).getTime() - new Date().getTime() >
               86400000 &&
               mode === "carpool" && (
-                <ChevronRight className="animated" width={60} color="white" />
+                <ChevronRight
+                  className="animated"
+                  width={60}
+                  color="white"
+                  strokeWidth={2.5}
+                />
               )}
           </div>
         </div>
