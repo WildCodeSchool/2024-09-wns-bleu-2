@@ -1,13 +1,13 @@
 import { useState } from "react";
 import "../styles/publish-route.scss";
-import PublishTripBar from "../components/PublishRouteComponents/PublishTripBar";
+import PublishTripBar from "../components/publishRouteComponents/PublishTripBar";
 import {
   useCreateCarpoolMutation,
   useGetCitiesQuery,
   useGetUserInfoQuery,
 } from "../generated/graphql-types";
-import PriceSelector from "../components/PublishRouteComponents/PriceSelector";
-import TripPreferences from "../components/PublishRouteComponents/TipsPreferences";
+import PriceSelector from "../components/publishRouteComponents/PriceSelector";
+import TripPreferences from "../components/publishRouteComponents/TipsPreferences";
 import { ChevronRight } from "lucide-react";
 import { toast } from "react-toastify";
 import { formatDate, formatTime } from "../utils/format.utils";

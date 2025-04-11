@@ -25,3 +25,13 @@ export const formatTime = (time: string): string => {
     const [year, month, day] = departureDate.split("-");
     return `${day}/${month}/${year}`;
   };
+
+  export const formatLongDate = (dateStr: string): string => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("fr-FR", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+    });
+  };
+  
