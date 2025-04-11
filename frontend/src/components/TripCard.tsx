@@ -68,7 +68,6 @@ export default function TripCard({
 
   const [deleteCarpool, { loading: deleteLoading }] = useDeleteCarpoolMutation({
     update: (cache) => {
-      // Remove the deleted carpool from the cache
       cache.modify({
         fields: {
           getCarpoolsByUserId(existingCarpools = [], { readField }) {
@@ -78,21 +77,21 @@ export default function TripCard({
           },
         },
       });
-    },
-    // Optionally, you can update the Apollo cache here
     onCompleted: () => {
       setIsDeleted(true);
       toast.success("Carpool deleted successfully");
       navigate("/mytrips/:id");
-    },
-    onError: (error: ApolloError) => {
+    },s
+    onError: (error) => {
       console.error("Error deleting carpool:", error);
       alert("Failed to delete the carpool.");
     },
   });
   // Handler for delete button click.
   const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation(); // This stops the event from bubbling up
+
+    event.stopPropagation();
+
     if (window.confirm("Are you sure you want to delete this carpool?")) {
       deleteCarpool({
         variables: { id: Number(tripDetails.id) },
@@ -197,7 +196,8 @@ export default function TripCard({
             <p>{data.price} €</p>
             {new Date(data.departure_date).getTime() - new Date().getTime() >
               86400000 &&
-              mode === "carpool" && (
+              mode === "carpool" &&
+              window.location.href.includes("/mytrips") && (
                 <ChevronRight
                   className="animated"
                   width={60}
