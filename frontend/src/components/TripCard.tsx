@@ -70,18 +70,19 @@ export default function TripCard({
         fields: {
           getCarpoolsByUserId(existingCarpools = [], { readField }) {
             return existingCarpools.filter((carpoolRef: any) => {
-              return readField('id', carpoolRef) !== tripDetails.id;
+              return readField("id", carpoolRef) !== tripDetails.id;
             });
           },
         },
       });
-    
+    },
+
     onCompleted: () => {
       setIsDeleted(true);
       toast.success("Carpool deleted successfully");
       navigate("/mytrips/:id");
     },
-    
+
     onError: (error) => {
       console.error("Error deleting carpool:", error);
       alert("Failed to delete the carpool.");
@@ -90,7 +91,6 @@ export default function TripCard({
 
   // Handler for delete button click.
   const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-
     event.stopPropagation();
 
     if (window.confirm("Are you sure you want to delete this carpool?")) {
@@ -155,7 +155,16 @@ export default function TripCard({
             le <span className="date">{formatDate(data.departure_date)}</span>
           </p>
 
-          {new Date(data.departure_date).getTime() > new Date().getTime() &&
+          {new Date(
+            new Date(data.departure_date).getFullYear(),
+            new Date(data.departure_date).getMonth(),
+            new Date(data.departure_date).getDate()
+          ).getTime() >=
+            new Date(
+              new Date().getFullYear(),
+              new Date().getMonth(),
+              new Date().getDate()
+            ).getTime() &&
             mode === "carpool" && (
               <button
                 className={`${windowWidth > 885 ? btnClass : ""}`}

@@ -24,7 +24,7 @@ export const separateTripsByDate = (trips: any[]) => {
       departureDate.getDate()
     );
 
-    if (departureMidnight.getTime() > todayMidnight.getTime()) {
+    if (departureMidnight.getTime() >= todayMidnight.getTime()) {
       upcomingTrips.push(trip);
     } else {
       pastTrips.push(trip);
