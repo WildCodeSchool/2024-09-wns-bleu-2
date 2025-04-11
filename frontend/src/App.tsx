@@ -13,6 +13,7 @@ import SearchPage from "./pages/SearchPage";
 import MesReservations from "./pages/MyBookings";
 import MesGrumpyTrips from "./pages/MyGrumpyTrips";
 import SearchPageResult from "./pages/SearchPageResult";
+import BookATripPage from "./pages/BookATripPage";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="search-page" element={<SearchPage />} />
           <Route path="search-page-result" element={<SearchPageResult />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="/book/:id" element={<BookATripPage />} />
         </Route>
       </Routes>
       <ToastContainer theme="colored" />
