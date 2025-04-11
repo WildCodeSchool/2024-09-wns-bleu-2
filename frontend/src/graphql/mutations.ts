@@ -51,7 +51,6 @@ const DELETE_CARPOOL = gql`
   }
 `;
 
-
 export const CREATE_CARPOOL = gql`
   mutation CreateCarpool($data: CarpoolInput!) {
     createCarpool(data: $data) {
@@ -70,5 +69,11 @@ export const CREATE_CARPOOL = gql`
         firstname
       }
     }
+  }
+`;
+
+export const DELETE_PASSENGER = gql`
+  mutation DeleteBooking($carpoolId: Float!, $passengerId: Float!) {
+    deleteBooking(carpoolId: $carpoolId, passengerId: $passengerId)
   }
 `;
