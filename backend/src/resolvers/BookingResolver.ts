@@ -14,19 +14,12 @@ export class BookingResolver {
   }
 
   @Query(() => [Booking])
-  async getBookingsForPassenger(@Arg("passengerId") passengerId: number) { //async getMyBookings(@Ctx() { user }: MyContext) {
+  async getBookingsForPassenger(@Arg("passengerId") passengerId: number) {
     return await Booking.find({
-      where: {
-        passenger: { id: passengerId }
-      },
-      relations: [
-        "carpool",
-        "carpool.driver",
-        "passenger"
-      ]
+      where: { passenger: { id: passengerId } },
+      relations: ["carpool", "carpool.driver", "passenger"],
     });
   }
-  
 
   @Mutation(() => Booking)
   async createBooking(@Arg("data") bookingInput: BookingInput) {
