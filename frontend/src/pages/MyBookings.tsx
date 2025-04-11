@@ -1,16 +1,16 @@
-import { useGetUserInfoQuery, useGetBookingsForPassengerQuery } from "../generated/graphql-types";
+import {
+  useGetUserInfoQuery,
+  useGetBookingsForPassengerQuery,
+} from "../generated/graphql-types";
 import TripList from "../components/TripList";
 
-export default function MesReservations() {
+export default function MyBookings() {
   const { data: userData } = useGetUserInfoQuery();
   const userId = userData?.getUserInfo?.id;
-
-  console.log("userId", userId);
 
   const { data, loading, error } = useGetBookingsForPassengerQuery({
     variables: { passengerId: userId ?? 0 },
     skip: !userId,
-    fetchPolicy: 'network-only', // Add this line to always fetch fresh data
   });
 
   if (loading) return <p>Loading...</p>;

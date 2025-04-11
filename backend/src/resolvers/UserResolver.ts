@@ -45,6 +45,9 @@ class UserInfo {
 
   @Field({ nullable: true })
   avatar?: string;
+
+  @Field({ nullable: true })
+  car?: CarInfos;
 }
 
 @Resolver(User)
@@ -61,16 +64,32 @@ export class UserResolver {
       // On génère un code aléatoire
       const randomCode = uuidv4();
       // On sauvegarde l'utilisateur dans la table TempUser ave toutes ses infos
-      const result = await TempUser.save({
-        email: newUserData.email,
-        password: await argon2.hash(newUserData.password),
-        randomCode: randomCode,
-        firstname: newUserData.firstname,
-        lastname: newUserData.lastname,
-        birthdate: newUserData.birthdate,
-        gender: newUserData.gender as Gender,
-        phone: newUserData.phone,
-      });
+      const result = new TempUser();
+      result.email = newUserData.email;
+      result.password = await argon2.hash(newUserData.password);
+      result.randomCode = randomCode;
+      result.firstname = newUserData.firstname;
+      result.lastname = newUserData.lastname;
+      result.birthdate = newUserData.birthdate;
+      result.gender = newUserData.gender as Gender;
+      result.phone = newUserData.phone;
+
+      await result.save();
+
+      let car: CarInfos | null = null;
+      if (newUserData.brand || newUserData.year || newUserData.color) {
+        car = new CarInfos();
+        car.brand = newUserData.brand || "";
+        car.year = newUserData.year || 0;
+        car.color = newUserData.color || "";
+        await car.save();
+      }
+
+      if (car) {
+        result.car = car;
+        await result.save();
+      }
+
       const resend = new Resend(process.env.RESEND_API_KEY);
 
       (async function () {
@@ -87,10 +106,12 @@ export class UserResolver {
         });
 
         if (error) {
-          return console.error({ error });
+          console.error("Erreur d'envoi d'email :", error);
+        } else {
+          console.log("Email envoyé avec succès :", data);
         }
-        console.log({ data });
       })();
+
       console.log("result", result);
     }
     return "The user is temporarily created. Please check your email for the confirmation code.";
@@ -98,19 +119,31 @@ export class UserResolver {
 
   @Mutation(() => String)
   async confirmEmail(@Arg("codeByUser") codeByUser: string) {
-    const tempUser = await TempUser.findOneByOrFail({ randomCode: codeByUser });
-    // L'utilisateur a bien confirmé son adresse, on l'enregistre dans la table user
-    await User.save({
-      email: tempUser.email,
-      password: tempUser.password,
-      firstname: tempUser.firstname,
-      lastname: tempUser.lastname,
-      birthdate: tempUser.birthdate,
-      gender: tempUser.gender as Gender,
-      phone: tempUser.phone,
+    const tempUser = await TempUser.findOne({
+      where: { randomCode: codeByUser },
+      relations: ["car"],
     });
-    // et on le retire de la table tempUser
-    tempUser.remove();
+
+    if (!tempUser) {
+      throw new Error("Temp user not found");
+    }
+
+    const user = new User();
+    user.email = tempUser.email;
+    user.password = tempUser.password;
+    user.firstname = tempUser.firstname;
+    user.lastname = tempUser.lastname;
+    user.birthdate = tempUser.birthdate;
+    user.gender = tempUser.gender as Gender;
+    user.phone = tempUser.phone;
+
+    if (tempUser.car) {
+      user.car = tempUser.car;
+    }
+
+    await user.save();
+    await tempUser.remove();
+
     return "User email confirmed with success.";
   }
 
@@ -183,7 +216,10 @@ export class UserResolver {
       const token = context.req.cookies.token;
       if (!token) return null;
 
-      const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as Secret) as { email: string };
+      const decoded = jwt.verify(
+        token,
+        process.env.JWT_SECRET_KEY as Secret
+      ) as { email: string };
 
       const user = await User.findOne({
         where: { email: decoded.email },
@@ -225,8 +261,10 @@ export class UserResolver {
   @Query(() => UserInfo)
   async getUserInfo(@Ctx() context: any) {
     if (context.email) {
-      // Recherche de l'utilisateur dans la base de données en fonction de son email
-      const user = await User.findOne({ where: { email: context.email } });
+      const user = await User.findOne({
+        where: { email: context.email },
+        relations: ["car"],
+      });
 
       if (user) {
         return {
@@ -235,10 +273,11 @@ export class UserResolver {
           email: user.email,
           firstname: user.firstname,
           lastname: user.lastname,
-          birthdate: user.birthdate, // Assure-toi que la date est au bon format ISO 8601
+          birthdate: user.birthdate,
           gender: user.gender,
           phone: user.phone,
-          avatar: user.avatar || "", // Si l'avatar n'est pas défini, on renvoie une chaîne vide
+          avatar: user.avatar || "",
+          car: user.car,
         };
       } else {
         return { isLoggedIn: false };

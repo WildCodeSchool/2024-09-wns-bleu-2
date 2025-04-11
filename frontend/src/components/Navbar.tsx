@@ -17,7 +17,6 @@ export default function Navbar() {
   const [logout] = useLogoutMutation();
 
   const isLoggedIn = data?.getUserInfo?.isLoggedIn;
-
   const handleLogout = async () => {
     await logout();
     await refetch();
@@ -42,7 +41,6 @@ export default function Navbar() {
 
   const { data: userData } = useGetUserInfoQuery();
   const userId = userData?.getUserInfo?.id;
-
   return (
     <nav className="navbar-wrapper">
       <div className="navbar-logo">
