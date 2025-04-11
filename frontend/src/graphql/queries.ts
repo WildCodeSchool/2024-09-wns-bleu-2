@@ -12,6 +12,11 @@ export const GET_USER_INFO = gql`
       gender
       phone
       avatar
+      car {
+        brand
+        color
+        year
+      }
     }
   }
 `;
@@ -93,7 +98,6 @@ export const GET_BOOKINGS_FOR_PASSENGER = gql`
             brand
             color
             id
-            model
             year
           }
           email
@@ -119,7 +123,6 @@ export const GET_BOOKINGS_FOR_PASSENGER = gql`
           brand
           color
           id
-          model
           year
         }
         email
@@ -172,5 +175,23 @@ export const GET_CITIES = gql`
       id
       name
     }
+  }
+`;
+
+export const GET_CAR_BRANDS = gql`
+  query GetCarBrands {
+    getCarBrands
+  }
+`;
+
+export const GET_CAR_COLORS = gql`
+  query GetCarColors {
+    getCarColors
+  }
+`;
+
+export const GET_CAR_YEARS = gql`
+  query GetCarYears {
+    getCarYears
   }
 `;
