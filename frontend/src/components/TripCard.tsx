@@ -27,7 +27,6 @@ import {
 //import { ApolloError } from "@apollo/client/errors";
 import "../styles/trip-cards.scss";
 import { toast } from "react-toastify";
-import { ApolloError } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 
 interface TripCardProps {
@@ -77,11 +76,14 @@ export default function TripCard({
           },
         },
       });
+    },
+  
     onCompleted: () => {
       setIsDeleted(true);
       toast.success("Carpool deleted successfully");
       navigate("/mytrips/:id");
-    },s
+    },
+  
     onError: (error) => {
       console.error("Error deleting carpool:", error);
       alert("Failed to delete the carpool.");
