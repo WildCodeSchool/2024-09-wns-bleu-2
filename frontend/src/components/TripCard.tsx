@@ -45,13 +45,12 @@ export default function TripCard({
   const data = getCarpoolData(tripDetails, mode, carpoolData); // Pass the carpool data if mode is booking
   const bookedSeats = getBookedSeats(tripDetails, mode);
   const availableSeats = getAvailableSeats(tripDetails, mode);
-  const navigate = useNavigate();
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   // Local state to hide the card once deleted.
   const [isDeleted, setIsDeleted] = useState(false);
+  const navigate = useNavigate();
 
-  console.log("tripDetails", tripDetails, "mode", mode, "data", data);
   ////to dynamicaly get the window width on resize
   useEffect(() => {
     const handleResize = () => {
@@ -156,8 +155,7 @@ export default function TripCard({
             le <span className="date">{formatDate(data.departure_date)}</span>
           </p>
 
-          {new Date(data.departure_date).getTime() - new Date().getTime() >
-            86400000 &&
+          {new Date(data.departure_date).getTime() > new Date().getTime() &&
             mode === "carpool" && (
               <button
                 className={`${windowWidth > 885 ? btnClass : ""}`}
@@ -196,9 +194,7 @@ export default function TripCard({
           <div className="vertical-line" />
           <div className="trip-price">
             <p>{data.price} €</p>
-            {new Date(data.departure_date).getTime() - new Date().getTime() >
-              86400000 &&
-              mode === "carpool" &&
+            {mode === "carpool" &&
               window.location.href.includes("/mytrips") && (
                 <ChevronRight
                   className="animated"
