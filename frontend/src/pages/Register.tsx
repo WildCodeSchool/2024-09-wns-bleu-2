@@ -167,9 +167,10 @@ const Register = () => {
               )}
             </div>
           </div>
+          <h3>Conducteur ? Renseigne ta voiture !</h3>
           <div className="input-row">
             <div className="input-group">
-              <label htmlFor="carBrand">Marque de voiture*</label>
+              <label htmlFor="carBrand">Marque de voiture</label>
               <select {...register("carBrand")}>
                 <option value="">Sélectionner la marque</option>
                 {brandsData?.getCarBrands.map((brand: string) => (
@@ -180,7 +181,7 @@ const Register = () => {
               </select>
             </div>
             <div className="input-group">
-              <label htmlFor="carColor">Couleur de voiture*</label>
+              <label htmlFor="carColor">Couleur de voiture</label>
               <select {...register("carColor")}>
                 <option value="">Sélectionner la couleur</option>
                 {colorsData?.getCarColors.map((color: string) => (
@@ -191,7 +192,7 @@ const Register = () => {
               </select>
             </div>
             <div className="input-group">
-              <label htmlFor="carYear">Année de construction*</label>
+              <label htmlFor="carYear">Année de construction</label>
               <select
                 {...register("carYear", {
                   valueAsNumber: true,

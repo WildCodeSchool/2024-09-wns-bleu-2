@@ -58,24 +58,36 @@ const Profile = () => {
 
           <div className="vehicle-section">
             <h3>Mon véhicule</h3>
-            <div className="vehicle-form">
-              <input
-                type="text"
-                placeholder="Modèle"
-                defaultValue={user.car?.brand || ""}
-              />
-              <input
-                type="text"
-                placeholder="Année"
-                defaultValue={user.car?.year || ""}
-              />
-              <input
-                type="text"
-                placeholder="Couleur"
-                defaultValue={user.car?.color || ""}
-              />
-            </div>
-            <button className="validate-btn">Valider</button>
+            {user.car ? (
+              <div className="vehicle-form">
+                <input
+                  type="text"
+                  placeholder="Modèle"
+                  defaultValue={user.car.brand || ""}
+                />
+                <input
+                  type="text"
+                  placeholder="Année"
+                  defaultValue={user.car.year || ""}
+                />
+                <input
+                  type="text"
+                  placeholder="Couleur"
+                  defaultValue={user.car.color || ""}
+                />
+                <button className="validate-btn">Valider</button>
+              </div>
+            ) : (
+              <>
+                <p>Vous n'avez pas rempli d'information sur votre véhicule.</p>
+                <div className="vehicle-form">
+                  <input type="text" placeholder="Modèle" />
+                  <input type="text" placeholder="Année" />
+                  <input type="text" placeholder="Couleur" />
+                  <button className="validate-btn">Valider</button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       ) : (
