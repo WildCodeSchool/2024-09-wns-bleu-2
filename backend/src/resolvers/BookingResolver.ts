@@ -46,4 +46,21 @@ export class BookingResolver {
 
     return newBooking;
   }
+
+  @Mutation(() => String)
+  async deleteBooking(
+    @Arg("passengerId") passengerId: number,
+    @Arg("carpoolId") carpoolId: number
+  ) {
+    const booking = await Booking.findOne({
+      where: { passenger: { id: passengerId }, carpool: { id: carpoolId } },
+    });
+
+    if (!booking) {
+      throw new Error("Booking not found");
+    }
+
+    await Booking.remove(booking);
+    return "Booking deleted successfully";
+  }
 }

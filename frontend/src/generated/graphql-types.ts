@@ -94,6 +94,7 @@ export type Mutation = {
   createBooking: Booking;
   createCarInfos: CarInfos;
   createCarpool: Carpool;
+  deleteBooking: Scalars['String']['output'];
   deleteCarpool: Scalars['String']['output'];
   login: Scalars['String']['output'];
   logout: Scalars['String']['output'];
@@ -120,6 +121,12 @@ export type MutationCreateCarInfosArgs = {
 
 export type MutationCreateCarpoolArgs = {
   data: CarpoolInput;
+};
+
+
+export type MutationDeleteBookingArgs = {
+  carpoolId: Scalars['Float']['input'];
+  passengerId: Scalars['Float']['input'];
 };
 
 
@@ -285,6 +292,14 @@ export type CreateCarpoolMutationVariables = Exact<{
 
 
 export type CreateCarpoolMutation = { __typename?: 'Mutation', createCarpool: { __typename?: 'Carpool', id: string, departure_city: string, arrival_city: string, departure_date: string, departure_time: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string>, driver: { __typename?: 'User', id: number, firstname: string } } };
+
+export type DeleteBookingMutationVariables = Exact<{
+  carpoolId: Scalars['Float']['input'];
+  passengerId: Scalars['Float']['input'];
+}>;
+
+
+export type DeleteBookingMutation = { __typename?: 'Mutation', deleteBooking: string };
 
 export type GetUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -587,6 +602,38 @@ export function useCreateCarpoolMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateCarpoolMutationHookResult = ReturnType<typeof useCreateCarpoolMutation>;
 export type CreateCarpoolMutationResult = Apollo.MutationResult<CreateCarpoolMutation>;
 export type CreateCarpoolMutationOptions = Apollo.BaseMutationOptions<CreateCarpoolMutation, CreateCarpoolMutationVariables>;
+export const DeleteBookingDocument = gql`
+    mutation DeleteBooking($carpoolId: Float!, $passengerId: Float!) {
+  deleteBooking(carpoolId: $carpoolId, passengerId: $passengerId)
+}
+    `;
+export type DeleteBookingMutationFn = Apollo.MutationFunction<DeleteBookingMutation, DeleteBookingMutationVariables>;
+
+/**
+ * __useDeleteBookingMutation__
+ *
+ * To run a mutation, you first call `useDeleteBookingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteBookingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteBookingMutation, { data, loading, error }] = useDeleteBookingMutation({
+ *   variables: {
+ *      carpoolId: // value for 'carpoolId'
+ *      passengerId: // value for 'passengerId'
+ *   },
+ * });
+ */
+export function useDeleteBookingMutation(baseOptions?: Apollo.MutationHookOptions<DeleteBookingMutation, DeleteBookingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteBookingMutation, DeleteBookingMutationVariables>(DeleteBookingDocument, options);
+      }
+export type DeleteBookingMutationHookResult = ReturnType<typeof useDeleteBookingMutation>;
+export type DeleteBookingMutationResult = Apollo.MutationResult<DeleteBookingMutation>;
+export type DeleteBookingMutationOptions = Apollo.BaseMutationOptions<DeleteBookingMutation, DeleteBookingMutationVariables>;
 export const GetUserInfoDocument = gql`
     query GetUserInfo {
   getUserInfo {

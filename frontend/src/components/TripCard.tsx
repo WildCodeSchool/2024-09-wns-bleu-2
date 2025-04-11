@@ -26,6 +26,7 @@ import {
 } from "../utils/tripUtils";
 import { ApolloError } from "@apollo/client/errors";
 import "../styles/trip-cards.scss";
+import { toast } from "react-toastify";
 
 interface TripCardProps {
   tripDetails: Carpool | Booking;
@@ -67,6 +68,7 @@ export default function TripCard({
     // Optionally, you can update the Apollo cache here
     onCompleted: () => {
       setIsDeleted(true);
+      toast.success("Carpool deleted successfully");
     },
     onError: (error: ApolloError) => {
       console.error("Error deleting carpool:", error);
@@ -75,7 +77,8 @@ export default function TripCard({
   });
 
   // Handler for delete button click.
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     if (window.confirm("Are you sure you want to delete this carpool?")) {
       deleteCarpool({
         variables: { id: Number(tripDetails.id) },
@@ -180,7 +183,8 @@ export default function TripCard({
             <p>{data.price} €</p>
             {new Date(data.departure_date).getTime() - new Date().getTime() >
               86400000 &&
-              mode === "carpool" && (
+              mode === "carpool" &&
+              window.location.href.includes("/mytrips") && (
                 <ChevronRight
                   className="animated"
                   width={60}
