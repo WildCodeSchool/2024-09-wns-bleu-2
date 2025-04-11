@@ -24,7 +24,7 @@ import {
   getBookedSeats,
   getAvailableSeats,
 } from "../utils/tripUtils";
-import { ApolloError } from "@apollo/client/errors";
+//import { ApolloError } from "@apollo/client/errors";
 import "../styles/trip-cards.scss";
 
 interface TripCardProps {
@@ -62,20 +62,29 @@ export default function TripCard({
     };
   }, [setWindowWidth]);
 
-  // Use the codegen generated hook.
   const [deleteCarpool, { loading: deleteLoading }] = useDeleteCarpoolMutation({
-    // Optionally, you can update the Apollo cache here
-    onCompleted: () => {
-      setIsDeleted(true);
+    update: (cache) => {
+      // Remove the deleted carpool from the cache
+      cache.modify({
+        fields: {
+          getCarpoolsByUserId(existingCarpools = [], { readField }) {
+            return existingCarpools.filter((carpoolRef: any) => {
+              return readField('id', carpoolRef) !== tripDetails.id;
+            });
+          },
+        },
+      });
     },
-    onError: (error: ApolloError) => {
+    onCompleted: () => setIsDeleted(true),
+    onError: (error) => {
       console.error("Error deleting carpool:", error);
       alert("Failed to delete the carpool.");
     },
   });
 
   // Handler for delete button click.
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation(); // This stops the event from bubbling up
     if (window.confirm("Are you sure you want to delete this carpool?")) {
       deleteCarpool({
         variables: { id: Number(tripDetails.id) },
