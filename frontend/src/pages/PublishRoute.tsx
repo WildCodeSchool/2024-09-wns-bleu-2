@@ -132,7 +132,7 @@ const PublishRoute = () => {
 
       <button type="button" className="submit-button" onClick={handlePublish}>
         <ChevronRight size={30} color="white" />
-        Publier mon trajet
+        Publier mon trajetS
       </button>
     </div>
   );
