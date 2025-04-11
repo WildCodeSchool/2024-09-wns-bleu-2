@@ -53,6 +53,7 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
       toast.error("Une erreur est survenue");
     }
   };
+
   return (
     <div className="page-container">
       <div className="page-wrapper">
