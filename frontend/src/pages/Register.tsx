@@ -98,6 +98,7 @@ const Register = () => {
               <input
                 type="text"
                 placeholder="Doe"
+                className={errors.lastname ? "error-border" : ""}
                 {...register("lastname", { required: "Ce champ est requis." })}
               />
               {errors.lastname && (
@@ -109,6 +110,7 @@ const Register = () => {
               <input
                 type="text"
                 placeholder="John"
+                className={errors.firstname ? "error-border" : ""}
                 {...register("firstname", { required: "Ce champ est requis." })}
               />
               {errors.firstname && (
@@ -122,6 +124,7 @@ const Register = () => {
               <label htmlFor="birthdate">Date de naissance</label>
               <input
                 type="date"
+                className={errors.birthdate ? "error-border" : ""}
                 {...register("birthdate", { required: "Ce champ est requis." })}
               />
               {errors.birthdate && (
@@ -131,6 +134,7 @@ const Register = () => {
             <div className="input-group">
               <label htmlFor="gender">Sexe</label>
               <select
+                className={errors.gender ? "error-border" : ""}
                 {...register("gender", { required: "Ce champ est requis." })}
               >
                 <option value="">Sélectionner</option>
@@ -150,6 +154,7 @@ const Register = () => {
               <input
                 type="email"
                 placeholder="johndoe@gmail.com"
+                className={errors.email ? "error-border" : ""}
                 {...register("email", { required: "Ce champ est requis." })}
               />
               {errors.email && (
@@ -161,6 +166,7 @@ const Register = () => {
               <input
                 type="tel"
                 placeholder="0675896158"
+                className={errors.phone ? "error-border" : ""}
                 {...register("phone", { required: "Ce champ est requis." })}
               />
               {errors.phone && (
@@ -168,53 +174,12 @@ const Register = () => {
               )}
             </div>
           </div>
-
-          <h3>Conducteur ? Renseigne ta voiture !</h3>
-          <div className="input-row">
-            <div className="input-group">
-              <label htmlFor="carBrand">Marque de voiture</label>
-              <select {...register("carBrand")}>
-                <option value="">Sélectionner la marque</option>
-                {brandsData?.getCarBrands.map((brand: string) => (
-                  <option key={brand} value={brand}>
-                    {brand}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="input-group">
-              <label htmlFor="carColor">Couleur de voiture</label>
-              <select {...register("carColor")}>
-                <option value="">Sélectionner la couleur</option>
-                {colorsData?.getCarColors.map((color: string) => (
-                  <option key={color} value={color}>
-                    {color}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="input-group">
-              <label htmlFor="carYear">Année de construction</label>
-              <select
-                {...register("carYear", {
-                  valueAsNumber: true,
-                })}
-              >
-                <option value="">Sélectionner l'année</option>
-                {yearsData?.getCarYears.map((year: number) => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
           <div className="input-row">
             <div className="input-group">
               <label htmlFor="password">Mot de passe</label>
               <input
                 type="password"
+                className={errors.password ? "error-border" : ""}
                 {...register("password", { required: "Ce champ est requis." })}
               />
               {errors.password && (
@@ -225,6 +190,7 @@ const Register = () => {
               <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
               <input
                 type="password"
+                className={errors.confirmPassword ? "error-border" : ""}
                 {...register("confirmPassword", {
                   required: "Ce champ est requis.",
                 })}
@@ -241,7 +207,46 @@ const Register = () => {
             </span>
           )}
         </div>
-
+        <h3>Conducteur ? Renseigne ta voiture !</h3>
+        <div className="input-row car-infos-row">
+          <div className="input-group ">
+            <label htmlFor="carBrand">Marque de voiture</label>
+            <select {...register("carBrand")}>
+              <option value="">Sélectionner la marque</option>
+              {brandsData?.getCarBrands.map((brand: string) => (
+                <option key={brand} value={brand}>
+                  {brand}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="input-group">
+            <label htmlFor="carColor">Couleur de voiture</label>
+            <select {...register("carColor")}>
+              <option value="">Sélectionner la couleur</option>
+              {colorsData?.getCarColors.map((color: string) => (
+                <option key={color} value={color}>
+                  {color}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="input-group">
+            <label htmlFor="carYear">Année de construction</label>
+            <select
+              {...register("carYear", {
+                valueAsNumber: true,
+              })}
+            >
+              <option value="">Sélectionner l'année</option>
+              {yearsData?.getCarYears.map((year: number) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
         <div className="checkbox-container">
           <label>
             <input type="checkbox" required />
