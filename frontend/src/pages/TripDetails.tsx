@@ -9,8 +9,7 @@ import avatar from "../../public/avatar.webp";
 
 export default function TripDetails({ tripIndex }: { tripIndex: number }) {
   const { id } = useParams();
-  console.log("id", id);
-  console.log("coucou");
+
   const { data, loading, error } = useGetCarpoolByIdQuery({
     variables: { getCarpoolByIdId: Number(id) },
   });
@@ -18,7 +17,6 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
   if (loading) return <p>Loading...</p>;
 
   if (error) {
-    console.log("trip", data);
     return <p>Error : {error.message}</p>;
   }
   if (!data || !data.getCarpoolById) {

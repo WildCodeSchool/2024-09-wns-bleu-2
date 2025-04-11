@@ -8,8 +8,6 @@ export default function MyBookings() {
   const { data: userData } = useGetUserInfoQuery();
   const userId = userData?.getUserInfo?.id;
 
-  console.log("userId", userId);
-
   const { data, loading, error } = useGetBookingsForPassengerQuery({
     variables: { passengerId: userId ?? 0 },
     skip: !userId,
