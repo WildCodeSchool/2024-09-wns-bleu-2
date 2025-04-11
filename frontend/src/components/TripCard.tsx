@@ -26,6 +26,9 @@ import {
 } from "../utils/tripUtils";
 //import { ApolloError } from "@apollo/client/errors";
 import "../styles/trip-cards.scss";
+import { toast } from "react-toastify";
+import { ApolloError } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
 
 interface TripCardProps {
   tripDetails: Carpool | Booking;
@@ -43,6 +46,7 @@ export default function TripCard({
   const data = getCarpoolData(tripDetails, mode, carpoolData); // Pass the carpool data if mode is booking
   const bookedSeats = getBookedSeats(tripDetails, mode);
   const availableSeats = getAvailableSeats(tripDetails, mode);
+  const navigate = useNavigate();
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   // Local state to hide the card once deleted.
@@ -75,13 +79,17 @@ export default function TripCard({
         },
       });
     },
-    onCompleted: () => setIsDeleted(true),
-    onError: (error) => {
+    // Optionally, you can update the Apollo cache here
+    onCompleted: () => {
+      setIsDeleted(true);
+      toast.success("Carpool deleted successfully");
+      navigate("/mytrips/:id");
+    },
+    onError: (error: ApolloError) => {
       console.error("Error deleting carpool:", error);
       alert("Failed to delete the carpool.");
     },
   });
-
   // Handler for delete button click.
   const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation(); // This stops the event from bubbling up
