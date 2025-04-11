@@ -5,9 +5,13 @@ import { ChevronDown } from "lucide-react";
 export default function Dropdown({
   isActive,
   handleClick,
+  isLoggedIn,
+  handleLogout,
 }: {
   isActive: string;
-  handleClick: (section: string) => void;
+  handleClick: (action: string) => void;  // Argument d'action : register, login ...
+  isLoggedIn: boolean | undefined;
+  handleLogout: () => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -22,30 +26,55 @@ export default function Dropdown({
       </button>
       {isOpen && (
         <div className="dropdown-menu">
-          <Link
-            to="/login"
-            onClick={() => {
-              handleClick("connexion");
-              setIsOpen(!isOpen);
-            }}
-            className={`dropdown-item ${
-              isActive === "connexion" && "is-active absolute"
-            }`}
-          >
-            Se connecter
-          </Link>
-          <Link
-            to="/register"
-            onClick={() => {
-              handleClick("register");
-              setIsOpen(!isOpen);
-            }}
-            className={`dropdown-item ${
-              isActive === "register" && "is-active absolute"
-            }`}
-          >
-            S'inscrire
-          </Link>
+          {!isLoggedIn ? (
+            <>
+              <Link
+                to="/login"
+                onClick={() => {
+                  handleClick("login");
+                  setIsOpen(false);
+                }}
+                className={`dropdown-item ${
+                  isActive === "login" && "is-active absolute"
+                }`}
+              >
+                Se connecter
+              </Link>
+              <Link
+                to="/register"
+                onClick={() => {
+                  handleClick("register");
+                  setIsOpen(false);
+                }}
+                className={`dropdown-item ${
+                  isActive === "register" && "is-active absolute"
+                }`}
+              >
+                S'inscrire
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/profile"
+                onClick={() => {
+                  handleClick("account");
+                  setIsOpen(false);
+                }}
+                className={`dropdown-item ${
+                  isActive === "account" && "is-active absolute"
+                }`}
+              >
+                Mon profil
+              </Link>
+              <button
+                className="navbar-link logout-button logout-button-dropdown"
+                onClick={handleLogout}
+              >
+                Déconnexion
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>

@@ -16,8 +16,8 @@ const SearchPage = () => {
     const params = new URLSearchParams({
       departure,
       arrival,
-      date: date.toISOString().split("T")[0], // "YYYY-MM-DD"
-      time: departureTime ? departureTime.toTimeString().slice(0, 5) : "", // "HH:mm"
+      date: date.toISOString().split("T")[0],
+      time: departureTime ? departureTime.toTimeString().slice(0, 5) : "",
       passengers: passengers.toString(),
     });
 

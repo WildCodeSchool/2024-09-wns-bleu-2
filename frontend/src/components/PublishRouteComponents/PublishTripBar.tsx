@@ -75,7 +75,6 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
         <ArrowRightLeft size={20} id="hidden-arrow" />
         <div className="separator" />
 
-        {/* Ville d'arrivée */}
         <div className="input-container">
           <MapPin className="icon" size={22} />
           {loadingCities ? (
@@ -92,7 +91,6 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
 
         <div className="separator" />
 
-        {/* Date */}
         <div className="input-container">
           <CalendarDays className="icon" size={22} />
           <DatePicker
@@ -107,7 +105,6 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
 
         <div className="separator" />
 
-        {/* Heure de départ */}
         <div className="input-container">
           <Clock className="icon" size={22} />
           <DatePicker
@@ -127,7 +124,6 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
 
         <div className="separator" />
 
-        {/* Durée du trajet */}
         <div className="input-container">
           <Hourglass className="icon" size={22} />
           <div className="duration-selects">
@@ -150,7 +146,6 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
 
         <div className="separator" />
 
-        {/* Passagers */}
         <div className="flex-container">
           <div className="select-container">
             <Users className="icon" size={20} />
@@ -171,7 +166,6 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
           </div>
         </div>
       </div>
-      {/* Ville de départ */}
     </div>
   );
 };

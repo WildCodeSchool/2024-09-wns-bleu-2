@@ -6,14 +6,15 @@
   margin: 3em auto 6em;
   max-width: 80%;
   position: relative;
+
   &:after {
     content: "";
     position: absolute;
     background-image: url(../../public/chat-register.png);
     background-size: contain;
     background-repeat: no-repeat;
-    width: 40%;
-    height: 80%;
+    width: 35%;
+    height: 70%;
     bottom: -25%;
     right: -12%;
     z-index: 5;
@@ -22,59 +23,66 @@
       bottom: -42%;
       right: -15%;
     }
+
     @media (max-width: 885px) {
       display: none;
     }
   }
+
   .form-content {
     padding: 25px 15px 25px 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
+
     h1 {
       margin-bottom: 2%;
       text-align: center;
       font-size: clamp(1.3rem, 5vw, 3rem);
     }
+
     h3 {
       margin: 3em 0 1em;
       text-align: center;
     }
+
     .error {
       color: red;
       margin-top: 5px;
     }
+
     .register-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
     }
+
     .input-row {
       display: flex;
       justify-content: space-between;
       gap: 90px;
       align-items: center;
-      //gap: 30px;
-      // width: 65%;
-      // @media (min-width: 574px) and (max-width: 885px) {
-      //    width: 80%;
-      // }
+
       @media (max-width: 574px) {
         flex-direction: column;
       }
+
       .input-group {
         display: flex;
         flex-direction: column;
         margin: 10px;
         max-width: 165px;
+
         @media (max-width: 574px) {
           max-width: 165px;
         }
+
         label {
           margin-bottom: 5px;
           text-wrap: nowrap;
         }
+
         input,
         select {
           background-color: #f7f7f7;
@@ -85,47 +93,69 @@
           width: 100%;
           min-width: 145px;
         }
+
+        input.error-border,
+        select.error-border {
+          border: 2px solid red;
+        }
+
         input[type="password"] {
           max-width: 165px;
         }
+
         select {
           min-width: 185px;
         }
       }
     }
+
+    .car-infos-row {
+      flex-wrap: wrap;
+      gap: 1.5em;
+    }
+
     .checkbox-container {
-      margin: 2em 0 0.5em;
+      margin: 4em 0 0.5em;
       font-size: 0.75rem;
       text-align: center;
+
       input {
         margin-right: 5px;
       }
+
       a {
         text-decoration: underline;
         cursor: pointer;
         color: #000;
+
         &:hover {
           opacity: 0.7;
         }
       }
     }
+
     .login {
-      margin: 0.5em auto 2em;
+      margin: 1em auto 1em;
+
       a {
         text-decoration: underline;
         color: #000;
         font-size: 0.85rem;
+
         &:visited,
         &:active {
           color: #000;
         }
+
         &:hover {
           opacity: 0.7;
         }
       }
     }
+
     .submit-container {
       margin-top: 1em;
+
       button {
         padding: 12px 30px;
         font-size: 1rem;
@@ -136,6 +166,7 @@
         align-items: center;
         transition: 0.3s ease;
         cursor: pointer;
+
         &:hover {
           background-color: $color-card-red;
         }
@@ -144,15 +175,18 @@
 
     @media (max-width: 574px) {
       padding: 2em;
+
       .input-row {
         gap: 0;
         width: 80%;
       }
     }
   }
+
   @media (max-width: 350px) {
     margin: 1em auto;
     max-width: 95%;
+
     .form-content {
       .input-row {
         width: 100%;

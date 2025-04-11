@@ -38,6 +38,10 @@ export const GET_CARPOOL_BY_ID = gql`
         firstname
         id
         avatar
+        car {
+          brand
+          color
+          }
       }
       bookings {
         id
