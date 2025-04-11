@@ -10,14 +10,14 @@ export const separateTripsByDate = (trips: any[]) => {
   const pastTrips: any[] = [];
 
   for (const trip of trips) {
-    const rawDate = trip.carpool?.departure_date || trip.departure_date;
-    const departureDate = new Date(rawDate);
+    const departureDate = new Date(trip.departure_date);
 
     if (isNaN(departureDate.getTime())) {
       console.warn("Invalid trip format:", trip);
       continue;
     }
 
+    ///// Set the time to midnight for the departure date
     const departureMidnight = new Date(
       departureDate.getFullYear(),
       departureDate.getMonth(),
