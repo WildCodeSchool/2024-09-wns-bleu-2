@@ -38,9 +38,6 @@ export const GET_CARPOOL_BY_ID = gql`
         id
         numPassenger
         reservedAt
-        carpool {
-          id
-        } 
         passenger {
           id
           firstname
@@ -52,8 +49,8 @@ export const GET_CARPOOL_BY_ID = gql`
 `;
 
 export const GET_CARPOOLS_BY_USER_ID = gql`
-query GetCarpoolsByUserId($userId: Float!) {
-  getCarpoolsByUserId(userId: $userId) {
+  query GetCarpoolsByUserId($userId: Float!) {
+    getCarpoolsByUserId(userId: $userId) {
       id
       departure_date
       departure_time
@@ -84,12 +81,38 @@ query GetCarpoolsByUserId($userId: Float!) {
 export const GET_BOOKINGS_FOR_PASSENGER = gql`
   query getBookingsForPassenger($passengerId: Float!) {
     getBookingsForPassenger(passengerId: $passengerId) {
-     carpool {
-      arrival_city
-      departure_city
-      departure_date
-      departure_time
-      driver {
+      carpool {
+        arrival_city
+        departure_city
+        departure_date
+        departure_time
+        driver {
+          avatar
+          birthdate
+          car {
+            brand
+            color
+            id
+            model
+            year
+          }
+          email
+          firstname
+          gender
+          id
+          lastname
+          phone
+        }
+        duration
+        id
+        num_passenger
+        price
+        toll
+        options
+      }
+      id
+      numPassenger
+      passenger {
         avatar
         birthdate
         car {
@@ -102,38 +125,12 @@ export const GET_BOOKINGS_FOR_PASSENGER = gql`
         email
         firstname
         gender
-        id
         lastname
         phone
-      }
-      duration
-      id
-      num_passenger
-      price
-      toll
-      options
-    }
-    id
-    numPassenger
-    passenger {
-      avatar
-      birthdate
-      car {
-        brand
-        color
         id
-        model
-        year
       }
-      email
-      firstname
-      gender
-      lastname
-      phone
-      id
+      reservedAt
     }
-    reservedAt
-  }
   }
 `;
 

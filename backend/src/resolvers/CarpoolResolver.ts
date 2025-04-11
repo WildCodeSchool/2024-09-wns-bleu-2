@@ -25,10 +25,10 @@ export default class CarpoolResolver {
   }
 
   @Query(() => [Carpool])
-  async getCarpoolsByUserId(@Arg('userId') userId: number) {
+  async getCarpoolsByUserId(@Arg("userId") userId: number) {
     return await Carpool.find({
-      where: { driver: { id: userId } },  // Get carpools where the user is the driver
-      relations: ["driver", "bookings", "bookings.passenger"],  // Fetch related entities
+      where: { driver: { id: userId } }, // Get carpools where the user is the driver
+      relations: ["driver", "bookings", "bookings.passenger"], // Fetch related entities
     });
   }
 
@@ -49,26 +49,30 @@ export default class CarpoolResolver {
     @Arg("arrival", { nullable: true }) arrival?: string,
     @Arg("date", { nullable: true }) date?: string,
     @Arg("time", { nullable: true }) time?: string
-  ) : Promise<Carpool[]> {
+  ): Promise<Carpool[]> {
     // requête dynamique au lieu de 'find()'
-    const query = Carpool.createQueryBuilder("carpool")
-      .leftJoinAndSelect("carpool.driver", "driver"); // On récupère les infos du conducteur en même temps
+    const query = Carpool.createQueryBuilder("carpool").leftJoinAndSelect(
+      "carpool.driver",
+      "driver"
+    ); // On récupère les infos du conducteur en même temps
 
     if (departure) {
-      query.andWhere("LOWER(carpool.departure_city) LIKE LOWER(:departure)", { // LOWER et LIKE LOWER : l'utilisateur peut taper en majuscule ou minuscule
+      query.andWhere("LOWER(carpool.departure_city) LIKE LOWER(:departure)", {
+        // LOWER et LIKE LOWER : l'utilisateur peut taper en majuscule ou minuscule
         departure: `%${departure}%`, // Recherche avec ('%mot%') pour trouver "Paris" avec "Par"
       });
     }
 
     if (arrival) {
       query.andWhere("LOWER(carpool.arrival_city) LIKE LOWER(:arrival)", {
-      arrival: `%${arrival}%`,
-    });}
+        arrival: `%${arrival}%`,
+      });
+    }
 
     if (date) {
       query.andWhere("carpool.departure_date = :date", { date });
     }
-  
+
     if (time) {
       query.andWhere("carpool.departure_time >= :time", { time });
     }
@@ -81,11 +85,10 @@ export default class CarpoolResolver {
 
     const filteredOptions = data.options?.filter((o) => o != "Autoroute");
 
-
-    const carpool = Carpool.create({ 
+    const carpool = Carpool.create({
       ...data,
       toll,
-      options: filteredOptions 
+      options: filteredOptions,
     });
 
     // If a user ID is provided, assign the user to the carpool

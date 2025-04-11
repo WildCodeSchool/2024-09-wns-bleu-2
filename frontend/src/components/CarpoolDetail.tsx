@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useGetCarpoolByIdQuery } from "../generated/graphql-types";
-import "../styles/carpoolDetails.scss";
+import "../styles/carpool-details.scss";
 
 const CarpoolDetails = () => {
   const { id } = useParams();

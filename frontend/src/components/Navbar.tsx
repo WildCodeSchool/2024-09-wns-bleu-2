@@ -17,8 +17,6 @@ export default function Navbar() {
   const [logout] = useLogoutMutation();
 
   const isLoggedIn = data?.getUserInfo?.isLoggedIn;
-  console.log("isLoggedIn", isLoggedIn);
-  console.log("user data", data);
   const handleLogout = async () => {
     await logout();
     await refetch();

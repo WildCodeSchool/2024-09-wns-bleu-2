@@ -37,14 +37,20 @@ export default function TripList({
           <div className="carpool-main">
             {upcomingTrips.length > 0 ? (
               upcomingTrips.map((trip: any, index: number) => (
-                <TripCard
+                <button
+                  className="card-button"
                   key={trip.id}
-                  tripDetails={trip}
-                  isUpcoming={true}
-                  tripIndex={index}
-                  mode={mode}
-                  carpoolData={mode === "booking" ? trip.carpool : undefined}
-                />
+                  onClick={() => navigate(`/trip/${trip.id}`)}
+                  type="button"
+                >
+                  <TripCard
+                    tripDetails={trip}
+                    isUpcoming={true}
+                    tripIndex={index}
+                    mode={mode}
+                    carpoolData={mode === "booking" ? trip.carpool : undefined}
+                  />
+                </button>
               ))
             ) : (
               <div className="no-carpools">Aucun trajet trouvé</div>
