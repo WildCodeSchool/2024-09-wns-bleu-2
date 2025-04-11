@@ -47,6 +47,7 @@ const LoginModal = ({ setIsLoginModalOpen }: Props) => {
             navigate("/");
          },
          onError: (error: any) => {
+            toast.error("Erreur lors de la connexion. Vérifiez vos identifiants.");
             console.log("error", error);
          },
       });
