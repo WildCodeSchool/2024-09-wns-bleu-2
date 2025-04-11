@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { X, Tickets, Tractor, User, UserCheck } from "lucide-react";
+import {
+  X,
+  Tickets,
+  Tractor,
+  User,
+  UserCheck,
+  ChevronRight,
+} from "lucide-react";
 import {
   Booking,
   Carpool,
@@ -18,20 +25,20 @@ import {
   getAvailableSeats,
 } from "../utils/tripUtils";
 import { ApolloError } from "@apollo/client/errors";
+import "../styles/trip-cards.scss";
 
 interface TripCardProps {
   tripDetails: Carpool | Booking;
   tripIndex: number;
   mode: "carpool" | "booking";
-
   isUpcoming?: boolean;
-  carpoolData?: Carpool; // Optional prop to pass in carpool data when the mode is "booking"
+  carpoolData?: Carpool;
 }
 
 export default function TripCard({
   tripDetails,
   mode,
-  carpoolData, // Optionally pass the carpool data
+  carpoolData,
 }: TripCardProps) {
   const data = getCarpoolData(tripDetails, mode, carpoolData); // Pass the carpool data if mode is booking
   const bookedSeats = getBookedSeats(tripDetails, mode);
@@ -142,7 +149,6 @@ export default function TripCard({
                 {windowWidth > 885 ? "ANNULER" : <X />}
               </button>
             )}
-
         </div>
       </div>
       <div className="horizontal-line" />
@@ -172,6 +178,11 @@ export default function TripCard({
           <div className="vertical-line" />
           <div className="trip-price">
             <p>{data.price} €</p>
+            {new Date(data.departure_date).getTime() - new Date().getTime() >
+              86400000 &&
+              mode === "carpool" && (
+                <ChevronRight className="animated" width={60} color="white" />
+              )}
           </div>
         </div>
       </div>

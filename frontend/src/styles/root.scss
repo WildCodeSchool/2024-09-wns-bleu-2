@@ -68,9 +68,10 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: row;
-
+  cursor: pointer;
   &:hover {
-    background-color: darken($color-card-green, 5%);
+    transform: scale(1.05);
+    transition: transform 0.2s;
   }
 }
 .dropdown {
