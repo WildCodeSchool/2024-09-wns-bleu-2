@@ -155,7 +155,16 @@ export default function TripCard({
             le <span className="date">{formatDate(data.departure_date)}</span>
           </p>
 
-          {new Date(data.departure_date).getTime() > new Date().getTime() &&
+          {new Date(
+            new Date(data.departure_date).getFullYear(),
+            new Date(data.departure_date).getMonth(),
+            new Date(data.departure_date).getDate()
+          ).getTime() >=
+            new Date(
+              new Date().getFullYear(),
+              new Date().getMonth(),
+              new Date().getDate()
+            ).getTime() &&
             mode === "carpool" && (
               <button
                 className={`${windowWidth > 885 ? btnClass : ""}`}
