@@ -20,10 +20,10 @@ import {
 } from "../utils/dateUtils";
 
 import {
-    getCarpoolData,
-    getBookedSeats,
-    getAvailableSeats,
-  } from "../utils/tripUtils";
+  getCarpoolData,
+  getBookedSeats,
+  getAvailableSeats,
+} from "../utils/tripUtils";
 import { ApolloError } from "@apollo/client/errors";
 import "../styles/trip-cards.scss";
 
@@ -35,13 +35,10 @@ interface TripCardProps {
   carpoolData?: Carpool;
 }
 
-
 export default function TripCard({
   tripDetails,
-  tripIndex,
   mode,
-  isUpcoming,
-  carpoolData, // Optionally pass the carpool data
+  carpoolData,
 }: TripCardProps) {
   const data = getCarpoolData(tripDetails, mode, carpoolData); // Pass the carpool data if mode is booking
   const bookedSeats = getBookedSeats(tripDetails, mode);
