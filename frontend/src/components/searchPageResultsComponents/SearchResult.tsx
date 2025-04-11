@@ -9,6 +9,7 @@ import "../../styles/search-result.scss";
 import defaultImage from "../../../public/default-avatar.png";
 import { calculateArrivalTime, formatDuration } from "../../utils/dateUtils";
 import { Tickets, Tractor, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 type SearchResultsProps = {
   departure: string;
@@ -28,8 +29,12 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   time,
   filters,
 }) => {
+  const navigate = useNavigate();
+
   const formattedDate = formatDate(date);
   const formattedTime = time ? formatTime(time) : "00:00";
+
+  const areFieldsValid = departure && arrival && date;
 
   const { data, loading, error } = useSearchCarpoolsQuery({
     variables: {
@@ -38,8 +43,16 @@ const SearchResults: React.FC<SearchResultsProps> = ({
       date: formattedDate,
       time: formattedTime,
     },
-    skip: !departure || !arrival || !date,
+    skip: !areFieldsValid,
   });
+
+  if (!areFieldsValid) {
+    return (
+      <>
+        <p>Veuillez remplir tous les champs pour effectuer une recherche.</p>
+      </>
+    );
+  }
 
   if (loading) return <p>Chargement...</p>;
   if (error) return <p>Erreur : {error.message}</p>;
@@ -75,7 +88,11 @@ const SearchResults: React.FC<SearchResultsProps> = ({
         const bg = bgClasses[index % bgClasses.length];
 
         return (
-          <div className={`trip-card ${bg}`} key={carpool.id}>
+          <div
+            className={`trip-card ${bg}`}
+            key={carpool.id}
+            onClick={() => navigate(`/book/${carpool.id}`)}
+          >
             <div className="trip-card-header">
               <div className="trip-card-infos-left">
                 <div className="trip-card-trip-duration">
@@ -133,7 +150,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
                 <div className="vertical-line" />
 
                 <div className="trip-price">
-                  <p>{carpool.price}€</p>
+                  <p>{carpool.price} €</p>
                 </div>
               </div>
             </div>

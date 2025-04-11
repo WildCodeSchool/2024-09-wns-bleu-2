@@ -198,7 +198,7 @@ export class UserResolver {
     if (!user) throw new Error("User not found");
 
     const car = await CarInfos.findOne({ where: { id: carId } });
-    if (!car) throw new Error("Car model not found");
+    if (!car) throw new Error("Car not found");
 
     user.car = car;
     await user.save();

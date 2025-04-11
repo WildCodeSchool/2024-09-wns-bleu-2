@@ -71,7 +71,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
   return (
     <div className="search-bar">
       <div className="search-wrapper">
-        {/* Ville de départ */}
         <div className="input-container">
           <MapPin className="icon" size={22} />
           {loadingCities ? (
@@ -89,7 +88,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
         <ArrowRightLeft size={20} id="hidden-arrow" />
         <div className="separator" id="visible-separator" />
 
-        {/* Ville d'arrivée */}
         <div className="input-container">
           <MapPin className="icon" size={22} />
           {loadingCities ? (
@@ -106,7 +104,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
         <div className="separator" />
 
-        {/* Calendrier */}
         <div className="input-container">
           <CalendarDays className="icon" size={22} />
           <DatePicker
@@ -121,7 +118,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
         <div className="separator" />
 
-        {/* Heure de départ */}
         <div className="input-container">
           <Hourglass className="icon" size={22} />
           <DatePicker
@@ -140,7 +136,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
         <div className="separator" />
 
-        {/* Sélection de passagers */}
         <div className="flex-container">
           <div className="select-container">
             <Users className="icon" size={20} />
