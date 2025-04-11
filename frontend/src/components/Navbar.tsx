@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Logo from "./Logo";
 import Burger from "./responsive/Burger";
 import Dropdown from "./Dropdown";
+import LoginModal from "../components/LoginModal";
 import {
   useGetUserInfoQuery,
   useLogoutMutation,
@@ -12,6 +13,7 @@ import {
 export default function Navbar() {
   const [isActive, setIsActive] = useState("");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const { data, refetch } = useGetUserInfoQuery();
   const [logout] = useLogoutMutation();
@@ -22,18 +24,16 @@ export default function Navbar() {
     await refetch();
   };
 
-  ////to dynamicaly get the window width on resize
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
 
     window.addEventListener("resize", handleResize);
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [setWindowWidth]);
+  }, []);
 
   const handleClick = (url: string) => {
     setIsActive(url);
@@ -48,7 +48,6 @@ export default function Navbar() {
           <Logo />
         </Link>
       </div>
-      {/* 885 for galaxy Fold (===884px) */}
       {windowWidth < 885 ? (
         <Burger isActive={isActive} handleClick={handleClick} />
       ) : (
@@ -70,14 +69,22 @@ export default function Navbar() {
             </Link>
             <Link
               onClick={() => handleClick("my-resa")}
+<<<<<<< HEAD
+              to="/myreservations/1"
+=======
               to={`/myreservations/${userId}`} // Dynamically setting the user ID in the URL
+>>>>>>> f48d8a7cca39e2d043fd246c921167bf65d79a0a
               className={`navbar-link ${isActive === "my-resa" && "is-active"}`}
             >
               Mes réservations
             </Link>
             <Link
               onClick={() => handleClick("my-trips")}
+<<<<<<< HEAD
+              to="/mytrips/1"
+=======
               to={`/mytrips/${userId}`} // Dynamically setting the user ID in the URL
+>>>>>>> f48d8a7cca39e2d043fd246c921167bf65d79a0a
               className={`navbar-link ${
                 isActive === "my-trips" && "is-active"
               }`}
@@ -87,14 +94,22 @@ export default function Navbar() {
           </div>
           <div className="navbar-right">
             {windowWidth < 1025 && windowWidth > 884 ? (
-              <Dropdown isActive={isActive} handleClick={handleClick} />
+              <Dropdown
+                isActive={isActive}
+                handleClick={handleClick}
+                isLoggedIn={isLoggedIn}
+                handleLogout={handleLogout}
+              />
             ) : (
               <>
                 {!isLoggedIn ? (
                   <>
                     <Link
-                      onClick={() => handleClick("connexion")}
-                      to="/login"
+                      onClick={() => {
+                        handleClick("connexion");
+                        setIsLoginModalOpen(true);
+                      }}
+                      to="#"
                       className={`navbar-link ${
                         isActive === "connexion" && "is-active"
                       }`}
@@ -134,6 +149,9 @@ export default function Navbar() {
             )}
           </div>
         </div>
+      )}
+      {isLoginModalOpen && (
+        <LoginModal setIsLoginModalOpen={setIsLoginModalOpen} />
       )}
     </nav>
   );
