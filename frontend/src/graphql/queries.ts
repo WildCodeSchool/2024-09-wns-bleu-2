@@ -40,7 +40,6 @@ export const GET_CARPOOL_BY_ID = gql`
         avatar
         car {
           brand
-          model
           color
           }
       }

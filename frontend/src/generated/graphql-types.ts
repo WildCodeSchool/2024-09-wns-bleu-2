@@ -296,7 +296,7 @@ export type GetCarpoolByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string>, driver: { __typename?: 'User', firstname: string, id: number, avatar?: string | null, car?: { __typename?: 'CarInfos', brand: string, model?: string | null, color?: string | null } | null }, bookings: Array<{ __typename?: 'Booking', id: number, numPassenger: number, reservedAt: any, passenger: { __typename?: 'User', id: number, firstname: string, avatar?: string | null } }> } };
+export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string>, driver: { __typename?: 'User', firstname: string, id: number, avatar?: string | null, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null } | null }, bookings: Array<{ __typename?: 'Booking', id: number, numPassenger: number, reservedAt: any, passenger: { __typename?: 'User', id: number, firstname: string, avatar?: string | null } }> } };
 
 export type GetCarpoolsByUserIdQueryVariables = Exact<{
   userId: Scalars['Float']['input'];
@@ -658,7 +658,6 @@ export const GetCarpoolByIdDocument = gql`
       avatar
       car {
         brand
-        model
         color
       }
     }

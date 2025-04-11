@@ -55,7 +55,7 @@ const DriverInfo: React.FC<DriverInfoProps> = ({ carpool }) => {
         <div className="driver-car">
           <Car size={20} />
           <p>
-            {driver.car.brand} {driver.car.model} – {driver.car.color}
+            {driver.car.brand} – {driver.car.color}
           </p>
         </div>
       )}
