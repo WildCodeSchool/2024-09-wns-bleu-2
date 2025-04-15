@@ -24,9 +24,10 @@ import {
   getBookedSeats,
   getAvailableSeats,
 } from "../utils/tripUtils";
-import { ApolloError } from "@apollo/client/errors";
+//import { ApolloError } from "@apollo/client/errors";
 import "../styles/trip-cards.scss";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface TripCardProps {
   tripDetails: Carpool | Booking;
@@ -48,8 +49,8 @@ export default function TripCard({
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   // Local state to hide the card once deleted.
   const [isDeleted, setIsDeleted] = useState(false);
+  const navigate = useNavigate();
 
-  console.log("tripDetails", tripDetails, "mode", mode, "data", data);
   ////to dynamicaly get the window width on resize
   useEffect(() => {
     const handleResize = () => {
@@ -63,14 +64,26 @@ export default function TripCard({
     };
   }, [setWindowWidth]);
 
-  // Use the codegen generated hook.
   const [deleteCarpool, { loading: deleteLoading }] = useDeleteCarpoolMutation({
-    // Optionally, you can update the Apollo cache here
+    update: (cache) => {
+      cache.modify({
+        fields: {
+          getCarpoolsByUserId(existingCarpools = [], { readField }) {
+            return existingCarpools.filter((carpoolRef: any) => {
+              return readField("id", carpoolRef) !== tripDetails.id;
+            });
+          },
+        },
+      });
+    },
+
     onCompleted: () => {
       setIsDeleted(true);
       toast.success("Carpool deleted successfully");
+      navigate("/mytrips/:id");
     },
-    onError: (error: ApolloError) => {
+
+    onError: (error) => {
       console.error("Error deleting carpool:", error);
       alert("Failed to delete the carpool.");
     },
@@ -79,6 +92,7 @@ export default function TripCard({
   // Handler for delete button click.
   const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
+
     if (window.confirm("Are you sure you want to delete this carpool?")) {
       deleteCarpool({
         variables: { id: Number(tripDetails.id) },
@@ -141,8 +155,16 @@ export default function TripCard({
             le <span className="date">{formatDate(data.departure_date)}</span>
           </p>
 
-          {new Date(data.departure_date).getTime() - new Date().getTime() >
-            86400000 &&
+          {new Date(
+            new Date(data.departure_date).getFullYear(),
+            new Date(data.departure_date).getMonth(),
+            new Date(data.departure_date).getDate()
+          ).getTime() >=
+            new Date(
+              new Date().getFullYear(),
+              new Date().getMonth(),
+              new Date().getDate()
+            ).getTime() &&
             mode === "carpool" && (
               <button
                 className={`${windowWidth > 885 ? btnClass : ""}`}
@@ -181,9 +203,7 @@ export default function TripCard({
           <div className="vertical-line" />
           <div className="trip-price">
             <p>{data.price} €</p>
-            {new Date(data.departure_date).getTime() - new Date().getTime() >
-              86400000 &&
-              mode === "carpool" &&
+            {mode === "carpool" &&
               window.location.href.includes("/mytrips") && (
                 <ChevronRight
                   className="animated"

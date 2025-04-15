@@ -3,21 +3,10 @@ import { createRoot } from "react-dom/client";
 import "./styles/root.scss";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  HttpLink,
-} from "@apollo/client";
-
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
-  link: new HttpLink({
-    uri: "http://localhost:8000/api",
-    headers: {
-      "x-apollo-operation-name": "safe-request",
-    },
-  }),
+  uri: "http://localhost:8000/api",
   cache: new InMemoryCache(),
 });
 
