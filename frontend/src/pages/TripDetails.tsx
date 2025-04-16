@@ -8,7 +8,7 @@ import TripCard from "../components/TripCard";
 import { formatDate } from "../utils/dateUtils";
 import "../styles/trip-details.scss";
 import { getBookedSeats } from "../utils/tripUtils";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, HeartCrack } from "lucide-react";
 import avatar from "/public/avatar.webp";
 import { toast } from "react-toastify";
 import React from "react";
@@ -64,7 +64,15 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
           mode="carpool"
         />
         <div className="passengers-card">
-          <h2>{getBookedSeats(tripDetails as Carpool, mode)} Passagers</h2>
+          <h2>
+            {getBookedSeats(tripDetails as Carpool, mode) !== 0 ? (
+              getBookedSeats(tripDetails as Carpool, mode) + " Passagers"
+            ) : (
+              <>
+                Tu n'as encore aucun passager <HeartCrack />
+              </>
+            )}
+          </h2>
           <div className="horizontal-line" />
           <div className="passengers-wrapper">
             {tripDetails.bookings.map((booking, index) => (
