@@ -3,7 +3,7 @@ import { Carpool, Booking } from "../generated/graphql-types";
 export const getCarpoolData = (
   tripDetails: Carpool | Booking,
   mode: "carpool" | "booking",
-  carpoolData?: Carpool // Optional parameter for Carpool data
+  carpoolData?: Carpool
 ): Carpool => {
   if (mode === "carpool") {
     return tripDetails as Carpool; // Directly return Carpool data when mode is "carpool"

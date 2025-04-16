@@ -1,30 +1,21 @@
 export const separateTripsByDate = (trips: any[]) => {
-  const today = new Date();
-  const todayMidnight = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate()
-  );
+  const today = new Date().getTime();
 
   const upcomingTrips: any[] = [];
   const pastTrips: any[] = [];
 
   for (const trip of trips) {
-    const departureDate = new Date(trip.departure_date);
-
-    if (isNaN(departureDate.getTime())) {
+    //////refacto date format to have date + hours
+    const departureDate = new Date(
+      `${trip.departure_date}T${trip.departure_time}`
+    ).getTime();
+    console.log("Departure date:", trip.departure_date, departureDate >= today);
+    if (isNaN(departureDate)) {
       console.warn("Invalid trip format:", trip);
       continue;
     }
 
-    ///// Set the time to midnight for the departure date
-    const departureMidnight = new Date(
-      departureDate.getFullYear(),
-      departureDate.getMonth(),
-      departureDate.getDate()
-    );
-
-    if (departureMidnight.getTime() >= todayMidnight.getTime()) {
+    if (departureDate >= today) {
       upcomingTrips.push(trip);
     } else {
       pastTrips.push(trip);
