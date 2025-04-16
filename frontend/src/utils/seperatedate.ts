@@ -9,7 +9,7 @@ export const separateTripsByDate = (trips: any[]) => {
     const departureDate = new Date(
       `${trip.departure_date}T${trip.departure_time}`
     ).getTime();
-    console.log("Departure date:", trip.departure_date, departureDate >= today);
+
     if (isNaN(departureDate)) {
       console.warn("Invalid trip format:", trip);
       continue;
