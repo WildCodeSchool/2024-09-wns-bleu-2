@@ -90,7 +90,7 @@ describe("PublishRoute - form submission", () => {
       fireEvent.click(incrementBtn);
     }
 
-    expect(screen.getByTestId("price-value")).toHaveTextContent("10 €");
+    expect(screen.getByTestId("price-value")).toHaveValue(10);
 
     const selects = screen.getAllByRole("combobox");
 

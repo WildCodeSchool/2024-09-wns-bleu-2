@@ -77,3 +77,26 @@ export const DELETE_PASSENGER = gql`
     deleteBooking(carpoolId: $carpoolId, passengerId: $passengerId)
   }
 `;
+
+export const CREATE_BOOKING = gql`
+  mutation CreateBooking($data: BookingInput!) {
+    createBooking(data: $data) {
+      id
+      carpool {
+        id
+        departure_city
+        arrival_city
+        departure_date
+        departure_time
+        num_passenger
+        toll
+        duration
+        price
+        options
+      }
+      passenger {
+        id
+        firstname
+      }
+    }
+  }`;
