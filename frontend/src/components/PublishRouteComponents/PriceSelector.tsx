@@ -36,13 +36,36 @@ const PriceSelector: React.FC<PriceSelectorProps> = ({ price, setPrice }) => {
             <CircleMinus size={28} style={{ color: "#fff" }} />
           </button>
 
-          <span
-            className="price-value"
-            aria-live="polite"
-            data-testid="price-value"
-          >
-            {price} €
-          </span>
+          <div className="price-input-wrapper">
+            <input
+              type="number"
+              min={MIN_PRICE}
+              max={MAX_PRICE}
+              value={isNaN(price) ? "" : price}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+
+                if (inputValue === "") {
+                  setPrice(NaN);
+                  return;
+                }
+
+                const val = Number(inputValue);
+                if (val >= MIN_PRICE && val <= MAX_PRICE) {
+                  setPrice(val);
+                }
+              }}
+              onBlur={() => {
+                if (!price || isNaN(price)) {
+                  setPrice(MIN_PRICE);
+                }
+              }}
+              className="price-value-input"
+              aria-label="Prix par place"
+              data-testid="price-value"
+            />
+            <span className="euro-symbol"> €</span>
+          </div>
 
           <button
             type="button"
