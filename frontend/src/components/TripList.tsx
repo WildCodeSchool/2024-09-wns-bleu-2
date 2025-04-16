@@ -24,6 +24,18 @@ export default function TripList({
   const { upcomingTrips, pastTrips } = separateTripsByDate(trips);
   const navigate = useNavigate();
 
+  const sortedUpcomingTrips = [...upcomingTrips].sort(
+    (a, b) =>
+      new Date(a.departure_date + "T" + a.departure_time).getTime() -
+      new Date(b.departure_date + "T" + b.departure_time).getTime()
+  );
+
+  const sortedPastTrips = [...pastTrips].sort(
+    (a, b) =>
+      new Date(b.departure_date + "T" + b.departure_time).getTime() -
+      new Date(a.departure_date + "T" + a.departure_time).getTime()
+  );
+
   const buttonLabel =
     mode === "carpool" ? "Publier un trajet" : "Réserver un autre trajet";
   const buttonRedirect = mode === "carpool" ? "/publish-route" : "/search-page";
@@ -35,8 +47,8 @@ export default function TripList({
         <div className="carpool-section">
           <h2>{titleUpcoming}</h2>
           <div className="carpool-main">
-            {upcomingTrips.length > 0 ? (
-              upcomingTrips.map((trip: any, index: number) => (
+            {sortedUpcomingTrips.length > 0 ? (
+              sortedUpcomingTrips.map((trip: any) => (
                 <div
                   key={trip.id}
                   className="card-button"
@@ -52,7 +64,6 @@ export default function TripList({
                   <TripCard
                     tripDetails={trip}
                     isUpcoming={true}
-                    tripIndex={index}
                     mode={mode}
                     carpoolData={mode === "booking" ? trip.carpool : undefined}
                   />
@@ -68,13 +79,12 @@ export default function TripList({
         <div className="carpool-section">
           <h2>{titlePast}</h2>
           <div className="carpool-main">
-            {pastTrips.length > 0 ? (
-              pastTrips.map((trip: any, index: number) => (
+            {sortedPastTrips.length > 0 ? (
+              sortedPastTrips.map((trip: any) => (
                 <TripCard
                   key={trip.id}
                   tripDetails={trip}
                   isUpcoming={false}
-                  tripIndex={index}
                   mode={mode}
                   carpoolData={mode === "booking" ? trip.carpool : undefined}
                 />

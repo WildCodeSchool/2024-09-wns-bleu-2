@@ -31,7 +31,6 @@ import { useNavigate } from "react-router-dom";
 
 interface TripCardProps {
   tripDetails: Carpool | Booking;
-  tripIndex: number;
   mode: "carpool" | "booking";
   isUpcoming?: boolean;
   carpoolData?: Carpool;
