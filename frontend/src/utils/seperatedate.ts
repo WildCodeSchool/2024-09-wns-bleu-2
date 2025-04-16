@@ -21,6 +21,17 @@ export const separateTripsByDate = (trips: any[]) => {
       pastTrips.push(trip);
     }
   }
+  const sortedUpcomingTrips = [...upcomingTrips].sort(
+    (a, b) =>
+      new Date(a.departure_date + "T" + a.departure_time).getTime() -
+      new Date(b.departure_date + "T" + b.departure_time).getTime()
+  );
 
-  return { upcomingTrips, pastTrips };
+  const sortedPastTrips = [...pastTrips].sort(
+    (a, b) =>
+      new Date(b.departure_date + "T" + b.departure_time).getTime() -
+      new Date(a.departure_date + "T" + a.departure_time).getTime()
+  );
+
+  return { sortedUpcomingTrips, sortedPastTrips };
 };
