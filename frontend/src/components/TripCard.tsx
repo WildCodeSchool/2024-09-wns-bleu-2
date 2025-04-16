@@ -26,8 +26,9 @@ import {
 } from "../utils/tripUtils";
 //import { ApolloError } from "@apollo/client/errors";
 import "../styles/trip-cards.scss";
+import { GET_CARPOOLS_BY_USER_ID } from "../graphql/queries";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 interface TripCardProps {
   tripDetails: Carpool | Booking;
@@ -45,11 +46,11 @@ export default function TripCard({
   const data = getCarpoolData(tripDetails, mode, carpoolData); // Pass the carpool data if mode is booking
   const bookedSeats = getBookedSeats(tripDetails, mode);
   const availableSeats = getAvailableSeats(tripDetails, mode);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   // Local state to hide the card once deleted.
-  const [isDeleted, setIsDeleted] = useState(false);
+  //const [isDeleted, setIsDeleted] = useState(false);
 
   console.log("tripDetails", tripDetails, "mode", mode, "data", data);
   ////to dynamicaly get the window width on resize
@@ -65,43 +66,41 @@ export default function TripCard({
     };
   }, [setWindowWidth]);
 
-  const [deleteCarpool, { loading: deleteLoading }] = useDeleteCarpoolMutation({
-    update: (cache) => {
-      cache.modify({
-        fields: {
-          getCarpoolsByUserId(existingCarpools = [], { readField }) {
-            return existingCarpools.filter((carpoolRef: any) => {
-              return readField('id', carpoolRef) !== tripDetails.id;
-            });
-          },
-        },
-      });
-    },
+  // const [deleteCarpool, { loading: deleteLoading }] = useDeleteCarpoolMutation({
+  //   update: (cache) => {
+  //     cache.modify({
+  //       fields: {
+  //         getCarpoolsByUserId(existingCarpools = [], { readField }) {
+  //           return existingCarpools.filter((carpoolRef: any) => {
+  //             return readField('id', carpoolRef) !== tripDetails.id;
+  //           });
+  //         },
+  //       },
+  //     });
+  //   },
   
+  //   onCompleted: () => {
+  //     setIsDeleted(true);
+  //     toast.success("Carpool deleted successfully");
+  //     navigate("/mytrips/:id");
+  //   },
+  
+  //   onError: (error) => {
+  //     console.error("Error deleting carpool:", error);
+  //     alert("Failed to delete the carpool.");
+  //   },
+  // });
+
+  const [deleteCarpool] = useDeleteCarpoolMutation({
     onCompleted: () => {
-      setIsDeleted(true);
       toast.success("Carpool deleted successfully");
-      navigate("/mytrips/:id");
+     // navigate("/mytrips/:id");
     },
-  
-    onError: (error) => {
+    onError: (error: any) => {
       console.error("Error deleting carpool:", error);
       alert("Failed to delete the carpool.");
     },
   });
-  // Handler for delete button click.
-  const handleDeleteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-
-    event.stopPropagation();
-
-    if (window.confirm("Are you sure you want to delete this carpool?")) {
-      deleteCarpool({
-        variables: { id: Number(tripDetails.id) },
-      });
-    }
-  };
-
-  if (isDeleted) return null;
 
   const toll = data.toll ? "Avec péage" : "Sans péage";
   const icon = data.toll ? (
@@ -161,8 +160,22 @@ export default function TripCard({
             mode === "carpool" && (
               <button
                 className={`${windowWidth > 885 ? btnClass : ""}`}
-                onClick={handleDeleteClick}
-                disabled={deleteLoading}
+                // onClick={handleDeleteClick}
+                // disabled={deleteLoading}
+                      onClick={
+                async (event: React.MouseEvent<HTMLButtonElement>) => {
+                  event.stopPropagation();
+                  console.log("delete carpool with id", data.id);
+                  if (data.id) {
+                    if(window.confirm("Are you sure you want to cancel this trip?")){
+                    await deleteCarpool({
+                      variables: { id: Number(data.id) },
+                      refetchQueries: [GET_CARPOOLS_BY_USER_ID], // refetch the list of carpools after deletion
+                      awaitRefetchQueries: true,
+                    });
+                  }
+                }
+                }}
               >
                 {windowWidth > 885 ? "ANNULER" : <X />}
               </button>
