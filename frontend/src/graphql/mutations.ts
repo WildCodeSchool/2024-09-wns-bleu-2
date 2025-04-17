@@ -45,11 +45,11 @@ export const UPDATE_USER_PROFILE = gql`
   }
 `;
 
-// const DELETE_CARPOOL = gql`
-//   mutation DeleteCarpool($id: Float!) {
-//     deleteCarpool(id: $id)
-//   }
-// `;
+export const DELETE_CARPOOL = gql`
+  mutation DeleteCarpool($id: Float!) {
+    deleteCarpool(id: $id)
+  }
+`;
 
 export const CREATE_CARPOOL = gql`
   mutation CreateCarpool($data: CarpoolInput!) {
