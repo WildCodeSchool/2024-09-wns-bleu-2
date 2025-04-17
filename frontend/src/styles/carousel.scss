@@ -4,6 +4,9 @@
   margin-top: 30px;
   overflow: hidden;
   width: 100%;
+  @media screen and (min-width: 500px) {
+    margin-top: 50px;
+  }
   .embla__container {
     display: flex;
     width: 100%;
