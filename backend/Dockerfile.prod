@@ -14,7 +14,7 @@ COPY tsconfig.json tsconfig.json
 
 RUN npm run build
 
-COPY dist dist
-COPY src/data /app/dist/data
+# COPY dist dist
+# COPY src/data /app/dist/data
 
 CMD npm run startprod
