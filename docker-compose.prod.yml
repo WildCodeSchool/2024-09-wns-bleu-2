@@ -16,7 +16,7 @@ services:
         condition: service_healthy
 
   backend:
-    image: 2024-09-wns-bleu-2/backend
+    image: neliacourtais/backend
     healthcheck:
       test: 'curl --fail --request POST --header ''content-type: application/json'' --url ''http://localhost:4000'' --data ''{"query":"query { __typename }"}'' || exit 1'
       interval: 1s
@@ -31,7 +31,7 @@ services:
       - "4000:4000"
 
   frontend:
-    image: 2024-09-wns-bleu-2/frontend
+    image: neliacourtais/frontend:001b89e
     depends_on:
       backend:
         condition: service_healthy
