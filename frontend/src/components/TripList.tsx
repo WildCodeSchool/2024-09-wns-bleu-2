@@ -54,6 +54,7 @@ export default function TripList({
                     isUpcoming={true}
                     mode={mode}
                     carpoolData={mode === "booking" ? trip.carpool : undefined}
+                    tripIndex={trip.id}
                   />
                 </div>
               ))
@@ -75,6 +76,7 @@ export default function TripList({
                   isUpcoming={false}
                   mode={mode}
                   carpoolData={mode === "booking" ? trip.carpool : undefined}
+                  tripIndex={trip.id}
                 />
               ))
             ) : (
