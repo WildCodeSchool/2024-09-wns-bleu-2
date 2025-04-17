@@ -4,16 +4,20 @@ import { useState, useEffect } from "react";
 import Logo from "./Logo";
 import Burger from "./responsive/Burger";
 import Dropdown from "./Dropdown";
-import LoginModal from "../components/LoginModal";
 import {
   useGetUserInfoQuery,
   useLogoutMutation,
 } from "../generated/graphql-types";
 
-export default function Navbar() {
+
+type NavbarProps = {
+  setIsLoginModalOpen: (value: boolean) => void;
+};
+
+export default function Navbar({ setIsLoginModalOpen }: NavbarProps) {
   const [isActive, setIsActive] = useState("");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  
 
   const { data, refetch } = useGetUserInfoQuery();
   const [logout] = useLogoutMutation();
@@ -143,9 +147,6 @@ export default function Navbar() {
             )}
           </div>
         </div>
-      )}
-      {isLoginModalOpen && (
-        <LoginModal setIsLoginModalOpen={setIsLoginModalOpen} />
       )}
     </nav>
   );

@@ -1,4 +1,4 @@
-import "../styles/login.scss";
+// import "../styles/login.scss";
 import { toast } from "react-toastify";
 import { useLoginMutation } from "../generated/graphql-types";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -54,35 +54,37 @@ const LoginModal = ({ setIsLoginModalOpen }: Props) => {
    };
 
    return (
-      <>
-         {/* <div className="modalContainer">
-            <div className="modalContent">
-               <div className="close-btn">
-                  <X onClick={closeModal}/>
-               </div>
-               <h1>Se connecter</h1>
-               <form className="form login-form" onSubmit={handleSubmit(onSubmit)}>
+      <div className="modal">
+         <div className="close-btn">
+            <X onClick={closeModal} size={50} />
+         </div>
+         <div className="modalContent">
+            <h1>Se connecter</h1>
+            <form className="form login-form" onSubmit={handleSubmit(onSubmit)}>
+               <div className="input-container">
                   <label htmlFor="login">Adresse email
                      <input className="text-field" type="email" placeholder="monemail@gmail.com" {...register("login", { required: true })} />
                      {errors.login && <span>Ce champ est requis.</span>}
                   </label>
+               </div>
 
+               <div className="input-container">
                   <label htmlFor="password">Votre mot de passe
                      <input className="text-field pwd" type="password" {...register("password", { required: true })} />
                      {errors.password && <span>Ce champ est requis.</span>}
                   </label>
-                  <div className="links">
-                     <Link to="/forgotten-password" className="login-button">Mot de passe oublié ?</Link>
-                     <Link to="/register" className="login-button">S'inscrire</Link>
-                  </div>
+               </div>
+               <div className="links">
+                  <Link to="/forgotten-password" className="login-button">Mot de passe oublié ?</Link>
+                  <Link to="/register" className="login-button">S'inscrire</Link>
+               </div>
 
-                  <div className="submit-container">
-                     <button type="submit"><ChevronRight /> Connexion</button>
-                  </div>
-               </form>
-            </div>
-         </div> */}
-      </>
+               <div className="submit-container">
+                  <button type="submit"><ChevronRight size={50} /> Connexion</button>
+               </div>
+            </form>
+         </div>
+      </div>
    );
 };
 
