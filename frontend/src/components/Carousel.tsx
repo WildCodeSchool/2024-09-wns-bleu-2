@@ -1,10 +1,12 @@
 import useEmblaCarousel from "embla-carousel-react";
 import "../styles/carousel.scss";
 import "../styles/trip-cards.scss";
+
 import { useGetCarpoolsQuery } from "../generated/graphql-types";
 import { separateTripsByDate } from "../utils/seperatedate.ts";
 import { getUniqueTripsByCity, backgroundClasses } from "../utils/tripUtils";
 import { ChevronRight, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function EmblaCarousel() {
   const [emblaRef] = useEmblaCarousel({ loop: false });
@@ -14,11 +16,9 @@ export default function EmblaCarousel() {
   if (error) return <p>Error: {error.message}</p>;
 
   const { sortedUpcomingTrips } = separateTripsByDate(data?.getCarpools ?? []);
-
-  console.log(sortedUpcomingTrips);
-
   const uniqueTrips = getUniqueTripsByCity(sortedUpcomingTrips);
 
+  const navigate = useNavigate();
   return (
     <div className="embla" ref={emblaRef}>
       <div className="embla__container">
@@ -44,7 +44,10 @@ export default function EmblaCarousel() {
                     Dès <span>{carpool.price}€</span>
                   </p>
                 </div>
-                <button className="trip-booking">
+                <button
+                  className="trip-booking animated"
+                  onClick={() => navigate("/search-page")}
+                >
                   <ChevronRight
                     className="animated"
                     width={20}
