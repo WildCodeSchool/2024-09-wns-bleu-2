@@ -15,23 +15,22 @@ $color-search: #666666;
 $font-family: Popins, sans-serif;
 $font-family-secondary: Manjari, sans-serif;
 //desktop
-$font-size-title-desk: 48px;
+$font-size-huge: 48px;
 $font-size-text-desk: 20px;
-$font-size-search-desk: 20px;
-$font-size-card-desk: 32px;
+$font-size-big-text: 32px;
 
 //mobile
 $font-size-title-mobile: 24px;
-$font-size-text-mobile: 15px;
-$font-size-search-mobile: 16px;
-$font-size-card-mobile: 20px;
+$font-size-small-text: 15px;
+$font-size-normal-text: 16px;
 
 * {
   margin: 0;
   padding: 0;
   font-family: $font-family;
 }
-html, body {
+html,
+body {
   height: 100%;
 }
 body {

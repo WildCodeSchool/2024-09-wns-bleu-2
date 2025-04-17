@@ -41,7 +41,7 @@
           font-family: $font-family-secondary;
         }
         .time {
-          font-size: $font-size-card-mobile;
+          font-size: $font-size-text-desk;
         }
 
         .duration {
@@ -86,7 +86,7 @@
 
         .city {
           font-family: $font-family-secondary;
-          font-size: $font-size-search-mobile;
+          font-size: $font-size-normal-text;
           font-weight: 300;
         }
       }
@@ -171,7 +171,7 @@
         align-items: center;
         gap: 10px;
         p {
-          font-size: $font-size-card-desk;
+          font-size: $font-size-big-text;
         }
         .animated {
           animation: moveUp 1s ease-in-out infinite;

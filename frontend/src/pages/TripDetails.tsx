@@ -58,11 +58,7 @@ export default function TripDetails({ tripIndex }: { tripIndex: number }) {
     <div className="page-container">
       <div className="page-wrapper">
         <h1>Mon Grumpy Trip du {formatDate(tripDetails.departure_date)}</h1>
-        <TripCard
-          tripDetails={tripDetails as Carpool}
-          tripIndex={tripIndex}
-          mode="carpool"
-        />
+        <TripCard tripDetails={tripDetails as Carpool} mode="carpool" />
         <div className="passengers-card">
           <h2>
             {getBookedSeats(tripDetails as Carpool, mode) !== 0 ? (

@@ -9,7 +9,7 @@ import {
 export default function Burger({
   isActive,
   handleClick,
-  setIsLoginModalOpen
+  setIsLoginModalOpen,
 }: {
   isActive: string;
   handleClick: (section: string) => void;
@@ -26,6 +26,8 @@ export default function Burger({
     await logout();
     await refetch();
   };
+  const { data: userData } = useGetUserInfoQuery();
+  const userId = userData?.getUserInfo?.id;
 
   return (
     <>
@@ -42,21 +44,21 @@ export default function Burger({
             </Link>
             <Link
               onClick={() => handleClick("publish")}
-              to="/"
+              to="/publish-route"
               className={`navbar-link ${isActive === "publish" && "is-active"}`}
             >
               Publier un Grumpy Trip
             </Link>
             <Link
               onClick={() => handleClick("my-resa")}
-              to="/"
+              to={`/myreservations/${userId}`}
               className={`navbar-link ${isActive === "my-resa" && "is-active"}`}
             >
               Mes réservations
             </Link>
             <Link
               onClick={() => handleClick("my-trips")}
-              to="/"
+              to={`/mytrips/${userId}`}
               className={`navbar-link ${
                 isActive === "my-trips" && "is-active"
               }`}
