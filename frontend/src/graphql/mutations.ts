@@ -45,7 +45,7 @@ export const UPDATE_USER_PROFILE = gql`
   }
 `;
 
-const DELETE_CARPOOL = gql`
+export const DELETE_CARPOOL = gql`
   mutation DeleteCarpool($id: Float!) {
     deleteCarpool(id: $id)
   }
