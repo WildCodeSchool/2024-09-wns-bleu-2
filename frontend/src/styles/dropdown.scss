@@ -12,9 +12,9 @@
     display: flex;
     align-items: center;
     gap: 3px;
-    font-size: $font-size-search-mobile;
+    font-size: $font-size-normal-text;
     @media screen and (min-width: 1221px) {
-      font-size: $font-size-text-desk;
+      font-size: $font-size-title-mobile;
     }
   }
   .dropdown-menu {
@@ -38,7 +38,7 @@
       font-weight: 300;
       color: #000000;
       padding: 15px 0;
-      font-size: $font-size-search-mobile;
+      font-size: $font-size-normal-text;
       @media screen and (min-width: 1221px) {
         font-size: $font-size-text-desk;
       }
