@@ -24,11 +24,10 @@ import {
   getBookedSeats,
   getAvailableSeats,
 } from "../utils/tripUtils";
-//import { ApolloError } from "@apollo/client/errors";
 import "../styles/trip-cards.scss";
 import { GET_CARPOOLS_BY_USER_ID } from "../graphql/queries";
 import { toast } from "react-toastify";
-//import { useNavigate } from "react-router-dom";
+
 
 interface TripCardProps {
   tripDetails: Carpool | Booking;
@@ -46,11 +45,8 @@ export default function TripCard({
   const data = getCarpoolData(tripDetails, mode, carpoolData); // Pass the carpool data if mode is booking
   const bookedSeats = getBookedSeats(tripDetails, mode);
   const availableSeats = getAvailableSeats(tripDetails, mode);
-  //const navigate = useNavigate();
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  // Local state to hide the card once deleted.
-  //const [isDeleted, setIsDeleted] = useState(false);
 
   ////to dynamicaly get the window width on resize
   useEffect(() => {
@@ -65,35 +61,9 @@ export default function TripCard({
     };
   }, [setWindowWidth]);
 
-  // const [deleteCarpool, { loading: deleteLoading }] = useDeleteCarpoolMutation({
-  //   update: (cache) => {
-  //     cache.modify({
-  //       fields: {
-  //         getCarpoolsByUserId(existingCarpools = [], { readField }) {
-  //           return existingCarpools.filter((carpoolRef: any) => {
-  //             return readField('id', carpoolRef) !== tripDetails.id;
-  //           });
-  //         },
-  //       },
-  //     });
-  //   },
-  
-  //   onCompleted: () => {
-  //     setIsDeleted(true);
-  //     toast.success("Carpool deleted successfully");
-  //     navigate("/mytrips/:id");
-  //   },
-  
-  //   onError: (error) => {
-  //     console.error("Error deleting carpool:", error);
-  //     alert("Failed to delete the carpool.");
-  //   },
-  // });
-
   const [deleteCarpool] = useDeleteCarpoolMutation({
     onCompleted: () => {
       toast.success("Carpool deleted successfully");
-     // navigate("/mytrips/:id");
     },
     onError: (error: any) => {
       console.error("Error deleting carpool:", error);
@@ -167,9 +137,7 @@ export default function TripCard({
             mode === "carpool" && (
               <button
                 className={`${windowWidth > 885 ? btnClass : ""}`}
-                // onClick={handleDeleteClick}
-                // disabled={deleteLoading}
-                      onClick={
+                onClick={
                 async (event: React.MouseEvent<HTMLButtonElement>) => {
                   event.stopPropagation();
                   console.log("delete carpool with id", data.id);
