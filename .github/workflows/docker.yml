@@ -1,5 +1,10 @@
 name: build and push docker images
-on: push
+on:
+  push:
+    branches:
+      - main
+      - staging
+      - develop
 
 jobs:
   docker:
