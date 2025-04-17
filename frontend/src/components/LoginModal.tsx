@@ -80,7 +80,7 @@ const LoginModal = ({ setIsLoginModalOpen }: Props) => {
                </div>
 
                <div className="submit-container">
-                  <button type="submit"><ChevronRight size={50} /> Connexion</button>
+                  <button type="submit"><ChevronRight size={30} /> Connexion</button>
                </div>
             </form>
          </div>

@@ -1,7 +1,6 @@
 @import "../styles/root.scss";
 
 .modal {
-   height: 50%;
    width: 50%;
    background: rgb(216 216 211 / 50%);
    position: fixed;
@@ -27,8 +26,8 @@
       justify-content: center;
       text-align: center;
       h1 {
-         margin-bottom: 1.5rem;
-         font-size: clamp(2rem, 4vw, 4rem);
+         // margin-bottom: 1.5rem;
+         font-size: clamp(2rem, 3vw, 2rem);
       }
       .login-form {
          width: 50%;
@@ -43,7 +42,7 @@
                flex-direction: column;
                margin-bottom: 1rem;
                align-items: start;
-               font-size: clamp(1rem, 3vw, 2rem);
+               font-size: clamp(1rem, 3vw, 1.2rem);
                input {
                   background-color: #f7f7f7;
                   border-radius: 30px;
@@ -81,7 +80,7 @@
          button {
             margin: 2em auto 0;
             padding: 12px 30px;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             border-radius: 30px;
             background-color: $color-card-green;
             border: none;
@@ -108,8 +107,6 @@
 }
 @media (max-width: $bp-mobile) {
    .modal {
-      width: 70%;
-      height: 40%;
       background: rgba(216, 216, 211, 0.65);
       .submit-container {
          button {

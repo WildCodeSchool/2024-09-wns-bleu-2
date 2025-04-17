@@ -1,7 +1,7 @@
 import "../styles/navbar.scss";
 import "../styles/dropdown.scss";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import Logo from "./Logo";
 import Burger from "./responsive/Burger";
 import Dropdown from "./Dropdown";
@@ -12,7 +12,7 @@ import {
 
 
 type NavbarProps = {
-  setIsLoginModalOpen: (value: boolean) => void;
+  setIsLoginModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function Navbar({ setIsLoginModalOpen }: NavbarProps) {
@@ -54,7 +54,7 @@ export default function Navbar({ setIsLoginModalOpen }: NavbarProps) {
         </Link>
       </div>
       {windowWidth < 885 ? (
-        <Burger isActive={isActive} handleClick={handleClick} />
+        <Burger isActive={isActive} handleClick={handleClick} setIsLoginModalOpen={setIsLoginModalOpen} />
       ) : (
         <div className="navbar-container closed">
           <div className="navbar-left">
@@ -96,6 +96,7 @@ export default function Navbar({ setIsLoginModalOpen }: NavbarProps) {
                 handleClick={handleClick}
                 isLoggedIn={isLoggedIn}
                 handleLogout={handleLogout}
+                setIsLoginModalOpen={setIsLoginModalOpen}
               />
             ) : (
               <>

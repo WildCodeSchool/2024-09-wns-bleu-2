@@ -7,11 +7,13 @@ export default function Dropdown({
   handleClick,
   isLoggedIn,
   handleLogout,
+  setIsLoginModalOpen
 }: {
   isActive: string;
   handleClick: (action: string) => void;  // Argument d'action : register, login ...
   isLoggedIn: boolean | undefined;
   handleLogout: () => void;
+  setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -29,10 +31,11 @@ export default function Dropdown({
           {!isLoggedIn ? (
             <>
               <Link
-                to="/login"
+                to="#"
                 onClick={() => {
                   handleClick("login");
                   setIsOpen(false);
+                  setIsLoginModalOpen(true);
                 }}
                 className={`dropdown-item ${
                   isActive === "login" && "is-active absolute"

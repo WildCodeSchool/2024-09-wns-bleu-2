@@ -9,9 +9,11 @@ import {
 export default function Burger({
   isActive,
   handleClick,
+  setIsLoginModalOpen
 }: {
   isActive: string;
   handleClick: (section: string) => void;
+  setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -66,8 +68,12 @@ export default function Burger({
             {!isLoggedIn ? (
               <>
                 <Link
-                  onClick={() => handleClick("connexion")}
-                  to="/login"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsLoginModalOpen(true);
+                    setIsOpen(false);
+                  }}
+                  to="#"
                   className={`navbar-link ${
                     isActive === "connexion" && "is-active"
                   }`}
