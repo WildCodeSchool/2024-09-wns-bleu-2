@@ -1,4 +1,5 @@
 import "../styles/navbar.scss";
+import "../styles/dropdown.scss";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Logo from "./Logo";
@@ -76,9 +77,7 @@ export default function Navbar() {
             </Link>
             <Link
               onClick={() => handleClick("my-trips")}
-
               to={`/mytrips/${userId}`}
-              
               className={`navbar-link ${
                 isActive === "my-trips" && "is-active"
               }`}
@@ -87,7 +86,7 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="navbar-right">
-            {windowWidth < 1025 && windowWidth > 884 ? (
+            {(windowWidth < 1025 && windowWidth > 884) || isLoggedIn ? (
               <Dropdown
                 isActive={isActive}
                 handleClick={handleClick}
@@ -96,49 +95,28 @@ export default function Navbar() {
               />
             ) : (
               <>
-                {!isLoggedIn ? (
-                  <>
-                    <Link
-                      onClick={() => {
-                        handleClick("connexion");
-                        setIsLoginModalOpen(true);
-                      }}
-                      to="#"
-                      className={`navbar-link ${
-                        isActive === "connexion" && "is-active"
-                      }`}
-                    >
-                      Se connecter
-                    </Link>
-                    <Link
-                      onClick={() => handleClick("register")}
-                      to="/register"
-                      className={`navbar-link ${
-                        isActive === "register" && "is-active"
-                      }`}
-                      id="last-link"
-                    >
-                      S'inscrire
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <Link
-                      to="/profile"
-                      className={`navbar-link ${
-                        isActive === "account" && "is-active"
-                      }`}
-                    >
-                      Mon compte
-                    </Link>
-                    <button
-                      className="navbar-link logout-button"
-                      onClick={handleLogout}
-                    >
-                      Déconnexion
-                    </button>
-                  </>
-                )}
+                <Link
+                  onClick={() => {
+                    handleClick("connexion");
+                    setIsLoginModalOpen(true);
+                  }}
+                  to="#"
+                  className={`navbar-link ${
+                    isActive === "connexion" && "is-active"
+                  }`}
+                >
+                  Se connecter
+                </Link>
+                <Link
+                  onClick={() => handleClick("register")}
+                  to="/register"
+                  className={`navbar-link ${
+                    isActive === "register" && "is-active"
+                  }`}
+                  id="last-link"
+                >
+                  S'inscrire
+                </Link>
               </>
             )}
           </div>
