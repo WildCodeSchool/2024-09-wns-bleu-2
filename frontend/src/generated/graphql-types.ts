@@ -344,6 +344,11 @@ export type SearchCarpoolsQueryVariables = Exact<{
 
 export type SearchCarpoolsQuery = { __typename?: 'Query', searchCarpools: Array<{ __typename?: 'Carpool', id: string, departure_city: string, arrival_city: string, departure_date: string, departure_time: string, num_passenger: number, price: number, duration: number, toll: boolean, options: Array<string>, driver: { __typename?: 'User', firstname: string, lastname: string, avatar?: string | null } }> };
 
+export type GetCarpoolsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCarpoolsQuery = { __typename?: 'Query', getCarpools: Array<{ __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, price: number, duration: number, toll: boolean, options: Array<string>, driver: { __typename?: 'User', firstname: string, lastname: string, avatar?: string | null, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null, year?: number | null } | null } }> };
+
 export type GetCitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1020,6 +1025,64 @@ export type SearchCarpoolsQueryHookResult = ReturnType<typeof useSearchCarpoolsQ
 export type SearchCarpoolsLazyQueryHookResult = ReturnType<typeof useSearchCarpoolsLazyQuery>;
 export type SearchCarpoolsSuspenseQueryHookResult = ReturnType<typeof useSearchCarpoolsSuspenseQuery>;
 export type SearchCarpoolsQueryResult = Apollo.QueryResult<SearchCarpoolsQuery, SearchCarpoolsQueryVariables>;
+export const GetCarpoolsDocument = gql`
+    query GetCarpools {
+  getCarpools {
+    id
+    departure_date
+    departure_time
+    departure_city
+    arrival_city
+    num_passenger
+    price
+    duration
+    toll
+    options
+    driver {
+      firstname
+      lastname
+      avatar
+      car {
+        brand
+        color
+        year
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCarpoolsQuery__
+ *
+ * To run a query within a React component, call `useGetCarpoolsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCarpoolsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCarpoolsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCarpoolsQuery(baseOptions?: Apollo.QueryHookOptions<GetCarpoolsQuery, GetCarpoolsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCarpoolsQuery, GetCarpoolsQueryVariables>(GetCarpoolsDocument, options);
+      }
+export function useGetCarpoolsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCarpoolsQuery, GetCarpoolsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCarpoolsQuery, GetCarpoolsQueryVariables>(GetCarpoolsDocument, options);
+        }
+export function useGetCarpoolsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCarpoolsQuery, GetCarpoolsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCarpoolsQuery, GetCarpoolsQueryVariables>(GetCarpoolsDocument, options);
+        }
+export type GetCarpoolsQueryHookResult = ReturnType<typeof useGetCarpoolsQuery>;
+export type GetCarpoolsLazyQueryHookResult = ReturnType<typeof useGetCarpoolsLazyQuery>;
+export type GetCarpoolsSuspenseQueryHookResult = ReturnType<typeof useGetCarpoolsSuspenseQuery>;
+export type GetCarpoolsQueryResult = Apollo.QueryResult<GetCarpoolsQuery, GetCarpoolsQueryVariables>;
 export const GetCitiesDocument = gql`
     query GetCities {
   getCities {

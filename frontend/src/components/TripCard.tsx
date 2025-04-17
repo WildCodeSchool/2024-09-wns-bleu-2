@@ -23,6 +23,7 @@ import {
   getCarpoolData,
   getBookedSeats,
   getAvailableSeats,
+  backgroundClasses,
 } from "../utils/tripUtils";
 import "../styles/trip-cards.scss";
 import { GET_CARPOOLS_BY_USER_ID } from "../graphql/queries";
@@ -84,7 +85,6 @@ export default function TripCard({
   ));
 
   ////CSS classes for  background colors
-  const backgroundClasses = ["bg-red", "bg-yellow", "bg-green", "bg-blue"];
   const bgClass = backgroundClasses[Number(data.id) % backgroundClasses.length];
   //backgroundClasses[Math.floor(Math.random() * backgroundClasses.length)];
 
