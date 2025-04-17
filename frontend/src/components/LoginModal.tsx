@@ -55,7 +55,7 @@ const LoginModal = ({ setIsLoginModalOpen }: Props) => {
 
    return (
       <>
-         <div className="modalContainer">
+         {/* <div className="modalContainer">
             <div className="modalContent">
                <div className="close-btn">
                   <X onClick={closeModal}/>
@@ -81,7 +81,7 @@ const LoginModal = ({ setIsLoginModalOpen }: Props) => {
                   </div>
                </form>
             </div>
-         </div>
+         </div> */}
       </>
    );
 };
