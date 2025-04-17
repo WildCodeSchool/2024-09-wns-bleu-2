@@ -1,35 +1,37 @@
 export const separateTripsByDate = (trips: any[]) => {
-  const today = new Date();
-  const todayMidnight = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate()
-  );
+  const today = new Date().getTime();
 
   const upcomingTrips: any[] = [];
   const pastTrips: any[] = [];
 
   for (const trip of trips) {
-    const rawDate = trip.carpool?.departure_date || trip.departure_date;
-    const departureDate = new Date(rawDate);
+    //////refacto date format to have date + hours
+    const departureDate = new Date(
+      `${trip.departure_date}T${trip.departure_time}`
+    ).getTime();
 
-    if (isNaN(departureDate.getTime())) {
+    if (isNaN(departureDate)) {
       console.warn("Invalid trip format:", trip);
       continue;
     }
 
-    const departureMidnight = new Date(
-      departureDate.getFullYear(),
-      departureDate.getMonth(),
-      departureDate.getDate()
-    );
-
-    if (departureMidnight.getTime() >= todayMidnight.getTime()) {
+    if (departureDate >= today) {
       upcomingTrips.push(trip);
     } else {
       pastTrips.push(trip);
     }
   }
+  const sortedUpcomingTrips = [...upcomingTrips].sort(
+    (a, b) =>
+      new Date(a.departure_date + "T" + a.departure_time).getTime() -
+      new Date(b.departure_date + "T" + b.departure_time).getTime()
+  );
 
-  return { upcomingTrips, pastTrips };
+  const sortedPastTrips = [...pastTrips].sort(
+    (a, b) =>
+      new Date(b.departure_date + "T" + b.departure_time).getTime() -
+      new Date(a.departure_date + "T" + a.departure_time).getTime()
+  );
+
+  return { sortedUpcomingTrips, sortedPastTrips };
 };

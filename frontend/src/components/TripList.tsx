@@ -21,7 +21,7 @@ export default function TripList({
   showPublishButton = false,
   mode,
 }: TripListProps) {
-  const { upcomingTrips, pastTrips } = separateTripsByDate(trips);
+  const { sortedUpcomingTrips, sortedPastTrips } = separateTripsByDate(trips);
   const navigate = useNavigate();
 
   const buttonLabel =
@@ -35,25 +35,30 @@ export default function TripList({
         <div className="carpool-section">
           <h2>{titleUpcoming}</h2>
           <div className="carpool-main">
-            {upcomingTrips.length > 0 ? (
-              upcomingTrips.map((trip: any, index: number) => (
-                <button
-                  className="card-button"
+            {sortedUpcomingTrips.length > 0 ? (
+              sortedUpcomingTrips.map((trip: any) => (
+                <div
                   key={trip.id}
+                  className="card-button"
+                  role="button"
+                  tabIndex={0}
                   onClick={() => navigate(`/trip/${trip.id}`)}
-                  type="button"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      navigate(`/trip/${trip.id}`);
+                    }
+                  }}
                 >
                   <TripCard
                     tripDetails={trip}
                     isUpcoming={true}
-                    tripIndex={index}
                     mode={mode}
                     carpoolData={mode === "booking" ? trip.carpool : undefined}
                   />
-                </button>
+                </div>
               ))
             ) : (
-              <div className="no-carpools">Aucun trajet trouvé</div>
+              <p>Aucun trajet trouvé</p>
             )}
           </div>
         </div>
@@ -62,19 +67,18 @@ export default function TripList({
         <div className="carpool-section">
           <h2>{titlePast}</h2>
           <div className="carpool-main">
-            {pastTrips.length > 0 ? (
-              pastTrips.map((trip: any, index: number) => (
+            {sortedPastTrips.length > 0 ? (
+              sortedPastTrips.map((trip: any) => (
                 <TripCard
                   key={trip.id}
                   tripDetails={trip}
                   isUpcoming={false}
-                  tripIndex={index}
                   mode={mode}
                   carpoolData={mode === "booking" ? trip.carpool : undefined}
                 />
               ))
             ) : (
-              <div className="no-carpools">Aucun voyage passé</div>
+              <p>Aucun voyage passé</p>
             )}
           </div>
         </div>

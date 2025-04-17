@@ -31,7 +31,6 @@ import { toast } from "react-toastify";
 
 interface TripCardProps {
   tripDetails: Carpool | Booking;
-  tripIndex: number;
   mode: "carpool" | "booking";
   isUpcoming?: boolean;
   carpoolData?: Carpool;
@@ -125,15 +124,8 @@ export default function TripCard({
           </p>
 
           {new Date(
-            new Date(data.departure_date).getFullYear(),
-            new Date(data.departure_date).getMonth(),
-            new Date(data.departure_date).getDate()
-          ).getTime() >=
-            new Date(
-              new Date().getFullYear(),
-              new Date().getMonth(),
-              new Date().getDate()
-            ).getTime() &&
+            `${data.departure_date}T${data.departure_time}`
+          ).getTime() >= new Date().getTime() &&
             mode === "carpool" && (
               <button
                 className={`${windowWidth > 885 ? btnClass : ""}`}
