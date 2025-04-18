@@ -6,6 +6,7 @@ import { GET_CITIES, GET_USER_INFO } from "../../../graphql/queries";
 import { CREATE_CARPOOL } from "../../../graphql/mutations";
 import "@testing-library/jest-dom/vitest";
 import { toast } from "react-toastify";
+import { MemoryRouter } from "react-router-dom";
 
 vi.mock("react-toastify", () => ({
   toast: {
@@ -74,7 +75,9 @@ describe("PublishRoute - form submission", () => {
 
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <PublishRoute />
+        <MemoryRouter>
+          <PublishRoute />
+        </MemoryRouter>
       </MockedProvider>
     );
 
@@ -141,7 +144,9 @@ describe("PublishRoute - form submission", () => {
 
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <PublishRoute />
+        <MemoryRouter>
+          <PublishRoute />
+        </MemoryRouter>
       </MockedProvider>
     );
 
