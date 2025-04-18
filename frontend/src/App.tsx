@@ -31,8 +31,6 @@ function App() {
           />
           <Route path="trip/:id" element={<TripDetails />} />
           <Route path="carpool/:id" element={<CarpoolDetails />} />
-          <Route path="/search" element={<SearchCarpool />} />{" "}
-          {/* A enlever ? */}
           <Route path="publish-route" element={<PublishRoute />} />
           <Route path="search-page" element={<SearchPage />} />
           <Route path="search-page-result" element={<SearchPageResult />} />
