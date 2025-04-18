@@ -136,9 +136,9 @@ const PublishRoute = () => {
         className="submit-button"
         onClick={() => {
           handlePublish();
-          setTimeout(() => {
+          /* setTimeout(() => {
             navigate("/mytrips/:id");
-          }, 2000);
+          }, 2000); */
         }}
       >
         <ChevronRight size={30} color="white" />
