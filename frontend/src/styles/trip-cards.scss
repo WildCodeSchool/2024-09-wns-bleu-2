@@ -1,4 +1,4 @@
-@import "./variables.scss";
+@use "./variables.scss" as *;
 
 .trip-card,
 .passengers-card {
@@ -205,6 +205,7 @@
     height: 50px;
   }
 }
+
 .card-button {
   cursor: pointer;
   width: auto;
