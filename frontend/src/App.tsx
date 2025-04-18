@@ -28,7 +28,7 @@ function App() {
             path="email-confirmation/:code?"
             element={<EmailConfirmation />}
           />
-          <Route path="trip/:id" element={<TripDetails tripIndex={0} />} />
+          <Route path="trip/:id" element={<TripDetails />} />
           <Route path="carpool/:id" element={<CarpoolDetails />} />
           <Route path="/search" element={<SearchCarpool />} />{" "}
           {/* A enlever ? */}
