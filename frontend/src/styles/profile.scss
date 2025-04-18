@@ -8,9 +8,10 @@
   padding: 16px;
   font-family: $font-family;
   margin-top: 20px;
+  width: 100%;
   @media screen and (min-width: 885px) {
-    max-width: 1200px;
     margin: 0 auto;
+    max-width: 1200px;
   }
 }
 

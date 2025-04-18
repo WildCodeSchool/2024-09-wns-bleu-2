@@ -29,8 +29,8 @@ export default function TripList({
   const buttonRedirect = mode === "carpool" ? "/publish-route" : "/search-page";
 
   return (
-    <div className="page-container">
-      <div className="page-wrapper">
+    <>
+      <>
         {/* Upcoming Trips */}
         <div className="carpool-section">
           <h2>{titleUpcoming}</h2>
@@ -82,7 +82,7 @@ export default function TripList({
             )}
           </div>
         </div>
-      </div>
+      </>
 
       {showPublishButton && (
         <div className="publish-trip-button-container">
@@ -94,6 +94,6 @@ export default function TripList({
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 }

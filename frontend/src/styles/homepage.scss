@@ -8,6 +8,7 @@
   padding: 16px;
   font-family: $font-family;
   @media screen and (min-width: 885px) {
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -94,7 +95,6 @@
   .homepage-container-desktop {
     display: flex;
     flex-direction: row;
-    gap: 100px;
   }
 
   .content-p {
