@@ -14,6 +14,7 @@ import MesReservations from "./pages/MyBookings";
 import MesGrumpyTrips from "./pages/MyGrumpyTrips";
 import SearchPageResult from "./pages/SearchPageResult";
 import BookATripPage from "./pages/BookATripPage";
+import "./styles/root.scss";
 
 function App() {
   return (
