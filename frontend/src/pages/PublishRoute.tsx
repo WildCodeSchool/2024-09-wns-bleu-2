@@ -11,6 +11,7 @@ import TripPreferences from "../components/PublishRouteComponents/TipsPreference
 import { ChevronRight } from "lucide-react";
 import { toast } from "react-toastify";
 import { formatDate, formatTime } from "../utils/format.utils";
+import { useNavigate } from "react-router-dom";
 
 const PublishRoute = () => {
   const [departure, setDeparture] = useState("");
@@ -24,7 +25,7 @@ const PublishRoute = () => {
   const [minutes, setMinutes] = useState(0);
 
   const [createCarpool] = useCreateCarpoolMutation();
-
+  const navigate = useNavigate();
   const {
     data: cityData,
     loading: loadingCities,
@@ -130,7 +131,16 @@ const PublishRoute = () => {
 
       <TripPreferences options={options} setOptions={setOptions} />
 
-      <button type="button" className="submit-button" onClick={handlePublish}>
+      <button
+        type="button"
+        className="submit-button"
+        onClick={() => {
+          handlePublish();
+          setTimeout(() => {
+            navigate("/mytrips/:id");
+          }, 2000);
+        }}
+      >
         <ChevronRight size={30} color="white" />
         Publier mon trajet
       </button>
