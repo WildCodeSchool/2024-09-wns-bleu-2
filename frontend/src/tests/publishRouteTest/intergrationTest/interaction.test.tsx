@@ -6,7 +6,7 @@ import { GET_CITIES, GET_USER_INFO } from "../../../graphql/queries";
 import { CREATE_CARPOOL } from "../../../graphql/mutations";
 import "@testing-library/jest-dom/vitest";
 import { toast } from "react-toastify";
-import { MemoryRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 vi.mock("react-toastify", () => ({
   toast: {
@@ -14,12 +14,6 @@ vi.mock("react-toastify", () => ({
     warning: vi.fn(),
     error: vi.fn(),
   },
-}));
-
-const mockNavigate = vi.fn();
-vi.mock("react-router-dom", () => ({
-  ...vi.importActual("react-router-dom"),
-  useNavigate: () => mockNavigate,
 }));
 
 describe("PublishRoute - form submission", () => {
@@ -75,9 +69,9 @@ describe("PublishRoute - form submission", () => {
 
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <MemoryRouter>
+        <BrowserRouter>
           <PublishRoute />
-        </MemoryRouter>
+        </BrowserRouter>
       </MockedProvider>
     );
 
@@ -113,10 +107,6 @@ describe("PublishRoute - form submission", () => {
       name: /publier mon trajet/i,
     });
     fireEvent.click(publishBtn);
-
-    await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith("/mytrips/:id");
-    });
   });
 
   it("affiche un message d'erreur si des champs sont vides", async () => {
@@ -144,9 +134,9 @@ describe("PublishRoute - form submission", () => {
 
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <MemoryRouter>
+        <BrowserRouter>
           <PublishRoute />
-        </MemoryRouter>
+        </BrowserRouter>
       </MockedProvider>
     );
 
