@@ -23,7 +23,7 @@ export const getCarpoolData = (
   return carpoolData;
 };
 
-//sum the numbers of booked seats
+//////sum the numbers of booked seats
 export const getBookedSeats = (
   tripDetails: Carpool | Booking,
   mode: "carpool" | "booking"
@@ -40,7 +40,7 @@ export const getBookedSeats = (
   }
 };
 
-// calculate the number of available seats ans ensure we don't have - number
+////// calculate the number of available seats ans ensure we don't have - number
 export const getAvailableSeats = (
   tripDetails: Carpool | Booking,
   mode: "carpool" | "booking"
@@ -49,3 +49,20 @@ export const getAvailableSeats = (
   const bookedSeats = getBookedSeats(tripDetails, mode);
   return Math.max(0, carpoolData.num_passenger - bookedSeats);
 };
+
+////// filter trips by destination + price
+export const getUniqueTripsByCity = (trips: any[]) => {
+  const uniqueTrips = new Map();
+
+  trips.forEach((trip) => {
+    const key = `${trip.departure_city}-${trip.arrival_city}`;
+    if (!uniqueTrips.has(key) || trip.price < uniqueTrips.get(key).price) {
+      uniqueTrips.set(key, trip);
+    }
+  });
+
+  return Array.from(uniqueTrips.values());
+};
+
+/////bg classes
+export const backgroundClasses = ["bg-red", "bg-yellow", "bg-green", "bg-blue"];

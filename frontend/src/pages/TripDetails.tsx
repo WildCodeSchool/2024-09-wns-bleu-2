@@ -13,7 +13,7 @@ import avatar from "/public/avatar.webp";
 import { toast } from "react-toastify";
 import React from "react";
 
-export default function TripDetails({ tripIndex }: { tripIndex: number }) {
+export default function TripDetails() {
   const { id } = useParams();
 
   const { data, loading, error, refetch } = useGetCarpoolByIdQuery({

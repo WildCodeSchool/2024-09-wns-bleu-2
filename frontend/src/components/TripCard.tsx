@@ -23,11 +23,13 @@ import {
   getCarpoolData,
   getBookedSeats,
   getAvailableSeats,
+  backgroundClasses,
 } from "../utils/tripUtils";
 import "../styles/trip-cards.scss";
+import "../styles/trip-card.scss";
+
 import { GET_CARPOOLS_BY_USER_ID } from "../graphql/queries";
 import { toast } from "react-toastify";
-
 
 interface TripCardProps {
   tripDetails: Carpool | Booking;
@@ -85,9 +87,8 @@ export default function TripCard({
   ));
 
   ////CSS classes for  background colors
-  const backgroundClasses = ["bg-red", "bg-yellow", "bg-green", "bg-blue"];
-  const bgClass =
-    backgroundClasses[Math.floor(Math.random() * backgroundClasses.length)];
+  const bgClass = backgroundClasses[Number(data.id) % backgroundClasses.length];
+  //backgroundClasses[Math.floor(Math.random() * backgroundClasses.length)];
 
   const btnClass =
     bgClass === "bg-red"
@@ -129,19 +130,22 @@ export default function TripCard({
             mode === "carpool" && (
               <button
                 className={`${windowWidth > 885 ? btnClass : ""}`}
-                onClick={
-                async (event: React.MouseEvent<HTMLButtonElement>) => {
+                onClick={async (event: React.MouseEvent<HTMLButtonElement>) => {
                   event.stopPropagation();
                   console.log("delete carpool with id", data.id);
                   if (data.id) {
-                    if(window.confirm("Are you sure you want to cancel this trip?")){
-                    await deleteCarpool({
-                      variables: { id: Number(data.id) },
-                      refetchQueries: [GET_CARPOOLS_BY_USER_ID], // refetch the list of carpools after deletion
-                      awaitRefetchQueries: true,
-                    });
+                    if (
+                      window.confirm(
+                        "Are you sure you want to cancel this trip?"
+                      )
+                    ) {
+                      await deleteCarpool({
+                        variables: { id: Number(data.id) },
+                        refetchQueries: [GET_CARPOOLS_BY_USER_ID], // refetch the list of carpools after deletion
+                        awaitRefetchQueries: true,
+                      });
+                    }
                   }
-                }
                 }}
               >
                 {windowWidth > 885 ? "ANNULER" : <X />}

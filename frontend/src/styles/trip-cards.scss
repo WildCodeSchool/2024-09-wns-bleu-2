@@ -173,9 +173,6 @@
         p {
           font-size: $font-size-big-text;
         }
-        .animated {
-          animation: moveUp 1s ease-in-out infinite;
-        }
       }
     }
   }
@@ -229,6 +226,10 @@
       }
     }
   }
+}
+
+.animated {
+  animation: moveUp 1s ease-in-out infinite;
 }
 @keyframes moveUp {
   0% {
