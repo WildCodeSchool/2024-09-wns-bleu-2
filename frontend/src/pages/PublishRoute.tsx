@@ -86,6 +86,9 @@ const PublishRoute = () => {
       },
       onCompleted: () => {
         toast.success("Trajet bien publié !");
+        setTimeout(() => {
+          navigate("/mytrips/:id");
+        }, 500);
       },
       onError: (error) => {
         console.error("Erreur de publication :", error.message);
@@ -131,16 +134,7 @@ const PublishRoute = () => {
 
       <TripPreferences options={options} setOptions={setOptions} />
 
-      <button
-        type="button"
-        className="submit-button"
-        onClick={() => {
-          handlePublish();
-          setTimeout(() => {
-            navigate("/mytrips/:id");
-          }, 2000);
-        }}
-      >
+      <button type="button" className="submit-button" onClick={handlePublish}>
         <ChevronRight size={30} color="white" />
         Publier mon trajet
       </button>
