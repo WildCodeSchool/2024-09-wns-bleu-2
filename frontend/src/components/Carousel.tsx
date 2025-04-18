@@ -11,14 +11,14 @@ import { useNavigate } from "react-router-dom";
 export default function EmblaCarousel() {
   const [emblaRef] = useEmblaCarousel({ loop: false });
 
+  const navigate = useNavigate();
   const { data, loading, error } = useGetCarpoolsQuery();
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-
   const { sortedUpcomingTrips } = separateTripsByDate(data?.getCarpools ?? []);
   const uniqueTrips = getUniqueTripsByCity(sortedUpcomingTrips);
 
-  const navigate = useNavigate();
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
   return (
     <div className="embla" ref={emblaRef}>
       <div className="embla__container">
