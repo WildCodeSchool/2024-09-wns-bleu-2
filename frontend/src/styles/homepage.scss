@@ -1,4 +1,4 @@
-@import "../styles/root.scss";
+@use "./variables.scss" as *;
 
 .container-principal {
   display: flex;
@@ -7,6 +7,7 @@
   text-align: center;
   padding: 16px;
   font-family: $font-family;
+  width: 100%;
   @media screen and (min-width: 885px) {
     max-width: 1200px;
     margin: 0 auto;
@@ -18,8 +19,8 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 0 0 30px;
   @media screen and (min-width: 885px) {
+    margin: 0 0 30px;
     flex-direction: row;
   }
 }
@@ -33,6 +34,7 @@
 
 .home-title {
   font-size: $font-size-title-mobile;
+  margin-bottom: 0 !important;
   @media screen and (min-width: 885px) {
     font-size: $font-size-huge;
     text-align: left;
@@ -94,7 +96,6 @@
   .homepage-container-desktop {
     display: flex;
     flex-direction: row;
-    gap: 100px;
   }
 
   .content-p {

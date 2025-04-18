@@ -1,8 +1,7 @@
-@import "./root.scss";
+@use "./variables.scss" as *;
 
 .results-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  //gap: 25px;
 }

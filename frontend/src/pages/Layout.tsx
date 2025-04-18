@@ -6,15 +6,16 @@ import LoginModal from "../components/LoginModal";
 import { useState } from "react";
 import "../styles/login.scss";
 
-
 const Layout = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  
+
   return (
     <div className="layout">
       <Navbar setIsLoginModalOpen={setIsLoginModalOpen} />
       <main className="main-content">
-        <Outlet />
+        <div className="page-wrapper">
+          <Outlet />
+        </div>
       </main>
       {isLoginModalOpen && (
         <LoginModal setIsLoginModalOpen={setIsLoginModalOpen} />

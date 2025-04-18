@@ -64,18 +64,16 @@ const BookATripPage = () => {
     return <p>Erreur ou aucun trajet trouvé</p>;
 
   return (
-    <div className="page-container">
-      <div className="page-wrapper">
-        <h1>{formatLongDate(data.getCarpoolById.departure_date)}</h1>
-        <TripSingleCard carpool={data.getCarpoolById as Carpool} />
-        <DriverInfo carpool={data.getCarpoolById as Carpool} />
-        <BookingSummaryCard
-          carpool={data.getCarpoolById as Carpool}
-          numPassengers={1}
-          onBook={handleBooking}
-        />
-      </div>
-    </div>
+    <>
+      <h1>{formatLongDate(data.getCarpoolById.departure_date)}</h1>
+      <TripSingleCard carpool={data.getCarpoolById as Carpool} />
+      <DriverInfo carpool={data.getCarpoolById as Carpool} />
+      <BookingSummaryCard
+        carpool={data.getCarpoolById as Carpool}
+        numPassengers={1}
+        onBook={handleBooking}
+      />
+    </>
   );
 };
 

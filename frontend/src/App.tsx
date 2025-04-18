@@ -14,6 +14,7 @@ import MesReservations from "./pages/MyBookings";
 import MesGrumpyTrips from "./pages/MyGrumpyTrips";
 import SearchPageResult from "./pages/SearchPageResult";
 import BookATripPage from "./pages/BookATripPage";
+import "./styles/root.scss";
 
 function App() {
   return (
@@ -30,8 +31,6 @@ function App() {
           />
           <Route path="trip/:id" element={<TripDetails />} />
           <Route path="carpool/:id" element={<CarpoolDetails />} />
-          <Route path="/search" element={<SearchCarpool />} />{" "}
-          {/* A enlever ? */}
           <Route path="publish-route" element={<PublishRoute />} />
           <Route path="search-page" element={<SearchPage />} />
           <Route path="search-page-result" element={<SearchPageResult />} />

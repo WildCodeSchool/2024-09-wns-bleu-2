@@ -1,4 +1,4 @@
-@import "./root.scss";
+@use "./variables.scss" as *;
 
 .search-bar {
   display: flex;
