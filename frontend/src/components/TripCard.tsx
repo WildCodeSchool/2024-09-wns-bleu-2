@@ -27,7 +27,6 @@ import {
 } from "../utils/tripUtils";
 import "../styles/trip-cards.scss";
 
-
 import { GET_CARPOOLS_BY_USER_ID } from "../graphql/queries";
 import { toast } from "react-toastify";
 
