@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import "../styles/carousel.scss";
 import "../styles/trip-cards.scss";
@@ -12,9 +13,13 @@ export default function EmblaCarousel() {
   const [emblaRef] = useEmblaCarousel({ loop: false });
 
   const navigate = useNavigate();
-  const { data, loading, error } = useGetCarpoolsQuery();
+  const { data, loading, error, refetch } = useGetCarpoolsQuery();
   const { sortedUpcomingTrips } = separateTripsByDate(data?.getCarpools ?? []);
   const uniqueTrips = getUniqueTripsByCity(sortedUpcomingTrips);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
