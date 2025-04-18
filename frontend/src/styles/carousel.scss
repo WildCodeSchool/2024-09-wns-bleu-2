@@ -13,6 +13,8 @@
     gap: 25px;
     height: 240px;
     align-items: center;
+    z-index: -1;
+    position: relative;
     .embla__slide {
       min-width: 0;
       flex: 1 0 70%;
