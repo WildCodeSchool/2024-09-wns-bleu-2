@@ -1,4 +1,4 @@
-name: e2e-tests-workflow
+name: e2e-tests-workflow-homepage
 
 on: push
 
