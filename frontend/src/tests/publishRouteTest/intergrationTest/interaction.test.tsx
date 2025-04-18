@@ -15,6 +15,12 @@ vi.mock("react-toastify", () => ({
   },
 }));
 
+const mockNavigate = vi.fn();
+vi.mock("react-router-dom", () => ({
+  ...vi.importActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
+}));
+
 describe("PublishRoute - form submission", () => {
   it("remplit et soumet le formulaire avec succès", async () => {
     const mocks = [
@@ -104,6 +110,10 @@ describe("PublishRoute - form submission", () => {
       name: /publier mon trajet/i,
     });
     fireEvent.click(publishBtn);
+
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith("/mytrips/:id");
+    });
   });
 
   it("affiche un message d'erreur si des champs sont vides", async () => {
