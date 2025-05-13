@@ -54,13 +54,13 @@ services:
         condition: service_healthy
     ports:
       - 8000:80
-  # img :
-  #   build: ./img
-  #   healthcheck:
-  #     test: "curl --fail --request GET --url 'http://localhost:5173' || exit 1"
-  #     interval: 1s
-  #     timeout: 2s
-  #     retries: 100
-  #   volumes:
-  #     - ./img/upload:/app/upload
-  #     - ./img/clean.js:/app/clean.js
+  img :
+    image: neliacourtais/img:ef7b778
+    healthcheck:
+      test: "curl --fail --request GET --url 'http://localhost:5173' || exit 1"
+      interval: 1s
+      timeout: 2s
+      retries: 100
+    volumes:
+      - ./img/upload:/app/upload
+      - ./img/clean.js:/app/clean.js
