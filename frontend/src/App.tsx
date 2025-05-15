@@ -7,14 +7,12 @@ import EmailConfirmation from "./pages/EmailConfirmation";
 import { ToastContainer } from "react-toastify";
 import Profile from "./pages/Profile";
 import CarpoolDetails from "./components/CarpoolDetail";
-import SearchCarpool from "./components/searchCarpool";
 import PublishRoute from "./pages/PublishRoute";
 import SearchPage from "./pages/SearchPage";
 import MesReservations from "./pages/MyBookings";
 import MesGrumpyTrips from "./pages/MyGrumpyTrips";
 import SearchPageResult from "./pages/SearchPageResult";
 import BookATripPage from "./pages/BookATripPage";
-import "./styles/root.scss";
 
 function App() {
   return (

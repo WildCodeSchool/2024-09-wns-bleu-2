@@ -38,6 +38,13 @@ body {
     }
   }
 }
+a {
+  text-decoration: none;
+}
+h1 {
+  margin-bottom: 40px !important;
+  font-size: $font-size-h1;
+}
 
 .submit-button {
   margin-top: 2rem;
@@ -83,8 +90,4 @@ body {
 .bg-red,
 .btn-red {
   background-color: $color-card-red !important;
-}
-
-h1 {
-  margin-bottom: 40px !important;
 }
