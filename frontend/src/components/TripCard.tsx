@@ -140,7 +140,7 @@ export default function TripCard({
                     ) {
                       await deleteCarpool({
                         variables: { id: Number(data.id) },
-                        refetchQueries: [GET_CARPOOLS_BY_USER_ID], // refetch the list of carpools after deletion
+                        refetchQueries: [GET_CARPOOLS_BY_USER_ID],
                         awaitRefetchQueries: true,
                       });
                     }
@@ -180,7 +180,9 @@ export default function TripCard({
           <div className="trip-price">
             <p>{data.price} €</p>
             {mode === "carpool" &&
-              window.location.href.includes("/mytrips") && (
+              (window.location.href.includes("/mytrips") ||
+                window.location.href.includes("/search-page-result") ||
+                window.location.href.includes("/book")) && (
                 <ChevronRight
                   className="animated"
                   width={60}

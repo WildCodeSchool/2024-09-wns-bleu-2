@@ -7,7 +7,6 @@ import EmailConfirmation from "./pages/EmailConfirmation";
 import { ToastContainer } from "react-toastify";
 import Profile from "./pages/Profile";
 import CarpoolDetails from "./components/CarpoolDetail";
-import SearchCarpool from "./components/searchCarpool";
 import PublishRoute from "./pages/PublishRoute";
 import SearchPage from "./pages/SearchPage";
 import MesReservations from "./pages/MyBookings";
