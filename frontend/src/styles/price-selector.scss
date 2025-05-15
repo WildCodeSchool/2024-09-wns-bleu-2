@@ -1,4 +1,4 @@
-@import "./root.scss";
+@use "./variables.scss" as *;
 
 .price-container {
   display: flex;
@@ -6,7 +6,7 @@
   align-items: center;
   padding: 1.5rem;
   background-color: transparent;
-
+  margin-top: 25px;
   .price-box {
     background-color: $color-card-green;
     padding: 10px 20px;
@@ -89,11 +89,14 @@
     }
   }
   @media screen and (min-width: $bp-mobile) {
+    width: 100%;
+
     .price-box {
       padding: 30px 20px;
       max-width: 1900px;
       flex-wrap: wrap;
       flex-direction: row;
+      width: 100%;
       h2 {
         font-size: 2rem;
         margin-bottom: 2rem;

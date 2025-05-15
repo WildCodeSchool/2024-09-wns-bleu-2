@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import PublishRoute from "../../../pages/PublishRoute";
 import { GET_CITIES, GET_USER_INFO } from "../../../graphql/queries";
+import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom/vitest";
 
 describe("PublishRoute - rendering", () => {
@@ -31,7 +32,9 @@ describe("PublishRoute - rendering", () => {
 
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <PublishRoute />
+        <BrowserRouter>
+          <PublishRoute />
+        </BrowserRouter>
       </MockedProvider>
     );
 

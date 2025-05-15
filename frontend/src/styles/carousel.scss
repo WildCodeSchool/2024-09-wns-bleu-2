@@ -1,4 +1,4 @@
-@import "../styles/root.scss";
+@use "./variables.scss" as *;
 
 .embla {
   margin-top: 30px;
@@ -13,6 +13,8 @@
     gap: 25px;
     height: 240px;
     align-items: center;
+    z-index: -1;
+    position: relative;
     .embla__slide {
       min-width: 0;
       flex: 1 0 70%;
@@ -21,11 +23,14 @@
       gap: 25px;
       border-radius: 40px;
       max-height: 170px;
+      max-width: 299px;
+
       @media screen and (min-width: 500px) and (max-width: $bp-mobile) {
         flex: 1 0 50%;
       }
       @media screen and (min-width: $bp-mobile) {
         flex: 1 0 25%;
+        min-width: 299px;
       }
 
       .horizontal-line {

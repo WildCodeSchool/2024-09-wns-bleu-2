@@ -1,4 +1,4 @@
-@import "../styles/root.scss";
+@use "./variables.scss" as *;
 
 .navbar-wrapper {
   display: flex;

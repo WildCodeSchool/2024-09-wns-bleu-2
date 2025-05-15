@@ -1,5 +1,5 @@
 @use "sass:color";
-@use "./root" as *;
+@use "./variables.scss" as *;
 
 .carpool-container {
   max-width: 800px;

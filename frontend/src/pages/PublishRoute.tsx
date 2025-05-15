@@ -85,6 +85,9 @@ const PublishRoute = () => {
       },
       onCompleted: () => {
         toast.success("Trajet bien publié !");
+        setTimeout(() => {
+          navigate("/mytrips/:id");
+        }, 500);
       },
       onError: (error) => {
         console.error("Erreur de publication :", error.message);

@@ -1,4 +1,4 @@
-@import "./root.scss";
+@use "./variables.scss" as *;
 
 .filters {
   background-color: $primary-color-bg;
