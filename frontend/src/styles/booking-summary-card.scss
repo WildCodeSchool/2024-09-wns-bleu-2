@@ -18,8 +18,6 @@
     margin-top: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     &::before {
       content: "";
       display: inline-block;
@@ -49,11 +47,7 @@
       }
     }
   }
-  .driver {
-    display: flex;
-    gap: 25px;
-    align-items: center;
-  }
+
   .summary-footer {
     display: flex;
     flex-direction: column;
@@ -71,4 +65,9 @@
       text-wrap: nowrap;
     }
   }
+}
+.driver {
+  display: flex;
+  gap: 25px;
+  align-items: center;
 }

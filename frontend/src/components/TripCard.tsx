@@ -181,8 +181,7 @@ export default function TripCard({
             <p>{data.price} €</p>
             {mode === "carpool" &&
               (window.location.href.includes("/mytrips") ||
-                window.location.href.includes("/search-page-result") ||
-                window.location.href.includes("/book")) && (
+                window.location.href.includes("/search-page-result")) && (
                 <ChevronRight
                   className="animated"
                   width={60}

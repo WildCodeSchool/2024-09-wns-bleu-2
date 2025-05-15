@@ -144,6 +144,7 @@
         display: flex;
         gap: 10px;
         align-items: center;
+        padding: 0 5px;
       }
     }
     .trip-right {
@@ -163,7 +164,7 @@
         padding-right: 15px;
         align-items: center;
         @media screen and (min-width: $bp-mobile) {
-          padding-right: 0;
+          padding: 0 5px;
         }
       }
       .trip-price {
@@ -172,6 +173,7 @@
         gap: 10px;
         p {
           font-size: $font-size-big-text;
+          margin-left: 10px;
         }
       }
     }
