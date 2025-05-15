@@ -70,7 +70,7 @@ const Register = () => {
         toast.success(
           "Vous pouvez à présent confirmer votre adresse email et vous connecter."
         );
-        navigate("/");
+        navigate("/email-confirmation");
       },
       onError: (error: any) => {
         console.log("Error details:", error);

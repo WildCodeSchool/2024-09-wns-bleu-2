@@ -1,14 +1,12 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-//import { useConfirmEmailMutation } from "../generated/graphql-types";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useConfirmEmailMutation } from "../generated/graphql-types";
 import "../styles/EmailConfirm.scss";
 
 const EmailConfirmation = () => {
   const [confirmEmail] = useConfirmEmailMutation();
   const navigate = useNavigate();
-  const { code } = useParams();
   type Input = {
     code: string;
   };
@@ -22,10 +20,11 @@ const EmailConfirmation = () => {
     confirmEmail({
       variables: { codeByUser: data.code },
       onCompleted: () => {
+        // TODO : utilisation de React Context pour afficher la modale
         toast.success(
           "Adresse mail confirmée ! Vous pouvez à présenter vous connecter."
         );
-        navigate("/login");
+        navigate("/");
       },
       onError: () => {
         toast.error("Erreur lors de la confirmation.");
@@ -38,8 +37,7 @@ const EmailConfirmation = () => {
         <h1>Confirmation de votre email</h1>
         <p className="subtitle">Veuillez saisir le code reçu par email.</p>
         <input
-          defaultValue={code}
-          placeholder="Entrez votre code"
+          placeholder="854921"
           {...register("code", { required: true })}
         />
         {errors.code && (

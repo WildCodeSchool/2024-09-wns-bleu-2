@@ -8,7 +8,7 @@ import {
   Field,
 } from "type-graphql";
 import * as argon2 from "argon2";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import { Gender, User } from "../entities/User";
 import { UserInput } from "../inputs/UserInput";
 import { LoginInput } from "../inputs/LoginInput";
@@ -62,7 +62,17 @@ export class UserResolver {
       throw new Error("This email is already used.");
     } else {
       // On génère un code aléatoire
-      const randomCode = uuidv4();
+      // const randomCode = uuidv4();
+      const generateRandomCode = () => {
+        let code = "";
+        // code à 6 chiffres random, de 0 à 9
+        for (let i = 0; i < 6; i++) {
+          code += Math.floor(Math.random() * 10);
+        }
+        return code;
+      };
+      const randomCode = generateRandomCode();
+      
       // On sauvegarde l'utilisateur dans la table TempUser ave toutes ses infos
       const result = new TempUser();
       result.email = newUserData.email;
@@ -96,12 +106,16 @@ export class UserResolver {
         const { data, error } = await resend.emails.send({
           from: "Acme <onboarding@resend.dev>",
           to: [newUserData.email],
-          subject: "Verify Email",
+          subject: "GrumpyCar - Verification email",
           html: `
-                <p>Merci de cliquer sur le lien ci-dessous pour valider votre adresse email</p>
-                <a href="http://localhost:8000/email-confirmation/${randomCode}">
-                  http://localhost:8000/email-confirmation/${randomCode}
-                </a>
+                <p>Bonjour ${result.firstname}, merci d'avoir rejoint GrumpyCar !</p>
+                <p>Pour finaliser votre inscription, il ne vous reste plus qu'à saisir ce code dans le formulaire de validation.</p>
+                <p>Votre code de confirmation :</p>
+                <p><strong>${randomCode}</strong></p>
+                <br />
+                <p>Si vous n’avez pas demandé cette validation, vous pouvez ignorer ce message.</p>
+                <p>À très vite,</p>
+                <p>L'équipe GrumpyCar</p>
                 `,
         });
 
@@ -111,8 +125,6 @@ export class UserResolver {
           console.log("Email envoyé avec succès :", data);
         }
       })();
-
-      console.log("result", result);
     }
     return "The user is temporarily created. Please check your email for the confirmation code.";
   }
