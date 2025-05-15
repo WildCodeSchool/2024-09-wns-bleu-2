@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useConfirmEmailMutation } from "../generated/graphql-types";
 import "../styles/EmailConfirm.scss";
+import { ApolloError } from "@apollo/client";
 
 const EmailConfirmation = () => {
   const [confirmEmail] = useConfirmEmailMutation();
@@ -26,8 +27,15 @@ const EmailConfirmation = () => {
         );
         navigate("/");
       },
-      onError: () => {
-        toast.error("Erreur lors de la confirmation.");
+      onError: (error: ApolloError) => {
+        const graphQLError = error.graphQLErrors[0];
+        
+        const code = graphQLError?.extensions?.code;
+        if (code === "CODE_EXPIRED") {
+          toast.error("Le code a expiré. Veuillez en demander un nouveau.");
+        } else {
+          toast.error("Une erreur s'est produite.");
+        }
       },
     });
   };

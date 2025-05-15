@@ -8,7 +8,6 @@ import {
   Field,
 } from "type-graphql";
 import * as argon2 from "argon2";
-// import { v4 as uuidv4 } from "uuid";
 import { Gender, User } from "../entities/User";
 import { UserInput } from "../inputs/UserInput";
 import { LoginInput } from "../inputs/LoginInput";
@@ -16,6 +15,7 @@ import { CarInfos } from "../entities/CarInfos";
 import { TempUser } from "../entities/TempUser";
 import { Resend } from "resend";
 import jwt, { Secret } from "jsonwebtoken";
+import { GraphQLError } from "graphql";
 
 @ObjectType()
 class UserInfo {
@@ -136,6 +136,20 @@ export class UserResolver {
 
     if (!tempUser) {
       throw new Error("Temp user not found");
+    }
+
+    // Expiration du code sous 10min
+    const now = new Date().getTime();
+    const createdAt = new Date(tempUser.createdAt).getTime();
+    const difference = now - createdAt;
+
+    const expirationTime = 10 * 60 * 1000;
+
+    if (difference > expirationTime) {
+      await tempUser.remove();
+      throw new GraphQLError("Code has expired", {
+        extensions: { code: "CODE_EXPIRED" }
+      });
     }
 
     const user = new User();
