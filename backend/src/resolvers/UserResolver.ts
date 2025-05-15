@@ -104,18 +104,16 @@ export class UserResolver {
 
       (async function () {
         const { data, error } = await resend.emails.send({
-          from: "Acme <onboarding@resend.dev>",
+          from: "GrumpyCar <onboarding@resend.dev>",
           to: [newUserData.email],
-          subject: "GrumpyCar - Verification email",
+          subject: "GrumpyCar - Confirmez votre email",
           html: `
-                <p>Bonjour ${result.firstname}, merci d'avoir rejoint GrumpyCar !</p>
-                <p>Pour finaliser votre inscription, il ne vous reste plus qu'à saisir ce code dans le formulaire de validation.</p>
-                <p>Votre code de confirmation :</p>
-                <p><strong>${randomCode}</strong></p>
-                <br />
-                <p>Si vous n’avez pas demandé cette validation, vous pouvez ignorer ce message.</p>
-                <p>À très vite,</p>
-                <p>L'équipe GrumpyCar</p>
+                <p style="color:#1a1a1a;">Bonjour <strong>${result.firstname}</strong>, merci d'avoir rejoint <strong>GrumpyCar</strong> ! 🚗</p>
+                <p style="color:#1a1a1a;">Pour finaliser votre inscription, il ne vous reste plus qu'à saisir ce code dans le formulaire de validation.</p>
+                <p style="color:#1a1a1a;">Votre code de confirmation : <strong>${randomCode}</strong>.</p>
+                <p style="color:#1a1a1a;">Si vous n’avez pas demandé cette validation, ne tenez pas compte de ce message.</p>
+                <p style="color:#1a1a1a;">À très vite 😾</p>
+                <p style="color:#1a1a1a;">L'équipe <strong>GrumpyCar</strong></p>
                 `,
         });
 
