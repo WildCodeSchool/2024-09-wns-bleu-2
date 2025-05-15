@@ -9,6 +9,7 @@
   font-family: $font-family;
   margin-top: 20px;
   width: 100%;
+  
   @media screen and (min-width: 885px) {
     margin: 0 auto;
     max-width: 1200px;
@@ -20,7 +21,7 @@
   font-family: $font-family;
   background-color: $color-card-red;
   border-radius: 30px;
-  width: 80%;
+  width: 100%;
   max-width: 800px;
 }
 
@@ -30,11 +31,13 @@
 
 .profile-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
+
   @media screen and (min-width: $bp-mobile) {
+    flex-direction: row;
+    justify-content: center;
     padding: 15px 0;
   }
 }
@@ -74,33 +77,86 @@
 .vehicle-section {
   margin-top: 20px;
   text-align: center;
+
+  h3 {
+    font-size: 16px;
+    margin: 30px 0px 15px 0px;
+  }
 }
 
-.vehicle-section > h3 {
-  font-size: 16px;
-  margin: 30px 0px 15px 0px;
+.car-info-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+
+  p {
+    margin: 0;
+  }
+
+  button {
+    margin: 0;
+  }
+
+  @media screen and (min-width: 885px) {
+    flex-direction: row;
+    margin-top: 0.5em;
+  }
 }
 
 .vehicle-form {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: 15px;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 10px;
+
+  @media screen and (min-width: 885px) {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  p {
+    margin: 5px 0;
+  }
 }
 
-.vehicle-form input {
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  width: 120px;
+.edit-vehicle-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+
+  select {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 150px;
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width: 884px) {
+    flex-direction: column;
+
+    select {
+      margin: 0 auto;
+    }
+  }
 }
 
 .validate-btn {
   background-color: $color-card-yellow;
   border: none;
-  margin-top: 15px;
+  margin-top: 10px;
   padding: 10px 20px;
   border-radius: 50px;
-  font-weight: 200;
+  font-weight: 600;
   cursor: pointer;
 }

@@ -286,4 +286,35 @@ export class UserResolver {
       return { isLoggedIn: false };
     }
   }
+
+  @Mutation(() => CarInfos)
+  async updateCarInfos(
+    @Arg("color") color: string,
+    @Arg("year") year: number,
+    @Arg("brand") brand: string,
+    @Arg("userId") userId: number
+  ): Promise<CarInfos> {
+    const user = await User.findOne({
+      where: { id: userId },
+      relations: ["car"],
+    });
+    if (!user) throw new Error("User not found");
+
+    if (!user.car) {
+      const newCar = CarInfos.create({ brand, color, year });
+      await newCar.save();
+
+      user.car = newCar;
+      await user.save();
+
+      return newCar;
+    } else {
+      user.car.brand = brand;
+      user.car.color = color;
+      user.car.year = year;
+      await user.car.save();
+
+      return user.car;
+    }
+  }
 }
