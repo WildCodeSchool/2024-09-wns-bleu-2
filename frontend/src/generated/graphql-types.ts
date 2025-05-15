@@ -100,6 +100,7 @@ export type Mutation = {
   logout: Scalars['String']['output'];
   register: Scalars['String']['output'];
   setUserCar: User;
+  updateCarInfos: CarInfos;
   updateUserProfile: User;
 };
 
@@ -148,6 +149,14 @@ export type MutationRegisterArgs = {
 export type MutationSetUserCarArgs = {
   carId: Scalars['Float']['input'];
   userId: Scalars['Float']['input'];
+};
+
+
+export type MutationUpdateCarInfosArgs = {
+  brand: Scalars['String']['input'];
+  color: Scalars['String']['input'];
+  userId: Scalars['Float']['input'];
+  year: Scalars['Float']['input'];
 };
 
 
@@ -307,6 +316,16 @@ export type CreateBookingMutationVariables = Exact<{
 
 
 export type CreateBookingMutation = { __typename?: 'Mutation', createBooking: { __typename?: 'Booking', id: number, carpool: { __typename?: 'Carpool', id: string, departure_city: string, arrival_city: string, departure_date: string, departure_time: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string> }, passenger: { __typename?: 'User', id: number, firstname: string } } };
+
+export type UpdateCarInfosMutationVariables = Exact<{
+  brand: Scalars['String']['input'];
+  color: Scalars['String']['input'];
+  year: Scalars['Float']['input'];
+  userId: Scalars['Float']['input'];
+}>;
+
+
+export type UpdateCarInfosMutation = { __typename?: 'Mutation', updateCarInfos: { __typename?: 'CarInfos', id: string, brand?: string | null, color?: string | null, year?: number | null } };
 
 export type GetUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -695,6 +714,45 @@ export function useCreateBookingMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateBookingMutationHookResult = ReturnType<typeof useCreateBookingMutation>;
 export type CreateBookingMutationResult = Apollo.MutationResult<CreateBookingMutation>;
 export type CreateBookingMutationOptions = Apollo.BaseMutationOptions<CreateBookingMutation, CreateBookingMutationVariables>;
+export const UpdateCarInfosDocument = gql`
+    mutation UpdateCarInfos($brand: String!, $color: String!, $year: Float!, $userId: Float!) {
+  updateCarInfos(brand: $brand, color: $color, year: $year, userId: $userId) {
+    id
+    brand
+    color
+    year
+  }
+}
+    `;
+export type UpdateCarInfosMutationFn = Apollo.MutationFunction<UpdateCarInfosMutation, UpdateCarInfosMutationVariables>;
+
+/**
+ * __useUpdateCarInfosMutation__
+ *
+ * To run a mutation, you first call `useUpdateCarInfosMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCarInfosMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCarInfosMutation, { data, loading, error }] = useUpdateCarInfosMutation({
+ *   variables: {
+ *      brand: // value for 'brand'
+ *      color: // value for 'color'
+ *      year: // value for 'year'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUpdateCarInfosMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCarInfosMutation, UpdateCarInfosMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateCarInfosMutation, UpdateCarInfosMutationVariables>(UpdateCarInfosDocument, options);
+      }
+export type UpdateCarInfosMutationHookResult = ReturnType<typeof useUpdateCarInfosMutation>;
+export type UpdateCarInfosMutationResult = Apollo.MutationResult<UpdateCarInfosMutation>;
+export type UpdateCarInfosMutationOptions = Apollo.BaseMutationOptions<UpdateCarInfosMutation, UpdateCarInfosMutationVariables>;
 export const GetUserInfoDocument = gql`
     query GetUserInfo {
   getUserInfo {

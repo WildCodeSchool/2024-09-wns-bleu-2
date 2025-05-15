@@ -99,4 +99,21 @@ export const CREATE_BOOKING = gql`
         firstname
       }
     }
-  }`;
+  }
+`;
+
+export const UPDATE_CAR_INFOS = gql`
+  mutation UpdateCarInfos(
+    $brand: String!
+    $color: String!
+    $year: Float!
+    $userId: Float!
+  ) {
+    updateCarInfos(brand: $brand, color: $color, year: $year, userId: $userId) {
+      id
+      brand
+      color
+      year
+    }
+  }
+`;
