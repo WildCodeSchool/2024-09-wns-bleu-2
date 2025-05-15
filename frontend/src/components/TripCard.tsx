@@ -11,6 +11,7 @@ import {
   Booking,
   Carpool,
   useDeleteCarpoolMutation,
+  useGetUserInfoQuery,
 } from "../generated/graphql-types";
 import {
   formatTime,
@@ -47,6 +48,8 @@ export default function TripCard({
   const availableSeats = getAvailableSeats(tripDetails, mode);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const { data: userData } = useGetUserInfoQuery();
+  const userId = userData?.getUserInfo?.id;
 
   ////to dynamicaly get the window width on resize
   useEffect(() => {
@@ -126,7 +129,8 @@ export default function TripCard({
           {new Date(
             `${data.departure_date}T${data.departure_time}`
           ).getTime() >= new Date().getTime() &&
-            mode === "carpool" && (
+            mode === "carpool" &&
+            userId === carpoolData?.driver.id && (
               <button
                 className={`${windowWidth > 885 ? btnClass : ""}`}
                 onClick={async (event: React.MouseEvent<HTMLButtonElement>) => {
