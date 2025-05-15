@@ -1,5 +1,5 @@
 import "../styles/register-form.scss";
-import { useQuery } from "@apollo/client";
+import { ApolloError, useQuery } from "@apollo/client";
 import {
   GET_CAR_BRANDS,
   GET_CAR_COLORS,
@@ -17,6 +17,8 @@ const Register = () => {
   const { data: brandsData } = useQuery(GET_CAR_BRANDS);
   const { data: colorsData } = useQuery(GET_CAR_COLORS);
   const { data: yearsData } = useQuery(GET_CAR_YEARS);
+  // Date du jour convertie au format "YYYY-MM-DD"
+  const today = new Date().toISOString().split("T")[0];
 
   type InputValues = {
     email: string;
@@ -72,16 +74,17 @@ const Register = () => {
         );
         navigate("/email-confirmation");
       },
-      onError: (error: any) => {
+      onError: (error: ApolloError) => {
         console.log("Error details:", error);
-        if (error) {
-          toast.error(
-            "Cet email est déjà utilisé. Veuillez en choisir un autre."
-          );
+        const graphQLError = error.graphQLErrors[0];
+        const code = graphQLError?.extensions?.code;
+
+        if (code === "UNDER_AGE") {
+          toast.error("Vous devez avoir au moins 18 ans pour vous inscrire.");
+        } else if (code === "EMAIL_ALREADY_USED") {
+          toast.error("Cette adresse email est déjà utilisée.");
         } else {
-          toast.error(
-            "Une erreur s'est produite lors de la création de votre compte."
-          );
+          toast.error("Une erreur est survenue lors de l'inscription.");
         }
       },
     });
@@ -124,8 +127,36 @@ const Register = () => {
               <label htmlFor="birthdate">Date de naissance</label>
               <input
                 type="date"
+                max={today}
                 className={errors.birthdate ? "error-border" : ""}
-                {...register("birthdate", { required: "Ce champ est requis." })}
+                {...register("birthdate", {
+                  required: "Ce champ est requis.",
+                  max: {
+                    value: today,
+                    message: "Vous ne pouvez pas choisir la date d'aujourd'hui. 😾",
+                  },
+                  validate: (value) => {
+                    if (!value){
+                      return true;
+                    } else {
+                      const birthDate = new Date(value);
+                      const now = new Date(today);
+                      const eighteenYearsAgo = new Date(
+                        // Année en cours - 18
+                        now.getFullYear() - 18,
+                        now.getMonth(),
+                        now.getDate()
+                      );
+  
+                      const isOldEnough = birthDate <= eighteenYearsAgo;
+                      if (!isOldEnough) {
+                        return "Vous devez avoir au moins 18 ans pour vous inscrire.";
+                      }
+                      return true;
+                    }
+                  },
+                  })
+                }
               />
               {errors.birthdate && (
                 <span className="error">{errors.birthdate.message}</span>
@@ -167,7 +198,14 @@ const Register = () => {
                 type="tel"
                 placeholder="0675896158"
                 className={errors.phone ? "error-border" : ""}
-                {...register("phone", { required: "Ce champ est requis." })}
+                {...register("phone",
+                  { required: "Ce champ est requis.",
+                    pattern: {
+                      value: /^0[67]\d{8}$/,
+                      message: "Le numéro doit commencer par 06 ou 07 et contenir 10 chiffres.",
+                    }
+                  }
+                )}
               />
               {errors.phone && (
                 <span className="error">{errors.phone.message}</span>
@@ -180,7 +218,14 @@ const Register = () => {
               <input
                 type="password"
                 className={errors.password ? "error-border" : ""}
-                {...register("password", { required: "Ce champ est requis." })}
+                {...register("password",
+                  { required: "Ce champ est requis.",
+                    pattern: {
+                      value: /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/,
+                      message: "Le mot de passe doit contenir au moins 8 caractères, un chiffre et un caractère spécial.",
+                    }
+                  }
+                )}
               />
               {errors.password && (
                 <span className="error">{errors.password.message}</span>

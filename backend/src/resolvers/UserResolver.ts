@@ -59,8 +59,24 @@ export class UserResolver {
       where: { email: newUserData.email },
     });
     if (existingUser) {
-      throw new Error("This email is already used.");
+      throw new GraphQLError("Email already used.", {
+        extensions: { code: "EMAIL_ALREADY_USED" },
+      });
     } else {
+      // Vérification de l'âge : doit être >= à 18 ans
+      const birthdate = new Date(newUserData.birthdate);
+      const today = new Date();
+      let age = today.getFullYear() - birthdate.getFullYear();
+      const m = today.getMonth() - birthdate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
+        age--;
+      }
+      if (age < 18) {
+        throw new GraphQLError("The user must be at least 18 years old to register.", {
+          extensions: { code: "UNDER_AGE" },
+        });
+      }
+
       // On génère un code aléatoire
       // const randomCode = uuidv4();
       const generateRandomCode = () => {
@@ -118,13 +134,13 @@ export class UserResolver {
         });
 
         if (error) {
-          console.error("Erreur d'envoi d'email :", error);
+          console.error("Email sending error.", error);
         } else {
-          console.log("Email envoyé avec succès :", data);
+          console.log("Email successfully sent.", data);
         }
       })();
     }
-    return "The user is temporarily created. Please check your email for the confirmation code.";
+    return "The user is temporarily created. The email confirmation is required.";
   }
 
   @Mutation(() => String)
