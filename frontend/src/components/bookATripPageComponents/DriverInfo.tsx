@@ -17,29 +17,29 @@ const DriverInfo: React.FC<DriverInfoProps> = ({ carpool }) => {
     {
       label: "Les fumeurs ne me dérangent pas",
       value: "Fumeur",
-      icon: <Cigarette width={20} />,
+      icon: <Cigarette width={20} strokeWidth={2.5} />,
     },
     {
       label: "Je préfère ne pas voyager en compagnie d’animaux",
       value: "Animaux",
-      icon: <PawPrint width={20} />,
+      icon: <PawPrint width={20} strokeWidth={2.5} />,
     },
     {
       label: "Musique dans la voiture",
       value: "Musique",
-      icon: <Music width={20} />,
+      icon: <Music width={20} strokeWidth={2.5} />,
     },
   ];
 
   return (
     <div className="driver-info">
-      <div className="driver-header">
+      <div className="driver">
         <img id="default-img" src={avatarSrc} alt="Avatar du conducteur" />
         <div className="driver-infos">
           <p>{driver.firstname}</p>
         </div>
       </div>
-
+      <div className="horizontal-line" />
       <ul className="preferences">
         {preferenceOptions.map(
           (opt) =>

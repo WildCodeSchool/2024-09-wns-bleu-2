@@ -6,8 +6,8 @@ import {
   useGetUserInfoQuery,
 } from "../generated/graphql-types";
 
-import "../styles/trip-cards.scss";
-import TripSingleCard from "../components/TripSingleCard";
+import TripCard from "../components/TripCard";
+import "../styles/book-a-trip-page.scss";
 import { formatLongDate } from "../utils/dateUtils";
 import DriverInfo from "../components/bookATripPageComponents/DriverInfo";
 import BookingSummaryCard from "../components/bookATripPageComponents/BookingSummaryCard";
@@ -66,13 +66,22 @@ const BookATripPage = () => {
   return (
     <>
       <h1>{formatLongDate(data.getCarpoolById.departure_date)}</h1>
-      <TripSingleCard carpool={data.getCarpoolById as Carpool} />
-      <DriverInfo carpool={data.getCarpoolById as Carpool} />
-      <BookingSummaryCard
-        carpool={data.getCarpoolById as Carpool}
-        numPassengers={1}
-        onBook={handleBooking}
-      />
+      <div className="wrapper">
+        <div className="container-left">
+          <TripCard
+            tripDetails={data.getCarpoolById as Carpool}
+            mode={"carpool"}
+          />
+          <DriverInfo carpool={data.getCarpoolById as Carpool} />
+        </div>
+        <div className="container-right">
+          <BookingSummaryCard
+            carpool={data.getCarpoolById as Carpool}
+            numPassengers={1}
+            onBook={handleBooking}
+          />
+        </div>
+      </div>
     </>
   );
 };

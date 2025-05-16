@@ -11,6 +11,7 @@ import {
   Booking,
   Carpool,
   useDeleteCarpoolMutation,
+  useGetUserInfoQuery,
 } from "../generated/graphql-types";
 import {
   formatTime,
@@ -47,6 +48,8 @@ export default function TripCard({
   const availableSeats = getAvailableSeats(tripDetails, mode);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const { data: userData } = useGetUserInfoQuery();
+  const userId = userData?.getUserInfo?.id;
 
   ////to dynamicaly get the window width on resize
   useEffect(() => {
@@ -126,7 +129,8 @@ export default function TripCard({
           {new Date(
             `${data.departure_date}T${data.departure_time}`
           ).getTime() >= new Date().getTime() &&
-            mode === "carpool" && (
+            mode === "carpool" &&
+            userId === carpoolData?.driver.id && (
               <button
                 className={`${windowWidth > 885 ? btnClass : ""}`}
                 onClick={async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -140,7 +144,7 @@ export default function TripCard({
                     ) {
                       await deleteCarpool({
                         variables: { id: Number(data.id) },
-                        refetchQueries: [GET_CARPOOLS_BY_USER_ID], // refetch the list of carpools after deletion
+                        refetchQueries: [GET_CARPOOLS_BY_USER_ID],
                         awaitRefetchQueries: true,
                       });
                     }
@@ -180,7 +184,8 @@ export default function TripCard({
           <div className="trip-price">
             <p>{data.price} €</p>
             {mode === "carpool" &&
-              window.location.href.includes("/mytrips") && (
+              (window.location.href.includes("/mytrips") ||
+                window.location.href.includes("/search-page-result")) && (
                 <ChevronRight
                   className="animated"
                   width={60}
