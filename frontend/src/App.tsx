@@ -14,6 +14,7 @@ import MesGrumpyTrips from "./pages/MyGrumpyTrips";
 import SearchPageResult from "./pages/SearchPageResult";
 import BookATripPage from "./pages/BookATripPage";
 import "./styles/root.scss";
+import Error404 from "./pages/Error404";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="register" element={<Register />} />
           <Route
-            path="email-confirmation/:code?"
+            path="email-confirmation"
             element={<EmailConfirmation />}
           />
           <Route path="trip/:id" element={<TripDetails />} />
@@ -35,6 +36,7 @@ function App() {
           <Route path="search-page-result" element={<SearchPageResult />} />
           <Route path="profile" element={<Profile />} />
           <Route path="/book/:id" element={<BookATripPage />} />
+          <Route path="*" element={<Error404 />} />
         </Route>
       </Routes>
       <ToastContainer theme="colored" />
