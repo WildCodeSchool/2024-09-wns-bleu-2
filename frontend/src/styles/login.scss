@@ -27,7 +27,7 @@
     text-align: center;
     h1 {
       // margin-bottom: 1.5rem;
-      font-size: clamp(2rem, 3vw, 2rem);
+      font-size: $font-size-h1;
     }
     .login-form {
       width: 50%;
