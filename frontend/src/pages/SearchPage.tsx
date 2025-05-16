@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SearchBar from "../components/SearchBar";
 import "../styles/search-page.scss";
+import { useNavigate } from "react-router-dom";
 
 const SearchPage = () => {
   const [departure, setDeparture] = useState("");
@@ -9,9 +10,23 @@ const SearchPage = () => {
   const [passengers, setPassengers] = useState(1);
   const [departureTime, setDepartureTime] = useState<Date | null>(null);
 
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    const params = new URLSearchParams({
+      departure,
+      arrival,
+      date: date.toISOString().split("T")[0],
+      time: departureTime ? departureTime.toTimeString().slice(0, 5) : "",
+      passengers: passengers.toString(),
+    });
+
+    navigate(`/search-page-result?${params.toString()}`);
+  };
+
   return (
     <div className="search-route">
-      <h1>Publier une Route</h1>
+      <h1>Trouvez votre Grumpy trip en 1 clic !</h1>
       <SearchBar
         departure={departure}
         arrival={arrival}
@@ -23,6 +38,7 @@ const SearchPage = () => {
         onPassengersChange={(e) => setPassengers(Number(e.target.value))}
         departureTime={departureTime}
         onTimeChange={setDepartureTime}
+        onSearch={handleSearch}
       />
     </div>
   );

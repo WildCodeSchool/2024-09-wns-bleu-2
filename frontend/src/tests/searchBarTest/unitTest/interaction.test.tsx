@@ -28,6 +28,7 @@ describe("SearchBar - interaction", () => {
         onDateChange={() => {}}
         onTimeChange={() => {}}
         onPassengersChange={() => {}}
+        onSearch={mockSearch}
       />
     );
 

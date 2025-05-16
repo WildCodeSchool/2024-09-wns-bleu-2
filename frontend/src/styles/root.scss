@@ -22,7 +22,7 @@ $font-size-card-desk: 32px;
 
 //mobile
 $font-size-title-mobile: 24px;
-$font-size-text-mobile: 14px;
+$font-size-text-mobile: 15px;
 $font-size-search-mobile: 16px;
 $font-size-card-mobile: 20px;
 
@@ -35,48 +35,44 @@ body {
   background-color: $primary-color-bg;
 }
 
-.dropdown {
-  position: relative;
-  .dropdown-toggle {
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-    font-family: $font-family;
-    font-size: $font-size-search-mobile;
-    font-weight: 300;
-    width: max-content;
-    display: flex;
-    gap: 3px;
-  }
-  .dropdown-menu {
-    position: absolute;
-    top: 35px;
+.page-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1900px;
+  align-items: center;
+  margin: 0 auto;
+
+  .page-wrapper {
+    width: 80%;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    .dropdown-item {
-      text-decoration: none;
-      font-weight: 300;
-      color: #000000;
-      padding: 15px 0;
-      &:hover {
-        &:after {
-          content: "";
-          display: block;
-          position: absolute;
-          margin-top: 15px;
-          width: 100%;
-          height: 1px;
-          background: rgba(0, 0, 0, 0.3);
-          transition: width 0.3s;
-        }
-      }
+    gap: 35px;
+    align-items: center;
+    @media screen and (min-width: $bp-mobile) {
+      width: 70%;
+      align-items: normal;
     }
-    .absolute {
-      &:after {
-        position: absolute;
-      }
-    }
+  }
+}
+.submit-button {
+  margin-top: 2rem;
+  background-color: $color-card-green;
+  color: black;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  width: 13em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s;
   }
 }
 
@@ -103,4 +99,8 @@ body {
 .bg-red,
 .btn-red {
   background-color: $color-card-red !important;
+}
+
+h1 {
+  margin-bottom: 40px !important;
 }

@@ -1,6 +1,10 @@
 import { Spin as Hamburger } from "hamburger-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import {
+  useGetUserInfoQuery,
+  useLogoutMutation,
+} from "../../generated/graphql-types";
 
 export default function Burger({
   isActive,
@@ -11,14 +15,15 @@ export default function Burger({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  /* useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
+  const { data, refetch } = useGetUserInfoQuery();
+  const [logout] = useLogoutMutation();
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [setWindowWidth]); */
+  const isLoggedIn = data?.getUserInfo?.isLoggedIn;
+
+  const handleLogout = async () => {
+    await logout();
+    await refetch();
+  };
 
   return (
     <>
@@ -58,25 +63,47 @@ export default function Burger({
             </Link>
           </div>
           <div className="navbar-right">
-            <Link
-              onClick={() => handleClick("connexion")}
-              to="/login"
-              className={`navbar-link ${
-                isActive === "connexion" && "is-active"
-              }`}
-            >
-              Se connecter
-            </Link>
-            <Link
-              onClick={() => handleClick("register")}
-              to="/register"
-              className={`navbar-link ${
-                isActive === "register" && "is-active"
-              }`}
-              id="last-link"
-            >
-              S'inscrire
-            </Link>
+            {!isLoggedIn ? (
+              <>
+                <Link
+                  onClick={() => handleClick("connexion")}
+                  to="/login"
+                  className={`navbar-link ${
+                    isActive === "connexion" && "is-active"
+                  }`}
+                >
+                  Se connecter
+                </Link>
+                <Link
+                  onClick={() => handleClick("register")}
+                  to="/register"
+                  className={`navbar-link ${
+                    isActive === "register" && "is-active"
+                  }`}
+                  id="last-link"
+                >
+                  S'inscrire
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/profile"
+                  onClick={() => handleClick("account")}
+                  className={`navbar-link ${
+                    isActive === "account" && "is-active"
+                  }`}
+                >
+                  Mon compte
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="navbar-link logout-button"
+                >
+                  Déconnexion
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}

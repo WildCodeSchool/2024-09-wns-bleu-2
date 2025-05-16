@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+ import { Field, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -16,6 +16,7 @@ import { Booking } from "./Booking";
 export enum Gender {
   Homme = "Homme",
   Femme = "Femme",
+  Autre = "Autre"
 }
 
 @ObjectType()
@@ -52,9 +53,9 @@ export class User extends BaseEntity {
   @Column()
   phone: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ nullable: true })
-  avatar: string;
+  avatar?: string;
 
   @Field(() => [Carpool], { nullable: true })
   @OneToMany(() => Carpool, (carpool) => carpool.driver)

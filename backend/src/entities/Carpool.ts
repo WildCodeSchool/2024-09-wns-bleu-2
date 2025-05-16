@@ -44,7 +44,7 @@ export class Carpool extends BaseEntity {
   num_passenger: number;
 
   @Field()
-  @Column()
+  @Column({ type: "boolean", default: false })
   toll: Boolean;
 
   @Field()
@@ -57,7 +57,7 @@ export class Carpool extends BaseEntity {
 
   @Field(() => [String])
   @Column("simple-array", { nullable: true })
-  options: string[];
+  options?: string[];
 
   @Field(() => User)
   @ManyToOne(() => User, (user: User) => user.carpools, {

@@ -13,6 +13,14 @@ export class BookingResolver {
     });
   }
 
+  @Query(() => [Booking])
+  async getBookingsForPassenger(@Arg("passengerId") passengerId: number) {
+    return await Booking.find({
+      where: { passenger: { id: passengerId } },
+      relations: ["carpool", "carpool.driver", "passenger"],
+    });
+  }
+
   @Mutation(() => Booking)
   async createBooking(@Arg("data") bookingInput: BookingInput) {
     const { carpool_id, passenger_id, ...rest } = bookingInput;
@@ -37,5 +45,22 @@ export class BookingResolver {
     }).save();
 
     return newBooking;
+  }
+
+  @Mutation(() => String)
+  async deleteBooking(
+    @Arg("passengerId") passengerId: number,
+    @Arg("carpoolId") carpoolId: number
+  ) {
+    const booking = await Booking.findOne({
+      where: { passenger: { id: passengerId }, carpool: { id: carpoolId } },
+    });
+
+    if (!booking) {
+      throw new Error("Booking not found");
+    }
+
+    await Booking.remove(booking);
+    return "Booking deleted successfully";
   }
 }

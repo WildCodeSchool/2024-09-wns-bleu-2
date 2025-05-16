@@ -1,4 +1,12 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from "typeorm";
+import { CarInfos } from "./CarInfos";
 
 @Entity()
 export class TempUser extends BaseEntity {
@@ -28,4 +36,8 @@ export class TempUser extends BaseEntity {
 
   @Column()
   phone: string;
+
+  @OneToOne(() => CarInfos, (car) => car.tempUser, { cascade: true })
+  @JoinColumn()
+  car: CarInfos;
 }

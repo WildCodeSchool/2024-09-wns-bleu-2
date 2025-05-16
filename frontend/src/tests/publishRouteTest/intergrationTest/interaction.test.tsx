@@ -6,6 +6,7 @@ import { GET_CITIES, GET_USER_INFO } from "../../../graphql/queries";
 import { CREATE_CARPOOL } from "../../../graphql/mutations";
 import "@testing-library/jest-dom/vitest";
 import { toast } from "react-toastify";
+import { BrowserRouter } from "react-router-dom";
 
 vi.mock("react-toastify", () => ({
   toast: {
@@ -68,7 +69,9 @@ describe("PublishRoute - form submission", () => {
 
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <PublishRoute />
+        <BrowserRouter>
+          <PublishRoute />
+        </BrowserRouter>
       </MockedProvider>
     );
 
@@ -90,7 +93,7 @@ describe("PublishRoute - form submission", () => {
       fireEvent.click(incrementBtn);
     }
 
-    expect(screen.getByTestId("price-value")).toHaveTextContent("10 €");
+    expect(screen.getByTestId("price-value")).toHaveValue(10);
 
     const selects = screen.getAllByRole("combobox");
 
@@ -131,7 +134,9 @@ describe("PublishRoute - form submission", () => {
 
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <PublishRoute />
+        <BrowserRouter>
+          <PublishRoute />
+        </BrowserRouter>
       </MockedProvider>
     );
 

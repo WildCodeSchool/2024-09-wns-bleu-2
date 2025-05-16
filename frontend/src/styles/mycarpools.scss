@@ -1,0 +1,41 @@
+@import "../styles/root.scss";
+
+.overall-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.carpool-list-container {
+  margin-top: 10px; // Moves the div down
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: flex-start; // Center items horizontally
+  padding: 20px;
+  min-height: 100%;
+  overflow-y: auto; /* Handle overflow if content is larger */
+}
+
+h2 {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.carpool-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.carpool-main {
+  width: 100%; /* Ensure it takes the full width of the parent container */
+  max-width: 1200px; /* Set a maximum width (optional) */
+  margin: 0 auto; /* Center the container horizontally */
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}

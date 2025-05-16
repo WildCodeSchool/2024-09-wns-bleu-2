@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -10,7 +10,21 @@ export default defineConfig({
     watch: {
       usePolling: true,
     },
-    hmr: { path: "/hmr" },
+    hmr: {
+      path: "/hmr",
+    },
     allowedHosts: ["frontend"],
+    proxy: {
+      "/img": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/api": {
+        target: "http://localhost:4000",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
 });

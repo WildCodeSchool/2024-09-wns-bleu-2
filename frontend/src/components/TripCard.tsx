@@ -1,36 +1,52 @@
 import { useEffect, useState } from "react";
-import { X, Tickets, Tractor, User, UserCheck } from "lucide-react";
-import { Carpool, Booking } from "../generated/graphql-types";
+import {
+  X,
+  Tickets,
+  Tractor,
+  User,
+  UserCheck,
+  ChevronRight,
+} from "lucide-react";
+import {
+  Booking,
+  Carpool,
+  useDeleteCarpoolMutation,
+} from "../generated/graphql-types";
 import {
   formatTime,
   calculateArrivalTime,
   formatDate,
   formatDuration,
 } from "../utils/dateUtils";
+
 import {
   getCarpoolData,
   getBookedSeats,
   getAvailableSeats,
 } from "../utils/tripUtils";
+import "../styles/trip-cards.scss";
+import { GET_CARPOOLS_BY_USER_ID } from "../graphql/queries";
+import { toast } from "react-toastify";
 
 interface TripCardProps {
   tripDetails: Carpool | Booking;
   tripIndex: number;
   mode: "carpool" | "booking";
+  isUpcoming?: boolean;
+  carpoolData?: Carpool;
 }
 
 export default function TripCard({
   tripDetails,
-  tripIndex,
   mode,
+  carpoolData,
 }: TripCardProps) {
-  const data = getCarpoolData(tripDetails, mode);
+  const data = getCarpoolData(tripDetails, mode, carpoolData); // Pass the carpool data if mode is booking
   const bookedSeats = getBookedSeats(tripDetails, mode);
   const availableSeats = getAvailableSeats(tripDetails, mode);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  console.log("tripDetails", tripDetails, "mode", mode);
   ////to dynamicaly get the window width on resize
   useEffect(() => {
     const handleResize = () => {
@@ -44,26 +60,45 @@ export default function TripCard({
     };
   }, [setWindowWidth]);
 
+  const [deleteCarpool] = useDeleteCarpoolMutation({
+    onCompleted: () => {
+      toast.success("Carpool deleted successfully");
+    },
+    onError: (error: any) => {
+      console.error("Error deleting carpool:", error);
+      alert("Failed to delete the carpool.");
+    },
+  });
+
   const toll = data.toll ? "Avec péage" : "Sans péage";
   const icon = data.toll ? (
-    <Tickets color="#ffffff" width={30} strokeWidth={1.5} />
+    <Tickets color="#ffffff" width={30} strokeWidth={2.5} />
   ) : (
-    <Tractor color="#ffffff" width={30} strokeWidth={1.5} />
+    <Tractor color="#ffffff" width={30} strokeWidth={2.5} />
   );
 
   const seats = Array.from({ length: availableSeats }).map((_, index) => (
-    <User key={index} color="#ffffff" strokeWidth={1.5} />
+    <User key={index} color="#ffffff" strokeWidth={2.5} />
   ));
   const passengers = Array.from({ length: bookedSeats }).map((_, index) => (
-    <UserCheck key={index} color="#999999" strokeWidth={1.5} />
+    <UserCheck key={index} color="#999999" strokeWidth={2.5} />
   ));
 
-  //console.log("seats", seats, "passengers", passengers);
-  //CSS classes for  background colors
+  ////CSS classes for  background colors
   const backgroundClasses = ["bg-red", "bg-yellow", "bg-green", "bg-blue"];
-  const bgClass = backgroundClasses[tripIndex % backgroundClasses.length];
-  const btnClasses = ["btn-yellow", "btn-red", "btn-blue", "btn-green"];
-  const btnClass = btnClasses[tripIndex % btnClasses.length];
+  const bgClass =
+    backgroundClasses[Math.floor(Math.random() * backgroundClasses.length)];
+
+  const btnClass =
+    bgClass === "bg-red"
+      ? "btn-yellow"
+      : bgClass === "bg-yellow"
+      ? "btn-red"
+      : bgClass === "bg-green"
+      ? "btn-blue"
+      : bgClass === "bg-blue"
+      ? "btn-green"
+      : "";
 
   return (
     <div className={`trip-card ${bgClass ? bgClass : "bg-default"}`}>
@@ -87,16 +122,44 @@ export default function TripCard({
           <p>
             le <span className="date">{formatDate(data.departure_date)}</span>
           </p>
-          <button className={`${windowWidth > 885 ? btnClass : ""}`}>
-            {windowWidth > 885 ? "ANNULER" : <X />}
-          </button>
+
+          {new Date(
+            `${data.departure_date}T${data.departure_time}`
+          ).getTime() >= new Date().getTime() &&
+            mode === "carpool" && (
+              <button
+                className={`${windowWidth > 885 ? btnClass : ""}`}
+                onClick={async (event: React.MouseEvent<HTMLButtonElement>) => {
+                  event.stopPropagation();
+                  console.log("delete carpool with id", data.id);
+                  if (data.id) {
+                    if (
+                      window.confirm(
+                        "Are you sure you want to cancel this trip?"
+                      )
+                    ) {
+                      await deleteCarpool({
+                        variables: { id: Number(data.id) },
+                        refetchQueries: [GET_CARPOOLS_BY_USER_ID], // refetch the list of carpools after deletion
+                        awaitRefetchQueries: true,
+                      });
+                    }
+                  }
+                }}
+              >
+                {windowWidth > 885 ? "ANNULER" : <X />}
+              </button>
+            )}
         </div>
       </div>
       <div className="horizontal-line" />
       <div className="trip-card-bottom">
         <div className="trip-bottom-left">
-          <div className="trip-driver ">
-            <img src={data.driver.avatar} alt="Avatar" />
+          <div className="trip-user ">
+            <img
+              src={data.driver.avatar ?? "/public/default-avatar.png"}
+              alt="Avatar"
+            />
             <div className="driver-infos">
               <p>{data.driver.firstname}</p>
             </div>
@@ -115,7 +178,16 @@ export default function TripCard({
           </div>
           <div className="vertical-line" />
           <div className="trip-price">
-            <p>{data.price}€</p>
+            <p>{data.price} €</p>
+            {mode === "carpool" &&
+              window.location.href.includes("/mytrips") && (
+                <ChevronRight
+                  className="animated"
+                  width={60}
+                  color="white"
+                  strokeWidth={2.5}
+                />
+              )}
           </div>
         </div>
       </div>
