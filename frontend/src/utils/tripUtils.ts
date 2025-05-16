@@ -1,27 +1,22 @@
 import { Carpool, Booking } from "../generated/graphql-types";
 
-export const getCarpoolData = (
+export function getCarpoolData(
   tripDetails: Carpool | Booking,
   mode: "carpool" | "booking",
   carpoolData?: Carpool
-): Carpool => {
-  if (mode === "carpool") {
-    return tripDetails as Carpool; // Directly return Carpool data when mode is "carpool"
+): Carpool {
+  if (mode === "booking") {
+    if (carpoolData) return carpoolData;
+
+    const booking = tripDetails as Booking;
+    if (!booking.carpool)
+      throw new Error("Invalid trip format: missing carpool in booking");
+    return booking.carpool;
   }
 
-  const booking = tripDetails as Booking;
-
-  // Fallback: If carpoolData is not passed, try to return booking.carpool if it exists.
-  if (!carpoolData) {
-    if (booking.carpool) {
-      return booking.carpool;
-    }
-    throw new Error("Carpool data is required for booking mode.");
-  }
-
-  // Otherwise, return the provided carpool data.
-  return carpoolData;
-};
+  // mode === "carpool"
+  return tripDetails as Carpool;
+}
 
 //////sum the numbers of booked seats
 export const getBookedSeats = (

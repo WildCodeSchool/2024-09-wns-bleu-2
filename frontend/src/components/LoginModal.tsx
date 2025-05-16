@@ -6,86 +6,103 @@ import { Link, useNavigate } from "react-router-dom";
 import { useGetUserInfoQuery } from "../generated/graphql-types";
 import { ChevronRight, X } from "lucide-react";
 
-
 type Props = {
-   setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const LoginModal = ({ setIsLoginModalOpen }: Props) => {
-   const [login] = useLoginMutation();
-   const navigate = useNavigate();
+  const [login] = useLoginMutation();
+  const navigate = useNavigate();
 
-   const { refetch } = useGetUserInfoQuery();
+  const { refetch } = useGetUserInfoQuery();
 
-   const closeModal = () => {
-      setIsLoginModalOpen(false);
-   }
+  const closeModal = () => {
+    setIsLoginModalOpen(false);
+  };
 
-   type Inputs = {
-      login: string;
-      password: string;
-   };
+  type Inputs = {
+    login: string;
+    password: string;
+  };
 
-   const {
-      register,
-      handleSubmit,
-      formState: { errors },
-   } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
 
-   const onSubmit: SubmitHandler<Inputs> = (data) => {
-      login({
-         variables: {
-            data: {
-               email: data.login,
-               password: data.password,
-            },
-         },
-         onCompleted: async () => {
-            await refetch(); // 👈 Important
-            setIsLoginModalOpen(false);
-            toast.success("Ravi de vous revoir !");
-            navigate("/");
-         },
-         onError: (error: any) => {
-            toast.error("Erreur lors de la connexion. Vérifiez vos identifiants.");
-            console.log("error", error);
-         },
-      });
-   };
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    login({
+      variables: {
+        data: {
+          email: data.login,
+          password: data.password,
+        },
+      },
+      onCompleted: async () => {
+        console.log("Login response:", Response);
+        await refetch(); // 👈 Important
+        setIsLoginModalOpen(false);
+        toast.success("Ravi de vous revoir !");
+        navigate("/");
+      },
+      onError: (error: any) => {
+        toast.error("Erreur lors de la connexion. Vérifiez vos identifiants.");
+        console.log("error", error);
+      },
+    });
+  };
 
-   return (
-      <div className="modal">
-         <div className="close-btn">
-            <X onClick={closeModal} size={50} />
-         </div>
-         <div className="modalContent">
-            <h1>Se connecter</h1>
-            <form className="form login-form" onSubmit={handleSubmit(onSubmit)}>
-               <div className="input-container">
-                  <label htmlFor="login">Adresse email
-                     <input className="text-field" type="email" placeholder="monemail@gmail.com" {...register("login", { required: true })} />
-                     {errors.login && <span>Ce champ est requis.</span>}
-                  </label>
-               </div>
-
-               <div className="input-container">
-                  <label htmlFor="password">Votre mot de passe
-                     <input className="text-field pwd" type="password" {...register("password", { required: true })} />
-                     {errors.password && <span>Ce champ est requis.</span>}
-                  </label>
-               </div>
-               <div className="links">
-                  <Link to="/forgotten-password" className="login-button">Mot de passe oublié ?</Link>
-                  <Link to="/register" className="login-button">S'inscrire</Link>
-               </div>
-
-               <div className="submit-container">
-                  <button type="submit"><ChevronRight size={30} /> Connexion</button>
-               </div>
-            </form>
-         </div>
+  return (
+    <div className="modal">
+      <div className="close-btn">
+        <X onClick={closeModal} size={50} />
       </div>
-   );
+      <div className="modalContent">
+        <h1>Se connecter</h1>
+        <form className="form login-form" onSubmit={handleSubmit(onSubmit)}>
+          <div className="input-container">
+            <label htmlFor="login">
+              Adresse email
+              <input
+                className="text-field"
+                type="email"
+                placeholder="monemail@gmail.com"
+                {...register("login", { required: true })}
+              />
+              {errors.login && <span>Ce champ est requis.</span>}
+            </label>
+          </div>
+
+          <div className="input-container">
+            <label htmlFor="password">
+              Votre mot de passe
+              <input
+                className="text-field pwd"
+                type="password"
+                {...register("password", { required: true })}
+              />
+              {errors.password && <span>Ce champ est requis.</span>}
+            </label>
+          </div>
+          <div className="links">
+            <Link to="/forgotten-password" className="login-button">
+              Mot de passe oublié ?
+            </Link>
+            <Link to="/register" className="login-button">
+              S'inscrire
+            </Link>
+          </div>
+
+          <div className="submit-container">
+            <button type="submit">
+              <ChevronRight size={30} /> Connexion
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default LoginModal;
