@@ -141,7 +141,7 @@ export default function TripCard({ tripDetails, mode }: TripCardProps) {
                   if (carpool.id) {
                     if (
                       window.confirm(
-                        "Are you sure you want to cancel this trip?"
+                        "Es-tu sûr de vouloir annuler ce trajet ?\nCette action est irréversible."
                       )
                     ) {
                       await deleteCarpool({

@@ -7,50 +7,43 @@ export const separateTripsByDate = (
   const pastTrips: any[] = [];
 
   for (const trip of trips) {
-    const carpool = trip.carpool ?? trip;
+    const tripData = trip.carpool ?? trip; // si carpool existe, on l’utilise, sinon trip
 
-    const departureDateStr = carpool.departure_date;
-    const departureTimeStr = carpool.departure_time;
-
-    if (!departureDateStr || !departureTimeStr) {
-      console.warn("Trip sans date ou heure :", trip);
-      continue;
-    }
-
-    const departureTimestamp = new Date(
-      `${departureDateStr}T${departureTimeStr}`
+    const departureDate = new Date(
+      `${tripData.departure_date}T${tripData.departure_time}`
     ).getTime();
 
-    if (isNaN(departureTimestamp)) {
-      console.warn("Format de date invalide :", trip);
+    if (isNaN(departureDate)) {
+      console.warn("Invalid trip format:", trip);
       continue;
     }
 
-    if (departureTimestamp >= today) {
+    if (departureDate >= today) {
       upcomingTrips.push(trip);
     } else {
       pastTrips.push(trip);
     }
   }
 
-  const sortFnAsc = (a: any, b: any) =>
-    new Date(
-      (a.carpool ?? a).departure_date + "T" + (a.carpool ?? a).departure_time
-    ).getTime() -
-    new Date(
-      (b.carpool ?? b).departure_date + "T" + (b.carpool ?? b).departure_time
-    ).getTime();
+  const sortedUpcomingTrips = [...upcomingTrips].sort(
+    (a, b) =>
+      new Date(
+        (a.carpool ?? a).departure_date + "T" + (a.carpool ?? a).departure_time
+      ).getTime() -
+      new Date(
+        (b.carpool ?? b).departure_date + "T" + (b.carpool ?? b).departure_time
+      ).getTime()
+  );
 
-  const sortFnDesc = (a: any, b: any) =>
-    new Date(
-      (b.carpool ?? b).departure_date + "T" + (b.carpool ?? b).departure_time
-    ).getTime() -
-    new Date(
-      (a.carpool ?? a).departure_date + "T" + (a.carpool ?? a).departure_time
-    ).getTime();
+  const sortedPastTrips = [...pastTrips].sort(
+    (a, b) =>
+      new Date(
+        (b.carpool ?? b).departure_date + "T" + (b.carpool ?? b).departure_time
+      ).getTime() -
+      new Date(
+        (a.carpool ?? a).departure_date + "T" + (a.carpool ?? a).departure_time
+      ).getTime()
+  );
 
-  return {
-    sortedUpcomingTrips: upcomingTrips.sort(sortFnAsc),
-    sortedPastTrips: pastTrips.sort(sortFnDesc),
-  };
+  return { sortedUpcomingTrips, sortedPastTrips };
 };
