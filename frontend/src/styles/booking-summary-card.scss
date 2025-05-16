@@ -1,3 +1,74 @@
+@use "./variables.scss" as *;
+
 #booking-img {
   width: 3em;
+}
+.booking-summary-card {
+  width: 100%;
+  background-color: $summary-color;
+  border-radius: 30px;
+  padding: 30px 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  .timing {
+    list-style: none;
+    position: relative;
+    align-self: center;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    &::before {
+      content: "";
+      display: inline-block;
+      height: 57%;
+      width: 3px;
+      background-color: $color-card-green;
+      position: absolute;
+      left: 8px;
+      top: 17px;
+    }
+    li {
+      &:first-child {
+        margin-bottom: 40px;
+      }
+      &:before {
+        content: "";
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border: 2px solid $color-card-green;
+        border-radius: 50%;
+        background-color: $color-card-green;
+        box-shadow: inset 0 0 0 2px $summary-color;
+        margin-right: 10px;
+        vertical-align: middle;
+        z-index: 5;
+      }
+    }
+  }
+
+  .summary-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .row {
+      display: flex;
+      justify-content: space-between;
+      p {
+        font-weight: 700;
+        font-family: $font-family-secondary;
+        font-size: $font-size-normal-text;
+      }
+    }
+    .submit-button {
+      text-wrap: nowrap;
+    }
+  }
+}
+.driver {
+  display: flex;
+  gap: 25px;
+  align-items: center;
 }
