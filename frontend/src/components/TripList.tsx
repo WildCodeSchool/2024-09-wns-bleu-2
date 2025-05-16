@@ -49,12 +49,7 @@ export default function TripList({
                     }
                   }}
                 >
-                  <TripCard
-                    tripDetails={trip}
-                    isUpcoming={true}
-                    mode={mode}
-                    carpoolData={mode === "booking" ? trip.carpool : undefined}
-                  />
+                  <TripCard key={trip.id} tripDetails={trip} mode={mode} />
                 </div>
               ))
             ) : (
@@ -69,13 +64,7 @@ export default function TripList({
           <div className="carpool-main">
             {sortedPastTrips.length > 0 ? (
               sortedPastTrips.map((trip: any) => (
-                <TripCard
-                  key={trip.id}
-                  tripDetails={trip}
-                  isUpcoming={false}
-                  mode={mode}
-                  carpoolData={mode === "booking" ? trip.carpool : undefined}
-                />
+                <TripCard key={trip.id} tripDetails={trip} mode={mode} />
               ))
             ) : (
               <p>Aucun voyage passé</p>

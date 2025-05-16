@@ -7,33 +7,50 @@ export const separateTripsByDate = (
   const pastTrips: any[] = [];
 
   for (const trip of trips) {
-    //////refacto date format to have date + hours
-    const departureDate = new Date(
-      `${trip.departure_date}T${trip.departure_time}`
-    ).getTime();
+    const carpool = trip.carpool ?? trip;
 
-    if (isNaN(departureDate)) {
-      console.warn("Invalid trip format:", trip);
+    const departureDateStr = carpool.departure_date;
+    const departureTimeStr = carpool.departure_time;
+
+    if (!departureDateStr || !departureTimeStr) {
+      console.warn("Trip sans date ou heure :", trip);
       continue;
     }
 
-    if (departureDate >= today) {
+    const departureTimestamp = new Date(
+      `${departureDateStr}T${departureTimeStr}`
+    ).getTime();
+
+    if (isNaN(departureTimestamp)) {
+      console.warn("Format de date invalide :", trip);
+      continue;
+    }
+
+    if (departureTimestamp >= today) {
       upcomingTrips.push(trip);
     } else {
       pastTrips.push(trip);
     }
   }
-  const sortedUpcomingTrips = [...upcomingTrips].sort(
-    (a, b) =>
-      new Date(a.departure_date + "T" + a.departure_time).getTime() -
-      new Date(b.departure_date + "T" + b.departure_time).getTime()
-  );
 
-  const sortedPastTrips = [...pastTrips].sort(
-    (a, b) =>
-      new Date(b.departure_date + "T" + b.departure_time).getTime() -
-      new Date(a.departure_date + "T" + a.departure_time).getTime()
-  );
+  const sortFnAsc = (a: any, b: any) =>
+    new Date(
+      (a.carpool ?? a).departure_date + "T" + (a.carpool ?? a).departure_time
+    ).getTime() -
+    new Date(
+      (b.carpool ?? b).departure_date + "T" + (b.carpool ?? b).departure_time
+    ).getTime();
 
-  return { sortedUpcomingTrips, sortedPastTrips };
+  const sortFnDesc = (a: any, b: any) =>
+    new Date(
+      (b.carpool ?? b).departure_date + "T" + (b.carpool ?? b).departure_time
+    ).getTime() -
+    new Date(
+      (a.carpool ?? a).departure_date + "T" + (a.carpool ?? a).departure_time
+    ).getTime();
+
+  return {
+    sortedUpcomingTrips: upcomingTrips.sort(sortFnAsc),
+    sortedPastTrips: pastTrips.sort(sortFnDesc),
+  };
 };
