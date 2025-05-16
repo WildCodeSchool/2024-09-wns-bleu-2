@@ -26,7 +26,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="register" element={<Register />} />
           <Route
-            path="email-confirmation/:code?"
+            path="email-confirmation"
             element={<EmailConfirmation />}
           />
           <Route path="trip/:id" element={<TripDetails />} />

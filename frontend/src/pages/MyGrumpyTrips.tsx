@@ -25,7 +25,7 @@ export default function MyGrumpyTrips() {
   return (
     <TripList
       trips={carpools}
-      titleUpcoming="Mes grumpy trips à venir"
+      titleUpcoming="Mes Grumpy trips à venir"
       titlePast="Mes Grumpy Trips passés"
       showPublishButton={true}
       mode="carpool"

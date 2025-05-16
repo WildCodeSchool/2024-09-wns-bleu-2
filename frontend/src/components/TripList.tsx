@@ -36,27 +36,26 @@ export default function TripList({
           <h2>{titleUpcoming}</h2>
           <div className="carpool-main">
             {sortedUpcomingTrips.length > 0 ? (
-              sortedUpcomingTrips.map((trip: any) => (
-                <div
-                  key={trip.id}
-                  className="card-button"
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => navigate(`/trip/${trip.id}`)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      navigate(`/trip/${trip.id}`);
-                    }
-                  }}
-                >
-                  <TripCard
-                    tripDetails={trip}
-                    isUpcoming={true}
-                    mode={mode}
-                    carpoolData={mode === "booking" ? trip.carpool : undefined}
-                  />
-                </div>
-              ))
+              sortedUpcomingTrips.map((trip: any) =>
+                mode === "carpool" ? (
+                  <div
+                    key={trip.id}
+                    className="card-button"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => navigate(`/trip/${trip.id}`)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        navigate(`/trip/${trip.id}`);
+                      }
+                    }}
+                  >
+                    <TripCard key={trip.id} tripDetails={trip} mode={mode} />
+                  </div>
+                ) : (
+                  <TripCard key={trip.id} tripDetails={trip} mode={mode} />
+                )
+              )
             ) : (
               <p>Aucun trajet trouvé</p>
             )}
@@ -68,15 +67,26 @@ export default function TripList({
           <h2>{titlePast}</h2>
           <div className="carpool-main">
             {sortedPastTrips.length > 0 ? (
-              sortedPastTrips.map((trip: any) => (
-                <TripCard
-                  key={trip.id}
-                  tripDetails={trip}
-                  isUpcoming={false}
-                  mode={mode}
-                  carpoolData={mode === "booking" ? trip.carpool : undefined}
-                />
-              ))
+              sortedPastTrips.map((trip: any) =>
+                mode === "carpool" ? (
+                  <div
+                    key={trip.id}
+                    className="card-button"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => navigate(`/trip/${trip.id}`)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        navigate(`/trip/${trip.id}`);
+                      }
+                    }}
+                  >
+                    <TripCard key={trip.id} tripDetails={trip} mode={mode} />
+                  </div>
+                ) : (
+                  <TripCard key={trip.id} tripDetails={trip} mode={mode} />
+                )
+              )
             ) : (
               <p>Aucun voyage passé</p>
             )}

@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 import {
   Carpool,
   useCreateBookingMutation,
@@ -29,6 +30,7 @@ const BookATripPage = () => {
   const handleBooking = async () => {
     if (!userId) {
       toast.error("Vous devez être connecté pour réserver un trajet.");
+
       return;
     }
 
