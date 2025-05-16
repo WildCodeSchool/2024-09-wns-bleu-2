@@ -179,7 +179,7 @@ export default function TripCard({ tripDetails, mode }: TripCardProps) {
         <div className="vertical-line" />
         <div className="trip-right">
           <div className="trip-passengers">
-            {carpool.bookings ? passengers : ""}
+            {passengers}
             {seats}
           </div>
           <div className="vertical-line" />
