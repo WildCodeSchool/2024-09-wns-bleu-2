@@ -11,6 +11,7 @@ import {
   Booking,
   Carpool,
   useDeleteCarpoolMutation,
+  useGetUserInfoQuery,
 } from "../generated/graphql-types";
 import {
   formatTime,
@@ -23,29 +24,32 @@ import {
   getCarpoolData,
   getBookedSeats,
   getAvailableSeats,
+  backgroundClasses,
 } from "../utils/tripUtils";
 import "../styles/trip-cards.scss";
+
 import { GET_CARPOOLS_BY_USER_ID } from "../graphql/queries";
 import { toast } from "react-toastify";
 
+type TripData = Booking | Carpool;
+
 interface TripCardProps {
-  tripDetails: Carpool | Booking;
-  tripIndex: number;
+  tripDetails: TripData;
   mode: "carpool" | "booking";
   isUpcoming?: boolean;
   carpoolData?: Carpool;
 }
 
-export default function TripCard({
-  tripDetails,
-  mode,
-  carpoolData,
-}: TripCardProps) {
-  const data = getCarpoolData(tripDetails, mode, carpoolData); // Pass the carpool data if mode is booking
+export default function TripCard({ tripDetails, mode }: TripCardProps) {
+  const carpool = getCarpoolData(tripDetails, mode);
+
   const bookedSeats = getBookedSeats(tripDetails, mode);
   const availableSeats = getAvailableSeats(tripDetails, mode);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const { data: userData } = useGetUserInfoQuery();
+  const userId = userData?.getUserInfo?.id;
 
   ////to dynamicaly get the window width on resize
   useEffect(() => {
@@ -70,8 +74,8 @@ export default function TripCard({
     },
   });
 
-  const toll = data.toll ? "Avec péage" : "Sans péage";
-  const icon = data.toll ? (
+  const toll = carpool.toll ? "Avec péage" : "Sans péage";
+  const icon = carpool.toll ? (
     <Tickets color="#ffffff" width={30} strokeWidth={2.5} />
   ) : (
     <Tractor color="#ffffff" width={30} strokeWidth={2.5} />
@@ -85,9 +89,9 @@ export default function TripCard({
   ));
 
   ////CSS classes for  background colors
-  const backgroundClasses = ["bg-red", "bg-yellow", "bg-green", "bg-blue"];
   const bgClass =
-    backgroundClasses[Math.floor(Math.random() * backgroundClasses.length)];
+    backgroundClasses[Number(carpool.id) % backgroundClasses.length];
+  //backgroundClasses[Math.floor(Math.random() * backgroundClasses.length)];
 
   const btnClass =
     bgClass === "bg-red"
@@ -105,42 +109,44 @@ export default function TripCard({
       <div className="trip-card-header">
         <div className="trip-card-infos-left">
           <div className="trip-card-trip-duration">
-            <p className="time">{formatTime(data.departure_time)}</p>
+            <p className="time">{formatTime(carpool.departure_time)}</p>
             <div className="horizontal-line small departure" />
-            <p className="duration">{formatDuration(data.duration)}</p>
+            <p className="duration">{formatDuration(carpool.duration)}</p>
             <div className="horizontal-line small arrival" />
             <p className="time">
-              {calculateArrivalTime(data.departure_time, data.duration)}
+              {calculateArrivalTime(carpool.departure_time, carpool.duration)}
             </p>
           </div>
           <div className="trip-card-cities">
-            <p className="city">{data.departure_city}</p>
-            <p className="city">{data.arrival_city}</p>
+            <p className="city">{carpool.departure_city}</p>
+            <p className="city">{carpool.arrival_city}</p>
           </div>
         </div>
         <div className="trip-card-infos-right">
           <p>
-            le <span className="date">{formatDate(data.departure_date)}</span>
+            le{" "}
+            <span className="date">{formatDate(carpool.departure_date)}</span>
           </p>
 
           {new Date(
-            `${data.departure_date}T${data.departure_time}`
+            `${carpool.departure_date}T${carpool.departure_time}`
           ).getTime() >= new Date().getTime() &&
-            mode === "carpool" && (
+            mode === "carpool" &&
+            userId === carpool?.driver.id && (
               <button
                 className={`${windowWidth > 885 ? btnClass : ""}`}
                 onClick={async (event: React.MouseEvent<HTMLButtonElement>) => {
                   event.stopPropagation();
-                  console.log("delete carpool with id", data.id);
-                  if (data.id) {
+                  console.log("delete carpool with id", carpool.id);
+                  if (carpool.id) {
                     if (
                       window.confirm(
-                        "Are you sure you want to cancel this trip?"
+                        "Es-tu sûr de vouloir annuler ce trajet ?\nCette action est irréversible."
                       )
                     ) {
                       await deleteCarpool({
-                        variables: { id: Number(data.id) },
-                        refetchQueries: [GET_CARPOOLS_BY_USER_ID], // refetch the list of carpools after deletion
+                        variables: { id: Number(carpool.id) },
+                        refetchQueries: [GET_CARPOOLS_BY_USER_ID],
                         awaitRefetchQueries: true,
                       });
                     }
@@ -157,11 +163,11 @@ export default function TripCard({
         <div className="trip-bottom-left">
           <div className="trip-user ">
             <img
-              src={data.driver.avatar ?? "/public/default-avatar.png"}
+              src={carpool.driver.avatar ?? "/public/default-avatar.png"}
               alt="Avatar"
             />
             <div className="driver-infos">
-              <p>{data.driver.firstname}</p>
+              <p>{carpool.driver.firstname}</p>
             </div>
           </div>
           <div className="vertical-line" />
@@ -173,14 +179,15 @@ export default function TripCard({
         <div className="vertical-line" />
         <div className="trip-right">
           <div className="trip-passengers">
-            {data.bookings ? passengers : ""}
+            {passengers}
             {seats}
           </div>
           <div className="vertical-line" />
           <div className="trip-price">
-            <p>{data.price} €</p>
+            <p>{carpool.price} €</p>
             {mode === "carpool" &&
-              window.location.href.includes("/mytrips") && (
+              (window.location.href.includes("/mytrips") ||
+                window.location.href.includes("/search-page-result")) && (
                 <ChevronRight
                   className="animated"
                   width={60}

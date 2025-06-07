@@ -1,4 +1,6 @@
-export const separateTripsByDate = (trips: any[]) => {
+export const separateTripsByDate = (
+  trips: any[]
+): { sortedUpcomingTrips: any[]; sortedPastTrips: any[] } => {
   const today = new Date().getTime();
 
   const upcomingTrips: any[] = [];

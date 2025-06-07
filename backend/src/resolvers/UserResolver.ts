@@ -8,7 +8,6 @@ import {
   Field,
 } from "type-graphql";
 import * as argon2 from "argon2";
-import { v4 as uuidv4 } from "uuid";
 import { Gender, User } from "../entities/User";
 import { UserInput } from "../inputs/UserInput";
 import { LoginInput } from "../inputs/LoginInput";
@@ -16,6 +15,7 @@ import { CarInfos } from "../entities/CarInfos";
 import { TempUser } from "../entities/TempUser";
 import { Resend } from "resend";
 import jwt, { Secret } from "jsonwebtoken";
+import { GraphQLError } from "graphql";
 
 @ObjectType()
 class UserInfo {
@@ -59,10 +59,36 @@ export class UserResolver {
       where: { email: newUserData.email },
     });
     if (existingUser) {
-      throw new Error("This email is already used.");
+      throw new GraphQLError("Email already used.", {
+        extensions: { code: "EMAIL_ALREADY_USED" },
+      });
     } else {
+      // Vérification de l'âge : doit être >= à 18 ans
+      const birthdate = new Date(newUserData.birthdate);
+      const today = new Date();
+      let age = today.getFullYear() - birthdate.getFullYear();
+      const m = today.getMonth() - birthdate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthdate.getDate())) {
+        age--;
+      }
+      if (age < 18) {
+        throw new GraphQLError("The user must be at least 18 years old to register.", {
+          extensions: { code: "UNDER_AGE" },
+        });
+      }
+
       // On génère un code aléatoire
-      const randomCode = uuidv4();
+      // const randomCode = uuidv4();
+      const generateRandomCode = () => {
+        let code = "";
+        // code à 6 chiffres random, de 0 à 9
+        for (let i = 0; i < 6; i++) {
+          code += Math.floor(Math.random() * 10);
+        }
+        return code;
+      };
+      const randomCode = generateRandomCode();
+      
       // On sauvegarde l'utilisateur dans la table TempUser ave toutes ses infos
       const result = new TempUser();
       result.email = newUserData.email;
@@ -94,27 +120,27 @@ export class UserResolver {
 
       (async function () {
         const { data, error } = await resend.emails.send({
-          from: "Acme <onboarding@resend.dev>",
+          from: "GrumpyCar <onboarding@resend.dev>",
           to: [newUserData.email],
-          subject: "Verify Email",
+          subject: "GrumpyCar - Confirmez votre email",
           html: `
-                <p>Merci de cliquer sur le lien ci-dessous pour valider votre adresse email</p>
-                <a href="http://localhost:8000/email-confirmation/${randomCode}">
-                  http://localhost:8000/email-confirmation/${randomCode}
-                </a>
+                <p style="color:#1a1a1a;">Bonjour <strong>${result.firstname}</strong>, merci d'avoir rejoint <strong>GrumpyCar</strong> ! 🚗</p>
+                <p style="color:#1a1a1a;">Pour finaliser votre inscription, il ne vous reste plus qu'à saisir ce code dans le formulaire de validation.</p>
+                <p style="color:#1a1a1a;">Votre code de confirmation : <strong>${randomCode}</strong>.</p>
+                <p style="color:#1a1a1a;">Si vous n’avez pas demandé cette validation, ne tenez pas compte de ce message.</p>
+                <p style="color:#1a1a1a;">À très vite 😾</p>
+                <p style="color:#1a1a1a;">L'équipe <strong>GrumpyCar</strong></p>
                 `,
         });
 
         if (error) {
-          console.error("Erreur d'envoi d'email :", error);
+          console.error("Email sending error.", error);
         } else {
-          console.log("Email envoyé avec succès :", data);
+          console.log("Email successfully sent.", data);
         }
       })();
-
-      console.log("result", result);
     }
-    return "The user is temporarily created. Please check your email for the confirmation code.";
+    return "The user is temporarily created. The email confirmation is required.";
   }
 
   @Mutation(() => String)
@@ -126,6 +152,20 @@ export class UserResolver {
 
     if (!tempUser) {
       throw new Error("Temp user not found");
+    }
+
+    // Expiration du code sous 10min
+    const now = new Date().getTime();
+    const createdAt = new Date(tempUser.createdAt).getTime();
+    const difference = now - createdAt;
+
+    const expirationTime = 10 * 60 * 1000;
+
+    if (difference > expirationTime) {
+      await tempUser.remove();
+      throw new GraphQLError("Code has expired", {
+        extensions: { code: "CODE_EXPIRED" }
+      });
     }
 
     const user = new User();
@@ -284,6 +324,37 @@ export class UserResolver {
       }
     } else {
       return { isLoggedIn: false };
+    }
+  }
+
+  @Mutation(() => CarInfos)
+  async updateCarInfos(
+    @Arg("color") color: string,
+    @Arg("year") year: number,
+    @Arg("brand") brand: string,
+    @Arg("userId") userId: number
+  ): Promise<CarInfos> {
+    const user = await User.findOne({
+      where: { id: userId },
+      relations: ["car"],
+    });
+    if (!user) throw new Error("User not found");
+
+    if (!user.car) {
+      const newCar = CarInfos.create({ brand, color, year });
+      await newCar.save();
+
+      user.car = newCar;
+      await user.save();
+
+      return newCar;
+    } else {
+      user.car.brand = brand;
+      user.car.color = color;
+      user.car.year = year;
+      await user.car.save();
+
+      return user.car;
     }
   }
 }

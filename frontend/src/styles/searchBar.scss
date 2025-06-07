@@ -1,4 +1,4 @@
-@import "./root.scss";
+@use "./variables.scss" as *;
 
 .search-bar {
   display: flex;
@@ -36,7 +36,7 @@
       .react-datepicker__input-container input {
         border: none;
         outline: none;
-        font-size: $font-size-search-desk;
+        font-size: $font-size-text-desk;
         background-color: transparent;
         width: 100%;
         cursor: pointer;
@@ -69,7 +69,7 @@
   select {
     border: none;
     outline: none;
-    font-size: $font-size-search-desk;
+    font-size: $font-size-text-desk;
     background-color: transparent;
   }
 
@@ -82,7 +82,7 @@
       select {
         border: none;
         outline: none;
-        font-size: $font-size-search-desk;
+        font-size: $font-size-text-desk;
         background-color: transparent;
       }
       #sr-only {

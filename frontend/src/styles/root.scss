@@ -1,37 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Manjari:wght@100;400;700&display=swap");
-
-$bp-mobile: 885px; //to include galaxy fold and tablets
-$bp-desktop-large: 1220px; //to adapt to larger screen
-
-$primary-color-bg: #f8f4ee;
-$color-card-green: #bcc6ad;
-$color-card-red: #eba095;
-$color-card-blue: #a7b6c2;
-$color-card-yellow: #f9eac3;
-$color-search: #666666;
-
-///////FONT///////
-$font-family: Popins, sans-serif;
-$font-family-secondary: Manjari, sans-serif;
-//desktop
-$font-size-title-desk: 48px;
-$font-size-text-desk: 20px;
-$font-size-search-desk: 20px;
-$font-size-card-desk: 32px;
-
-//mobile
-$font-size-title-mobile: 24px;
-$font-size-text-mobile: 15px;
-$font-size-search-mobile: 16px;
-$font-size-card-mobile: 20px;
+@use "./variables.scss" as *;
 
 * {
   margin: 0;
   padding: 0;
   font-family: $font-family;
 }
-html, body {
+html,
+body {
   height: 100%;
 }
 body {
@@ -43,29 +18,34 @@ body {
   flex-direction: column;
   .main-content {
     flex-grow: 1;
-  }
-}
-
-.page-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 1900px;
-  align-items: center;
-  margin: 0 auto;
-
-  .page-wrapper {
-    width: 80%;
     display: flex;
     flex-direction: column;
-    gap: 35px;
+    width: 100%;
+    max-width: 1900px;
     align-items: center;
-    @media screen and (min-width: $bp-mobile) {
-      width: 70%;
-      align-items: normal;
+    margin: 0 auto;
+    .page-wrapper {
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      gap: 35px;
+      align-items: center;
+      margin-top: 35px;
+      @media screen and (min-width: $bp-mobile) {
+        width: 70%;
+        align-items: normal;
+      }
     }
   }
 }
+a {
+  text-decoration: none;
+}
+h1 {
+  margin-bottom: 40px !important;
+  font-size: $font-size-h1;
+}
+
 .submit-button {
   margin-top: 2rem;
   background-color: $color-card-green;
@@ -75,7 +55,7 @@ body {
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 999px;
-  width: 13em;
+  min-width: 13em;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -110,8 +90,4 @@ body {
 .bg-red,
 .btn-red {
   background-color: $color-card-red !important;
-}
-
-h1 {
-  margin-bottom: 40px !important;
 }

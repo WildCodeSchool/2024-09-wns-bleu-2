@@ -1,5 +1,6 @@
 import "../styles/homepage.scss";
 import { MessageCircleOff, CigaretteOff, Cat } from "lucide-react";
+import Carousel from "../components/Carousel";
 
 const Home = () => {
   return (
@@ -53,7 +54,7 @@ const Home = () => {
         <p className="text-third-content">
           Peut-être que tu trouveras directement ton GrumpyCar préféré !
         </p>
-        {/* Rajouter les trajets proposés*/}
+        <Carousel />
       </div>
     </div>
   );

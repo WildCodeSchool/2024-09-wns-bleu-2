@@ -7,10 +7,10 @@ export default function Dropdown({
   handleClick,
   isLoggedIn,
   handleLogout,
-  setIsLoginModalOpen
+  setIsLoginModalOpen,
 }: {
   isActive: string;
-  handleClick: (action: string) => void;  // Argument d'action : register, login ...
+  handleClick: (action: string) => void; // Argument d'action : register, login ...
   isLoggedIn: boolean | undefined;
   handleLogout: () => void;
   setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -71,7 +71,7 @@ export default function Dropdown({
                 Mon profil
               </Link>
               <button
-                className="navbar-link logout-button logout-button-dropdown"
+                className="dropdown-item logout-button logout-button-dropdown"
                 onClick={handleLogout}
               >
                 Déconnexion

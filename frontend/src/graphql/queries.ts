@@ -41,7 +41,7 @@ export const GET_CARPOOL_BY_ID = gql`
         car {
           brand
           color
-          }
+        }
       }
       bookings {
         id
@@ -168,6 +168,33 @@ export const SEARCH_CARPOOLS = gql`
         firstname
         lastname
         avatar
+      }
+    }
+  }
+`;
+
+export const GET_CARPOOLS = gql`
+  query GetCarpools {
+    getCarpools {
+      id
+      departure_date
+      departure_time
+      departure_city
+      arrival_city
+      num_passenger
+      price
+      duration
+      toll
+      options
+      driver {
+        firstname
+        lastname
+        avatar
+        car {
+          brand
+          color
+          year
+        }
       }
     }
   }

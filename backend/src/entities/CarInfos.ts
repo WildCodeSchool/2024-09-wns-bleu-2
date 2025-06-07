@@ -7,6 +7,7 @@ import {
   OneToOne,
 } from "typeorm";
 import { TempUser } from "./TempUser";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
@@ -29,4 +30,7 @@ export class CarInfos extends BaseEntity {
 
   @OneToOne(() => TempUser, (tempUser: { car: any }) => tempUser.car)
   tempUser?: TempUser;
+
+  @OneToOne(() => User, (user) => user.car)
+  user: User;
 }

@@ -1,4 +1,4 @@
-@import "../styles/root.scss";
+@use "./variables.scss" as *;
 
 .navbar-wrapper {
   display: flex;
@@ -10,6 +10,7 @@
   top: 0;
   height: 65px;
   margin-bottom: 15px;
+  z-index: 20;
   &::before {
     backdrop-filter: blur(3px);
     display: block;
@@ -50,13 +51,13 @@
       text-decoration: none;
       color: #000000;
       font-weight: 300;
-      font-size: $font-size-card-mobile;
+      font-size: $font-size-text-desk;
       width: 100%;
       height: 38px;
       padding: 15px 25px 0;
 
       @media (min-width: 1450px) {
-        font-size: 1.5rem!important;
+        font-size: 1.5rem !important;
       }
       @media (min-width: $bp-mobile) and (max-width: 1265px) {
         padding: 15px 15px 0;
@@ -79,7 +80,7 @@
         }
       }
       @media screen and (min-width: $bp-mobile) and (max-width: $bp-desktop-large) {
-        font-size: $font-size-search-mobile;
+        font-size: $font-size-normal-text;
       }
 
       &:not(#last-link) {

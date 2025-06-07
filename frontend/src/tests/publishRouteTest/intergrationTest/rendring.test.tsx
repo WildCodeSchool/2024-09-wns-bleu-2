@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import PublishRoute from "../../../pages/PublishRoute";
 import { GET_CITIES, GET_USER_INFO } from "../../../graphql/queries";
+import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom/vitest";
 import { BrowserRouter } from "react-router-dom";
 
