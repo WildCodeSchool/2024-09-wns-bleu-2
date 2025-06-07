@@ -11,6 +11,7 @@ import TripPreferences from "../components/PublishRouteComponents/TipsPreference
 import { ChevronRight } from "lucide-react";
 import { toast } from "react-toastify";
 import { formatDate, formatTime } from "../utils/format.utils";
+import { useNavigate } from "react-router-dom";
 
 const PublishRoute = () => {
   const [departure, setDeparture] = useState("");
@@ -24,7 +25,7 @@ const PublishRoute = () => {
   const [minutes, setMinutes] = useState(0);
 
   const [createCarpool] = useCreateCarpoolMutation();
-
+  const navigate = useNavigate();
   const {
     data: cityData,
     loading: loadingCities,
@@ -62,7 +63,7 @@ const PublishRoute = () => {
 
     const toll = options.includes("Autoroute");
     const duration = hours * 60 + minutes;
-    console.log("Options sélectionnées :", options);
+
     if (!userId) {
       toast.error("Vous devez être connecté pour publier un trajet.");
       return;
@@ -85,6 +86,9 @@ const PublishRoute = () => {
       },
       onCompleted: () => {
         toast.success("Trajet bien publié !");
+        setTimeout(() => {
+          navigate("/mytrips/:id");
+        }, 500);
       },
       onError: (error) => {
         console.error("Erreur de publication :", error.message);
