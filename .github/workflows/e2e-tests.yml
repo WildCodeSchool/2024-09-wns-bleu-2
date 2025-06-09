@@ -1,0 +1,29 @@
+name: e2e-tests-workflow
+
+on: push
+
+jobs:
+  e2e-test-homepage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: create .env
+        run: |
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
+          echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env
+
+      - name: Launch e2e tests
+        run: |
+                docker compose -f docker-compose.e2e.yml build
+                docker compose -f docker-compose.e2e.yml up -d db backend frontend api_gateway img
+
+                echo "Waiting for API Gateway to be ready..."
+                until curl --fail http://localhost:8000; do sleep 1; done
+
+                docker compose -f docker-compose.e2e.yml run --rm e2e npx playwright test tests/login.spec.ts tests/example.spec.ts tests/PublishCarpool.spec.ts
