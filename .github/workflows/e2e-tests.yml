@@ -19,11 +19,4 @@ jobs:
           echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env
 
       - name: Launch e2e tests
-        run: |
-                docker compose -f docker-compose.e2e.yml build
-                docker compose -f docker-compose.e2e.yml up -d db backend frontend api_gateway img
-
-                echo "Waiting for API Gateway to be ready..."
-                until curl --fail http://localhost:8000; do sleep 1; done
-
-                docker compose -f docker-compose.e2e.yml run --rm e2e npx playwright test tests/login.spec.ts tests/example.spec.ts tests/PublishCarpool.spec.ts
+        run: docker compose -f docker-compose.e2e.yml up --build --exit-code-from=e2e 
