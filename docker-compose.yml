@@ -21,9 +21,10 @@ services:
       - ./backend/src:/app/src
     healthcheck:
       test: 'curl --fail --request POST --header ''content-type: application/json'' --url ''http://localhost:4000'' --data ''{"query":"query { __typename }"}'' || exit 1'
-      interval: 1s
+      interval: 5s
       timeout: 2s
-      retries: 100
+      retries: 10
+      start_period: 15s
     env_file:
       - .env
     depends_on:

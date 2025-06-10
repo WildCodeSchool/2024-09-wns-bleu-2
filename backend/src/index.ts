@@ -68,4 +68,8 @@ const start = async () => {
   await importCities();
 };
 
-start();
+start().catch((error) => {
+  console.error("Erreur lors du démarrage du serveur:", error);
+  // Ne pas quitter le processus pour que le conteneur reste en cours d'exécution
+  // process.exit(1);
+});
