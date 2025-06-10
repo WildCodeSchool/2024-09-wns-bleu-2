@@ -1,6 +1,6 @@
-@import "../styles/root.scss";
+@use "./variables.scss" as *;
 
-.page-container {
+.page-wrapper {
   .passengers-card {
     margin-top: 25px;
     background-color: #f1eae0;
@@ -15,7 +15,7 @@
     h2 {
       font-family: $font-family-secondary;
       font-weight: 600;
-      font-size: $font-size-search-mobile;
+      font-size: $font-size-normal-text;
       display: flex;
       gap: 10px;
       @media screen and (min-width: $bp-mobile) {

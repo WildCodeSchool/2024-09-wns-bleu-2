@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
+  CreateDateColumn,
 } from "typeorm";
 import { CarInfos } from "./CarInfos";
 
@@ -36,6 +37,9 @@ export class TempUser extends BaseEntity {
 
   @Column()
   phone: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
 
   @OneToOne(() => CarInfos, (car) => car.tempUser, { cascade: true })
   @JoinColumn()

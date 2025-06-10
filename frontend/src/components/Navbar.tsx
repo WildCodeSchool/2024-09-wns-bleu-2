@@ -1,20 +1,24 @@
 import "../styles/navbar.scss";
 import "../styles/dropdown.scss";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import Logo from "./Logo";
 import Burger from "./responsive/Burger";
 import Dropdown from "./Dropdown";
-import LoginModal from "../components/LoginModal";
 import {
   useGetUserInfoQuery,
   useLogoutMutation,
 } from "../generated/graphql-types";
 
-export default function Navbar() {
+
+type NavbarProps = {
+  setIsLoginModalOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+export default function Navbar({ setIsLoginModalOpen }: NavbarProps) {
   const [isActive, setIsActive] = useState("");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  
 
   const { data, refetch } = useGetUserInfoQuery();
   const [logout] = useLogoutMutation();
@@ -50,7 +54,7 @@ export default function Navbar() {
         </Link>
       </div>
       {windowWidth < 885 ? (
-        <Burger isActive={isActive} handleClick={handleClick} />
+        <Burger isActive={isActive} handleClick={handleClick} setIsLoginModalOpen={setIsLoginModalOpen} />
       ) : (
         <div className="navbar-container closed">
           <div className="navbar-left">
@@ -92,6 +96,7 @@ export default function Navbar() {
                 handleClick={handleClick}
                 isLoggedIn={isLoggedIn}
                 handleLogout={handleLogout}
+                setIsLoginModalOpen={setIsLoginModalOpen}
               />
             ) : (
               <>
@@ -121,9 +126,6 @@ export default function Navbar() {
             )}
           </div>
         </div>
-      )}
-      {isLoginModalOpen && (
-        <LoginModal setIsLoginModalOpen={setIsLoginModalOpen} />
       )}
     </nav>
   );

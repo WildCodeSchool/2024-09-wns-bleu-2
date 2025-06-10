@@ -9,9 +9,11 @@ import {
 export default function Burger({
   isActive,
   handleClick,
+  setIsLoginModalOpen,
 }: {
   isActive: string;
   handleClick: (section: string) => void;
+  setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,6 +26,8 @@ export default function Burger({
     await logout();
     await refetch();
   };
+  const { data: userData } = useGetUserInfoQuery();
+  const userId = userData?.getUserInfo?.id;
 
   return (
     <>
@@ -40,21 +44,21 @@ export default function Burger({
             </Link>
             <Link
               onClick={() => handleClick("publish")}
-              to="/"
+              to="/publish-route"
               className={`navbar-link ${isActive === "publish" && "is-active"}`}
             >
               Publier un Grumpy Trip
             </Link>
             <Link
               onClick={() => handleClick("my-resa")}
-              to="/"
+              to={`/myreservations/${userId}`}
               className={`navbar-link ${isActive === "my-resa" && "is-active"}`}
             >
               Mes réservations
             </Link>
             <Link
               onClick={() => handleClick("my-trips")}
-              to="/"
+              to={`/mytrips/${userId}`}
               className={`navbar-link ${
                 isActive === "my-trips" && "is-active"
               }`}
@@ -66,8 +70,12 @@ export default function Burger({
             {!isLoggedIn ? (
               <>
                 <Link
-                  onClick={() => handleClick("connexion")}
-                  to="/login"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsLoginModalOpen(true);
+                    setIsOpen(false);
+                  }}
+                  to="#"
                   className={`navbar-link ${
                     isActive === "connexion" && "is-active"
                   }`}

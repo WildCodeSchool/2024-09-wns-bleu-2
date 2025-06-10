@@ -7,13 +7,14 @@ import EmailConfirmation from "./pages/EmailConfirmation";
 import { ToastContainer } from "react-toastify";
 import Profile from "./pages/Profile";
 import CarpoolDetails from "./components/CarpoolDetail";
-import SearchCarpool from "./components/searchCarpool";
 import PublishRoute from "./pages/PublishRoute";
 import SearchPage from "./pages/SearchPage";
 import MesReservations from "./pages/MyBookings";
 import MesGrumpyTrips from "./pages/MyGrumpyTrips";
 import SearchPageResult from "./pages/SearchPageResult";
 import BookATripPage from "./pages/BookATripPage";
+import "./styles/root.scss";
+import Error404 from "./pages/Error404";
 import SingleFileUploader from "./pages/SingleFileUploader";
 
 function App() {
@@ -25,20 +26,16 @@ function App() {
           <Route path="/myreservations/:id" element={<MesReservations />} />
           <Route index element={<Home />} />
           <Route path="register" element={<Register />} />
-          <Route
-            path="email-confirmation/:code?"
-            element={<EmailConfirmation />}
-          />
-          <Route path="trip/:id" element={<TripDetails tripIndex={0} />} />
+          <Route path="email-confirmation" element={<EmailConfirmation />} />
+          <Route path="trip/:id" element={<TripDetails />} />
           <Route path="carpool/:id" element={<CarpoolDetails />} />
-          <Route path="/search" element={<SearchCarpool />} />{" "}
-          {/* A enlever ? */}
           <Route path="publish-route" element={<PublishRoute />} />
           <Route path="search-page" element={<SearchPage />} />
           <Route path="search-page-result" element={<SearchPageResult />} />
           <Route path="profile" element={<Profile />} />
           <Route path="/book/:id" element={<BookATripPage />} />
           <Route path="testimg" element={<SingleFileUploader />} />
+          <Route path="*" element={<Error404 />} />
         </Route>
       </Routes>
       <ToastContainer theme="colored" />

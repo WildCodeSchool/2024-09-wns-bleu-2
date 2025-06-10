@@ -14,7 +14,7 @@ export default function MyGrumpyTrips() {
     error: carpoolsError,
   } = useGetCarpoolsByUserIdQuery({
     variables: { userId: userId ?? 0 }, // Pass the userId to the query
-    fetchPolicy: 'network-only', // Add this line to always fetch fresh data
+    fetchPolicy: "network-only", // Add this line to always fetch fresh data
   });
   if (carpoolsLoading) return <p>Loading trips...</p>;
   if (carpoolsError) return <p>Error: {carpoolsError.message}</p>;
@@ -25,7 +25,7 @@ export default function MyGrumpyTrips() {
   return (
     <TripList
       trips={carpools}
-      titleUpcoming="Mes grumpy trips à venir"
+      titleUpcoming="Mes Grumpy trips à venir"
       titlePast="Mes Grumpy Trips passés"
       showPublishButton={true}
       mode="carpool"

@@ -1,0 +1,33 @@
+@use "./variables.scss" as *;
+
+.wrapper {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 30px;
+  @media screen and (min-width: $bp-desktop-large) {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .container-left {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    @media screen and (min-width: $bp-desktop-large) {
+      flex-grow: 0.7;
+    }
+    .trip-card {
+      width: auto;
+    }
+  }
+  .container-right {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    @media screen and (min-width: $bp-desktop-large) {
+      max-width: 300px;
+    }
+  }
+}

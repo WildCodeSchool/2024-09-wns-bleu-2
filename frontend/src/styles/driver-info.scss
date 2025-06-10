@@ -1,3 +1,26 @@
+@use "./variables.scss" as *;
+
 #default-img {
   width: 3em;
+}
+.driver-info {
+  background-color: $summary-color;
+  border-radius: 30px;
+  padding: 30px 50px;
+  .driver {
+    margin-bottom: 15px;
+  }
+  .preferences {
+    list-style: none;
+    padding: 20px 0 10px 10px;
+    li {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+
+      &:first-child {
+        margin-bottom: 25px;
+      }
+    }
+  }
 }

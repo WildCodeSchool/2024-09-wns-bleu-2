@@ -6,6 +6,7 @@ import {
 } from "../../utils/dateUtils";
 import defaultAvatar from "/default-avatar.png";
 import "../../styles/booking-summary-card.scss";
+import { ChevronRight } from "lucide-react";
 
 type Props = {
   carpool: Carpool;
@@ -16,8 +17,10 @@ type Props = {
 const BookingSummaryCard = ({ carpool, numPassengers, onBook }: Props) => {
   return (
     <div className="booking-summary-card">
-      <h3>{formatLongDate(carpool.departure_date)}</h3>
-
+      <div className="summary-header">
+        <h3>{formatLongDate(carpool.departure_date)}</h3>
+        <div className="horizontal-line" />
+      </div>
       <ul className="timing">
         <li>
           <span>{formatTime(carpool.departure_time)}</span> –{" "}
@@ -39,15 +42,19 @@ const BookingSummaryCard = ({ carpool, numPassengers, onBook }: Props) => {
         />
         <p>{carpool.driver.firstname}</p>
       </div>
-
-      <p className="passengers">
-        {numPassengers} passager{numPassengers > 1 ? "s" : ""}
-      </p>
-      <p className="price">{carpool.price.toFixed(2)}€</p>
-
-      <button type="button" className="book-button" onClick={onBook}>
-        Réserver mon voyage
-      </button>
+      <div className="horizontal-line" />
+      <div className="summary-footer">
+        <div className="row">
+          <p className="passengers">
+            {numPassengers} passager{numPassengers > 1 ? "s" : ""}
+          </p>
+          <p className="price">{carpool.price.toFixed(2)}€</p>
+        </div>
+        <button type="button" className="submit-button" onClick={onBook}>
+          <ChevronRight width={30} color="white" />
+          Réserver mon voyage
+        </button>
+      </div>
     </div>
   );
 };

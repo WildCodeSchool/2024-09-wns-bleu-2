@@ -35,42 +35,40 @@ const SearchPageResult = () => {
   };
 
   return (
-    <div className="page-container">
-      <div className="page-wrapper">
-        <h1>Les trajets proposés</h1>
+    <>
+      <h1>Les trajets proposés</h1>
 
-        <SearchBar
+      <SearchBar
+        departure={departure}
+        arrival={arrival}
+        date={date}
+        passengers={passengers}
+        onDepartureChange={(e) => setDeparture(e.target.value)}
+        onArrivalChange={(e) => setArrival(e.target.value)}
+        onDateChange={setDate}
+        onPassengersChange={(e) => setPassengers(Number(e.target.value))}
+        departureTime={departureTime}
+        onTimeChange={setDepartureTime}
+      />
+
+      <div className="result-layout">
+        <Filters
+          sortByPrice={sortByPrice}
+          selectedOptions={selectedOptions}
+          onSortChange={setSortByPrice}
+          onOptionsChange={setSelectedOptions}
+          onReset={handleResetFilters}
+        />
+
+        <SearchResults
           departure={departure}
           arrival={arrival}
           date={date}
-          passengers={passengers}
-          onDepartureChange={(e) => setDeparture(e.target.value)}
-          onArrivalChange={(e) => setArrival(e.target.value)}
-          onDateChange={setDate}
-          onPassengersChange={(e) => setPassengers(Number(e.target.value))}
-          departureTime={departureTime}
-          onTimeChange={setDepartureTime}
+          time={departureTime}
+          filters={{ sortByPrice, selectedOptions }}
         />
-
-        <div className="result-layout">
-          <Filters
-            sortByPrice={sortByPrice}
-            selectedOptions={selectedOptions}
-            onSortChange={setSortByPrice}
-            onOptionsChange={setSelectedOptions}
-            onReset={handleResetFilters}
-          />
-
-          <SearchResults
-            departure={departure}
-            arrival={arrival}
-            date={date}
-            time={departureTime}
-            filters={{ sortByPrice, selectedOptions }}
-          />
-        </div>
       </div>
-    </div>
+    </>
   );
 };
 
