@@ -4,7 +4,8 @@ import { useLoginMutation } from "../generated/graphql-types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useGetUserInfoQuery } from "../generated/graphql-types";
-import { ChevronRight, X } from "lucide-react";
+import { ChevronRight, LockKeyholeOpen, X } from "lucide-react";
+import { useState } from "react";
 
 type Props = {
   setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,6 +14,7 @@ type Props = {
 const LoginModal = ({ setIsLoginModalOpen }: Props) => {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const { refetch } = useGetUserInfoQuery();
 
@@ -75,15 +77,18 @@ const LoginModal = ({ setIsLoginModalOpen }: Props) => {
           </div>
 
           <div className="input-container">
-            <label htmlFor="password">
-              Votre mot de passe
+            <label htmlFor="password">Votre mot de passe</label>
+            <div className="show-password">
               <input
                 className="text-field pwd"
-                type="password"
+                type={showPassword ? "text" : "password"}
+                
                 {...register("password", { required: true })}
               />
+              <LockKeyholeOpen size={18} className="password-icon" onClick={() => setShowPassword(!showPassword)} />
+              </div>
               {errors.password && <span>Ce champ est requis.</span>}
-            </label>
+            
           </div>
           <div className="links">
             <Link to="/forgotten-password" className="login-button">

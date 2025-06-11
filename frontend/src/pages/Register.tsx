@@ -43,7 +43,7 @@ const Register = () => {
 		formState: { errors },
 		watch,
 	} = useForm<InputValues>();
-
+                                                                                                                                                                                            
 	const password = watch("password");
 	const confirmPassword = watch("confirmPassword");
 
@@ -66,8 +66,6 @@ const Register = () => {
 			color: data.carColor,
 			year: Number(data.carYear),
 		};
-
-		console.log("data for backend", dataForBackend);
 
 		signUp({
 			variables: { data: dataForBackend },
@@ -249,7 +247,7 @@ const Register = () => {
 										required: "Ce champ est requis.",
 									})}
 								/>
-								<LockKeyholeOpen size={15} className="password-icon" onClick={() => setShowConfirmPassword(!showPassword)} />
+								<LockKeyholeOpen size={15} className="password-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)} />
 							</div>
 							{errors.confirmPassword && (
 								<span className="error">{errors.confirmPassword.message}</span>
