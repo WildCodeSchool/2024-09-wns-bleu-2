@@ -34,9 +34,9 @@ await page.waitForURL('http://localhost:8000/');
   // Open user account menu
   //await expect(page.getByRole('button', { name: /mon compte/i })).toBeVisible({ timeout: 1000 });
   //await page.getByRole('button', { name: /mon compte/i }).click();
-   await expect(page.getByRole('button', { name: /mon compte/i })).toBeVisible({ timeout: 10000 });
+  await expect(page.getByRole('button', { name: /mon compte\s*/i })).toBeVisible({ timeout: 10000 });
 
-    await page.close();
+  await page.close();
 
 
   // Navigate to profile
