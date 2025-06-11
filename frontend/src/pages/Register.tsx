@@ -100,7 +100,9 @@ const Register = () => {
 						<div className="input-group">
 							<label htmlFor="lastname">Nom</label>
 							<input
+								id="lastname"
 								type="text"
+								title="Entrer votre nom de famille"
 								placeholder="Doe"
 								className={errors.lastname ? "error-border" : ""}
 								{...register("lastname", { required: "Ce champ est requis." })}
@@ -112,7 +114,9 @@ const Register = () => {
 						<div className="input-group">
 							<label htmlFor="firstname">Prénom</label>
 							<input
+								id="firstname"
 								type="text"
+								title="Entrer votre prénom"
 								placeholder="John"
 								className={errors.firstname ? "error-border" : ""}
 								{...register("firstname", { required: "Ce champ est requis." })}
@@ -127,6 +131,8 @@ const Register = () => {
 						<div className="input-group">
 							<label htmlFor="birthdate">Date de naissance</label>
 							<input
+								id="birthdate"
+								title="Entrer votre date de naissance"
 								type="date"
 								max={today}
 								className={errors.birthdate ? "error-border" : ""}
@@ -167,6 +173,7 @@ const Register = () => {
 							<label htmlFor="gender">Sexe</label>
 							<select
 								className={errors.gender ? "error-border" : ""}
+								title="Sélectionner votre genre"
 								{...register("gender", { required: "Ce champ est requis." })}
 							>
 								<option value="">Sélectionner</option>
@@ -184,7 +191,9 @@ const Register = () => {
 						<div className="input-group">
 							<label htmlFor="email">Adresse email</label>
 							<input
+								id="email"
 								type="email"
+								title="Entrer une adresse email valide"
 								placeholder="johndoe@gmail.com"
 								className={errors.email ? "error-border" : ""}
 								{...register("email", { required: "Ce champ est requis." })}
@@ -196,7 +205,9 @@ const Register = () => {
 						<div className="input-group">
 							<label htmlFor="phone">Téléphone</label>
 							<input
+								id="phone"
 								type="tel"
+								title="Entrer votre numéro de téléphone commençant par 06 ou 07"
 								placeholder="0675896158"
 								className={errors.phone ? "error-border" : ""}
 								{...register("phone",
@@ -219,7 +230,9 @@ const Register = () => {
 							<label htmlFor="password">Mot de passe</label>
 							<div className="show-password">
 								<input
+									id="password"
 									type={showPassword ? "text" : "password"}
+									title="Entrer un mot de passe contenant au moins huit caractères, un chiffre et un caractère spécial"
 									className={errors.password ? "error-border" : ""}
 									{...register("password",
 										{
@@ -241,13 +254,15 @@ const Register = () => {
 								<label htmlFor="confirmPassword">Confirmer le mot de passe</label>
 							<div className="show-password">
 								<input
+									id="confirmPassword"
 									type={showConfirmPassword ? "text" : "password"}
+									title="Confirmer votre mot de passe"
 									className={errors.confirmPassword ? "error-border" : ""}
 									{...register("confirmPassword", {
 										required: "Ce champ est requis.",
 									})}
 								/>
-								<LockKeyholeOpen size={15} className="password-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)} />
+								<LockKeyholeOpen size={15} className="password-icon" aria-label="Cliquez ici pour voir ou masquer votre mot de passe" onClick={() => setShowConfirmPassword(!showConfirmPassword)} />
 							</div>
 							{errors.confirmPassword && (
 								<span className="error">{errors.confirmPassword.message}</span>
@@ -265,7 +280,7 @@ const Register = () => {
 				<div className="input-row car-infos-row">
 					<div className="input-group ">
 						<label htmlFor="carBrand">Marque de voiture</label>
-						<select {...register("carBrand")}>
+						<select id="carBrand" title="Sélectionner la marque de votre voiture" {...register("carBrand")}>
 							<option value="">Sélectionner la marque</option>
 							{brandsData?.getCarBrands.map((brand: string) => (
 								<option key={brand} value={brand}>
@@ -276,7 +291,7 @@ const Register = () => {
 					</div>
 					<div className="input-group">
 						<label htmlFor="carColor">Couleur de voiture</label>
-						<select {...register("carColor")}>
+						<select id="carColor" title="Sélectionner la couleur de votre voiture" {...register("carColor")}>
 							<option value="">Sélectionner la couleur</option>
 							{colorsData?.getCarColors.map((color: string) => (
 								<option key={color} value={color}>
@@ -288,6 +303,8 @@ const Register = () => {
 					<div className="input-group">
 						<label htmlFor="carYear">Année de construction</label>
 						<select
+							id="carYear"
+							title="Sélectionner l'année de construction de votre voiture"
 							{...register("carYear", {
 								valueAsNumber: true,
 							})}
@@ -303,18 +320,18 @@ const Register = () => {
 				</div>
 				<div className="checkbox-container">
 					<label>
-						<input type="checkbox" required />
+						<input type="checkbox" title="Cocher cette case pour accepter les conditions générales d'utilisation de GrumpyCar" required />
 						J’accepte les <a href="#">conditions générales</a> d'utilisation de
 						GrumpyCar
 					</label>
 				</div>
 
 				<div className="login">
-					<Link to="/login">J'ai déjà un compte</Link>
+					<Link to="/login" title="Se connecter à mon compte">J'ai déjà un compte</Link>
 				</div>
 
 				<div className="submit-container">
-					<button type="submit">
+					<button type="submit" title="Créer mon compte">
 						<ChevronRight /> S'inscrire
 					</button>
 				</div>

@@ -57,8 +57,13 @@ const LoginModal = ({ setIsLoginModalOpen }: Props) => {
 
   return (
     <div className="modal">
-      <div className="close-btn">
-        <X onClick={closeModal} size={50} />
+      <div className="close-btn" title="Fermer la fenêtre de connexion" aria-label="Fermer la fenêtre de connexion" role="button" tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " " || e.key === "Escape") closeModal();
+      }}
+      onClick={closeModal}
+      >
+        <X size={50} />
       </div>
       <div className="modalContent">
         <h1>Se connecter</h1>
@@ -67,8 +72,12 @@ const LoginModal = ({ setIsLoginModalOpen }: Props) => {
             <label htmlFor="login">
               Adresse email
               <input
+                id="login"
                 className="text-field"
                 type="email"
+                title="Entrer une adresse email valide"
+                aria-required="true"
+                aria-invalid={errors.login ? "true" : "false"}
                 placeholder="monemail@gmail.com"
                 {...register("login", { required: true })}
               />
@@ -80,9 +89,12 @@ const LoginModal = ({ setIsLoginModalOpen }: Props) => {
             <label htmlFor="password">Votre mot de passe</label>
             <div className="show-password">
               <input
+                id="password"
                 className="text-field pwd"
                 type={showPassword ? "text" : "password"}
-                
+                title="Entrer votre mot de passe"
+                aria-required="true"
+                aria-invalid={errors.password ? "true" : "false"}
                 {...register("password", { required: true })}
               />
               <LockKeyholeOpen size={18} className="password-icon" onClick={() => setShowPassword(!showPassword)} />
@@ -91,16 +103,16 @@ const LoginModal = ({ setIsLoginModalOpen }: Props) => {
             
           </div>
           <div className="links">
-            <Link to="/forgotten-password" className="login-button">
+            <Link to="/forgotten-password" className="login-button" title="Réinitialiser votre mot de pase">
               Mot de passe oublié ?
             </Link>
-            <Link to="/register" className="login-button">
+            <Link to="/register" className="login-button" title="Créer un compte">
               S'inscrire
             </Link>
           </div>
 
           <div className="submit-container">
-            <button type="submit">
+            <button type="submit" title="Connexion à votre compte">
               <ChevronRight size={30} /> Connexion
             </button>
           </div>
