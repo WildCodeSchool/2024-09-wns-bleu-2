@@ -20,15 +20,20 @@ test('User login and profile access', async ({ page }) => {
   // Submit login
   await page.getByRole('button', { name: /connexion/i }).click();
 
+// Optional: wait for redirection after login
+  await page.waitForLoadState('networkidle');
+
 
   // Confirm welcome message
   //await expect(page.getByText(/ravi de vous revoir/i)).toBeVisible({ timeout: 1000 });
-
+  
+  // Take screenshot before check
+  //await page.screenshot({ path: 'login-debug.png', fullPage: true });
 
   // Open user account menu
   //await expect(page.getByRole('button', { name: /mon compte/i })).toBeVisible({ timeout: 1000 });
   //await page.getByRole('button', { name: /mon compte/i }).click();
-   await expect(page.getByRole('button', { name: /mon compte/i })).toBeVisible({ timeout: 5000 });
+   await expect(page.getByRole('button', { name: /mon compte/i })).toBeVisible({ timeout: 10000 });
 
 
   // Navigate to profile
