@@ -8,6 +8,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 const client = new ApolloClient({
   uri: "http://localhost:8000/api",
   cache: new InMemoryCache(),
+  credentials: "include", // changement ici
 });
 
 createRoot(document.getElementById("root")!).render(

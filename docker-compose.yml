@@ -24,7 +24,7 @@ services:
       interval: 5s
       timeout: 2s
       retries: 10
-      start_period: 15s
+      start_period: 30s
     env_file:
       - .env
     depends_on:
