@@ -81,3 +81,5 @@ services:
     depends_on:
       - api_gateway
     network_mode: host
+    env_file:
+      - .env
