@@ -28,6 +28,7 @@ test('User login and profile access', async ({ page }) => {
   // Open user account menu
   //await expect(page.getByRole('button', { name: /mon compte/i })).toBeVisible({ timeout: 1000 });
   //await page.getByRole('button', { name: /mon compte/i }).click();
+   await expect(page.getByRole('button', { name: /mon compte/i })).toBeVisible({ timeout: 5000 });
 
 
   // Navigate to profile
