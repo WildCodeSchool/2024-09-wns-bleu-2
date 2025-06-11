@@ -21,7 +21,8 @@ test('User login and profile access', async ({ page }) => {
   await page.getByRole('button', { name: /connexion/i }).click();
 
 // Optional: wait for redirection after login
-  await page.waitForLoadState('networkidle');
+await page.waitForURL('http://localhost:8000/');
+
 
 
   // Confirm welcome message
@@ -34,6 +35,8 @@ test('User login and profile access', async ({ page }) => {
   //await expect(page.getByRole('button', { name: /mon compte/i })).toBeVisible({ timeout: 1000 });
   //await page.getByRole('button', { name: /mon compte/i }).click();
    await expect(page.getByRole('button', { name: /mon compte/i })).toBeVisible({ timeout: 10000 });
+
+    await page.close();
 
 
   // Navigate to profile
