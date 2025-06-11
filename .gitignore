@@ -4,3 +4,4 @@ uploads
 test-results
 playwright-report
 DS_Store
+tests/.auth/

@@ -31,23 +31,27 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    launchOptions: {
-      slowMo: 50, // Slow down by 50ms to help with debugging
-      headless: true, // Run tests in headless mode
-      //viewport: { width: 1280, height: 720 }, // Set viewport size
-    },
   },
 
   /* Configure projects for major browsers */
   projects: [
+    // Setup project
+    { name: 'setup', testMatch: /.*\.setup\.ts/ },
+    
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'],
+        storageState: 'e2e/tests/.auth/user.json', // Use the authenticated state
+       },
+       dependencies: ['setup'], // Ensure setup runs before this project
     },
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { ...devices['Desktop Firefox'],
+        storageState: 'e2e/tests/.auth/user.json', // Use the authenticated state
+       },
+        dependencies: ['setup'], // Ensure setup runs before this project
     },
 
     // {
