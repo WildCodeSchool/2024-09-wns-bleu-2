@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 
-test('User login and profile access', async ({ page }) => {
+test('User login', async ({ page }) => {
   // Go to homepage
   await page.goto('http://localhost:8000/');
   //await expect(page.getByRole('link', { name: /se connecter/i })).toBeVisible();

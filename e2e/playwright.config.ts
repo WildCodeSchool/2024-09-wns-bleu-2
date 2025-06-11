@@ -37,11 +37,10 @@ export default defineConfig({
   projects: [
     // Setup project
     { name: 'setup', testMatch: /.*\.setup\.ts/ },
-    
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'],
-        storageState: 'e2e/tests/.auth/user.json', // Use the authenticated state
+        storageState: 'tests/.auth/user.json', // Use the authenticated state
        },
        dependencies: ['setup'], // Ensure setup runs before this project
     },
@@ -49,7 +48,7 @@ export default defineConfig({
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'],
-        storageState: 'e2e/tests/.auth/user.json', // Use the authenticated state
+        storageState: 'tests/.auth/user.json', // Use the authenticated state
        },
         dependencies: ['setup'], // Ensure setup runs before this project
     },

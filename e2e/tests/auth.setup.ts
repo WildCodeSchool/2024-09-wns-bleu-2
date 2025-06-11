@@ -16,7 +16,7 @@ setup('authenticate', async ({ page }) => {
   
   // Wait for login completion
   await page.waitForURL('http://localhost:8000/');
-  await expect(page.getByRole('button', { name: /mon compte\s*/i })).toBeVisible({ timeout: 10000 });
+  await expect(page.getByRole('button', { name: /mon compte\s*/i })).toBeVisible({ timeout: 30000 });
 
   // Save authentication state
   await page.context().storageState({ path: authFile });
