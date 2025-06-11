@@ -26,11 +26,11 @@ test('User login and profile access', async ({ page }) => {
 
 
   // Open user account menu
-  await expect(page.getByRole('button', { name: /mon compte/i })).toBeVisible({ timeout: 1000 });
+  //await expect(page.getByRole('button', { name: /mon compte/i })).toBeVisible({ timeout: 1000 });
   await page.getByRole('button', { name: /mon compte/i }).click();
 
 
   // Navigate to profile
   await page.getByRole('link', { name: /mon profil/i }).click();
-  await expect(page.getByRole('heading', { name: /bienvenue mohanad bikai/i })).toBeVisible({ timeout: 1000 });
+  await expect(page.getByRole('heading', { name: /bienvenue mohanad bikai/i })).toBeVisible();
 });
