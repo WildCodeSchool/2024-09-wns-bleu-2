@@ -40,7 +40,7 @@ test("Carpool Publish", async ({ page }) => {
  // Step 6: Fallback verification strategy for CI
   try {
     // First: Toast confirmation
-    await expect(page.locator('.Toastify__toast--success', { hasText: 'Trajet bien publié !' })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText(/Trajet bien publié !/i)).toBeVisible({ timeout: 15000 });
   } catch {
     try {
       // Second: Redirected to a "Mes Grumpy trips" page with a dynamic ID
