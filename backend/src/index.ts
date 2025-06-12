@@ -65,7 +65,7 @@ const start = async () => {
   console.log("test hot reload");
 
   await importCar();
-  await importCities();
+  // await importCities();
 };
 
 start();
