@@ -4,10 +4,11 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import LoginModal from "../components/LoginModal";
 import { useState } from "react";
+import { useModal } from "../contexts/ModalContext";
 import "../styles/login.scss";
 
 const Layout = () => {
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const { isLoginModalOpen, setIsLoginModalOpen } = useModal();
 
   return (
     <div className="layout">
