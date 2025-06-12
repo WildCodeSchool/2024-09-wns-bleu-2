@@ -38,7 +38,7 @@ test("Carpool Publish", async ({ page }) => {
   await page.getByRole('button', { name: 'Publier mon trajet' }).click();
   
   // Step 6: Wait for the confirmation message
-  await page.getByText('Trajet bien publié !').click();
+  await expect(page.getByText('Trajet bien publié !')).toBeVisible({ timeout: 15000 });
 });
 
 // test("Carpool Publish - Check in My trips list", async ({ page }) => {
