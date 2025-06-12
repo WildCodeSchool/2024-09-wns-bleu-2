@@ -39,10 +39,20 @@ test("Carpool Publish", async ({ page }) => {
 
   // Step 6: login completion
   //await page.waitForURL('http://localhost:8000/');
+  await page.waitForTimeout(1000);
   
   // Step 7: Wait for the confirmation message
-  const successToast = page.locator('.Toastify__toast--success', { hasText: 'Trajet bien publié !' });
-  await expect(successToast).toBeVisible({ timeout: 10000 });
+//   const successToast = page.locator('.Toastify__toast--success', { hasText: 'Trajet bien publié !' });
+//   await expect(successToast).toBeVisible({ timeout: 10000 });
+
+await page.getByRole('link', { name: /mes grumpy trips/i }).click();
+
+await page.waitForLoadState("networkidle");
+await expect(page.getByRole('heading', { name: 'Mes Grumpy trips à venir' })).toBeVisible();
+
+await page.getByRole('button', { name: '09:45 8h00 17:45 Paris Lyon' }).first().click();
+await expect(page.getByRole('heading', { name: 'Mon Grumpy Trip du 06/07/' })).toBeVisible({ timeout: 15000 });
+
 });
 
 // test("Carpool Publish - Check in My trips list", async ({ page }) => {
