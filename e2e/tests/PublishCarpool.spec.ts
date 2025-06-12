@@ -36,9 +36,13 @@ test("Carpool Publish", async ({ page }) => {
   
   // Step 5: Click "Publier mon trajet"
   await page.getByRole('button', { name: 'Publier mon trajet' }).click();
+
+  // Step 6: login completion
+  //await page.waitForURL('http://localhost:8000/');
   
-  // Step 6: Wait for the confirmation message
-  await expect(page.getByText('Trajet bien publié !')).toBeVisible({ timeout: 15000 });
+  // Step 7: Wait for the confirmation message
+  const successToast = page.locator('.Toastify__toast--success', { hasText: 'Trajet bien publié !' });
+  await expect(successToast).toBeVisible({ timeout: 10000 });
 });
 
 // test("Carpool Publish - Check in My trips list", async ({ page }) => {
