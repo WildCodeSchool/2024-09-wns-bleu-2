@@ -50,7 +50,7 @@ test("Carpool Publish", async ({ page }) => {
       throw error;
     }
   }
-  await page.waitForTimeout(60000);
+  await page.waitForTimeout(15000);
 
   await expect(page).toHaveURL(/\/mytrips\/\d+$/, { timeout: 30000 });
 });
