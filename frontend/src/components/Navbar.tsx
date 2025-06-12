@@ -1,7 +1,7 @@
 import "../styles/navbar.scss";
 import "../styles/dropdown.scss";
 import { Link } from "react-router-dom";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import Logo from "./Logo";
 import Burger from "./responsive/Burger";
 import Dropdown from "./Dropdown";
@@ -10,7 +10,6 @@ import {
   useLogoutMutation,
 } from "../generated/graphql-types";
 import { useModal } from "../contexts/ModalContext";
-import { is } from "date-fns/locale";
 
 export default function Navbar() {
   const [isActive, setIsActive] = useState("");
