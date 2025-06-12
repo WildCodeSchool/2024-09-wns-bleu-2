@@ -161,7 +161,10 @@ const start = async () => {
     );
 
     await new Promise<void>((resolve) =>
-      httpServer.listen({ port: 4000 }, resolve)
+      httpServer.listen(4000, "0.0.0.0", () => {
+        console.log("Serveur en écoute sur 0.0.0.0:4000");
+        resolve();
+      })
     );
     console.log(`🚀 Server ready at http://localhost:4000/graphql`);
 
