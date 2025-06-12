@@ -52,6 +52,11 @@ test("Carpool Publish", async ({ page }) => {
   }
   await page.waitForTimeout(15000);
 
+  try {
   await expect(page).toHaveURL(/\/mytrips\/\d+$/, { timeout: 30000 });
+} catch (err) {
+  console.log("🛑 Navigation did not happen. Current URL:", page.url());
+  throw err;
+}
 });
 
