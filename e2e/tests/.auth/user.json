@@ -2,7 +2,7 @@
   "cookies": [
     {
       "name": "token",
-      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vaGFuYWQuYmlrYWk5NUBnbWFpbC5jb20iLCJpYXQiOjE3NDk2NTE1NTl9.6fc4BFJj5nIyL1ohaPJh6gxU-opiOxUNDX3QvSQtS9Q",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vaGFuYWQuYmlrYWk5NUBnbWFpbC5jb20iLCJpYXQiOjE3NDk3MTYyMjR9.MYKIYz5R76sTI1Jiwx0GkCaOZWF-NrWIDRfPgPiNbsI",
       "domain": "localhost",
       "path": "/",
       "expires": -1,

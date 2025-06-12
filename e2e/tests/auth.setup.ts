@@ -34,7 +34,10 @@ await page.locator('input[name="password"]').fill('Mohanadbikai95$');
 // Step 4: Click login button
 await page.getByRole('button', { name: /connexion/i }).click();
 
-// Step 5: Fallback checks to verify successful login
+// Step 5: login completion
+await page.waitForURL('http://localhost:8000/');
+
+// Step 6: Fallback checks to verify successful login
 try {
   // Option 1: Welcome message visible
   await expect(page.getByText(/ravi de vous revoir/i)).toBeVisible({ timeout: 15000 });
@@ -48,7 +51,7 @@ try {
   }
 }
 
-// Step 6: Save authentication session
+// Step 7: Save authentication session
 await page.context().storageState({ path: authFile });
 
 });
