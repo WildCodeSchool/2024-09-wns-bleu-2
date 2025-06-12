@@ -38,7 +38,9 @@ test("Carpool Publish", async ({ page }) => {
   await page.getByRole('button', { name: 'Publier mon trajet' }).click();
 
   // Step 6: login completion
-  //await page.waitForURL('http://localhost:8000/');
+  
+  await expect(page.locator('.Toastify__toast--success', { hasText: 'Trajet bien publié !' })).toBeVisible({ timeout: 10000 });
+  //await page.waitForURL(/\/mytrips\/\d+$/);
   await page.waitForTimeout(1000);
 
   await page.waitForLoadState("networkidle");
