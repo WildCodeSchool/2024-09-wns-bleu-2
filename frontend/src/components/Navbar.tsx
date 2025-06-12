@@ -9,16 +9,14 @@ import {
   useGetUserInfoQuery,
   useLogoutMutation,
 } from "../generated/graphql-types";
+import { useModal } from "../contexts/ModalContext";
+import { is } from "date-fns/locale";
 
-
-type NavbarProps = {
-  setIsLoginModalOpen: Dispatch<SetStateAction<boolean>>;
-};
-
-export default function Navbar({ setIsLoginModalOpen }: NavbarProps) {
+export default function Navbar() {
   const [isActive, setIsActive] = useState("");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  
+
+  const { setIsLoginModalOpen } = useModal();
 
   const { data, refetch } = useGetUserInfoQuery();
   const [logout] = useLogoutMutation();
@@ -54,7 +52,7 @@ export default function Navbar({ setIsLoginModalOpen }: NavbarProps) {
         </Link>
       </div>
       {windowWidth < 885 ? (
-        <Burger isActive={isActive} handleClick={handleClick} setIsLoginModalOpen={setIsLoginModalOpen} />
+        <Burger isActive={isActive} handleClick={handleClick} />
       ) : (
         <div className="navbar-container closed">
           <div className="navbar-left">
@@ -63,31 +61,39 @@ export default function Navbar({ setIsLoginModalOpen }: NavbarProps) {
               to="/search-page"
               className={`navbar-link ${isActive === "search" && "is-active"}`}
             >
-              Rechercher
+              {isLoggedIn ? "Rechercher" : "Rechercher un Grumpy Trip"}
             </Link>
-            <Link
-              onClick={() => handleClick("publish")}
-              to="/publish-route"
-              className={`navbar-link ${isActive === "publish" && "is-active"}`}
-            >
-              Publier un Grumpy Trip
-            </Link>
-            <Link
-              onClick={() => handleClick("my-resa")}
-              to={`/myreservations/${userId}`} // Dynamically setting the user ID in the URL
-              className={`navbar-link ${isActive === "my-resa" && "is-active"}`}
-            >
-              Mes réservations
-            </Link>
-            <Link
-              onClick={() => handleClick("my-trips")}
-              to={`/mytrips/${userId}`}
-              className={`navbar-link ${
-                isActive === "my-trips" && "is-active"
-              }`}
-            >
-              Mes Grumpy Trips
-            </Link>
+            {isLoggedIn && (
+              <>
+                <Link
+                  onClick={() => handleClick("publish")}
+                  to="/publish-route"
+                  className={`navbar-link ${
+                    isActive === "publish" && "is-active"
+                  }`}
+                >
+                  Publier un Grumpy Trip
+                </Link>
+                <Link
+                  onClick={() => handleClick("my-resa")}
+                  to={`/myreservations/${userId}`} // Dynamically setting the user ID in the URL
+                  className={`navbar-link ${
+                    isActive === "my-resa" && "is-active"
+                  }`}
+                >
+                  Mes réservations
+                </Link>
+                <Link
+                  onClick={() => handleClick("my-trips")}
+                  to={`/mytrips/${userId}`}
+                  className={`navbar-link ${
+                    isActive === "my-trips" && "is-active"
+                  }`}
+                >
+                  Mes Grumpy Trips
+                </Link>
+              </>
+            )}
           </div>
           <div className="navbar-right">
             {(windowWidth < 1025 && windowWidth > 884) || isLoggedIn ? (
@@ -96,7 +102,6 @@ export default function Navbar({ setIsLoginModalOpen }: NavbarProps) {
                 handleClick={handleClick}
                 isLoggedIn={isLoggedIn}
                 handleLogout={handleLogout}
-                setIsLoginModalOpen={setIsLoginModalOpen}
               />
             ) : (
               <>
