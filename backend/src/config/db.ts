@@ -7,17 +7,24 @@ import { City } from "../entities/City";
 import { TempUser } from "../entities/TempUser";
 import { User } from "../entities/User";
 
-
 dotenv.config();
 
 export const dataSourceGrumpyCar = new DataSource({
   type: "postgres",
   host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
+  port: Number(process.env.DB_PORT || "5432"),
   username: process.env.DB_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [Booking, CarInfos, Carpool, City, TempUser, User  ],
+  entities: [Booking, CarInfos, Carpool, City, TempUser, User],
   synchronize: true,
   logging: ["error", "query"],
 });
+
+console.log("Connexion DB à :", {
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  username: process.env.DB_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.DB_NAME,
+}); //TODO A enlever

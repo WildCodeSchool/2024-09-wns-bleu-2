@@ -16,6 +16,7 @@ import jwt, { Secret } from "jsonwebtoken";
 import { importCities } from "./scripts/importCities";
 import { CityResolver } from "./resolvers/CityResolver";
 import { expressMiddleware } from "@as-integrations/express5";
+import helmet from "helmet";
 
 const port = process.env.PORT || "4000";
 console.log(`Le serveur tourne sur le port ${port}`);
@@ -42,6 +43,33 @@ const start = async () => {
     });
 
     const app = express();
+
+    app.use("/api", (req, _, next) => {
+      req.url = req.originalUrl.replace("/api", "");
+      next();
+    });
+
+    app.use(
+      helmet({
+        frameguard: { action: "deny" }, // Sécurise les en-têtes HTTP pour éviter les attaques de type clickjacking
+        contentSecurityPolicy: {
+          directives: {
+            defaultSrc: ["'self'"], //  charge uniquement depuis son domaine
+            objectSrc: ["'none'"], // empêche les objets Flash, PDF intégrés, etc.
+            frameAncestors: ["'none'"], // évite tout framing (équivalent CSP de X-Frame-Options)
+          },
+        },
+
+        referrerPolicy: { policy: "no-referrer" }, // empêche de divulguer l’URL source
+
+        hidePoweredBy: true, // évite de divulguer que tu utilises Express
+
+        dnsPrefetchControl: { allow: false }, // empêche les requêtes DNS anticipées — réduit les fuites réseau
+
+        noSniff: true, // Ajoute X-Content-Type-Options: nosniff — empêche les navigateurs d'interpréter un type MIME incorrect
+      })
+    );
+
     const httpServer = http.createServer(app);
 
     const server = new ApolloServer({
@@ -55,9 +83,11 @@ const start = async () => {
 
     app.use(
       "/graphql",
-      cors<cors.CorsRequest>({
+      cors({
         origin: "http://localhost:5173",
         credentials: true,
+        methods: ["GET", "POST", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
       }),
       express.json(),
       expressMiddleware(server, {
