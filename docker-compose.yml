@@ -8,6 +8,8 @@ services:
       interval: 1s
       timeout: 2s
       retries: 100
+    volumes:
+      - ./backend/scriptPostGIS/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   adminer:
     image: adminer
@@ -26,6 +28,7 @@ services:
       retries: 100
     env_file:
       - .env
+      - db.env
     depends_on:
       db:
         condition: service_healthy
@@ -58,3 +61,16 @@ services:
         condition: service_healthy
     ports:
       - 8000:80
+
+  cities:
+    build:
+      context: ./backend/scriptPostGIS
+      dockerfile: Dockerfile
+    depends_on:
+      backend:
+        condition: service_healthy
+    env_file:
+      - db.env
+    volumes:
+      - ./backend/scriptPostGIS:/app/
+    # command: sh -c "tail -f /dev/null"
