@@ -5,10 +5,10 @@ import { Point } from 'geojson';
 @ObjectType()
 class GeoPoint {
   @Field()
-  type: string; // ex: "Point"
+  type: string;
 
   @Field(() => [Float])
-  coordinates: number[]; // [longitude, latitude]
+  coordinates: number[]; // longitude, latitude
 }
 
 @ObjectType()

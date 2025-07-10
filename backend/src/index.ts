@@ -10,7 +10,7 @@ import { CarInfosResolver } from "./resolvers/CarInfosResolver";
 import { importCar } from "./scripts/importCar";
 import { BookingResolver } from "./resolvers/BookingResolver";
 import jwt, { Secret } from "jsonwebtoken";
-import { importCities } from "./scripts/importCities";
+// import { importCities } from "./scripts/importCities";
 import { CityResolver } from "./resolvers/CityResolver";
 
 const port = process.env.PORT || "4000";

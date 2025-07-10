@@ -80,7 +80,14 @@ export type CarpoolInput = {
 export type City = {
   __typename?: 'City';
   id: Scalars['ID']['output'];
+  location: GeoPoint;
   name: Scalars['String']['output'];
+};
+
+export type GeoPoint = {
+  __typename?: 'GeoPoint';
+  coordinates: Array<Scalars['Float']['output']>;
+  type: Scalars['String']['output'];
 };
 
 export type LoginInput = {
@@ -182,6 +189,7 @@ export type Query = {
   getCarpools: Array<Carpool>;
   getCarpoolsByUserId: Array<Carpool>;
   getCities: Array<City>;
+  getOrCreateCityByName: City;
   getUserInfo: UserInfo;
   getUserInfoConnexion?: Maybe<User>;
   searchCarpools: Array<Carpool>;
@@ -200,6 +208,16 @@ export type QueryGetCarpoolByIdArgs = {
 
 export type QueryGetCarpoolsByUserIdArgs = {
   userId: Scalars['Float']['input'];
+};
+
+
+export type QueryGetCitiesArgs = {
+  city?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetOrCreateCityByNameArgs = {
+  name: Scalars['String']['input'];
 };
 
 
@@ -368,10 +386,12 @@ export type GetCarpoolsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCarpoolsQuery = { __typename?: 'Query', getCarpools: Array<{ __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, price: number, duration: number, toll: boolean, options: Array<string>, driver: { __typename?: 'User', firstname: string, lastname: string, avatar?: string | null, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null, year?: number | null } | null } }> };
 
-export type GetCitiesQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetCitiesQueryVariables = Exact<{
+  city?: InputMaybe<Scalars['String']['input']>;
+}>;
 
 
-export type GetCitiesQuery = { __typename?: 'Query', getCities: Array<{ __typename?: 'City', id: string, name: string }> };
+export type GetCitiesQuery = { __typename?: 'Query', getCities: Array<{ __typename?: 'City', id: string, name: string, location: { __typename?: 'GeoPoint', type: string, coordinates: Array<number> } }> };
 
 export type GetCarBrandsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1142,10 +1162,14 @@ export type GetCarpoolsLazyQueryHookResult = ReturnType<typeof useGetCarpoolsLaz
 export type GetCarpoolsSuspenseQueryHookResult = ReturnType<typeof useGetCarpoolsSuspenseQuery>;
 export type GetCarpoolsQueryResult = Apollo.QueryResult<GetCarpoolsQuery, GetCarpoolsQueryVariables>;
 export const GetCitiesDocument = gql`
-    query GetCities {
-  getCities {
+    query GetCities($city: String) {
+  getCities(city: $city) {
     id
     name
+    location {
+      type
+      coordinates
+    }
   }
 }
     `;
@@ -1162,6 +1186,7 @@ export const GetCitiesDocument = gql`
  * @example
  * const { data, loading, error } = useGetCitiesQuery({
  *   variables: {
+ *      city: // value for 'city'
  *   },
  * });
  */
