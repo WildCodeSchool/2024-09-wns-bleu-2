@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Point } from 'geojson';
 
@@ -12,8 +13,11 @@ export class City extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({type: "varchar"})
   name: string;
+
+  @Column({type: "varchar"})
+  zipCode: string;
 
   @Column({
       type: 'geography',

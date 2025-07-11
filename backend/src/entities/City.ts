@@ -22,6 +22,10 @@ export class City extends BaseEntity {
   @Column()
   name: string;
 
+  @Field()
+  @Column()
+  zipCode: string;
+
   @Field(() => GeoPoint)
   @Column({
       type: 'geography',

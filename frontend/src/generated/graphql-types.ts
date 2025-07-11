@@ -82,6 +82,7 @@ export type City = {
   id: Scalars['ID']['output'];
   location: GeoPoint;
   name: Scalars['String']['output'];
+  zipCode: Scalars['String']['output'];
 };
 
 export type GeoPoint = {

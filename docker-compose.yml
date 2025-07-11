@@ -2,7 +2,7 @@ services:
   db:
     image: postgis/postgis
     env_file:
-      - .env
+      - db.env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
       interval: 1s
@@ -10,12 +10,18 @@ services:
       retries: 100
     volumes:
       - ./backend/scriptPostGIS/init.sql:/docker-entrypoint-initdb.d/init.sql
+    profiles:
+      - initialize
+      - dev
 
   adminer:
     image: adminer
     depends_on:
       db:
         condition: service_healthy
+    profiles:
+      - initialize
+      - dev
 
   backend:
     build: ./backend
@@ -34,6 +40,9 @@ services:
         condition: service_healthy
     ports:
       - "4000:4000"
+    profiles:
+      - dev
+      - initialize
 
   frontend:
     build: ./frontend
@@ -49,6 +58,8 @@ services:
       retries: 100
     ports:
       - "5173:5173"
+    profiles:
+      - dev
 
   api_gateway:
     image: nginx
@@ -61,6 +72,8 @@ services:
         condition: service_healthy
     ports:
       - 8000:80
+    profiles:
+      - dev
 
   cities:
     build:
@@ -74,3 +87,5 @@ services:
     volumes:
       - ./backend/scriptPostGIS:/app/
     # command: sh -c "tail -f /dev/null"
+    profiles:
+      - initialize

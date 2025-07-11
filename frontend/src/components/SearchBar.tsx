@@ -20,8 +20,8 @@ type SearchBarProps = {
     date: Date;
     passengers: number;
     departureTime: Date | null;
-    onDepartureChange: (event: ChangeEvent<HTMLSelectElement>) => void;
-    onArrivalChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+    onDepartureChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    onArrivalChange: (event: ChangeEvent<HTMLInputElement>) => void;
     onDateChange: (date: Date) => void;
     onTimeChange: (date: Date | null) => void;
     onPassengersChange: (event: ChangeEvent<HTMLSelectElement>) => void;
@@ -78,10 +78,18 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     ) : errorCities ? (
                         <p>Erreur de chargement</p>
                     ) : (
-                        <select value={departure} onChange={onDepartureChange}>
-                            <option value="">Choisissez une ville</option>
-                            {cityOptions}
-                        </select>
+                        <>
+                            <input
+                                type="text"
+                                list="departure-cities"
+                                value={departure}
+                                onChange={onDepartureChange}
+                                placeholder="Ville de départ"
+                            />
+                            <datalist id="departure-cities">
+                                {cityOptions}
+                            </datalist>
+                        </>
                     )}
                 </div>
 
@@ -95,10 +103,18 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     ) : errorCities ? (
                         <p>Erreur de chargement</p>
                     ) : (
-                        <select value={arrival} onChange={onArrivalChange}>
-                            <option value="">Choisissez une ville</option>
-                            {cityOptions}
-                        </select>
+                        <>
+                            <input
+                                type="text"
+                                list="arrival-cities"
+                                value={arrival}
+                                onChange={onArrivalChange}
+                                placeholder="Ville d'arrivée"
+                            />
+                            <datalist id="arrival-cities">
+                                {cityOptions}
+                            </datalist>
+                        </>
                     )}
                 </div>
 

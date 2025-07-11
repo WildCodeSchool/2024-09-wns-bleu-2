@@ -62,10 +62,10 @@ export class CityResolver {
 		if (city) {
 			return await City.find({
 				where: { name: ILike(`${city}%`) },
-				take: 10,
+				// take: 10,
 				order: { name: "ASC" }
 			});
 		}
-		return await City.find({ take: 10, order: { name: "ASC" } });
+		return await City.find({ order: { name: "ASC" } });
 	}
 }
