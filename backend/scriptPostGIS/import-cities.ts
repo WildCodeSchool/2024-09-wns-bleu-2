@@ -2,13 +2,14 @@ import "reflect-metadata";
 import { dataSourceGrumpyCar } from "./dataSource";
 import c from "./cities.json";
 import { City } from "./City";
-// function capitalizeCityName(name: string) {
-//   return name
-//     .toLowerCase()
-//     .split("/s+/")
-//     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-//     .join(" ");
-// }
+
+function capitalizeCityName(name: string) {
+	return name
+		.toLowerCase()
+		.split(/\s+/)
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(" ");
+}
 
 function removeDuplicatesByName(jsonArray: any) {
 	const seen = new Set();
@@ -24,7 +25,7 @@ function removeDuplicatesByName(jsonArray: any) {
 function parseGeoNamesLine(city: any): any {
 	return {
 		zipCode: city.zip_code,
-		name: city.city_code,
+		name: capitalizeCityName(city.city_code),
 		location: {
 			type: "Point",
 			coordinates: [Number(city.longitude), Number(city.latitude)],
