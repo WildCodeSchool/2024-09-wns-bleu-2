@@ -2,13 +2,13 @@ import { Carpool, useSearchCarpoolsQuery } from "../../generated/graphql-types";
 import {
   formatDate,
   formatTime,
-  formatTimeFromString,
+//  formatTimeFromString,
 } from "../../utils/format.utils";
 import "../../styles/trip-cards.scss";
 import "../../styles/search-result.scss";
-import defaultImage from "../../../public/default-avatar.png";
-import { calculateArrivalTime, formatDuration } from "../../utils/dateUtils";
-import { Tickets, Tractor, User } from "lucide-react";
+// import defaultImage from "../../../public/default-avatar.png";
+// import { calculateArrivalTime, formatDuration } from "../../utils/dateUtils";
+// import { Tickets, Tractor, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import TripCard from "../TripCard";
 

@@ -35,7 +35,7 @@ services:
   frontend:
     build:
       context: ./frontend
-
+      dockerfile: Dockerfile.prod
     depends_on:
       backend:
         condition: service_healthy
@@ -44,8 +44,8 @@ services:
       interval: 1s
       timeout: 2s
       retries: 100
-    ports:
-      - "5173:5173"
+   # ports:
+   #   - "5173:5173"
 
   api_gateway:
     image: nginx
