@@ -42,4 +42,4 @@ jobs:
           push: true
           context: "{{defaultContext}}:img"
           file: Dockerfile.prod
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/img:latest, ${{ secrets.DOCKERHUB_USERNAME }}/img:${{ env.COMMIT_SHORT_SHA }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME_MB }}/img:latest, ${{ secrets.DOCKERHUB_USERNAME_MB }}/img:${{ env.COMMIT_SHORT_SHA }}
