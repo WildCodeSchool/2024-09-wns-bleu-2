@@ -44,8 +44,8 @@ services:
       interval: 1s
       timeout: 2s
       retries: 100
-   # ports:
-   #   - "5173:5173"
+    ports:
+      - "5173:5173"
 
   api_gateway:
     image: nginx
@@ -68,5 +68,5 @@ services:
       timeout: 2s
       retries: 100
     volumes:
-      - ./img/upload:/app/upload
+      - ./img/uploads:/app/uploads
       - ./img/clean.js:/app/clean.js
