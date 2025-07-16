@@ -53,6 +53,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
     //     ));
     // }, [citiesData]);
 
+    const today = new Date();
+
     const handleSearch = () => {
         console.log(departureCities)
         console.log(arrivalCities)
@@ -137,6 +139,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                         selected={date}
                         onChange={(date) => date && onDateChange(date)}
                         dateFormat="dd/MM/yyyy"
+                        minDate={today}
                         className="datepicker-input"
                         popperPlacement="bottom-start"
                         locale={fr}
