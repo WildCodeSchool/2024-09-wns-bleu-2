@@ -11,7 +11,7 @@ import DatePicker from "react-datepicker";
 import "../styles/searchBar.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import { fr } from "date-fns/locale";
-import { useGetCitiesQuery } from "../generated/graphql-types";
+import { useGetCitiesLazyQuery } from "../generated/graphql-types";
 import { toast } from "react-toastify";
 
 type SearchBarProps = {
@@ -41,24 +41,26 @@ const SearchBar: React.FC<SearchBarProps> = ({
     onPassengersChange,
     onSearch,
 }) => {
-    const {
-        data: cityData,
-        loading: loadingCities,
-        error: errorCities,
-    } = useGetCitiesQuery();
+     const [fetchCities, { data: citiesData, error }] = useGetCitiesLazyQuery();
 
-    if (errorCities) {
-        console.error("Erreur GraphQL GET_CITIES:", errorCities);
+    // Pour gérer l'erreur GraphQL personnalisée (optionnel)
+    if (error) {
+        const code = error.graphQLErrors[0]?.extensions?.code;
+        if (code === "CITY_NOT_FOUND") {
+            console.log("Aucune ville trouvée pour ce nom");
+        } else {
+            console.error("Erreur GraphQL:", error);
+        }
     }
 
     // pour éviter de recalculer
     const cityOptions = useMemo(() => {
-        return cityData?.getCities.map((city: { id: string; name: string }) => (
+        return citiesData?.getCities.map((city: { id: string; name: string }) => (
             <option key={city.id} value={city.name}>
                 {city.name}
             </option>
         ));
-    }, [cityData]);
+    }, [citiesData]);
 
     const handleSearch = () => {
         if (!departure || !arrival || !date || !departureTime) {
@@ -73,24 +75,23 @@ const SearchBar: React.FC<SearchBarProps> = ({
             <div className="search-wrapper">
                 <div className="input-container">
                     <MapPin className="icon" size={22} />
-                    {loadingCities ? (
-                        <p>Chargement des villes...</p>
-                    ) : errorCities ? (
-                        <p>Erreur de chargement</p>
-                    ) : (
-                        <>
-                            <input
-                                type="text"
-                                list="departure-cities"
-                                value={departure}
-                                onChange={onDepartureChange}
-                                placeholder="Ville de départ"
-                            />
-                            <datalist id="departure-cities">
-                                {cityOptions}
-                            </datalist>
-                        </>
-                    )}
+                    <input
+                        type="text"
+                        list="departure-cities"
+                        value={departure}
+                        placeholder="Ville de départ"
+                        onChange={(e) => {
+                            onDepartureChange(e);
+                            if (e.target.value.trim().length > 0) {
+                                fetchCities({ variables: { city: e.target.value } });
+                            }
+                        }}
+                    />
+                    <datalist id="departure-cities">
+                        {citiesData?.getCities.map((city) => (
+                            <option key={city.id} value={city.name} />
+                        ))}
+                    </datalist>
                 </div>
 
                 <ArrowRightLeft size={20} id="hidden-arrow" />
@@ -98,24 +99,23 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
                 <div className="input-container">
                     <MapPin className="icon" size={22} />
-                    {loadingCities ? (
-                        <p>Chargement des villes...</p>
-                    ) : errorCities ? (
-                        <p>Erreur de chargement</p>
-                    ) : (
-                        <>
-                            <input
-                                type="text"
-                                list="arrival-cities"
-                                value={arrival}
-                                onChange={onArrivalChange}
-                                placeholder="Ville d'arrivée"
-                            />
-                            <datalist id="arrival-cities">
-                                {cityOptions}
-                            </datalist>
-                        </>
-                    )}
+                    <input
+                        type="text"
+                        list="arrival-cities"
+                        value={arrival}
+                        placeholder="Ville d'arrivée"
+                        onChange={(e) => {
+                            onArrivalChange(e); // met à jour le state dans le parent
+                            if (e.target.value.trim().length > 0) {
+                                fetchCities({ variables: { city: e.target.value } });
+                            }
+                        }}
+                    />
+                    <datalist id="arrival-cities">
+                        {citiesData?.getCities.map((city) => (
+                            <option key={city.id} value={city.name} />
+                        ))}
+                    </datalist>
                 </div>
 
                 <div className="separator" />

@@ -2,6 +2,7 @@ import { Arg, Query, Resolver } from "type-graphql";
 import { City } from "../entities/City";
 import { ILike } from "typeorm";
 import { Point } from "geojson";
+import { GraphQLError } from "graphql";
 
 @Resolver(City)
 export class CityResolver {
@@ -60,12 +61,20 @@ export class CityResolver {
 		@Arg("city", { nullable: true }) city?: string
 		): Promise<City[]> {
 		if (city) {
-			return await City.find({
+			const cities = await City.find({
 				where: { name: ILike(`${city}%`) },
-				// take: 10,
-				order: { name: "ASC" }
+				order: { name: "ASC" },
+				take: 5
 			});
+
+			if (cities.length === 0) {
+            throw new GraphQLError("No city found with this name.", {
+                extensions: { code: "CITY_NOT_FOUND" },
+            });
+        	}
+
+			return cities;
 		}
-		return await City.find({ order: { name: "ASC" } });
+		return [];
 	}
 }
