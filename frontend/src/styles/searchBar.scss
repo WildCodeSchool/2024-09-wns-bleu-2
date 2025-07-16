@@ -22,6 +22,17 @@
       padding: 8px 12px;
       gap: 8px;
       flex: 1;
+
+      .input-city {
+        background-color: #d8d8d3;
+        padding: 0.5rem;
+        border: none;
+        outline: none;
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        &:hover, &:focus {
+          background: rgba($color-search, 20%);
+        }
+      }
       .datepicker-container {
         display: flex;
         align-items: center;

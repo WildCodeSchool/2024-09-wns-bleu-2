@@ -1,4 +1,4 @@
-import { ChangeEvent, useMemo } from "react";
+import { ChangeEvent } from "react";
 import {
     MapPin,
     CalendarDays,
@@ -41,32 +41,39 @@ const SearchBar: React.FC<SearchBarProps> = ({
     onPassengersChange,
     onSearch,
 }) => {
-     const [fetchCities, { data: citiesData, error }] = useGetCitiesLazyQuery();
-
-    // Pour gérer l'erreur GraphQL personnalisée (optionnel)
-    if (error) {
-        const code = error.graphQLErrors[0]?.extensions?.code;
-        if (code === "CITY_NOT_FOUND") {
-            console.log("Aucune ville trouvée pour ce nom");
-        } else {
-            console.error("Erreur GraphQL:", error);
-        }
-    }
+    const [fetchDepartureCities, { data: departureCities }] = useGetCitiesLazyQuery();
+    const [fetchArrivalCities, { data: arrivalCities }] = useGetCitiesLazyQuery();
 
     // pour éviter de recalculer
-    const cityOptions = useMemo(() => {
-        return citiesData?.getCities.map((city: { id: string; name: string }) => (
-            <option key={city.id} value={city.name}>
-                {city.name}
-            </option>
-        ));
-    }, [citiesData]);
+    // const cityOptions = useMemo(() => {
+    //     return citiesData?.getCities.map((city: { id: string; name: string }) => (
+    //         <option key={city.id} value={city.name}>
+    //             {city.name}
+    //         </option>
+    //     ));
+    // }, [citiesData]);
 
     const handleSearch = () => {
+        console.log(departureCities)
+        console.log(arrivalCities)
         if (!departure || !arrival || !date || !departureTime) {
             toast.warning("Merci de remplir tous les champs !");
             return;
         }
+        // Si l'utilisateur entre une ville qui n'existe pas
+        const departureExists = departureCities?.getCities?.some(city => city.name === departure);
+        const arrivalExists = arrivalCities?.getCities?.some(city => city.name === arrival);
+
+        if (!departureExists) {
+            toast.error("La ville de départ n'existe pas.");
+            return;
+        }
+
+        if (!arrivalExists) {
+            toast.error("La ville d'arrivée n'existe pas.");
+            return;
+        }
+
         onSearch?.();
     };
 
@@ -79,16 +86,18 @@ const SearchBar: React.FC<SearchBarProps> = ({
                         type="text"
                         list="departure-cities"
                         value={departure}
-                        placeholder="Ville de départ"
+                        placeholder="Départ"
+                        className="input-city"
                         onChange={(e) => {
+                            console.log(departureCities)
                             onDepartureChange(e);
                             if (e.target.value.trim().length > 0) {
-                                fetchCities({ variables: { city: e.target.value } });
+                                fetchDepartureCities({ variables: { city: e.target.value } });
                             }
                         }}
                     />
                     <datalist id="departure-cities">
-                        {citiesData?.getCities.map((city) => (
+                        {departureCities?.getCities.map((city) => (
                             <option key={city.id} value={city.name} />
                         ))}
                     </datalist>
@@ -103,16 +112,18 @@ const SearchBar: React.FC<SearchBarProps> = ({
                         type="text"
                         list="arrival-cities"
                         value={arrival}
-                        placeholder="Ville d'arrivée"
+                        placeholder="Arrivée"
+                        className="input-city"
                         onChange={(e) => {
-                            onArrivalChange(e); // met à jour le state dans le parent
+                            console.log(arrivalCities)
+                            onArrivalChange(e);
                             if (e.target.value.trim().length > 0) {
-                                fetchCities({ variables: { city: e.target.value } });
+                                fetchArrivalCities({ variables: { city: e.target.value } });
                             }
                         }}
                     />
                     <datalist id="arrival-cities">
-                        {citiesData?.getCities.map((city) => (
+                        {arrivalCities?.getCities.map((city) => (
                             <option key={city.id} value={city.name} />
                         ))}
                     </datalist>
