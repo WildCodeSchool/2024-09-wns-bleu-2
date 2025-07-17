@@ -89,30 +89,6 @@ const start = async () => {
     })
   );
 
-  /* const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
-    context: async ({ req, res }) => {
-      if (req.headers.cookie) {
-        const cookies = cookie.parse(req.headers.cookie as string);
-
-        if (cookies.token) {
-          try {
-            const payload: any = jwt.verify(
-              cookies.token,
-              process.env.JWT_SECRET_KEY as Secret
-            );
-
-            if (payload) {
-              return { email: payload.email, res };
-            }
-          } catch (error) {}
-        }
-      }
-
-      return { res };
-    },
-  });
- */
   console.log(`🚀 Server listening at: localhost:4000`);
   console.log("test hot reload");
 
