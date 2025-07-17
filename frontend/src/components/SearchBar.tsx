@@ -3,9 +3,7 @@ import {
     MapPin,
     CalendarDays,
     Users,
-    ArrowRightLeft,
     ChevronRight,
-    Hourglass,
 } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "../styles/searchBar.scss";
@@ -37,7 +35,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     onDepartureChange,
     onArrivalChange,
     onDateChange,
-    onTimeChange,
+    // onTimeChange,
     onPassengersChange,
     onSearch,
 }) => {
@@ -83,10 +81,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
         <div className="search-bar">
             <div className="search-wrapper">
                 <div className="input-container">
-                    <MapPin className="icon" size={22} />
+                    <MapPin className="icon" size={26} />
                     <input
                         type="text"
                         list="departure-cities"
+                        title="Entrer la ville de départ"
+                        aria-label="Ville de départ"
                         value={departure}
                         placeholder="Départ"
                         className="input-city"
@@ -105,14 +105,13 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     </datalist>
                 </div>
 
-                <ArrowRightLeft size={20} id="hidden-arrow" />
-                <div className="separator" id="visible-separator" />
-
                 <div className="input-container">
-                    <MapPin className="icon" size={22} />
+                    <MapPin className="icon" size={26} />
                     <input
                         type="text"
                         list="arrival-cities"
+                        title="Entrer la ville d'arrivée"
+                        aria-label="Ville d'arrivée"
                         value={arrival}
                         placeholder="Arrivée"
                         className="input-city"
@@ -131,10 +130,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     </datalist>
                 </div>
 
-                <div className="separator" />
-
-                <div className="input-container">
-                    <CalendarDays className="icon" size={22} />
+                <div className="input-container date">
+                    <CalendarDays className="icon" size={26} />
                     <DatePicker
                         selected={date}
                         onChange={(date) => date && onDateChange(date)}
@@ -143,50 +140,29 @@ const SearchBar: React.FC<SearchBarProps> = ({
                         className="datepicker-input"
                         popperPlacement="bottom-start"
                         locale={fr}
+                        aria-label="Date de départ"
+                        title="Choisir la date de départ"
                     />
                 </div>
-
-                <div className="separator" />
 
                 <div className="input-container">
-                    <Hourglass className="icon" size={22} />
-                    <DatePicker
-                        selected={departureTime}
-                        onChange={(time) => onTimeChange(time)}
-                        showTimeSelect
-                        showTimeSelectOnly
-                        timeIntervals={15}
-                        timeCaption="Heure"
-                        dateFormat="HH:mm"
-                        className="datepicker-input"
-                        placeholderText="Heure de départ"
-                        locale={fr}
-                    />
-                </div>
-
-                <div className="separator" />
-
-                <div className="flex-container">
-                    <div className="select-container">
-                        <Users className="icon" size={20} />
-                        <label htmlFor="passenger-select" id="sr-only">
-                            Nombre de passagers
-                        </label>
+                        <Users className="icon" size={26} />
                         <select
                             id="passenger-select"
+                            title="Choisir le nombre de passagers"
+                            aria-label="Nombre de passagers"
                             value={passengers}
                             onChange={onPassengersChange}
                         >
                             {Array.from({ length: 4 }, (_, i) => (
                                 <option key={i + 1} value={i + 1}>
-                                    {i + 1} {i === 0 ? "Passager" : "Passagers"}
+                                    {i + 1} {i === 0 ? "passager" : "passagers"}
                                 </option>
                             ))}
                         </select>
-                    </div>
+                </div>
 
-                    <div id="hidden-separator" />
-
+                <div className="input-container button-container">
                     <button
                         type="button"
                         className="search-button"

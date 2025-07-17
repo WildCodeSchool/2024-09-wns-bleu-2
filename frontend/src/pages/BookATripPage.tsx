@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
 import {
   Carpool,
   useCreateBookingMutation,
@@ -13,6 +12,7 @@ import { formatLongDate } from "../utils/dateUtils";
 import DriverInfo from "../components/bookATripPageComponents/DriverInfo";
 import BookingSummaryCard from "../components/bookATripPageComponents/BookingSummaryCard";
 import { toast } from "react-toastify";
+import { ApolloError } from "@apollo/client";
 
 const BookATripPage = () => {
   const { id } = useParams();
@@ -57,7 +57,14 @@ const BookATripPage = () => {
       toast.success("Réservation réussie !");
       navigate(`/myreservations/${userId}`);
     } catch (error) {
-      toast.error("Erreur lors de la réservation.");
+      const apolloError = error as ApolloError;
+      const graphQLError = apolloError.graphQLErrors[0];
+      const code = graphQLError?.extensions?.code;
+      if (code === "CARPOOL_ALREADY_LEFT") {
+        toast.error("Ce covoiturage est déjà parti.")
+      } else {
+        toast.error("Erreur lors de la réservation.");
+      }
     }
   };
 
