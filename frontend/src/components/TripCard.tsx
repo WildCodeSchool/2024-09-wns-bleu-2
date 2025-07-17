@@ -36,8 +36,6 @@ type TripData = Booking | Carpool;
 interface TripCardProps {
   tripDetails: TripData;
   mode: "carpool" | "booking";
-  isUpcoming?: boolean;
-  carpoolData?: Carpool;
 }
 
 export default function TripCard({ tripDetails, mode }: TripCardProps) {

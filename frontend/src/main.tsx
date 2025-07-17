@@ -9,6 +9,7 @@ import { ModalProvider } from "./contexts/ModalContext.tsx";
 const client = new ApolloClient({
   uri: "http://localhost:8000/api",
   cache: new InMemoryCache(),
+  credentials: "include",
 });
 
 createRoot(document.getElementById("root")!).render(
