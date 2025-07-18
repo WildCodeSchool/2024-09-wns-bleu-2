@@ -17,8 +17,8 @@
 .search-bar {
 	padding: 16px 8px;
 	background-color: #d8d8d3;
-	border-radius: 16px;
-	box-shadow: 0 4px 4px 0px rgba(#000, 25%);
+	border-radius: $border-radius;
+	box-shadow: $box-shadow;
 	align-items: center;
 
 	.search-wrapper {

@@ -16,8 +16,7 @@
   .preferences-box {
     background-color: $color-card-yellow;
     padding: 2em 6em;
-    border-radius: 16px;
-    box-shadow: 0 10px 3px -3px #cfccc9;
+    border-radius: $border-radius;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
