@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgis/postgis
+    image: imresamu/postgis
     env_file:
       - .db.env
     healthcheck:
@@ -82,13 +82,16 @@ services:
     build:
       context: ./backend/scriptPostGIS
       dockerfile: Dockerfile
+      platforms:
+        - "linux/amd64"
+        - "linux/arm64"
     depends_on:
       backend:
         condition: service_healthy
     env_file:
       - .db.env
-    volumes:
-      - ./backend/scriptPostGIS:/app/
+    # volumes:
+    #  - ./backend/scriptPostGIS:/app/
     # command: sh -c "tail -f /dev/null"
     profiles:
       - initialize
