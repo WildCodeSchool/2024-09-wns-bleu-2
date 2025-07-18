@@ -331,7 +331,7 @@ const Register = () => {
 				</div>
 
 				<div className="submit-container">
-					<button type="submit" title="Créer mon compte">
+					<button type="submit" className="submit-button" title="Créer mon compte">
 						<ChevronRight /> S'inscrire
 					</button>
 				</div>

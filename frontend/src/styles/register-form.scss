@@ -163,20 +163,8 @@
 		.submit-container {
 			margin-top: 1em;
 
-			button {
-				padding: 12px 30px;
-				font-size: 1rem;
-				border-radius: 30px;
+			.submit-button {
 				background-color: white;
-				border: none;
-				display: flex;
-				align-items: center;
-				transition: 0.3s ease;
-				cursor: pointer;
-
-				&:hover {
-					background-color: $color-card-red;
-				}
 			}
 		}
 

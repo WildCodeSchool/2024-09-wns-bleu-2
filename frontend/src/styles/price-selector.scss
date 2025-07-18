@@ -1,19 +1,12 @@
 @use "./variables.scss" as *;
 
 .price-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1.5rem;
-  background-color: transparent;
-  margin-top: 25px;
+  margin-top: 5%;
+  width: 100%;
   .price-box {
     background-color: $color-card-green;
     padding: 10px 20px;
-    width: 96%;
-    max-width: 1900px;
-    margin: 0 auto;
-    border-radius: 12px;
+    border-radius: $main-radius;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,41 +78,6 @@
 
       .tip {
         margin-top: 0.5rem;
-      }
-    }
-  }
-  @media screen and (min-width: $bp-mobile) {
-    width: 100%;
-
-    .price-box {
-      padding: 30px 20px;
-      max-width: 1900px;
-      flex-wrap: wrap;
-      flex-direction: row;
-      width: 100%;
-      h2 {
-        @include main-title;
-        // margin-bottom: 2rem;
-        // margin-top: 2.5em;
-      }
-
-      .price-value {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #fff;
-        padding-right: 2em;
-        padding-left: 2em;
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-      }
-
-      .separator {
-        width: 80%;
-        height: 1px;
-      }
-
-      .price-info {
-        max-width: 55em;
       }
     }
   }

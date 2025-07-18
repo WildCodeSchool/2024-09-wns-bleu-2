@@ -14,7 +14,8 @@ $summary-color: #f1eae0;
 $text: #2a2a2a;
 $light-gray: #999999;
 $box-shadow: 0 4px 4px 0px rgba(#000, 25%);
-$border-radius: 16px;
+$main-radius: 16px;
+$secondary-radius: 30px;
 
 ///////FONT///////
 $font-family: Popins, sans-serif;
@@ -40,3 +41,6 @@ $font-size-normal-text: 16px;
    color: $text;
    margin-bottom: 1em;
 }
+// @mixin btn {
+
+// }
