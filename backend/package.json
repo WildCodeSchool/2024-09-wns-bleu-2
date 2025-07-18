@@ -10,7 +10,7 @@
   "description": "",
   "devDependencies": {
     "@types/cors": "^2.8.17",
-    "@types/express": "^4.17.21",
+    "@types/geojson": "^7946.0.16",
     "@types/jsonwebtoken": "^9.0.8",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.7.3"

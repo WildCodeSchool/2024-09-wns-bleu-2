@@ -20,10 +20,7 @@
   border: 1px solid #eee;
 
   h1 {
-    margin-bottom: 0.5rem;
-    font-size: 1.5rem;
-    color: #222;
-    text-align: center;
+    @include main-title;
   }
 
   .subtitle {
@@ -55,22 +52,5 @@
     font-size: 0.85rem;
     margin-bottom: 1rem;
     text-align: center;
-  }
-
-  button {
-    width: 80%;
-    padding: 0.75rem;
-    background: $color-card-green;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s;
-    margin-top: 1rem;
-
-    &:hover {
-      background: #c1c6b9;
-    }
   }
 }

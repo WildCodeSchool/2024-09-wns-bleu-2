@@ -201,10 +201,14 @@ export const GET_CARPOOLS = gql`
 `;
 
 export const GET_CITIES = gql`
-  query GetCities {
-    getCities {
+  query GetCities($city: String) {
+    getCities(city: $city) {
       id
       name
+      location {
+        type
+        coordinates
+      }
     }
   }
 `;
