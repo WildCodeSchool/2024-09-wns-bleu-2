@@ -24,7 +24,7 @@ const PriceSelector: React.FC<PriceSelectorProps> = ({ price, setPrice }) => {
 
   return (
     <div className="price-container">
-      <h1>Fixez votre prix par place</h1>
+      <h2>Fixez votre prix par place</h2>
 
       <div className="price-box">
         <div className="price-selector">

@@ -49,6 +49,9 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
   onHourChange,
   onMinuteChange,
 }) => {
+  // const [fetchDepartureCities, { data: departureCities }] = useGetCitiesLazyQuery();
+  // const [fetchArrivalCities, { data: arrivalCities }] = useGetCitiesLazyQuery();
+
   const cityOptions = cityData?.map((city) => (
     <option key={city.id} value={city.name}>
       {city.name}
@@ -59,7 +62,7 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
     <div className="search-bar">
       <div className="search-wrapper">
         <div className="input-container">
-          <MapPin className="icon" size={22} />
+          <MapPin className="icon" size={26} />
           {loadingCities ? (
             <p>Chargement...</p>
           ) : errorCities ? (
@@ -76,7 +79,7 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
         <div className="separator" />
 
         <div className="input-container">
-          <MapPin className="icon" size={22} />
+          <MapPin className="icon" size={26} />
           {loadingCities ? (
             <p>Chargement...</p>
           ) : errorCities ? (
@@ -92,7 +95,7 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
         <div className="separator" />
 
         <div className="input-container">
-          <CalendarDays className="icon" size={22} />
+          <CalendarDays className="icon" size={26} />
           <DatePicker
             selected={date}
             onChange={(date) => date && onDateChange(date)}
@@ -106,7 +109,7 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
         <div className="separator" />
 
         <div className="input-container">
-          <Clock className="icon" size={22} />
+          <Clock className="icon" size={26} />
           <DatePicker
             data-testid="departure-time-picker"
             selected={departureTime}
@@ -125,7 +128,7 @@ const PublishTripBar: React.FC<PublishTripBarProps> = ({
         <div className="separator" />
 
         <div className="input-container">
-          <Hourglass className="icon" size={22} />
+          <Hourglass className="icon" size={26} />
           <div className="duration-selects">
             <select value={hours} onChange={onHourChange}>
               {Array.from({ length: 25 }, (_, i) => (

@@ -11,8 +11,10 @@ import TripPreferences from "../components/PublishRouteComponents/TipsPreference
 import { ChevronRight } from "lucide-react";
 import { toast } from "react-toastify";
 import { formatDate, formatTime } from "../utils/format.utils";
+import { useNavigate } from "react-router-dom";
 
 const PublishRoute = () => {
+  const navigate = useNavigate();
   const [departure, setDeparture] = useState("");
   const [arrival, setArrival] = useState("");
   const [date, setDate] = useState(new Date());
