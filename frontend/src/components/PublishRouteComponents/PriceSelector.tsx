@@ -32,24 +32,17 @@ const PriceSelector: React.FC<PriceSelectorProps> = ({ price, setPrice }) => {
             type="button"
             onClick={decreasePrice}
             aria-label="Réduire le prix"
+            title="Réduire le prix"
           >
-            <CircleMinus size={28} style={{ color: "#fff" }} />
+            <CircleMinus size={55} color="#ffffff" />
           </button>
 
           <div className="price-input-wrapper">
             <input
-              type="number"
-              min={MIN_PRICE}
-              max={MAX_PRICE}
-              value={isNaN(price) ? "" : price}
+              type="text"
+              value={isNaN(price) ? "" : `${price} €`}
               onChange={(e) => {
-                const inputValue = e.target.value;
-
-                if (inputValue === "") {
-                  setPrice(NaN);
-                  return;
-                }
-
+                const inputValue = e.target.value.replace(/[^\d]/g, "");
                 const val = Number(inputValue);
                 if (val >= MIN_PRICE && val <= MAX_PRICE) {
                   setPrice(val);
@@ -60,23 +53,20 @@ const PriceSelector: React.FC<PriceSelectorProps> = ({ price, setPrice }) => {
                   setPrice(MIN_PRICE);
                 }
               }}
-              className="price-value-input"
               aria-label="Prix par place"
               data-testid="price-value"
             />
-            <span className="euro-symbol"> €</span>
           </div>
 
           <button
             type="button"
             onClick={increasePrice}
             aria-label="Augmenter le prix"
+            title="Augmenter le prix"
           >
-            <CirclePlus size={28} color="#ffffff" />
+            <CirclePlus size={55} color="#ffffff" />
           </button>
         </div>
-
-        <div className="separator" />
 
         <div className="price-info">
           <p>
