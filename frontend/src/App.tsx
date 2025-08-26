@@ -13,30 +13,69 @@ import MesReservations from "./pages/MyBookings";
 import MesGrumpyTrips from "./pages/MyGrumpyTrips";
 import SearchPageResult from "./pages/SearchPageResult";
 import BookATripPage from "./pages/BookATripPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 import "./styles/root.scss";
 import Error404 from "./pages/Error404";
+import SingleFileUploader from "./pages/SingleFileUploader";
+
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/mytrips/:id" element={<MesGrumpyTrips />} />
-          <Route path="/myreservations/:id" element={<MesReservations />} />
+          <Route
+            path="/mytrips/:id"
+            element={
+              <ProtectedRoute>
+                <MesGrumpyTrips />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/myreservations/:id"
+            element={
+              <ProtectedRoute>
+                <MesReservations />
+              </ProtectedRoute>
+            }
+          />
           <Route index element={<Home />} />
           <Route path="register" element={<Register />} />
-          <Route
-            path="email-confirmation"
-            element={<EmailConfirmation />}
-          />
+          <Route path="email-confirmation" element={<EmailConfirmation />} />
           <Route path="trip/:id" element={<TripDetails />} />
-          <Route path="carpool/:id" element={<CarpoolDetails />} />
-          <Route path="publish-route" element={<PublishRoute />} />
+          <Route
+            path="carpool/:id"
+            element={
+              <ProtectedRoute>
+                <CarpoolDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="publish-route"
+            element={
+              <ProtectedRoute>
+                <PublishRoute />
+              </ProtectedRoute>
+            }
+          />
           <Route path="search-page" element={<SearchPage />} />
           <Route path="search-page-result" element={<SearchPageResult />} />
-          <Route path="profile" element={<Profile />} />
+          <Route
+            path="profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/book/:id" element={<BookATripPage />} />
+
           <Route path="*" element={<Error404 />} />
+
+          <Route path="testimg" element={<SingleFileUploader />} />
+
         </Route>
       </Routes>
       <ToastContainer theme="colored" />

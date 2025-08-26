@@ -2,19 +2,15 @@ import { Carpool, Booking } from "../generated/graphql-types";
 
 export function getCarpoolData(
   tripDetails: Carpool | Booking,
-  mode: "carpool" | "booking",
-  carpoolData?: Carpool
+  mode: "carpool" | "booking"
 ): Carpool {
   if (mode === "booking") {
-    if (carpoolData) return carpoolData;
-
     const booking = tripDetails as Booking;
     if (!booking.carpool)
       throw new Error("Invalid trip format: missing carpool in booking");
     return booking.carpool;
   }
 
-  // mode === "carpool"
   return tripDetails as Carpool;
 }
 

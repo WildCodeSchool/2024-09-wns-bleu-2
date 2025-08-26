@@ -56,6 +56,7 @@ export default function TripList({
                   <TripCard key={trip.id} tripDetails={trip} mode={mode} />
                 )
               )
+
             ) : (
               <p>Aucun trajet trouvé</p>
             )}
@@ -87,6 +88,8 @@ export default function TripList({
                   <TripCard key={trip.id} tripDetails={trip} mode={mode} />
                 )
               )
+
+
             ) : (
               <p>Aucun voyage passé</p>
             )}

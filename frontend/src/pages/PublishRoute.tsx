@@ -6,6 +6,7 @@ import {
   useGetCitiesQuery,
   useGetUserInfoQuery,
 } from "../generated/graphql-types";
+import { useNavigate } from "react-router-dom";
 import PriceSelector from "../components/PublishRouteComponents/PriceSelector";
 import TripPreferences from "../components/PublishRouteComponents/TipsPreferences";
 import { ChevronRight } from "lucide-react";
@@ -26,6 +27,7 @@ const PublishRoute = () => {
   const [minutes, setMinutes] = useState(0);
 
   const [createCarpool] = useCreateCarpoolMutation();
+  const navigate = useNavigate();
 
   const {
     data: cityData,
@@ -64,7 +66,7 @@ const PublishRoute = () => {
 
     const toll = options.includes("Autoroute");
     const duration = hours * 60 + minutes;
-    console.log("Options sélectionnées :", options);
+
     if (!userId) {
       toast.error("Vous devez être connecté pour publier un trajet.");
       return;

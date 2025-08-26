@@ -1,7 +1,12 @@
 import "dotenv/config";
 import * as cookie from "cookie";
+import express from "express";
+import { expressMiddleware } from "@apollo/server/express4";
+import cors from "cors";
+import http from "http";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+
 import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
 import { dataSourceGrumpyCar } from "./config/db";
 import { buildSchema } from "type-graphql";
 import CarpoolResolver from "./resolvers/CarpoolResolver";
@@ -14,6 +19,9 @@ import { CityResolver } from "./resolvers/CityResolver";
 
 const port = process.env.PORT || "4000";
 console.log(`Le serveur tourne sur le port ${port}`);
+
+const app = express();
+const httpServer = http.createServer(app);
 
 const start = async () => {
   if (!process.env.JWT_SECRET_KEY) {
@@ -34,13 +42,32 @@ const start = async () => {
 
   const server = new ApolloServer({
     schema,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
-  const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
-    context: async ({ req, res }) => {
-      if (req.headers.cookie) {
-        const cookies = cookie.parse(req.headers.cookie as string);
+  const corsOptions: cors.CorsOptions = {
+    origin: ["http://localhost:5173", "https://studio.apollographql.com"],
+    credentials: true,
+  };
+
+  // Middlewares communs
+  const commonMiddleware = [
+    cors<cors.CorsRequest>(corsOptions),
+    express.json({ limit: "50mb" }),
+  ];
+
+  console.log("avant");
+  await server.start();
+
+  console.log("apres");
+
+  app.use(
+    "/",
+    ...commonMiddleware,
+    expressMiddleware(server, {
+      context: async ({ req, res }) => {
+        if (req.headers.cookie) {
+          const cookies = cookie.parse(req.headers.cookie as string);
 
         if (cookies.token) {
           try {
@@ -49,19 +76,22 @@ const start = async () => {
               process.env.JWT_SECRET_KEY as Secret
             ) as unknown as JwtPayload;
 
-            if (payload) {
-              return { email: payload.email, res };
-            }
-          } catch (error) {}
+              if (payload) {
+                return { email: payload.email, res };
+              }
+            } catch (error) {}
+          }
         }
-      }
 
-      return { res };
-    },
-  });
+        return { res };
+      },
+    })
+  );
 
-  console.log(`🚀 Server listening at: ${url}`);
+  console.log(`🚀 Server listening at: localhost:4000`);
   console.log("test hot reload");
+
+  await new Promise<void>((resolve) => httpServer.listen({ port }, resolve));
 
   await importCar();
 };

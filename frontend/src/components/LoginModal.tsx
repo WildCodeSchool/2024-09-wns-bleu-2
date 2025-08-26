@@ -1,31 +1,47 @@
-// import "../styles/login.scss";
 import { toast } from "react-toastify";
-import { useLoginMutation } from "../generated/graphql-types";
+import {
+  useLoginMutation,
+  useGetUserInfoQuery,
+} from "../generated/graphql-types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useGetUserInfoQuery } from "../generated/graphql-types";
 import { ChevronRight, LockKeyholeOpen, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useModal } from "../contexts/ModalContext";
 
-type Props = {
-  setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+type Inputs = {
+  login: string;
+  password: string;
 };
 
-const LoginModal = ({ setIsLoginModalOpen }: Props) => {
+const LoginModal = () => {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const { refetch } = useGetUserInfoQuery();
 
+  const {
+    isLoginModalOpen,
+    setIsLoginModalOpen,
+    redirectAfterLogin,
+    setRedirectAfterLogin,
+  } = useModal();
+
   const closeModal = () => {
     setIsLoginModalOpen(false);
+    setRedirectAfterLogin(null); // reset pour éviter des effets de bord
   };
 
-  type Inputs = {
-    login: string;
-    password: string;
-  };
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const {
     register,
@@ -42,31 +58,43 @@ const LoginModal = ({ setIsLoginModalOpen }: Props) => {
         },
       },
       onCompleted: async () => {
-        console.log("Login response:", Response);
-        await refetch(); // 👈 Important
+        await refetch();
         setIsLoginModalOpen(false);
         toast.success("Ravi de vous revoir !");
-        navigate("/");
+        navigate(redirectAfterLogin || "/", { replace: true }); //redirige vers la page souhaitée avant connexion
+        setRedirectAfterLogin(null);
       },
       onError: (error: any) => {
         toast.error("Erreur lors de la connexion. Vérifiez vos identifiants.");
-        console.log("error", error);
+        console.error("Login error:", error);
       },
     });
   };
 
+  if (!isLoginModalOpen) return null;
+
   return (
-    <div className="modal">
-      <div className="close-btn" title="Fermer la fenêtre de connexion" aria-label="Fermer la fenêtre de connexion" role="button" tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " " || e.key === "Escape") closeModal();
-      }}
-      onClick={closeModal}
+    <div className="modal" onClick={closeModal}>
+      <div
+        className="modalContent"
+        onClick={(e) => e.stopPropagation()} // Empêche fermeture si clic dans la modal
       >
-        <X size={50} />
-      </div>
-      <div className="modalContent">
+        <div
+          className="close-btn"
+          title="Fermer la fenêtre de connexion"
+          role="button"
+          aria-label="Fermer la fenêtre de connexion"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (["Enter", " ", "Escape"].includes(e.key)) closeModal();
+          }}
+          onClick={closeModal}
+        >
+          <X size={50} />
+        </div>
+
         <h1>Se connecter</h1>
+
         <form className="form login-form" onSubmit={handleSubmit(onSubmit)}>
           <div className="input-container">
             <label htmlFor="login">
@@ -97,16 +125,28 @@ const LoginModal = ({ setIsLoginModalOpen }: Props) => {
                 aria-invalid={errors.password ? "true" : "false"}
                 {...register("password", { required: true })}
               />
-              <LockKeyholeOpen size={18} className="password-icon" onClick={() => setShowPassword(!showPassword)} />
-              </div>
-              {errors.password && <span>Ce champ est requis.</span>}
-            
+              <LockKeyholeOpen
+                size={18}
+                className="password-icon"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            </div>
+            {errors.password && <span>Ce champ est requis.</span>}
           </div>
+
           <div className="links">
-            <Link to="/forgotten-password" className="login-button" title="Réinitialiser votre mot de pase">
+            <Link
+              to="/forgotten-password"
+              className="login-button"
+              title="Réinitialiser votre mot de passe"
+            >
               Mot de passe oublié ?
             </Link>
-            <Link to="/register" className="login-button" title="Créer un compte">
+            <Link
+              to="/register"
+              className="login-button"
+              title="Créer un compte"
+            >
               S'inscrire
             </Link>
           </div>

@@ -72,9 +72,12 @@ export class UserResolver {
         age--;
       }
       if (age < 18) {
-        throw new GraphQLError("The user must be at least 18 years old to register.", {
-          extensions: { code: "UNDER_AGE" },
-        });
+        throw new GraphQLError(
+          "The user must be at least 18 years old to register.",
+          {
+            extensions: { code: "UNDER_AGE" },
+          }
+        );
       }
 
       // On génère un code aléatoire à 6 chiffres
@@ -163,7 +166,7 @@ export class UserResolver {
     if (difference > expirationTime) {
       await tempUser.remove();
       throw new GraphQLError("Code has expired", {
-        extensions: { code: "CODE_EXPIRED" }
+        extensions: { code: "CODE_EXPIRED" },
       });
     }
 
@@ -188,32 +191,29 @@ export class UserResolver {
 
   @Mutation(() => String)
   async login(@Arg("data") loginData: LoginInput, @Ctx() context: any) {
-    let isPasswordCorrect = false;
-    // On récupère l'utilisateur via son email s'il existe
-    // "findOneByOrFail" nous renverrait comme erreur que l'email n'est pas bon, pour des raisons de sécurité, on utilise findOneBy
     const user = await User.findOneBy({ email: loginData.email });
-    if (user) {
-      isPasswordCorrect = await argon2.verify(
-        user.password,
-        loginData.password
-      );
-    }
-    // On vérifie son mdp => retourne un booléen
-    if (isPasswordCorrect && user) {
+    if (!user) throw new GraphQLError("Incorrect login", { extensions: { code: "INVALID_CREDENTIALS" } });
+
+    const isPasswordCorrect = await argon2.verify(user.password, loginData.password);
+    if (!isPasswordCorrect) throw new GraphQLError("Incorrect login", { extensions: { code: "INVALID_CREDENTIALS" } });
+
+    
+    const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY as Secret);
       /* Le jwt prend 2 arguments :
          1. Les éléments du payload (exemple : email, role, etc)
          2. La clé secrète (stockée dans un fichier .env pour plus de sécurité)
       */
-      const token = jwt.sign(
-        { email: user.email },
-        process.env.JWT_SECRET_KEY as Secret
-      );
+ 
       // Stockage du token dans les cookies
-      context.res.setHeader("Set-Cookie", `token=${token}; Secure; HttpOnly`);
-      return "User logged in.";
-    } else {
-      throw new Error("Incorrect login");
-    }
+      // Cookie sécurisé en prod, pas en dev
+    const isProd = process.env.NODE_ENV === "production";
+    context.res.setHeader(
+      "Set-Cookie",
+      `token=${token}; HttpOnly; Path=/; SameSite=Lax; Secure=${isProd}`
+    );
+
+    console.log("User logged in:", user.email);
+    return "User logged in.";
   }
 
   @Mutation(() => String)

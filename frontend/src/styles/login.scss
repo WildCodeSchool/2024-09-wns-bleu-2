@@ -91,34 +91,34 @@
 }
 
 @media (max-width: $bp-desktop-large) {
-	.modal {
-		.modalContent {
-			.login-form {
-				width: 80%;
-			}
-		}
-	}
+  .modal {
+    .modalContent {
+      .login-form {
+        width: 80%;
+      }
+    }
+  }
 }
 
 @media (max-width: $bp-mobile) {
-	.modal {
-		background: rgba(216, 216, 211, 0.65);
-		.submit-container {
-			button {
-				font-size: 1rem !important;
+  .modal {
+    background: rgba(216, 216, 211, 0.65);
+    .submit-container {
+      button {
+        font-size: 1rem !important;
 
-				svg {
-					width: 30px;
-					height: 30px;
-				}
-			}
-		}
-	}
+        svg {
+          width: 30px;
+          height: 30px;
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 574px) {
-	.modal {
-		padding: 1em;
-		width: 90%;
-	}
+  .modal {
+    padding: 1em;
+    width: 90%;
+  }
 }
