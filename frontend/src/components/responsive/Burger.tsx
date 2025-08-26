@@ -5,15 +5,14 @@ import {
   useGetUserInfoQuery,
   useLogoutMutation,
 } from "../../generated/graphql-types";
+import { useModal } from "../../contexts/ModalContext";
 
 export default function Burger({
   isActive,
   handleClick,
-  setIsLoginModalOpen,
 }: {
   isActive: string;
   handleClick: (section: string) => void;
-  setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -21,6 +20,7 @@ export default function Burger({
   const [logout] = useLogoutMutation();
 
   const isLoggedIn = data?.getUserInfo?.isLoggedIn;
+  const { setIsLoginModalOpen } = useModal();
 
   const handleLogout = async () => {
     await logout();
