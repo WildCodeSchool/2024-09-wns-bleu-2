@@ -1,9 +1,9 @@
-@import "./root.scss";
+@use "./variables.scss" as *;
 
 .trip-preferences {
   text-align: center;
   margin-top: 2rem;
-
+  width: 100%;
   h2 {
     font-size: $font-size-title-mobile;
     font-weight: bold;
@@ -31,7 +31,7 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      font-size: $font-size-text-mobile;
+      font-size: $font-size-small-text;
 
       input[type="checkbox"] {
         width: 18px;
@@ -43,10 +43,11 @@
   /* Responsive */
   @media screen and (min-width: $bp-mobile) {
     .preferences-box {
-      width: 90%;
+      width: 100%;
       max-width: 1900px;
       flex-wrap: wrap;
       flex-direction: row;
+      min-height: 60px;
     }
   }
 }

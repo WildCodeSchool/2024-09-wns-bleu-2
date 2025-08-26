@@ -6,6 +6,7 @@ import {
   useGetCitiesQuery,
   useGetUserInfoQuery,
 } from "../generated/graphql-types";
+import { useNavigate } from "react-router-dom";
 import PriceSelector from "../components/PublishRouteComponents/PriceSelector";
 import TripPreferences from "../components/PublishRouteComponents/TipsPreferences";
 import { ChevronRight } from "lucide-react";
@@ -26,6 +27,7 @@ const PublishRoute = () => {
 
   const [createCarpool] = useCreateCarpoolMutation();
   const navigate = useNavigate();
+
   const {
     data: cityData,
     loading: loadingCities,

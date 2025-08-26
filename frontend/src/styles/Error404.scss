@@ -1,0 +1,62 @@
+@use "./variables.scss" as *;
+
+.notfound-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+  padding: 1rem;
+
+  .card-error {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 340px;
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin-bottom: 2rem;
+      font-style: italic;
+      font-size: 1rem;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      background-color: $color-card-green;
+      font-weight: 500;
+      border-radius: 50px;
+      padding: 0.8em 2em;
+      display: inline-block;
+      transition: background-color 0.3s;
+
+      &:hover {
+        opacity: 80%;
+      }
+    }
+  }
+}
+
+@media (min-width: $bp-mobile) {
+  .notfound-container {
+    .card-error {
+      padding: 4rem 7rem;
+
+      h1 {
+        font-size: 3rem;
+      }
+
+      p {
+        font-size: 1rem;
+        margin-bottom: 3rem;
+      }
+    }
+  }
+}

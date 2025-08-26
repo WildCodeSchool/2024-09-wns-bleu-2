@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
+import { useModal } from "../contexts/ModalContext";
 
 export default function Dropdown({
   isActive,
@@ -9,7 +10,7 @@ export default function Dropdown({
   handleLogout,
 }: {
   isActive: string;
-  handleClick: (action: string) => void;  // Argument d'action : register, login ...
+  handleClick: (action: string) => void; // Argument d'action : register, login ...
   isLoggedIn: boolean | undefined;
   handleLogout: () => void;
 }) {
@@ -18,7 +19,7 @@ export default function Dropdown({
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-
+  const { setIsLoginModalOpen } = useModal();
   return (
     <div className="dropdown">
       <button onClick={toggleDropdown} className="dropdown-toggle">
@@ -29,10 +30,11 @@ export default function Dropdown({
           {!isLoggedIn ? (
             <>
               <Link
-                to="/login"
+                to="#"
                 onClick={() => {
                   handleClick("login");
                   setIsOpen(false);
+                  setIsLoginModalOpen(true);
                 }}
                 className={`dropdown-item ${
                   isActive === "login" && "is-active absolute"
@@ -68,7 +70,7 @@ export default function Dropdown({
                 Mon profil
               </Link>
               <button
-                className="navbar-link logout-button logout-button-dropdown"
+                className="dropdown-item logout-button logout-button-dropdown"
                 onClick={handleLogout}
               >
                 Déconnexion
