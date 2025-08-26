@@ -1,12 +1,10 @@
 @use "./variables.scss" as *;
 
 .search-route {
-  padding: 0 24px;
   font-family: $font-family;
-  color: #333;
-  max-width: 1900px;
+  color: $text;
   h1 {
-    text-align: center;
+    @include main-title;
   }
   h2 {
     font-size: 18px;
@@ -20,7 +18,6 @@
 }
 @media (min-width: $bp-mobile) {
   .search-route {
-    padding: 0 16px;
     h2 {
       font-size: $font-size-title-mobile;
     }

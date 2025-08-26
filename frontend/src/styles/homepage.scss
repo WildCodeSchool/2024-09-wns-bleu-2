@@ -33,12 +33,9 @@
 }
 
 .home-title {
-  font-size: $font-size-title-mobile;
   margin-bottom: 0 !important;
   @media screen and (min-width: 885px) {
-    font-size: $font-size-huge;
     text-align: left;
-    font-weight: 600;
   }
 }
 

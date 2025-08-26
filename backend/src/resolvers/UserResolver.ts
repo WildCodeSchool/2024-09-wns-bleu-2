@@ -80,8 +80,7 @@ export class UserResolver {
         );
       }
 
-      // On génère un code aléatoire
-      // const randomCode = uuidv4();
+      // On génère un code aléatoire à 6 chiffres
       const generateRandomCode = () => {
         let code = "";
         // code à 6 chiffres random, de 0 à 9
@@ -91,8 +90,8 @@ export class UserResolver {
         return code;
       };
       const randomCode = generateRandomCode();
-
-      // On sauvegarde l'utilisateur dans la table TempUser ave toutes ses infos
+      
+      // On sauvegarde l'utilisateur dans la table TempUser avec toutes ses infos
       const result = new TempUser();
       result.email = newUserData.email;
       result.password = await argon2.hash(newUserData.password);

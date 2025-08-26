@@ -152,7 +152,7 @@ const LoginModal = () => {
           </div>
 
           <div className="submit-container">
-            <button type="submit" title="Connexion à votre compte">
+            <button type="submit" className="submit-button" title="Connexion à votre compte">
               <ChevronRight size={30} /> Connexion
             </button>
           </div>
