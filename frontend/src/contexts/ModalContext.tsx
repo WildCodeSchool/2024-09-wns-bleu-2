@@ -1,4 +1,3 @@
-import { log } from "console";
 import { createContext, useContext, useState, ReactNode } from "react";
 
 type ModalContextType = {
@@ -29,7 +28,6 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     </ModalContext.Provider>
   );
 };
-console.log("Coucou");
 
 export const useModal = () => {
   const context = useContext(ModalContext);
