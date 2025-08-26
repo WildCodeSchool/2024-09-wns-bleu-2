@@ -28,7 +28,6 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     </ModalContext.Provider>
   );
 };
-console.log("Coucou");
 
 export const useModal = () => {
   const context = useContext(ModalContext);
