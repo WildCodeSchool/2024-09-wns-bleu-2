@@ -11,6 +11,11 @@ $color-card-blue: #a7b6c2;
 $color-card-yellow: #f9eac3;
 $color-search: #666666;
 $summary-color: #f1eae0;
+$text: #2a2a2a;
+$light-gray: #999999;
+$box-shadow: 0 4px 4px 0px rgba(#000, 25%);
+$main-radius: 16px;
+$secondary-radius: 30px;
 
 ///////FONT///////
 $font-family: Popins, sans-serif;
@@ -20,9 +25,22 @@ $font-size-huge: 48px;
 $font-size-text-desk: 20px;
 $font-size-big-text: 32px;
 
-$font-size-h1: clamp(1.5rem, 5vw, 3rem);
+$font-size-h1: clamp(1.8rem, 5vw, 3rem);
 
 //mobile
 $font-size-title-mobile: 24px;
 $font-size-small-text: 15px;
 $font-size-normal-text: 16px;
+
+// MIXIN
+@mixin main-title {
+   text-align: center;
+   font-weight: 800;
+   font-size: $font-size-h1;
+   font-family: $font-family;
+   color: $text;
+   margin-bottom: 1em;
+}
+// @mixin btn {
+
+// }

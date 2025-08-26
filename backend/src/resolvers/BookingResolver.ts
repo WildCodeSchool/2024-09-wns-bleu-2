@@ -3,6 +3,7 @@ import { Booking } from "../entities/Booking";
 import { Carpool } from "../entities/Carpool";
 import { BookingInput } from "../inputs/BookingInput";
 import { User } from "../entities/User";
+import { GraphQLError } from "graphql";
 
 @Resolver(Booking)
 export class BookingResolver {
@@ -47,6 +48,18 @@ export class BookingResolver {
     const carpool = await Carpool.findOne({ where: { id: carpool_id } });
     if (!carpool) {
       throw new Error("Carpool not found");
+    }
+
+    /* Empêcher l'utilisateur de réserver un covoiturage à une date antérieure à celle du jour. S'il réserve pour la date du jour, l'empêcher de réserver à une heure déjà passée */
+    const now = new Date();
+    const [year, month, day] = carpool.departure_date.split('-').map(Number);
+    const [hours, minutes, seconds] = carpool.departure_time.split(':').map(Number);
+    const departureDateTime = new Date(year, month - 1, day, hours, minutes, seconds);
+
+    if (departureDateTime <= now) {
+      throw new GraphQLError("The carpool is already gone.", {
+        extensions: { code: "CARPOOL_ALREADY_LEFT"}
+      });
     }
 
     // Récupérer le passager

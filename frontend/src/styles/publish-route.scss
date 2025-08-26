@@ -8,14 +8,8 @@
   flex-direction: column;
   align-items: center;
 
-  h1 {
-    text-align: center;
-    font-size: $font-size-h1;
-  }
-
   h2 {
-    font-size: 18px;
-    font-weight: bold;
+    @include main-title;
   }
 
   @media (max-width: $bp-mobile) {
