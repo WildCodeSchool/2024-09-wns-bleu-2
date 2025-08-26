@@ -16,6 +16,8 @@ import BookATripPage from "./pages/BookATripPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./styles/root.scss";
 import Error404 from "./pages/Error404";
+import SingleFileUploader from "./pages/SingleFileUploader";
+
 
 function App() {
   return (
@@ -69,7 +71,11 @@ function App() {
             }
           />
           <Route path="/book/:id" element={<BookATripPage />} />
+
           <Route path="*" element={<Error404 />} />
+
+          <Route path="testimg" element={<SingleFileUploader />} />
+
         </Route>
       </Routes>
       <ToastContainer theme="colored" />
