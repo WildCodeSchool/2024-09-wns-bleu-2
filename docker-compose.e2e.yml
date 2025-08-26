@@ -4,7 +4,7 @@ services:
     env_file:
       - .env
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -d postgres -U postgres" ]
+      test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
       interval: 1s
       timeout: 2s
       retries: 100
@@ -16,9 +16,9 @@ services:
         condition: service_healthy
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.prod
+    build: ./backend
+    volumes:
+      - ./backend/src:/app/src
     healthcheck:
       test: 'curl --fail --request POST --header ''content-type: application/json'' --url ''http://localhost:4000'' --data ''{"query":"query { __typename }"}'' || exit 1'
       interval: 1s
@@ -33,9 +33,9 @@ services:
       - "4000:4000"
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.prod
+    build: ./frontend
+    volumes:
+      - ./frontend/src:/app/src
     depends_on:
       backend:
         condition: service_healthy
@@ -58,10 +58,15 @@ services:
         condition: service_healthy
     ports:
       - 8000:80
-  img :
-    build:
-      context: ./img
-      dockerfile: Dockerfile.prod
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+  img:
+    build: ./img
     healthcheck:
       test: "curl --fail --request GET --url 'http://localhost:4000' || exit 1"
       interval: 1s
@@ -70,3 +75,11 @@ services:
     volumes:
       - ./img/uploads:/app/uploads
       - ./img/clean.js:/app/clean.js
+
+  e2e:
+    build: ./e2e
+    depends_on:
+      - api_gateway
+    network_mode: host
+    env_file:
+      - .env

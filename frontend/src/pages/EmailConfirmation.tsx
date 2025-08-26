@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useConfirmEmailMutation } from "../generated/graphql-types";
-import "../styles/EmailConfirm.scss";
+import "../styles/emailConfirm.scss";
 import { ApolloError } from "@apollo/client";
 import { ChevronRight } from "lucide-react";
 
