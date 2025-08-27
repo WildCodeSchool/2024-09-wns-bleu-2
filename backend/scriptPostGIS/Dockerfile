@@ -7,6 +7,9 @@
  RUN npm install
  RUN npm i -g tsx
 
- COPY import-cities.ts ./import-cities.ts
+COPY dataSource.ts ./dataSource.ts
+COPY cities.json ./cities.json
+COPY City.ts ./City.ts
+COPY import-cities.ts ./import-cities.ts
 
  CMD ["npm", "start"]
