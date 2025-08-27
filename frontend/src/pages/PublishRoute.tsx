@@ -12,7 +12,6 @@ import TripPreferences from "../components/PublishRouteComponents/TipsPreference
 import { ChevronRight } from "lucide-react";
 import { toast } from "react-toastify";
 import { formatDate, formatTime } from "../utils/format.utils";
-import { useNavigate } from "react-router-dom";
 
 const PublishRoute = () => {
   const navigate = useNavigate();
@@ -27,7 +26,6 @@ const PublishRoute = () => {
   const [minutes, setMinutes] = useState(0);
 
   const [createCarpool] = useCreateCarpoolMutation();
-  const navigate = useNavigate();
 
   const {
     data: cityData,
