@@ -107,6 +107,6 @@ services:
     env_file:
       - .db.env
     volumes:
-      - ./backend/scriptPostGIS:/app/
+      - ./backend/scriptPostGIS:/app/ 
     profiles:
       - initialize

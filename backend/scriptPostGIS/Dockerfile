@@ -1,12 +1,12 @@
-FROM node:lts-alpine
+ FROM node:lts-alpine
 
-WORKDIR /app
+ WORKDIR /app
 
-COPY package.json package.json
-COPY tsconfig.json .
-RUN npm install
-RUN npm i -g tsx
+ COPY package.json package.json
+ COPY tsconfig.json .
+ RUN npm install
+ RUN npm i -g tsx
 
-COPY import-cities.ts ./import-cities.ts
+ COPY import-cities.ts ./import-cities.ts
 
-CMD ["npm", "start"]
+ CMD ["npm", "start"]
