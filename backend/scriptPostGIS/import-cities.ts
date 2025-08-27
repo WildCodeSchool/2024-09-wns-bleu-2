@@ -35,7 +35,8 @@ function parseGeoNamesLine(city: any): any {
 
 async function dataSourceInitialize() {
 	await dataSourceGrumpyCar.initialize();
-	await City.clear();
+	const cityRepository = dataSourceGrumpyCar.getRepository(City);
+	await cityRepository.clear();
 
 	const clearCities = removeDuplicatesByName((c as any).cities);
 	clearCities.map(async (city: any) => {
