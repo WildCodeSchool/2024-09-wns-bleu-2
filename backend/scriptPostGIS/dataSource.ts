@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
+import { City } from "./City";
 
 dotenv.config();
 
@@ -10,7 +11,7 @@ export const dataSourceGrumpyCar = new DataSource({
   username: process.env.DB_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.DB_NAME,
-  entities: ["./City.ts"],
+  entities: [City],
   synchronize: true,
   logging: ["error", "query"],
 });
