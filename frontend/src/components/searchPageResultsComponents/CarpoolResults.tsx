@@ -1,7 +1,7 @@
 import { Carpool, useSearchCarpoolsQuery } from "../../generated/graphql-types";
 import {
   formatDate,
-  formatTime,
+  // formatTime,
 //  formatTimeFromString,
 } from "../../utils/format.utils";
 import "../../styles/trip-cards.scss";
@@ -16,24 +16,23 @@ type SearchResultsProps = {
   departure: string;
   arrival: string;
   date: Date;
-  time: Date | null;
+  passengers: number;
   filters?: {
     sortByPrice: boolean;
     selectedOptions: string[];
   };
 };
 
-const SearchResults: React.FC<SearchResultsProps> = ({
+const CarpoolResults: React.FC<SearchResultsProps> = ({
   departure,
   arrival,
   date,
-  time,
   filters,
 }) => {
   const navigate = useNavigate();
 
   const formattedDate = formatDate(date);
-  const formattedTime = time ? formatTime(time) : "00:00";
+  // const formattedTime = time ? formatTime(time) : "00:00";
 
   const areFieldsValid = departure && arrival && date;
 
@@ -42,7 +41,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
       departure,
       arrival,
       date: formattedDate,
-      time: formattedTime,
+      // passengers
     },
     skip: !areFieldsValid,
   });
@@ -63,7 +62,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
 
   if (filters?.selectedOptions.length) {
     filteredResults = filteredResults.filter((carpool) =>
-      filters.selectedOptions.every((opt) => carpool.options.includes(opt))
+      filters.selectedOptions.every((opt) => carpool.options?.includes(opt))
     );
   }
 
@@ -95,4 +94,4 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   );
 };
 
-export default SearchResults;
+export default CarpoolResults;

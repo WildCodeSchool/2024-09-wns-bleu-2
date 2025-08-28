@@ -3,7 +3,7 @@ import SearchBar from "../components/SearchBar";
 import "../styles/search-page.scss";
 import "../styles/trip-cards.scss";
 import { useSearchParams } from "react-router-dom";
-import SearchResults from "../components/searchPageResultsComponents/SearchResult";
+import CarpoolResults from "../components/searchPageResultsComponents/CarpoolResults";
 import Filters from "../components/searchPageResultsComponents/Filters";
 
 const SearchPageResult = () => {
@@ -60,11 +60,12 @@ const SearchPageResult = () => {
           onReset={handleResetFilters}
         />
 
-        <SearchResults
+        <CarpoolResults
           departure={departure}
           arrival={arrival}
           date={date}
-          time={departureTime}
+          passengers={passengers}
+          // time={departureTime}
           filters={{ sortByPrice, selectedOptions }}
         />
       </div>

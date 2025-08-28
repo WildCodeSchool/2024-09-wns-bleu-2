@@ -34,7 +34,7 @@ const Filters: React.FC<FiltersProps> = ({
           Tout effacer
         </button>
       </div>
-
+      
       <div className="separator-filter" />
 
       <label>

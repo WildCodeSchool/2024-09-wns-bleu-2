@@ -11,7 +11,11 @@
   h2 {
     @include main-title;
   }
-
+  @media (min-width: 992px) {
+    .kilometer {
+      align-self: flex-start;
+    }
+  }
   @media (max-width: $bp-mobile) {
     padding: 16px;
     h2 {
