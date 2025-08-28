@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "../styles/publish-route.scss";
-// import PublishTripBar from "../components/PublishRouteComponents/PublishTripBar";
 import {
   useCreateCarpoolMutation,
   // useGetCitiesQuery,

@@ -11,6 +11,12 @@
   h2 {
     @include main-title;
   }
+
+  .search-bar {
+    width: 100%;
+    max-width: 900px;
+  }
+  
   @media (min-width: 992px) {
     .kilometer {
       align-self: flex-start;
