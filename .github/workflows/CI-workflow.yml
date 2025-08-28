@@ -47,6 +47,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          context: "{{defaultContext}}:/backend/scriptPostGIS"
+          context: .
           file: ./backend/scriptPostGIS/Dockerfile.prod
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/cities:latest, ${{ secrets.DOCKERHUB_USERNAME }}/cities:${{ env.COMMIT_SHORT_SHA }}
