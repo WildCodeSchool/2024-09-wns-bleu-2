@@ -2,11 +2,11 @@ import "reflect-metadata";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Point } from 'geojson';
 
-class GeoPoint {
-  type: string;
+// class GeoPoint {
+//   type: string;
 
-  coordinates: number[]; // longitude, latitude
-}
+//   coordinates: number[]; // longitude, latitude
+// }
 
 @Entity()
 export class City extends BaseEntity {
