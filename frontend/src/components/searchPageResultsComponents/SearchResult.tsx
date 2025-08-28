@@ -83,7 +83,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
             onClick={() => navigate(`/book/${carpool.id}`)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
-                navigate(`/trip/${carpool.id}`);
+                navigate(`/book/${carpool.id}`);
               }
             }}
           >
