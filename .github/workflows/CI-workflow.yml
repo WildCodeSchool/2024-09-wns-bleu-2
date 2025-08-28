@@ -43,3 +43,10 @@ jobs:
           context: "{{defaultContext}}:img"
           file: Dockerfile.prod
           tags: ${{ secrets.DOCKERHUB_USERNAME_MB }}/img:latest, ${{ secrets.DOCKERHUB_USERNAME_MB }}/img:${{ env.COMMIT_SHORT_SHA }}
+      - name: Build and push cities service
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          context: "{{defaultContext}}:cities"
+          file: Dockerfile.prod
+          tags: ${{ secrets.DOCKERHUB_USERNAME_MB }}/cities:latest, ${{ secrets.DOCKERHUB_USERNAME_MB }}/cities:${{ env.COMMIT_SHORT_SHA }}
