@@ -27,39 +27,38 @@ const Filters: React.FC<FiltersProps> = ({
 
   return (
     <div className="filters">
-      <div className="filter-title-button">
-        <h3>Filtrer par</h3>
+      <div className="filter-by">
+        <div className="filter-title-button">
+          <h3>Filtrer par</h3>
 
-        <button type="button" onClick={onReset}>
-          Tout effacer
-        </button>
-      </div>
-      
-      <div className="separator-filter" />
-
-      <label>
-        <input
-          type="checkbox"
-          checked={sortByPrice}
-          onChange={() => onSortChange(!sortByPrice)}
-        />
-        Prix le plus bas
-      </label>
-
-      <h4>Préférences du voyageur</h4>
-
-      <div className="separator-filter" />
-
-      {allOptions.map((opt) => (
-        <label key={opt}>
+          <button type="button" onClick={onReset}>
+            Tout effacer
+          </button>
+        </div>
+        
+        <label>
           <input
             type="checkbox"
-            checked={selectedOptions.includes(opt)}
-            onChange={() => handleOptionToggle(opt)}
+            checked={sortByPrice}
+            onChange={() => onSortChange(!sortByPrice)}
           />
-          {opt}
+          Prix le plus bas
         </label>
-      ))}
+      </div>
+      <div className="trip-preferences">
+        <h3>Préférences du voyageur</h3>
+
+        {allOptions.map((opt) => (
+          <label key={opt}>
+            <input
+              type="checkbox"
+              checked={selectedOptions.includes(opt)}
+              onChange={() => handleOptionToggle(opt)}
+            />
+            {opt}
+          </label>
+        ))}
+      </div>
     </div>
   );
 };

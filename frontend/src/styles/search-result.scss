@@ -4,4 +4,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 65%;
+  flex: 0 0 65%;
+  @media (max-width: $bp-mobile) {
+    flex: 0 0 100%;
+    max-width: 100%;
+    .card-button:first-child {
+      margin-top: 1.5em;
+    }
+  }
+  .card-button {
+    width: 100%;
+    &:not(:last-child) {
+      margin-bottom: 1.5em;
+    }
+  }
 }

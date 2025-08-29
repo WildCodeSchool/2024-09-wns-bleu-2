@@ -43,6 +43,7 @@ const SearchPageResult = () => {
         arrival={arrival}
         date={date}
         passengers={passengers}
+        showKm={true}
         onDepartureChange={(e) => setDeparture(e.target.value)}
         onArrivalChange={(e) => setArrival(e.target.value)}
         onDateChange={setDate}

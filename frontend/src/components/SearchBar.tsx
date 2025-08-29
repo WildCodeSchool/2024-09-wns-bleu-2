@@ -44,7 +44,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     departureTime,
     showTime,
     showButton = true,
-    showKm = true,
+    showKm = false,
     onDepartureChange,
     onArrivalChange,
     onDateChange,
@@ -56,15 +56,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
     const [fetchArrivalCities, { data: arrivalCities }] = useGetCitiesLazyQuery();
 
     const [km, setKm] = useState(0);
-
-    // pour éviter de recalculer
-    // const cityOptions = useMemo(() => {
-    //     return citiesData?.getCities.map((city: { id: string; name: string }) => (
-    //         <option key={city.id} value={city.name}>
-    //             {city.name}
-    //         </option>
-    //     ));
-    // }, [citiesData]);
 
     const today = new Date();
 
