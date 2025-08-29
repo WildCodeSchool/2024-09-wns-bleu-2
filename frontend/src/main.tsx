@@ -7,7 +7,8 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ModalProvider } from "./contexts/ModalContext.tsx";
 
 const client = new ApolloClient({
-  uri: "http://localhost:8000/api",
+  // uri: "http://localhost:8000/api",
+  uri: "/api",
   cache: new InMemoryCache(),
   credentials: "include",
 });

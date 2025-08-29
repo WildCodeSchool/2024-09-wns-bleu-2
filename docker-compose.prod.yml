@@ -41,6 +41,7 @@ services:
     profiles:
       - initialize
       - dev
+    command: sh -c "npx wait-on tcp:db:5432 && npm start"
 
   frontend:
     image: neliacourtais/frontend:latest
