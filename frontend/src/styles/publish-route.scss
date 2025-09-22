@@ -25,7 +25,7 @@
   @media (max-width: $bp-mobile) {
     padding: 16px;
     max-width: 100%;
-    h2 {
+    h2:not(.react-datepicker__current-month) {
       font-size: $font-size-title-mobile;
     }
   }
