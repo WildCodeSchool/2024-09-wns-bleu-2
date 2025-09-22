@@ -1,9 +1,8 @@
 import { useState } from "react";
 import "../styles/publish-route.scss";
-import PublishTripBar from "../components/PublishRouteComponents/PublishTripBar";
 import {
   useCreateCarpoolMutation,
-  useGetCitiesQuery,
+  // useGetCitiesQuery,
   useGetUserInfoQuery,
 } from "../generated/graphql-types";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +11,7 @@ import TripPreferences from "../components/PublishRouteComponents/TipsPreference
 import { ChevronRight } from "lucide-react";
 import { toast } from "react-toastify";
 import { formatDate, formatTime } from "../utils/format.utils";
+import SearchBar from "../components/SearchBar";
 
 const PublishRoute = () => {
   const navigate = useNavigate();
@@ -22,36 +22,36 @@ const PublishRoute = () => {
   const [price, setPrice] = useState<number>(0);
   const [options, setOptions] = useState<string[]>([]);
   const [departureTime, setDepartureTime] = useState<Date | null>(null);
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
+  // const [hours, setHours] = useState(0);
+  // const [minutes, setMinutes] = useState(0);
 
   const [createCarpool] = useCreateCarpoolMutation();
 
-  const {
-    data: cityData,
-    loading: loadingCities,
-    error: errorCities,
-  } = useGetCitiesQuery();
+  // const {
+  //   data: cityData,
+  //   loading: loadingCities,
+  //   error: errorCities,
+  // } = useGetCitiesQuery();
 
   const { data: userData } = useGetUserInfoQuery();
   const userId = userData?.getUserInfo?.id;
 
-  const handleDeparture = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setDeparture(e.target.value);
+  // const handleDeparture = (e: React.ChangeEvent<HTMLSelectElement>) =>
+  //   setDeparture(e.target.value);
 
-  const handleArrival = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setArrival(e.target.value);
+  // const handleArrival = (e: React.ChangeEvent<HTMLSelectElement>) =>
+  //   setArrival(e.target.value);
 
-  const handleDate = (date: Date) => setDate(date);
+  // const handleDate = (date: Date) => setDate(date);
 
-  const handlePassengers = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setPassengers(Number(e.target.value));
+  // const handlePassengers = (e: React.ChangeEvent<HTMLSelectElement>) =>
+  //   setPassengers(Number(e.target.value));
 
-  const handleHourChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setHours(Number(e.target.value));
+  // const handleHourChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+  //   setHours(Number(e.target.value));
 
-  const handleMinuteChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setMinutes(Number(e.target.value));
+  // const handleMinuteChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+  //   setMinutes(Number(e.target.value));
 
   const handlePublish = () => {
     if (!departure || !arrival || !price || passengers <= 0 || !date) {
@@ -63,7 +63,7 @@ const PublishRoute = () => {
     const departure_time = formatTime(departureTime);
 
     const toll = options.includes("Autoroute");
-    const duration = hours * 60 + minutes;
+    // const duration = hours * 60 + minutes;
 
     if (!userId) {
       toast.error("Vous devez être connecté pour publier un trajet.");
@@ -80,7 +80,6 @@ const PublishRoute = () => {
           num_passenger: passengers,
           price,
           toll,
-          duration,
           options,
           driver_id: userId,
         },
@@ -100,7 +99,6 @@ const PublishRoute = () => {
       arrival,
       departure_date,
       departure_time,
-      duration,
       passengers,
       price,
       options,
@@ -111,24 +109,21 @@ const PublishRoute = () => {
   return (
     <div className="publish-route">
       <h1>Proposez votre Grumpy Trip</h1>
-      <PublishTripBar
+
+      <SearchBar
         departure={departure}
         arrival={arrival}
         date={date}
         passengers={passengers}
+        showButton={false}
         departureTime={departureTime}
-        onDepartureChange={handleDeparture}
-        onArrivalChange={handleArrival}
-        onDateChange={handleDate}
+        showTime={true}
+        showKm = {false}
+        onDepartureChange={(e) => setDeparture(e.target.value)}
+        onArrivalChange={(e) => setArrival(e.target.value)}
+        onDateChange={setDate}
         onTimeChange={setDepartureTime}
-        onPassengersChange={handlePassengers}
-        hours={hours}
-        minutes={minutes}
-        onHourChange={handleHourChange}
-        onMinuteChange={handleMinuteChange}
-        cityData={cityData?.getCities || []}
-        loadingCities={loadingCities}
-        errorCities={!!errorCities}
+        onPassengersChange={(e) => setPassengers(Number(e.target.value))}
       />
 
       <PriceSelector price={price} setPrice={setPrice} />

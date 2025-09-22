@@ -8,7 +8,6 @@ const SearchPage = () => {
   const [arrival, setArrival] = useState("");
   const [date, setDate] = useState(new Date());
   const [passengers, setPassengers] = useState(1);
-  const [departureTime, setDepartureTime] = useState<Date | null>(null);
 
   const navigate = useNavigate();
 
@@ -17,7 +16,6 @@ const SearchPage = () => {
       departure,
       arrival,
       date: date.toISOString().split("T")[0],
-      time: departureTime ? departureTime.toTimeString().slice(0, 5) : "",
       passengers: passengers.toString(),
     });
 
@@ -36,8 +34,6 @@ const SearchPage = () => {
         onArrivalChange={(e) => setArrival(e.target.value)}
         onDateChange={setDate}
         onPassengersChange={(e) => setPassengers(Number(e.target.value))}
-        departureTime={departureTime}
-        onTimeChange={setDepartureTime}
         onSearch={handleSearch}
       />
     </div>

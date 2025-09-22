@@ -80,6 +80,10 @@
 					animation: moveUp 1s ease-in-out infinite;
 				}
 			}
+			.error {
+				color: red;
+				margin-top: 5px;
+			}
 		}
 	}
 	.icon {
@@ -91,6 +95,16 @@
 		border: none;
 		outline: none;
 		background-color: transparent;
+	}
+}
+.kilometer {
+	margin-top: 1rem;
+	align-self: flex-start;
+	select {
+		border: none;
+		background: $primary-color-bg;
+		padding: 0.5rem;
+		margin: 0 0.5rem;
 	}
 }
 
