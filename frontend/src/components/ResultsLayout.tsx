@@ -30,33 +30,16 @@ const ResultLayout = ({
 }: Props) => {
   return (
     <>
-      <button
-        className="filters-btn-mobile"
-        onClick={() => setOpenFilters(true)}
-      >
-        FILTRES
-      </button>
-
       <div className="result-layout">
-        {openFilters && window.innerWidth < 992 ? (
-          <Filters
-            sortByPrice={sortByPrice}
-            selectedOptions={selectedOptions}
-            onSortChange={setSortByPrice}
-            onOptionsChange={setSelectedOptions}
-            onReset={handleResetFilters}
-          />
-        ) : (
-          window.innerWidth >= 992 && (
-            <Filters
-              sortByPrice={sortByPrice}
-              selectedOptions={selectedOptions}
-              onSortChange={setSortByPrice}
-              onOptionsChange={setSelectedOptions}
-              onReset={handleResetFilters}
-            />
-          )
-        )}
+        <Filters
+          sortByPrice={sortByPrice}
+          selectedOptions={selectedOptions}
+          onSortChange={setSortByPrice}
+          onOptionsChange={setSelectedOptions}
+          onReset={handleResetFilters}
+          isOpen={openFilters}
+          setIsOpen={setOpenFilters}
+        />
 
         <CarpoolResults
           departure={departure}

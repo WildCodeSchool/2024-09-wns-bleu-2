@@ -22,6 +22,8 @@ type SearchBarProps = {
   onTimeChange?: (date: Date | null) => void;
   onPassengersChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   onSearch?: () => void;
+  hasResults: boolean;
+  setOpenFilters: (value: boolean) => void;
 };
 
 // Gestion d'erreur pour les champs de formulaire requis (villes + date)
@@ -45,6 +47,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
   onTimeChange,
   onPassengersChange,
   onSearch,
+  hasResults,
+  setOpenFilters,
 }) => {
   const [fetchDepartureCities, { data: departureCities }] =
     useGetCitiesLazyQuery();
@@ -212,6 +216,16 @@ const SearchBar: React.FC<SearchBarProps> = ({
           )}
         </div>
       </div>
+      {hasResults && (
+        <button
+          className="filters-btn-mobile"
+          onClick={() => {
+            setOpenFilters(true);
+          }}
+        >
+          FILTRER PAR
+        </button>
+      )}
       {showKm && (
         <div className="kilometer">
           <p>

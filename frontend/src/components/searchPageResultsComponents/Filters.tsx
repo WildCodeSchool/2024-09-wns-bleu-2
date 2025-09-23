@@ -6,6 +6,8 @@ type FiltersProps = {
   onSortChange: (value: boolean) => void;
   onOptionsChange: (options: string[]) => void;
   onReset: () => void;
+  isOpen: boolean;
+  setIsOpen: (value: boolean) => void;
 };
 
 const allOptions = ["Fumeur", "Animaux", "Musique", "Max. 2 à l'arrière"];
@@ -16,6 +18,8 @@ const Filters: React.FC<FiltersProps> = ({
   onSortChange,
   onOptionsChange,
   onReset,
+  isOpen,
+  setIsOpen,
 }) => {
   const handleOptionToggle = (option: string) => {
     if (selectedOptions.includes(option)) {
@@ -26,7 +30,11 @@ const Filters: React.FC<FiltersProps> = ({
   };
 
   return (
-    <div className="filters">
+    <div className={`filters ${isOpen ? "open-mobile" : "closed-mobile"}`}>
+      <button
+        className="close-mobile"
+        onClick={() => setIsOpen(false)}
+      ></button>
       <div className="filter-by">
         <div className="filter-title-button">
           <h3>Filtrer par</h3>
@@ -35,7 +43,7 @@ const Filters: React.FC<FiltersProps> = ({
             Tout effacer
           </button>
         </div>
-        
+
         <label>
           <input
             type="checkbox"

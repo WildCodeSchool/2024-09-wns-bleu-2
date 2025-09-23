@@ -50,7 +50,7 @@ const SearchPage = () => {
     setSelectedOptions([]);
   };
 
-  const hasResults = params.get("departure") && params.get("arrival");
+  const hasResults = Boolean(params.get("departure") && params.get("arrival"));
 
   return (
     <div className="search-route">
@@ -68,6 +68,8 @@ const SearchPage = () => {
         departureTime={departureTime}
         onTimeChange={setDepartureTime}
         onSearch={handleSearch}
+        hasResults={hasResults}
+        setOpenFilters={setOpenFilters}
       />
 
       {hasResults && (
