@@ -4,10 +4,13 @@ services:
     env_file:
       - .env
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -d postgres -U postgres" ]
+      test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
       interval: 1s
       timeout: 2s
       retries: 100
+    volumes:
+      - ./backend/scriptPostGIS/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - grumpycardatabase:/var/lib/postresql/data
 
   adminer:
     image: adminer
@@ -56,7 +59,7 @@ services:
         condition: service_healthy
     ports:
       - 8000:80
-  img :
+  img:
     image: neliacourtais/img:latest
     healthcheck:
       test: "curl --fail --request GET --url 'http://localhost:4000' || exit 1"
@@ -66,3 +69,5 @@ services:
     volumes:
       - ./img/upload:/app/upload
       - ./img/clean.js:/app/clean.js
+volumes:
+  grumpycardatabaseprod:

@@ -11,14 +11,12 @@ import PublishRoute from "./pages/PublishRoute";
 import SearchPage from "./pages/SearchPage";
 import MesReservations from "./pages/MyBookings";
 import MesGrumpyTrips from "./pages/MyGrumpyTrips";
-import SearchPageResult from "./pages/SearchPageResult";
 import BookATripPage from "./pages/BookATripPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./styles/root.scss";
 import Error404 from "./pages/Error404";
 import ResetPassword from "./components/ResetPassword";
 import SingleFileUploader from "./pages/SingleFileUploader";
-
 
 function App() {
   return (
@@ -63,7 +61,7 @@ function App() {
             }
           />
           <Route path="search-page" element={<SearchPage />} />
-          <Route path="search-page-result" element={<SearchPageResult />} />
+
           <Route
             path="profile"
             element={
@@ -77,7 +75,6 @@ function App() {
           <Route path="*" element={<Error404 />} />
 
           <Route path="testimg" element={<SingleFileUploader />} />
-
         </Route>
       </Routes>
       <ToastContainer theme="colored" />

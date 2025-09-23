@@ -35,3 +35,19 @@
     flex-direction: inherit;
   }
 }
+.filters-btn-mobile {
+  border-radius: 10px;
+  border: none;
+  padding: 15px 10px;
+  background-color: $color-card-red;
+  width: 102%;
+  margin-top: 10px;
+  color: white;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  @media screen and (min-width: 992px) {
+    display: none;
+  }
+}

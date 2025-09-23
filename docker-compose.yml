@@ -10,6 +10,7 @@ services:
       retries: 100
     volumes:
       - ./backend/scriptPostGIS/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - grumpycardatabase:/var/lib/postresql/data
     profiles:
       - initialize
       - dev
@@ -117,3 +118,5 @@ services:
     # command: sh -c "tail -f /dev/null"
     profiles:
       - initialize
+volumes:
+  grumpycardatabase:
