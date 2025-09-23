@@ -1,13 +1,11 @@
 import { Carpool, useSearchCarpoolsQuery } from "../../generated/graphql-types";
 import {
   formatDate,
-  formatTime,
+  // formatTime,
 //  formatTimeFromString,
 } from "../../utils/format.utils";
 import "../../styles/trip-cards.scss";
 import "../../styles/search-result.scss";
-// import defaultImage from "../../../public/default-avatar.png";
-// import { calculateArrivalTime, formatDuration } from "../../utils/dateUtils";
 // import { Tickets, Tractor, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import TripCard from "../TripCard";
@@ -16,24 +14,23 @@ type SearchResultsProps = {
   departure: string;
   arrival: string;
   date: Date;
-  time: Date | null;
+  passengers: number;
   filters?: {
     sortByPrice: boolean;
     selectedOptions: string[];
   };
 };
 
-const SearchResults: React.FC<SearchResultsProps> = ({
+const CarpoolResults: React.FC<SearchResultsProps> = ({
   departure,
   arrival,
   date,
-  time,
   filters,
 }) => {
   const navigate = useNavigate();
 
   const formattedDate = formatDate(date);
-  const formattedTime = time ? formatTime(time) : "00:00";
+  // const formattedTime = time ? formatTime(time) : "00:00";
 
   const areFieldsValid = departure && arrival && date;
 
@@ -42,7 +39,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
       departure,
       arrival,
       date: formattedDate,
-      time: formattedTime,
+      // passengers
     },
     skip: !areFieldsValid,
   });
@@ -63,7 +60,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
 
   if (filters?.selectedOptions.length) {
     filteredResults = filteredResults.filter((carpool) =>
-      filters.selectedOptions.every((opt) => carpool.options.includes(opt))
+      filters.selectedOptions.every((opt) => carpool.options?.includes(opt))
     );
   }
 
@@ -83,7 +80,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
             onClick={() => navigate(`/book/${carpool.id}`)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
-                navigate(`/trip/${carpool.id}`);
+                navigate(`/book/${carpool.id}`);
               }
             }}
           >
@@ -95,4 +92,4 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   );
 };
 
-export default SearchResults;
+export default CarpoolResults;

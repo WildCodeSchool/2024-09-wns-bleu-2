@@ -56,10 +56,9 @@ export type Carpool = {
   departure_date: Scalars['String']['output'];
   departure_time: Scalars['String']['output'];
   driver: User;
-  duration: Scalars['Float']['output'];
   id: Scalars['ID']['output'];
   num_passenger: Scalars['Float']['output'];
-  options: Array<Scalars['String']['output']>;
+  options?: Maybe<Array<Scalars['String']['output']>>;
   price: Scalars['Float']['output'];
   toll: Scalars['Boolean']['output'];
 };
@@ -70,7 +69,6 @@ export type CarpoolInput = {
   departure_date: Scalars['String']['input'];
   departure_time: Scalars['String']['input'];
   driver_id: Scalars['Float']['input'];
-  duration: Scalars['Float']['input'];
   num_passenger: Scalars['Float']['input'];
   options?: InputMaybe<Array<Scalars['String']['input']>>;
   price: Scalars['Float']['input'];
@@ -104,9 +102,11 @@ export type Mutation = {
   createCarpool: Carpool;
   deleteBooking: Scalars['String']['output'];
   deleteCarpool: Scalars['String']['output'];
+  forgotPassword: Scalars['String']['output'];
   login: Scalars['String']['output'];
   logout: Scalars['String']['output'];
   register: Scalars['String']['output'];
+  resetPassword: Scalars['String']['output'];
   setUserCar: User;
   updateCarInfos: CarInfos;
   updateUserProfile: User;
@@ -144,6 +144,11 @@ export type MutationDeleteCarpoolArgs = {
 };
 
 
+export type MutationForgotPasswordArgs = {
+  email: Scalars['String']['input'];
+};
+
+
 export type MutationLoginArgs = {
   data: LoginInput;
 };
@@ -151,6 +156,12 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   data: UserInput;
+};
+
+
+export type MutationResetPasswordArgs = {
+  newPassword: Scalars['String']['input'];
+  token: Scalars['String']['input'];
 };
 
 
@@ -292,6 +303,21 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login: string };
 
+export type ForgotPasswordMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: string };
+
+export type ResetPasswordMutationVariables = Exact<{
+  token: Scalars['String']['input'];
+  newPassword: Scalars['String']['input'];
+}>;
+
+
+export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: string };
+
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -319,7 +345,7 @@ export type CreateCarpoolMutationVariables = Exact<{
 }>;
 
 
-export type CreateCarpoolMutation = { __typename?: 'Mutation', createCarpool: { __typename?: 'Carpool', id: string, departure_city: string, arrival_city: string, departure_date: string, departure_time: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string>, driver: { __typename?: 'User', id: number, firstname: string } } };
+export type CreateCarpoolMutation = { __typename?: 'Mutation', createCarpool: { __typename?: 'Carpool', id: string, departure_city: string, arrival_city: string, departure_date: string, departure_time: string, num_passenger: number, toll: boolean, price: number, options?: Array<string> | null, driver: { __typename?: 'User', id: number, firstname: string } } };
 
 export type DeleteBookingMutationVariables = Exact<{
   carpoolId: Scalars['Float']['input'];
@@ -334,7 +360,7 @@ export type CreateBookingMutationVariables = Exact<{
 }>;
 
 
-export type CreateBookingMutation = { __typename?: 'Mutation', createBooking: { __typename?: 'Booking', id: number, carpool: { __typename?: 'Carpool', id: string, departure_city: string, arrival_city: string, departure_date: string, departure_time: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string> }, passenger: { __typename?: 'User', id: number, firstname: string } } };
+export type CreateBookingMutation = { __typename?: 'Mutation', createBooking: { __typename?: 'Booking', id: number, carpool: { __typename?: 'Carpool', id: string, departure_city: string, arrival_city: string, departure_date: string, departure_time: string, num_passenger: number, toll: boolean, price: number, options?: Array<string> | null }, passenger: { __typename?: 'User', id: number, firstname: string } } };
 
 export type UpdateCarInfosMutationVariables = Exact<{
   brand: Scalars['String']['input'];
@@ -356,21 +382,21 @@ export type GetCarpoolByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string>, driver: { __typename?: 'User', firstname: string, id: number, avatar?: string | null, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null } | null }, bookings: Array<{ __typename?: 'Booking', id: number, numPassenger: number, reservedAt: any, passenger: { __typename?: 'User', id: number, firstname: string, avatar?: string | null } }> } };
+export type GetCarpoolByIdQuery = { __typename?: 'Query', getCarpoolById: { __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, price: number, options?: Array<string> | null, driver: { __typename?: 'User', firstname: string, id: number, avatar?: string | null, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null } | null }, bookings: Array<{ __typename?: 'Booking', id: number, numPassenger: number, reservedAt: any, passenger: { __typename?: 'User', id: number, firstname: string, avatar?: string | null } }> } };
 
 export type GetCarpoolsByUserIdQueryVariables = Exact<{
   userId: Scalars['Float']['input'];
 }>;
 
 
-export type GetCarpoolsByUserIdQuery = { __typename?: 'Query', getCarpoolsByUserId: Array<{ __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, duration: number, price: number, options: Array<string>, driver: { __typename?: 'User', firstname: string, id: number, avatar?: string | null }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, passenger: { __typename?: 'User', id: number, firstname: string, avatar?: string | null } }> }> };
+export type GetCarpoolsByUserIdQuery = { __typename?: 'Query', getCarpoolsByUserId: Array<{ __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, toll: boolean, price: number, options?: Array<string> | null, driver: { __typename?: 'User', firstname: string, id: number, avatar?: string | null }, bookings: Array<{ __typename?: 'Booking', numPassenger: number, passenger: { __typename?: 'User', id: number, firstname: string, avatar?: string | null } }> }> };
 
 export type GetBookingsForPassengerQueryVariables = Exact<{
   passengerId: Scalars['Float']['input'];
 }>;
 
 
-export type GetBookingsForPassengerQuery = { __typename?: 'Query', getBookingsForPassenger: Array<{ __typename?: 'Booking', id: number, numPassenger: number, reservedAt: any, carpool: { __typename?: 'Carpool', arrival_city: string, departure_city: string, departure_date: string, departure_time: string, duration: number, id: string, num_passenger: number, price: number, toll: boolean, options: Array<string>, driver: { __typename?: 'User', avatar?: string | null, birthdate: any, email: string, firstname: string, gender: string, id: number, lastname: string, phone: string, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null, id: string, year?: number | null } | null } }, passenger: { __typename?: 'User', avatar?: string | null, birthdate: any, email: string, firstname: string, gender: string, lastname: string, phone: string, id: number, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null, id: string, year?: number | null } | null } }> };
+export type GetBookingsForPassengerQuery = { __typename?: 'Query', getBookingsForPassenger: Array<{ __typename?: 'Booking', id: number, numPassenger: number, reservedAt: any, carpool: { __typename?: 'Carpool', arrival_city: string, departure_city: string, departure_date: string, departure_time: string, id: string, num_passenger: number, price: number, toll: boolean, options?: Array<string> | null, driver: { __typename?: 'User', avatar?: string | null, birthdate: any, email: string, firstname: string, gender: string, id: number, lastname: string, phone: string, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null, id: string, year?: number | null } | null } }, passenger: { __typename?: 'User', avatar?: string | null, birthdate: any, email: string, firstname: string, gender: string, lastname: string, phone: string, id: number, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null, id: string, year?: number | null } | null } }> };
 
 export type SearchCarpoolsQueryVariables = Exact<{
   departure: Scalars['String']['input'];
@@ -380,12 +406,12 @@ export type SearchCarpoolsQueryVariables = Exact<{
 }>;
 
 
-export type SearchCarpoolsQuery = { __typename?: 'Query', searchCarpools: Array<{ __typename?: 'Carpool', id: string, departure_city: string, arrival_city: string, departure_date: string, departure_time: string, num_passenger: number, price: number, duration: number, toll: boolean, options: Array<string>, driver: { __typename?: 'User', firstname: string, lastname: string, avatar?: string | null } }> };
+export type SearchCarpoolsQuery = { __typename?: 'Query', searchCarpools: Array<{ __typename?: 'Carpool', id: string, departure_city: string, arrival_city: string, departure_date: string, departure_time: string, num_passenger: number, price: number, toll: boolean, options?: Array<string> | null, driver: { __typename?: 'User', firstname: string, lastname: string, avatar?: string | null } }> };
 
 export type GetCarpoolsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCarpoolsQuery = { __typename?: 'Query', getCarpools: Array<{ __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, price: number, duration: number, toll: boolean, options: Array<string>, driver: { __typename?: 'User', firstname: string, lastname: string, avatar?: string | null, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null, year?: number | null } | null } }> };
+export type GetCarpoolsQuery = { __typename?: 'Query', getCarpools: Array<{ __typename?: 'Carpool', id: string, departure_date: string, departure_time: string, departure_city: string, arrival_city: string, num_passenger: number, price: number, toll: boolean, options?: Array<string> | null, driver: { __typename?: 'User', firstname: string, lastname: string, avatar?: string | null, car?: { __typename?: 'CarInfos', brand?: string | null, color?: string | null, year?: number | null } | null } }> };
 
 export type GetCitiesQueryVariables = Exact<{
   city?: InputMaybe<Scalars['String']['input']>;
@@ -503,6 +529,69 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const ForgotPasswordDocument = gql`
+    mutation ForgotPassword($email: String!) {
+  forgotPassword(email: $email)
+}
+    `;
+export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
+
+/**
+ * __useForgotPasswordMutation__
+ *
+ * To run a mutation, you first call `useForgotPasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useForgotPasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [forgotPasswordMutation, { data, loading, error }] = useForgotPasswordMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useForgotPasswordMutation(baseOptions?: Apollo.MutationHookOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument, options);
+      }
+export type ForgotPasswordMutationHookResult = ReturnType<typeof useForgotPasswordMutation>;
+export type ForgotPasswordMutationResult = Apollo.MutationResult<ForgotPasswordMutation>;
+export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
+export const ResetPasswordDocument = gql`
+    mutation ResetPassword($token: String!, $newPassword: String!) {
+  resetPassword(token: $token, newPassword: $newPassword)
+}
+    `;
+export type ResetPasswordMutationFn = Apollo.MutationFunction<ResetPasswordMutation, ResetPasswordMutationVariables>;
+
+/**
+ * __useResetPasswordMutation__
+ *
+ * To run a mutation, you first call `useResetPasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useResetPasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [resetPasswordMutation, { data, loading, error }] = useResetPasswordMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *      newPassword: // value for 'newPassword'
+ *   },
+ * });
+ */
+export function useResetPasswordMutation(baseOptions?: Apollo.MutationHookOptions<ResetPasswordMutation, ResetPasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, options);
+      }
+export type ResetPasswordMutationHookResult = ReturnType<typeof useResetPasswordMutation>;
+export type ResetPasswordMutationResult = Apollo.MutationResult<ResetPasswordMutation>;
+export type ResetPasswordMutationOptions = Apollo.BaseMutationOptions<ResetPasswordMutation, ResetPasswordMutationVariables>;
 export const LogoutDocument = gql`
     mutation Logout {
   logout
@@ -618,7 +707,6 @@ export const CreateCarpoolDocument = gql`
     departure_time
     num_passenger
     toll
-    duration
     price
     options
     driver {
@@ -698,7 +786,6 @@ export const CreateBookingDocument = gql`
       departure_time
       num_passenger
       toll
-      duration
       price
       options
     }
@@ -836,7 +923,6 @@ export const GetCarpoolByIdDocument = gql`
     arrival_city
     num_passenger
     toll
-    duration
     price
     options
     driver {
@@ -904,7 +990,6 @@ export const GetCarpoolsByUserIdDocument = gql`
     arrival_city
     num_passenger
     toll
-    duration
     price
     options
     driver {
@@ -980,7 +1065,6 @@ export const GetBookingsForPassengerDocument = gql`
         lastname
         phone
       }
-      duration
       id
       num_passenger
       price
@@ -1057,7 +1141,6 @@ export const SearchCarpoolsDocument = gql`
     departure_time
     num_passenger
     price
-    duration
     toll
     options
     driver {
@@ -1114,7 +1197,6 @@ export const GetCarpoolsDocument = gql`
     arrival_city
     num_passenger
     price
-    duration
     toll
     options
     driver {

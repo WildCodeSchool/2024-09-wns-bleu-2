@@ -5,6 +5,7 @@ import {
   useGetCarpoolByIdQuery,
   useGetUserInfoQuery,
 } from "../generated/graphql-types";
+import { useModal } from "../contexts/ModalContext";
 
 import TripCard from "../components/TripCard";
 import "../styles/book-a-trip-page.scss";
@@ -17,6 +18,7 @@ import { ApolloError } from "@apollo/client";
 const BookATripPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { setIsLoginModalOpen, setRedirectAfterLogin } = useModal();
 
   const { data, loading, error } = useGetCarpoolByIdQuery({
     variables: { getCarpoolByIdId: Number(id) },
@@ -30,6 +32,9 @@ const BookATripPage = () => {
   const handleBooking = async () => {
     if (!userId) {
       toast.error("Vous devez être connecté pour réserver un trajet.");
+
+      setRedirectAfterLogin(`/book/${id}`); //on stocke le carpool piur que l'utilisateur ne perde pas sa page de réservation
+      setIsLoginModalOpen(true);
 
       return;
     }
@@ -61,7 +66,7 @@ const BookATripPage = () => {
       const graphQLError = apolloError.graphQLErrors[0];
       const code = graphQLError?.extensions?.code;
       if (code === "CARPOOL_ALREADY_LEFT") {
-        toast.error("Ce covoiturage est déjà parti.")
+        toast.error("Ce covoiturage est déjà parti.");
       } else {
         toast.error("Erreur lors de la réservation.");
       }

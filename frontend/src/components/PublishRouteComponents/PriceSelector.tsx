@@ -70,7 +70,7 @@ const PriceSelector: React.FC<PriceSelectorProps> = ({ price, setPrice }) => {
 
         <div className="price-info">
           <p>
-            <b>Prix conseillé :</b> 32 € – 36 €
+            <strong>Prix conseillé :</strong> 32 € – 36 €
           </p>
           <p className="tip">
             Le prix est idéal pour ce grumpy trip ! Vous allez avoir beaucoup de

@@ -18,6 +18,18 @@ export const LOGIN = gql`
   }
 `;
 
+export const FORGOT_PASSWORD = gql`
+  mutation ForgotPassword($email: String!) {
+    forgotPassword(email: $email)
+  }
+`;
+
+export const RESET_PASSWORD = gql`
+  mutation ResetPassword($token: String!, $newPassword: String!) {
+    resetPassword(token: $token, newPassword: $newPassword)
+  }
+`;
+
 export const LOGOUT = gql`
   mutation Logout {
     logout
@@ -61,7 +73,6 @@ export const CREATE_CARPOOL = gql`
       departure_time
       num_passenger
       toll
-      duration
       price
       options
       driver {
@@ -90,7 +101,6 @@ export const CREATE_BOOKING = gql`
         departure_time
         num_passenger
         toll
-        duration
         price
         options
       }
