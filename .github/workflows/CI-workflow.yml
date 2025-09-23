@@ -67,4 +67,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send webhook to VPS
-        run: curl -X --max-time 10 POST https://webhook.092024-bleu-5.wns.wilders.dev/hooks/staging
+        run: curl --max-time 10 -X POST https://webhook.092024-bleu-5.wns.wilders.dev/hooks/staging
+
