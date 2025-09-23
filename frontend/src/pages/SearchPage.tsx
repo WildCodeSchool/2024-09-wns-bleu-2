@@ -36,13 +36,13 @@ const SearchPage = () => {
   }, [params]);
 
   const handleSearch = () => {
-    const newParams = new URLSearchParams({
+    const params = new URLSearchParams({
       departure,
       arrival,
       date: date.toISOString().split("T")[0],
       passengers: passengers.toString(),
     });
-    setParams(newParams); ////// met à jour l’URL
+    setParams(params); ////// met à jour l’URL
   };
 
   const handleResetFilters = () => {
