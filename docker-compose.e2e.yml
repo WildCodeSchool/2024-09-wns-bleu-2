@@ -1,19 +1,27 @@
 services:
   db:
-    image: postgres
+    image: imresamu/postgis
     env_file:
-      - .env
+      - .db.env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
       interval: 1s
       timeout: 2s
       retries: 100
+    volumes:
+      - ./backend/scriptPostGIS/init.sql:/docker-entrypoint-initdb.d/init.sql
+    profiles:
+      - initialize
+      - dev
 
   adminer:
     image: adminer
     depends_on:
       db:
         condition: service_healthy
+    profiles:
+      - initialize
+      - dev
 
   backend:
     build: ./backend
@@ -26,11 +34,15 @@ services:
       retries: 100
     env_file:
       - .env
+      - .db.env
     depends_on:
       db:
         condition: service_healthy
     ports:
       - "4000:4000"
+    profiles:
+      - dev
+      - initialize
 
   frontend:
     build: ./frontend
@@ -46,40 +58,70 @@ services:
       retries: 100
     ports:
       - "5173:5173"
+    profiles:
+      - dev
 
   api_gateway:
     image: nginx
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 8000:80
     depends_on:
       backend:
         condition: service_healthy
       frontend:
         condition: service_healthy
-    ports:
-      - 8000:80
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80"]
-      interval: 1m30s
-      timeout: 30s
-      retries: 5
-      start_period: 30s
-
-  img:
-    build: ./img
+      img:
+        condition: service_healthy
     healthcheck:
       test: "curl --fail --request GET --url 'http://localhost:4000' || exit 1"
       interval: 1s
       timeout: 2s
       retries: 100
     volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    profiles:
+      - dev
+
+  img:
+    build: ./img
+    ports:
+      - "5001:4000"
+    healthcheck:
+      test: "curl --fail --request GET --url 'http://localhost:4000/' || exit 1"
+      interval: 1s
+      timeout: 2s
+      retries: 100
+    volumes:
       - ./img/uploads:/app/uploads
       - ./img/clean.js:/app/clean.js
+    profiles:
+      - dev
+
+  cities:
+    build:
+      context: ./backend/scriptPostGIS
+      dockerfile: Dockerfile
+      platforms:
+        - "linux/amd64"
+        - "linux/arm64"
+    depends_on:
+      backend:
+        condition: service_healthy
+    env_file:
+      - .db.env
+    # volumes:
+    #  - ./backend/scriptPostGIS:/app/
+    # command: sh -c "tail -f /dev/null"
+    profiles:
+      - initialize
 
   e2e:
     build: ./e2e
-    depends_on:
-      - api_gateway
-    network_mode: host
     env_file:
       - .env
+    depends_on:
+      api_gateway:
+        condition: service_healthy
+    network_mode: host
+    profiles:
+      - dev
