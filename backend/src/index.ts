@@ -16,6 +16,7 @@ import { importCar } from "./scripts/importCar";
 import { BookingResolver } from "./resolvers/BookingResolver";
 import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 import { CityResolver } from "./resolvers/CityResolver";
+import depthLimit from "graphql-depth-limit";
 
 const port = process.env.PORT || "4000";
 console.log(`Le serveur tourne sur le port ${port}`);
@@ -43,6 +44,7 @@ const start = async () => {
   const server = new ApolloServer({
     schema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    validationRules: [depthLimit(10)],
   });
 
   const corsOptions: cors.CorsOptions = {
@@ -69,12 +71,12 @@ const start = async () => {
         if (req.headers.cookie) {
           const cookies = cookie.parse(req.headers.cookie as string);
 
-        if (cookies.token) {
-          try {
-            const payload: JwtPayload = jwt.verify(
-              cookies.token,
-              process.env.JWT_SECRET_KEY as Secret
-            ) as unknown as JwtPayload;
+          if (cookies.token) {
+            try {
+              const payload: JwtPayload = jwt.verify(
+                cookies.token,
+                process.env.JWT_SECRET_KEY as Secret
+              ) as unknown as JwtPayload;
 
               if (payload) {
                 return { email: payload.email, res };

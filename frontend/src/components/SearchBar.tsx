@@ -35,21 +35,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
     onDepartureChange,
     onArrivalChange,
     onDateChange,
-    // onTimeChange,
     onPassengersChange,
     onSearch,
 }) => {
     const [fetchDepartureCities, { data: departureCities }] = useGetCitiesLazyQuery();
     const [fetchArrivalCities, { data: arrivalCities }] = useGetCitiesLazyQuery();
-
-    // pour éviter de recalculer
-    // const cityOptions = useMemo(() => {
-    //     return citiesData?.getCities.map((city: { id: string; name: string }) => (
-    //         <option key={city.id} value={city.name}>
-    //             {city.name}
-    //         </option>
-    //     ));
-    // }, [citiesData]);
 
     const today = new Date();
 
