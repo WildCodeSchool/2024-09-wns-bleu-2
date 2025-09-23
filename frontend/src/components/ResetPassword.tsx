@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { RESET_PASSWORD } from "../graphql/mutations";
 import { ChevronRight } from "lucide-react";
-import "../styles/EmailConfirm.scss";
+import "../styles/emailConfirm.scss";
 
 type Inputs = {
   newPassword: string;
