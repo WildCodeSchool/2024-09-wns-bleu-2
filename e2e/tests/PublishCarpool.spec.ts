@@ -5,34 +5,30 @@ test("Carpool Publish", async ({ page }) => {
   await page.goto("http://localhost:8000/");
 
   // Step 2: Click "Publier un Grumpy Trip"
-  await page.getByRole('link', { name: /Publier un Grumpy Trip/i }).click();
+  await page.getByRole('link', { name: 'Publier un Grumpy Trip' }).click();
   
   // Step 3: check if the page is loaded
   await page.waitForLoadState("networkidle");
   await expect(page.getByRole('heading', { name: 'Proposez votre Grumpy Trip' })).toBeVisible({ timeout: 15000 });
 
   // Step 4: Fill in the form
-  //-- Select cities from the dropdowns
-  await page.locator('div').filter({ hasText: /^Adresse de départParisLyonMarseilleBordeauxLilleNantesStrasbourg$/ }).click();
-  await page.locator('div').filter({ hasText: /^Adresse de départParisLyonMarseilleBordeauxLilleNantesStrasbourg$/ }).getByRole('combobox').selectOption('Paris');
-  await page.locator('div').filter({ hasText: /^Adresse d'arrivéeParisLyonMarseilleBordeauxLilleNantesStrasbourg$/ }).click();
-  await page.locator('div').filter({ hasText: /^Adresse d'arrivéeParisLyonMarseilleBordeauxLilleNantesStrasbourg$/ }).getByRole('combobox').selectOption('Lyon');
-  //-- Select the date and time
-  await page.locator('div:nth-child(6)').click();
-  await page.getByRole('option', { name: 'Choose dimanche 6 juillet' }).click();
-  await page.locator('div:nth-child(8)').click();
-  await page.getByRole('option', { name: '09:45' }).click();
-  //-- Select the trip duration
-  await page.getByRole('combobox').nth(2).selectOption('8');
-  //-- Selcet the number of passengers
-  await page.locator('div').filter({ hasText: /^Nombre de passagers1 Passager2 Passagers3 Passagers4 Passagers$/ }).first().click();
-  await page.getByLabel('Nombre de passagers').selectOption('2');
-  //-- write the Price 
+  await page.getByRole('combobox', { name: 'Ville de départ' }).click();
+  await page.getByRole('combobox', { name: 'Ville de départ' }).fill('Paris');
+  await page.getByRole('combobox', { name: 'Ville de départ' }).click();
+  await page.getByRole('combobox', { name: 'Ville de départ' }).fill('Paris 01');
+  await page.getByRole('combobox', { name: 'Ville d\'arrivée' }).click();
+  await page.getByRole('combobox', { name: 'Ville d\'arrivée' }).fill('Bordeaux');
+  await page.getByRole('textbox', { name: 'Choisir la date de départ' }).click();
+  await page.getByRole('button', { name: 'Next Month' }).click();
+  await page.getByRole('button', { name: 'Next Month' }).click();
+  await page.getByRole('gridcell', { name: 'Choose dimanche 30 novembre' }).click();
+  await page.getByRole('textbox', { name: ':30' }).click();
+  await page.getByRole('option', { name: '16:45' }).click();
+  await page.getByLabel('Nombre de passagers').selectOption('3');
   await page.getByTestId('price-value').click();
   await page.getByTestId('price-value').fill('35');
-  //-- Select the carpool options
   await page.getByRole('checkbox', { name: 'J’accepte les fumeurs' }).check();
-  await page.getByRole('checkbox', { name: 'Ok pour écouter de la Grumpy’' }).check();
+  await page.getByRole('checkbox', { name: 'Oui, je peux prendre des' }).check();
   
   // Step 5: Click "Publier mon trajet"
   await page.getByRole('button', { name: 'Publier mon trajet' }).click();
@@ -40,7 +36,7 @@ test("Carpool Publish", async ({ page }) => {
  // Step 6: Fallback verification strategy for CI
   try {
     // First: Toast confirmation
-    await expect(page.getByText(/Trajet bien publié !/i)).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('Trajet bien publié !')).toBeVisible({ timeout: 15000 });
   } catch {
     try {
       // Second: Redirected to a "Mes Grumpy trips" page with a dynamic ID

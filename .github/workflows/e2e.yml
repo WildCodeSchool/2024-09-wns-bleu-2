@@ -8,11 +8,13 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: create .env
+
+      - name: Create .env
         run: |
           echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
           echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env
-      - name: create .db.env
+
+      - name: Create .db.env
         run: |
           echo "DB_HOST=${{ secrets.DB_HOST }}" >> .db.env
           echo "DB_PORT=${{ secrets.DB_PORT }}" >> .db.env
@@ -20,5 +22,8 @@ jobs:
           echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .db.env
           echo "DB_NAME=${{ secrets.DB_NAME }}" >> .db.env
 
-      - name: Launch e2e tests
-        run: docker compose -f docker-compose.e2e.yml up --build --exit-code-from=e2e
+      - name: Launch initialize profile (seed cities)
+        run: docker compose -f docker-compose.e2e.yml --profile initialize up --build --abort-on-container-exit
+
+      - name: Launch dev profile (run e2e tests)
+        run: docker compose -f docker-compose.e2e.yml --profile dev up --build --abort-on-container-exit
