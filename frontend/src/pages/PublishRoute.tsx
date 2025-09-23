@@ -119,7 +119,7 @@ const PublishRoute = () => {
         showButton={false}
         departureTime={departureTime}
         showTime={true}
-        showKm = {false}
+        showKm={false}
         onDepartureChange={(e) => setDeparture(e.target.value)}
         onArrivalChange={(e) => setArrival(e.target.value)}
         onDateChange={setDate}
