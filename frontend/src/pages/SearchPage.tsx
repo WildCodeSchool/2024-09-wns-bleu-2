@@ -1,28 +1,56 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import "../styles/search-page.scss";
-import { useNavigate } from "react-router-dom";
+import "../styles/trip-cards.scss";
+import { useSearchParams } from "react-router-dom";
+import ResultsLayout from "../components/ResultsLayout";
 
 const SearchPage = () => {
+  ///////////page qui contient toute la logique state url et callbacks
+  ///////////on passe tout à ResultLayout qui ne sert plus qu'a afficher les résultats
+
+  const [params, setParams] = useSearchParams();
+
   const [departure, setDeparture] = useState("");
   const [arrival, setArrival] = useState("");
   const [date, setDate] = useState(new Date());
   const [passengers, setPassengers] = useState(1);
   const [departureTime, setDepartureTime] = useState<Date | null>(null);
+  const [sortByPrice, setSortByPrice] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [openFilters, setOpenFilters] = useState(false);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const departureParam = params.get("departure");
+    const arrivalParam = params.get("arrival");
+    const dateStr = params.get("date");
+    const timeStr = params.get("time");
+
+    if (departureParam) setDeparture(departureParam);
+    if (arrivalParam) setArrival(arrivalParam);
+    if (dateStr) setDate(new Date(dateStr));
+    if (timeStr) setDepartureTime(new Date(`1970-01-01T${timeStr}:00`));
+    if (params.get("passengers")) {
+      setPassengers(Number(params.get("passengers")));
+    }
+  }, [params]);
 
   const handleSearch = () => {
     const params = new URLSearchParams({
       departure,
       arrival,
       date: date.toISOString().split("T")[0],
-      time: departureTime ? departureTime.toTimeString().slice(0, 5) : "",
       passengers: passengers.toString(),
     });
-
-    navigate(`/search-page-result?${params.toString()}`);
+    setParams(params); ////// met à jour l’URL
   };
+
+  const handleResetFilters = () => {
+    setSortByPrice(false);
+    setSelectedOptions([]);
+  };
+
+  const hasResults = Boolean(params.get("departure") && params.get("arrival"));
 
   return (
     <div className="search-route">
@@ -32,6 +60,7 @@ const SearchPage = () => {
         arrival={arrival}
         date={date}
         passengers={passengers}
+        showKm={true}
         onDepartureChange={(e) => setDeparture(e.target.value)}
         onArrivalChange={(e) => setArrival(e.target.value)}
         onDateChange={setDate}
@@ -39,7 +68,25 @@ const SearchPage = () => {
         departureTime={departureTime}
         onTimeChange={setDepartureTime}
         onSearch={handleSearch}
+        hasResults={hasResults}
+        setOpenFilters={setOpenFilters}
       />
+
+      {hasResults && (
+        <ResultsLayout
+          departure={departure}
+          arrival={arrival}
+          date={date}
+          passengers={passengers}
+          sortByPrice={sortByPrice}
+          selectedOptions={selectedOptions}
+          openFilters={openFilters}
+          setSortByPrice={setSortByPrice}
+          setSelectedOptions={setSelectedOptions}
+          setOpenFilters={setOpenFilters}
+          handleResetFilters={handleResetFilters}
+        />
+      )}
     </div>
   );
 };

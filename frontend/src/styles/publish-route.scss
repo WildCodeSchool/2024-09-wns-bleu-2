@@ -8,13 +8,24 @@
   flex-direction: column;
   align-items: center;
 
-  h2 {
+  h2:not(.react-datepicker__current-month) {
     @include main-title;
   }
 
+  .search-bar {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  @media (min-width: 992px) {
+    .kilometer {
+      align-self: flex-start;
+    }
+  }
   @media (max-width: $bp-mobile) {
     padding: 16px;
-    h2 {
+    max-width: 100%;
+    h2:not(.react-datepicker__current-month) {
       font-size: $font-size-title-mobile;
     }
   }

@@ -37,7 +37,7 @@ export default function Burger({
           <div className="navbar-left">
             <Link
               onClick={() => handleClick("search")}
-              to="/"
+              to="/search-page"
               className={`navbar-link ${isActive === "search" && "is-active"}`}
             >
               Rechercher

@@ -1,8 +1,11 @@
 @use "./variables.scss" as *;
 
 .price-container {
-  margin-top: 5%;
+  margin-top: 6em;
   width: 100%;
+  h2 {
+    @include main-title;
+  }
   .price-box {
     background-color: $color-card-green;
     padding: 3em;
@@ -12,26 +15,38 @@
     justify-content: center;
     flex-direction: column;
     gap: 5px;
+    @media (max-width: 574px) {
+      padding: 2em 1.5em;
+    }
 
     .price-selector {
       display: flex;
+      justify-content: space-evenly;
+      width: 100%;
+      position: relative;
+      &:after {
+        content: "";
+        position: absolute;
+        background: $text-secondary;
+        width: 70%;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -20px;
+        height: 1px;
+      }
       .price-input-wrapper {
         display: flex;
         align-items: center;
         input {
+          max-width: 80px;
           text-align: center;
           font-size: 2.5rem;
           font-weight: 700;
           background: transparent;
           border: none;
-          color: #fff;
+          color: $text-secondary;
           outline: none;
           font-family: $font-family;
-        }
-        .price-value-input::-webkit-outer-spin-button,
-        .price-value-input::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
         }
       }
     }
@@ -43,18 +58,16 @@
       padding: 0.5rem;
       display: flex;
       align-items: center;
+      @media (max-width: 574px) {
+        svg {
+          width: 40px;
+          height: 40px;
+        }
+      }
     }
-
-    svg {
-      padding-left: 1em;
-      padding-right: 1em;
-    }
-
     .price-info {
-      margin-top: 1rem;
-      text-align: center;
-      max-width: 320px;
-      text-align: start;
+      margin-top: 3rem;
+      align-self: flex-start;
 
       .tip {
         margin-top: 0.5rem;
