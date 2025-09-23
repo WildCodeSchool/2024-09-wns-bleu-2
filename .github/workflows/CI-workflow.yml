@@ -1,6 +1,9 @@
 name: build and push docker images
 
-on: push
+on:
+  push:
+    branches:
+      - 'staging/**'  # triggers only on branches like staging/xyz
 
 jobs:
   docker:
@@ -8,45 +11,60 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+
       - name: Set short git commit SHA
         id: vars
         run: |
           calculatedSha=$(git rev-parse --short ${{ github.sha }})
           echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Build and push frontend
         uses: docker/build-push-action@v4
         with:
           push: true
           context: "{{defaultContext}}:frontend"
           file: Dockerfile.prod
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest, ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${{ env.COMMIT_SHORT_SHA }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest,${{ secrets.DOCKERHUB_USERNAME }}/frontend:${{ env.COMMIT_SHORT_SHA }}
+
       - name: Build and push backend
         uses: docker/build-push-action@v4
         with:
           push: true
           context: "{{defaultContext}}:backend"
           file: Dockerfile.prod
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest, ${{ secrets.DOCKERHUB_USERNAME }}/backend:${{ env.COMMIT_SHORT_SHA }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest,${{ secrets.DOCKERHUB_USERNAME }}/backend:${{ env.COMMIT_SHORT_SHA }}
+
       - name: Build and push image service
         uses: docker/build-push-action@v4
         with:
           push: true
           context: "{{defaultContext}}:img"
           file: Dockerfile.prod
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/img:latest, ${{ secrets.DOCKERHUB_USERNAME }}/img:${{ env.COMMIT_SHORT_SHA }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/img:latest,${{ secrets.DOCKERHUB_USERNAME }}/img:${{ env.COMMIT_SHORT_SHA }}
+
       - name: Build and push cities service
         uses: docker/build-push-action@v4
         with:
           push: true
           context: ./backend/scriptPostGIS
           file: ./backend/scriptPostGIS/Dockerfile.prod
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cities:latest, ${{ secrets.DOCKERHUB_USERNAME }}/cities:${{ env.COMMIT_SHORT_SHA }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cities:latest,${{ secrets.DOCKERHUB_USERNAME }}/cities:${{ env.COMMIT_SHORT_SHA }}
+
+  webhook:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send webhook to VPS
+        run: curl -X POST https://webhook.092024-bleu-5.wns.wilders.dev/hooks/staging
