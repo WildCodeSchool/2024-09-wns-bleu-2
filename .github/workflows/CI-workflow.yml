@@ -63,9 +63,14 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/cities:latest,${{ secrets.DOCKERHUB_USERNAME }}/cities:${{ env.COMMIT_SHORT_SHA }}
 
   webhook:
-    needs: docker
     runs-on: ubuntu-latest
+    needs: docker
     steps:
       - name: Send webhook to VPS
-        run: curl -X POST https://webhook.092024-bleu-5.wns.wilders.dev/hooks/staging
+        run: |
+          curl --fail --silent --show-error \
+               --max-time 10 \
+               --connect-timeout 5 \
+               -X POST https://webhook.092024-bleu-5.wns.wilders.dev/hooks/staging \
+          || echo "⚠️ Webhook failed or server is down, skipping..."
 
