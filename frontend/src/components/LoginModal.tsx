@@ -34,8 +34,9 @@ const LoginModal = () => {
 
   const closeModal = () => {
     setIsLoginModalOpen(false);
-    setRedirectAfterLogin(null);
+    setRedirectAfterLogin(null); // reset pour éviter des effets de bord
     setMode("login");
+
   };
 
   useEffect(() => {
@@ -67,9 +68,10 @@ const LoginModal = () => {
         await refetch();
         setIsLoginModalOpen(false);
         toast.success("Ravi de vous revoir !");
-        navigate(redirectAfterLogin || "/", { replace: true });
+        navigate(redirectAfterLogin || "/", { replace: true }); //redirige vers la page souhaitée avant connexion
         setRedirectAfterLogin(null);
         reset();
+
       },
       onError: () => {
         toast.error("Erreur lors de la connexion. Vérifiez vos identifiants.");
@@ -100,8 +102,9 @@ const LoginModal = () => {
       <div className="modalContent" onClick={(e) => e.stopPropagation()}>
         <div
           className="close-btn"
-          title="Fermer la fenêtre"
+          title="Fermer la fenêtre de connexion"
           role="button"
+          aria-label="Fermer la fenêtre de connexion"
           tabIndex={0}
           onKeyDown={(e) => {
             if (["Enter", " ", "Escape"].includes(e.key)) closeModal();

@@ -7,10 +7,18 @@ export const separateTripsByDate = (
   const pastTrips: any[] = [];
 
   for (const trip of trips) {
-    const tripData = trip.carpool ?? trip; // si carpool existe, on l’utilise, sinon trip
 
+     // Si c'est un booking, prends la date depuis trip.carpool
+     const source = trip.departure_date ? trip : trip.carpool;
+
+     if (!source || !source.departure_date || !source.departure_time) {
+       console.warn("Invalid trip format:", trip);
+       continue;
+     }
+  
+    //////refacto date format to have date + hours
     const departureDate = new Date(
-      `${tripData.departure_date}T${tripData.departure_time}`
+      `${source.departure_date}T${source.departure_time}`
     ).getTime();
 
     if (isNaN(departureDate)) {
@@ -24,25 +32,17 @@ export const separateTripsByDate = (
       pastTrips.push(trip);
     }
   }
+  const getTime = (trip: any) => {
+    const source = trip.departure_date ? trip : trip.carpool;
+    return new Date(`${source.departure_date}T${source.departure_time}`).getTime();
+  };
 
   const sortedUpcomingTrips = [...upcomingTrips].sort(
-    (a, b) =>
-      new Date(
-        (a.carpool ?? a).departure_date + "T" + (a.carpool ?? a).departure_time
-      ).getTime() -
-      new Date(
-        (b.carpool ?? b).departure_date + "T" + (b.carpool ?? b).departure_time
-      ).getTime()
+    (a, b) => getTime(a) - getTime(b)
   );
 
   const sortedPastTrips = [...pastTrips].sort(
-    (a, b) =>
-      new Date(
-        (b.carpool ?? b).departure_date + "T" + (b.carpool ?? b).departure_time
-      ).getTime() -
-      new Date(
-        (a.carpool ?? a).departure_date + "T" + (a.carpool ?? a).departure_time
-      ).getTime()
+    (a, b) => getTime(b) - getTime(a)
   );
 
   return { sortedUpcomingTrips, sortedPastTrips };

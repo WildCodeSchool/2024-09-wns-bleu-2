@@ -1,0 +1,18 @@
+FROM node:lts-alpine
+
+RUN apk --no-cache add curl
+
+WORKDIR /app
+
+COPY package.json package.json
+RUN npm install
+RUN npm install dotenv 
+
+COPY src src
+COPY tsconfig.json tsconfig.json
+COPY src/data ./dist/data
+
+RUN npm run build
+
+CMD npm run startprod
+

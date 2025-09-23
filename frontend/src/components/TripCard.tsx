@@ -31,10 +31,12 @@ import "../styles/trip-cards.scss";
 import { GET_CARPOOLS_BY_USER_ID } from "../graphql/queries";
 import { toast } from "react-toastify";
 
+
 type TripData = Booking | Carpool;
 
 interface TripCardProps {
   tripDetails: TripData;
+
   mode: "carpool" | "booking";
 }
 
@@ -145,6 +147,7 @@ export default function TripCard({ tripDetails, mode }: TripCardProps) {
                       await deleteCarpool({
                         variables: { id: Number(carpool.id) },
                         refetchQueries: [GET_CARPOOLS_BY_USER_ID],
+
                         awaitRefetchQueries: true,
                       });
                     }

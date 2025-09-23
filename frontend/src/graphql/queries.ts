@@ -31,7 +31,6 @@ export const GET_CARPOOL_BY_ID = gql`
       arrival_city
       num_passenger
       toll
-      duration
       price
       options
       driver {
@@ -67,7 +66,6 @@ export const GET_CARPOOLS_BY_USER_ID = gql`
       arrival_city
       num_passenger
       toll
-      duration
       price
       options
       driver {
@@ -111,7 +109,6 @@ export const GET_BOOKINGS_FOR_PASSENGER = gql`
           lastname
           phone
         }
-        duration
         id
         num_passenger
         price
@@ -161,7 +158,6 @@ export const SEARCH_CARPOOLS = gql`
       departure_time
       num_passenger
       price
-      duration
       toll
       options
       driver {
@@ -183,7 +179,6 @@ export const GET_CARPOOLS = gql`
       arrival_city
       num_passenger
       price
-      duration
       toll
       options
       driver {

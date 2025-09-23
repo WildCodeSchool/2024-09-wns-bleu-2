@@ -73,7 +73,6 @@ export const CREATE_CARPOOL = gql`
       departure_time
       num_passenger
       toll
-      duration
       price
       options
       driver {
@@ -102,7 +101,6 @@ export const CREATE_BOOKING = gql`
         departure_time
         num_passenger
         toll
-        duration
         price
         options
       }

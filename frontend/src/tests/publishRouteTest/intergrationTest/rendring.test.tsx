@@ -6,6 +6,7 @@ import { GET_CITIES, GET_USER_INFO } from "../../../graphql/queries";
 import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom/vitest";
 
+
 describe("PublishRoute - rendering", () => {
   it("affiche tous les éléments clés du formulaire", async () => {
     const mocks = [

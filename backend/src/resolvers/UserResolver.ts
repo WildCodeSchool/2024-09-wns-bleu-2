@@ -192,31 +192,22 @@ export class UserResolver {
   @Mutation(() => String)
   async login(@Arg("data") loginData: LoginInput, @Ctx() context: any) {
     const user = await User.findOneBy({ email: loginData.email });
-    if (!user)
-      throw new GraphQLError("Incorrect login", {
-        extensions: { code: "INVALID_CREDENTIALS" },
-      });
 
-    const isPasswordCorrect = await argon2.verify(
-      user.password,
-      loginData.password
-    );
-    if (!isPasswordCorrect)
-      throw new GraphQLError("Incorrect login", {
-        extensions: { code: "INVALID_CREDENTIALS" },
-      });
+    if (!user) throw new GraphQLError("Incorrect login", { extensions: { code: "INVALID_CREDENTIALS" } });
 
-    const token = jwt.sign(
-      { email: user.email },
-      process.env.JWT_SECRET_KEY as Secret
-    );
-    /* Le jwt prend 2 arguments :
+    const isPasswordCorrect = await argon2.verify(user.password, loginData.password);
+    if (!isPasswordCorrect) throw new GraphQLError("Incorrect login", { extensions: { code: "INVALID_CREDENTIALS" } });
+
+    
+    const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET_KEY as Secret);
+      /* Le jwt prend 2 arguments :
          1. Les éléments du payload (exemple : email, role, etc)
          2. La clé secrète (stockée dans un fichier .env pour plus de sécurité)
       */
+ 
+      // Stockage du token dans les cookies
+      // Cookie sécurisé en prod, pas en dev
 
-    // Stockage du token dans les cookies
-    // Cookie sécurisé en prod, pas en dev
     const isProd = process.env.NODE_ENV === "production";
     context.res.setHeader(
       "Set-Cookie",
