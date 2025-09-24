@@ -33,6 +33,8 @@ export const GET_CARPOOL_BY_ID = gql`
       toll
       price
       options
+      duration
+      arrival_time
       driver {
         firstname
         id
@@ -68,6 +70,8 @@ export const GET_CARPOOLS_BY_USER_ID = gql`
       toll
       price
       options
+      duration
+      arrival_time
       driver {
         firstname
         id
@@ -93,6 +97,8 @@ export const GET_BOOKINGS_FOR_PASSENGER = gql`
         departure_city
         departure_date
         departure_time
+        duration
+        arrival_time
         driver {
           avatar
           birthdate
@@ -160,6 +166,8 @@ export const SEARCH_CARPOOLS = gql`
       price
       toll
       options
+      arrival_time
+      duration
       driver {
         firstname
         lastname
@@ -174,23 +182,23 @@ export const GET_CARPOOLS = gql`
     getCarpools {
       id
       departure_date
-      departure_time
       departure_city
+      departure_time
       arrival_city
       num_passenger
-      price
       toll
+
+      price
       options
       driver {
-        firstname
-        lastname
-        avatar
-        car {
-          brand
-          color
-          year
-        }
+        id
       }
+      bookings {
+        id
+        numPassenger
+      }
+      duration
+      arrival_time
     }
   }
 `;

@@ -21,9 +21,6 @@ export default class CarpoolInput implements Partial<Carpool> {
   @Field()
   toll: Boolean;
 
-  // @Field()
-  // duration: number;
-
   @Field(() => Float)
   price: number;
 
