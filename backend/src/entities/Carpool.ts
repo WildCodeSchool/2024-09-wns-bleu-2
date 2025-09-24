@@ -51,6 +51,14 @@ export class Carpool extends BaseEntity {
   @Column()
   price: number;
 
+  @Field()
+  @Column({ type: "integer", nullable: true })
+  duration: number; //// durée en minutes
+
+  @Field()
+  @Column({ type: "time", nullable: true })
+  arrival_time: string;
+
   @Field(() => [String], { nullable: true })
   @Column("simple-array", { nullable: true })
   options?: string[];

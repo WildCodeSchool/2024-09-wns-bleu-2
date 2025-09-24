@@ -2,7 +2,7 @@ import { Carpool, useSearchCarpoolsQuery } from "../../generated/graphql-types";
 import {
   formatDate,
   // formatTime,
-//  formatTimeFromString,
+  //  formatTimeFromString,
 } from "../../utils/format.utils";
 import "../../styles/trip-cards.scss";
 import "../../styles/search-result.scss";
@@ -30,7 +30,6 @@ const CarpoolResults: React.FC<SearchResultsProps> = ({
   const navigate = useNavigate();
 
   const formattedDate = formatDate(date);
-  // const formattedTime = time ? formatTime(time) : "00:00";
 
   const areFieldsValid = departure && arrival && date;
 

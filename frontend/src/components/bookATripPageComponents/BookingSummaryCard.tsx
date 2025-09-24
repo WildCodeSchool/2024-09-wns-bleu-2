@@ -1,9 +1,5 @@
 import { Carpool } from "../../generated/graphql-types";
-import {
-  calculateArrivalTime,
-  formatLongDate,
-  formatTime,
-} from "../../utils/dateUtils";
+import { formatLongDate, formatTime } from "../../utils/dateUtils";
 import defaultAvatar from "/default-avatar.png";
 import "../../styles/booking-summary-card.scss";
 import { ChevronRight } from "lucide-react";
@@ -27,10 +23,7 @@ const BookingSummaryCard = ({ carpool, numPassengers, onBook }: Props) => {
           {carpool.departure_city}
         </li>
         <li>
-          <span>
-            {calculateArrivalTime(carpool.departure_time, carpool.duration)}
-          </span>{" "}
-          – {carpool.arrival_city}
+          <span>{carpool.arrival_time}</span> – {carpool.arrival_city}
         </li>
       </ul>
 
