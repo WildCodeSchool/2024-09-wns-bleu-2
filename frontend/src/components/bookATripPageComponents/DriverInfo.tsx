@@ -43,6 +43,7 @@ const DriverInfo: React.FC<DriverInfoProps> = ({ carpool }) => {
       <ul className="preferences">
         {preferenceOptions.map(
           (opt) =>
+            options &&
             options.includes(opt.value) && (
               <li key={opt.value}>
                 {opt.icon} {opt.label}

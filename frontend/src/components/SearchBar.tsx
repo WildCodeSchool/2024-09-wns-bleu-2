@@ -61,8 +61,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const [errors, setErrors] = useState<SearchErrors>({});
 
   const handleSearch = () => {
-    console.log(departureCities);
-    console.log(arrivalCities);
+    //console.log(departureCities);
+    //console.log(arrivalCities);
     // if (!departure || !arrival || !date) {
     //     toast.warning("Merci de remplir tous les champs !");
     //     return;

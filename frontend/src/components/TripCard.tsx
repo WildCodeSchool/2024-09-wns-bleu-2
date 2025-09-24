@@ -13,12 +13,7 @@ import {
   useDeleteCarpoolMutation,
   useGetUserInfoQuery,
 } from "../generated/graphql-types";
-import {
-  formatTime,
-  calculateArrivalTime,
-  formatDate,
-  formatDuration,
-} from "../utils/dateUtils";
+import { formatTime, formatDate, formatDuration } from "../utils/dateUtils";
 
 import {
   getCarpoolData,
@@ -30,7 +25,6 @@ import "../styles/trip-cards.scss";
 
 import { GET_CARPOOLS_BY_USER_ID } from "../graphql/queries";
 import { toast } from "react-toastify";
-
 
 type TripData = Booking | Carpool;
 
@@ -104,6 +98,8 @@ export default function TripCard({ tripDetails, mode }: TripCardProps) {
       ? "btn-green"
       : "";
 
+  console.log("carpool duration", carpool.duration);
+  console.log("carpool arrival time", carpool.arrival_time);
   return (
     <div className={`trip-card ${bgClass ? bgClass : "bg-default"}`}>
       <div className="trip-card-header">
@@ -113,9 +109,7 @@ export default function TripCard({ tripDetails, mode }: TripCardProps) {
             <div className="horizontal-line small departure" />
             <p className="duration">{formatDuration(carpool.duration)}</p>
             <div className="horizontal-line small arrival" />
-            <p className="time">
-              {calculateArrivalTime(carpool.departure_time, carpool.duration)}
-            </p>
+            <p className="time">{carpool.arrival_time}</p>
           </div>
           <div className="trip-card-cities">
             <p className="city">{carpool.departure_city}</p>
