@@ -122,5 +122,7 @@ services:
     depends_on:
       - api_gateway
     network_mode: host
+    volumes:
+    - ./e2e/tests/.auth:/app/tests/.auth
     profiles:
       - dev

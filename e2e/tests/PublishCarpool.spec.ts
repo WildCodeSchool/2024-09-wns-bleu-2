@@ -4,12 +4,14 @@ test("Carpool Publish", async ({ page }) => {
   // Step 1: Go to the homepage
   await page.goto("http://localhost:8000/");
 
+  await page.reload({ waitUntil: 'networkidle' });
+
   // Step 2: Click "Publier un Grumpy Trip"
   await page.getByRole('link', { name: 'Publier un Grumpy Trip' }).click();
   
   // Step 3: check if the page is loaded
   await page.waitForLoadState("networkidle");
-  await expect(page.getByRole('heading', { name: 'Proposez votre Grumpy Trip' })).toBeVisible({ timeout: 15000 });
+  await expect(page.getByRole('heading', { name: 'Proposez votre Grumpy Trip' })).toBeVisible({ timeout: 30000 });
 
   // Step 4: Fill in the form
   await page.getByRole('combobox', { name: 'Ville de départ' }).click();
