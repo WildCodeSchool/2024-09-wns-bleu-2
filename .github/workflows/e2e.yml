@@ -61,7 +61,7 @@ jobs:
       - name: Run E2E tests
         run: |
           cd e2e
-          npx playwright test -c e2e/playwright.config.ts --timeout=60000
+          npx playwright test -c playwright.config.ts --timeout=60000
 
       # 🔟 Upload test artifacts for debugging
       - name: Upload Playwright reports + debug image
