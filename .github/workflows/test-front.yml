@@ -36,7 +36,7 @@ jobs:
           npm test
 
       - name: Integration tests
-        working-directory: src/tests/publishRouteTest/intergrationTest
+        working-directory: src/tests/publishRouteTest/integrationTest
         run: |
           npm ci
           npm run test
