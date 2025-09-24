@@ -1,4 +1,3 @@
-// src/tests/searchBarTest/unitTest/rendring.test.tsx
 import "@testing-library/jest-dom";
 import { describe, it, expect } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
@@ -43,11 +42,12 @@ describe("SearchBar - rendering with MockedProvider", () => {
           onDateChange={() => {}}
           onTimeChange={() => {}}
           onPassengersChange={() => {}}
+          hasResults={false}
+          setOpenFilters={() => {}}
         />
       </MockedProvider>
     );
 
-    // déclenche les lazy queries
     fireEvent.change(screen.getByLabelText("Ville de départ"), {
       target: { value: "Pa" },
     });
@@ -55,7 +55,6 @@ describe("SearchBar - rendering with MockedProvider", () => {
       target: { value: "Ly" },
     });
 
-    // attends que les <option> soient bien insérées
     await waitFor(() => {
       const depDatalist = document.getElementById("departure-cities")!;
       const arrDatalist = document.getElementById("arrival-cities")!;
