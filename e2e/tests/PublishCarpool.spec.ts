@@ -6,6 +6,8 @@ test("Carpool Publish", async ({ page }) => {
 
   await page.reload({ waitUntil: 'networkidle' });
 
+  await page.screenshot({ path: 'debug.png', fullPage: true });
+
   // Step 2: Click "Publier un Grumpy Trip"
   await page.getByRole('link', { name: 'Publier un Grumpy Trip' }).click();
   

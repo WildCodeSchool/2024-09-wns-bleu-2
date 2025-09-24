@@ -64,7 +64,7 @@ jobs:
           npx playwright test --timeout=60000 --config=playwright.config.ts
 
       # 🔟 Upload test artifacts for debugging
-      - name: Upload Playwright reports
+      - name: Upload Playwright reports + debug image
         uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
@@ -72,6 +72,7 @@ jobs:
           path: |
             e2e/playwright-report/
             e2e/test-results/
+            e2e/debug-*.png
 
       # 1️⃣1️⃣ Stop Docker Compose after tests
       - name: Stop Docker Compose
