@@ -3,10 +3,32 @@ name: test-front
 on: push
 
 jobs:
-  test-client:
+  run-front-tests:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Goto client and run tests
-        run: cd frontend && npm i && npm test
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Client tests
+        working-directory: frontend
+        run: |
+          npm ci
+          npm test
+
+      - name: Integration tests
+        working-directory: frontend/src/tests/publishRouteTest/integrationTest
+        run: |
+          npm ci
+          npm run test
+
+      - name: Unit tests
+        working-directory: frontend/src/tests/searchBarTest/unitTest
+        run: |
+          npm ci
+          npm run test
