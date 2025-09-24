@@ -6,6 +6,14 @@ test("Carpool Publish", async ({ page }) => {
 
   await page.reload({ waitUntil: 'networkidle' });
 
+  await page.getByRole('link', { name: 'Se connecter' }).click();
+
+  // Step 3: Fill in email and password
+  await page.getByRole('textbox', { name: 'Adresse email' }).fill('monemail@gmail.com');
+  await page.getByRole('textbox', { name: 'Votre mot de passe' }).fill('Mmb24111996$');
+  // Step 4: Click login button
+  await page.getByRole('button', { name: 'Connexion', exact: true }).click();
+
   await page.screenshot({ path: 'debug.png', fullPage: true });
 
   // Step 2: Click "Publier un Grumpy Trip"
