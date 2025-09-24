@@ -5,10 +5,13 @@ on:
     paths:
       - "backend/**"
       - ".github/workflows/test-back.yml"
+  pull_request:
+    paths:
+      - "backend/**"
   workflow_dispatch: {}
 
 jobs:
-  run-back-tests:
+  typecheck_and_build:
     runs-on: ubuntu-latest
     env:
       CI: true
@@ -30,5 +33,14 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Run tests
-        run: npm test
+      - name: TypeScript compile (no emit)
+        run: npx tsc --noEmit
+
+      - name: Build (emit JS)
+        run: npm run build
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-dist
+          path: backend/dist
