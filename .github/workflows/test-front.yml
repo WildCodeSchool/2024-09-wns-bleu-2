@@ -1,10 +1,17 @@
 name: test-front
 
-on: push
+on:
+  push:
+    paths:
+      - "frontend/**"
 
 jobs:
   run-front-tests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,19 +23,18 @@ jobs:
           cache: "npm"
 
       - name: Client tests
-        working-directory: frontend
         run: |
           npm ci
           npm test
 
       - name: Integration tests
-        working-directory: frontend/src/tests/publishRouteTest/integrationTest
+        working-directory: src/tests/publishRouteTest/integrationTest
         run: |
           npm ci
           npm run test
 
       - name: Unit tests
-        working-directory: frontend/src/tests/searchBarTest/unitTest
+        working-directory: src/tests/searchBarTest/unitTest
         run: |
           npm ci
           npm run test
