@@ -4,7 +4,6 @@ on:
   push:
     paths:
       - "frontend/**"
-      - ".github/workflows/test-front.yml"
   workflow_dispatch: {}
 
 jobs:
@@ -30,23 +29,22 @@ jobs:
       - name: Debug paths
         run: |
           echo "PWD (devrait être frontend)"; pwd
-          ls -la
-          echo "Vérif publishRouteTest:"; ls -la src/tests/publishRouteTest || true
-          echo "Vérif integrationTest:"; ls -la src/tests/publishRouteTest/integrationTest || true
+          echo "Contenu de frontend/"; ls -la
+          echo "Arbo tests:"; ls -R src/tests || true
 
       - name: Client tests
         run: |
           npm ci
           npm test
 
-      - name: Integration tests
-        working-directory: src/tests/publishRouteTest/integrationTest
+      - name: Integration tests (publishRouteTest/integrationTest)
         run: |
-          npm ci
+          cd src/tests/publishRouteTest/integrationTest
+          npm ci || npm i
           npm run test
 
-      - name: Unit tests
-        working-directory: src/tests/searchBarTest/unitTest
+      - name: Unit tests (searchBarTest/unitTest)
         run: |
-          npm ci
+          cd src/tests/searchBarTest/unitTest
+          npm ci || npm i
           npm run test
