@@ -115,14 +115,14 @@ services:
     profiles:
       - initialize
 
-  e2e:
-    build: ./e2e
-    env_file:
-      - .env
-    depends_on:
-      - api_gateway
-    network_mode: host
-    volumes:
-    - ./e2e/tests/.auth:/app/tests/.auth
-    profiles:
-      - dev
+#  e2e:
+#    build: ./e2e
+#    env_file:
+#      - .env
+#    depends_on:
+#      - api_gateway
+#    network_mode: host
+#    volumes:
+#    - ./e2e/tests/.auth:/app/tests/.auth
+#    profiles:
+#      - dev
