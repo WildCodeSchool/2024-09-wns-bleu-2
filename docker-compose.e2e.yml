@@ -119,9 +119,8 @@ services:
     build: ./e2e
     env_file:
       - .env
-    #depends_on:
-    #  api_gateway:
-    #     condition: service_healthy
+    depends_on:
+      - api_gateway
     network_mode: host
     profiles:
       - dev
