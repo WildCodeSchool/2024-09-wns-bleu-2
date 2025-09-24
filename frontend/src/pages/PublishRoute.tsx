@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { formatDate, formatTime } from "../utils/format.utils";
 import SearchBar from "../components/SearchBar";
 
+
 const PublishRoute = () => {
   const navigate = useNavigate();
   const [departure, setDeparture] = useState("");
