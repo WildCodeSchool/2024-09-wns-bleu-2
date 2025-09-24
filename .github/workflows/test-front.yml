@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "frontend/**"
+      - ".github/workflows/test-front.yml"
   workflow_dispatch: {}
 
 jobs:
