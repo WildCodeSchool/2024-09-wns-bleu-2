@@ -21,6 +21,7 @@ await page.getByRole('button', { name: 'Connexion', exact: true }).click();
 // Step 5: login completion
 await page.waitForURL('http://localhost:8000/');
 
+await page.waitForLoadState('networkidle');
 // Step 6: Fallback checks to verify successful login
 try {
   // Option 1: Welcome message visible
