@@ -1,4 +1,7 @@
 import { test, expect } from "@playwright/test";
+import path from 'path';
+
+const authFile = path.join(__dirname, '.auth/user.json');
 
 test("Carpool Publish", async ({ page }) => {
   // Step 1: Go to the homepage
@@ -13,6 +16,8 @@ test("Carpool Publish", async ({ page }) => {
   await page.getByRole('textbox', { name: 'Votre mot de passe' }).fill('Mmb24111996$');
   // Step 4: Click login button
   await page.getByRole('button', { name: 'Connexion', exact: true }).click();
+  
+  await page.context().storageState({ path: authFile });  
 
   await page.screenshot({ path: 'debug.png', fullPage: true });
 
