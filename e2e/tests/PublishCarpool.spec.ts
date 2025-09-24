@@ -8,21 +8,13 @@ test("Carpool Publish", async ({ page }) => {
   await page.goto("http://localhost:8000/");
 
   await page.reload({ waitUntil: 'networkidle' });
-
-  await page.getByRole('link', { name: 'Se connecter' }).click();
-
-  // Step 3: Fill in email and password
-  await page.getByRole('textbox', { name: 'Adresse email' }).fill('monemail@gmail.com');
-  await page.getByRole('textbox', { name: 'Votre mot de passe' }).fill('Mmb24111996$');
-  // Step 4: Click login button
-  await page.getByRole('button', { name: 'Connexion', exact: true }).click();
   
   await page.context().storageState({ path: authFile });  
 
   await page.screenshot({ path: 'debug.png', fullPage: true });
 
   // Step 2: Click "Publier un Grumpy Trip"
-  await page.getByRole('link', { name: 'Publier un Grumpy Trip' }).click();
+  await page.getByRole('link', { name: /Publier un Grumpy Trip/i }).click();
   
   // Step 3: check if the page is loaded
   await page.waitForLoadState("networkidle");
