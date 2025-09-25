@@ -13,6 +13,7 @@ type Props = {
   setSelectedOptions: (value: string[]) => void;
   setOpenFilters: (value: boolean) => void;
   handleResetFilters: () => void;
+  radiusKm: number;
 };
 
 const ResultLayout = ({
@@ -20,6 +21,7 @@ const ResultLayout = ({
   arrival,
   date,
   passengers,
+  radiusKm,
   sortByPrice,
   selectedOptions,
   openFilters,
@@ -46,6 +48,7 @@ const ResultLayout = ({
           arrival={arrival}
           date={date}
           passengers={passengers}
+          radiusKm={radiusKm}
           filters={{ sortByPrice, selectedOptions }}
         />
       </div>
