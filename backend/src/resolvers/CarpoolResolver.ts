@@ -71,7 +71,7 @@ export default class CarpoolResolver {
       "driver"
     ); // On récupère les infos du conducteur en même temps
 
-    // --- Filtrage sur la ville de départ ---
+    // Filtrage sur la ville de départ
     if (departure) {
       // On cherche la ville exacte dans la table City (par nom, insensible à la casse)
       const departureCity = await City.createQueryBuilder("city")
@@ -109,7 +109,7 @@ export default class CarpoolResolver {
       }
     }
 
-    // --- Filtrage sur la ville d'arrivée ---
+    // Filtrage sur la ville d'arrivée
     if (arrival) {
       // On cherche la ville exacte dans la table City (par nom, insensible à la casse)
       const arrivalCity = await City.createQueryBuilder("city")
@@ -140,19 +140,19 @@ export default class CarpoolResolver {
           });
         }
       } else {
-        // Fallback : si la ville n'existe pas en base City, on filtre uniquement par LIKE
+        // Si la ville n'existe pas en base City, on filtre uniquement par LIKE
         query.andWhere("LOWER(carpool.arrival_city) LIKE LOWER(:arrival)", {
           arrival: `%${arrival}%`,
         });
       }
     }
 
-    // --- Filtrage sur la date exacte ---
+    // Filtrage sur la date exacte
     if (date) {
       query.andWhere("carpool.departure_date = :date", { date });
     }
 
-    // --- Filtrage sur l'heure de départ ---
+    // Filtrage sur l'heure de départ
     if (time) {
       query.andWhere("carpool.departure_time >= :time", { time });
     }
