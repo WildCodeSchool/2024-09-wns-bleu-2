@@ -61,7 +61,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const [errors, setErrors] = useState<SearchErrors>({});
 
   const handleSearch = () => {
-
     const newErrors: SearchErrors = {};
 
     if (!departure) newErrors.departure = "Ce champ est requis.";
@@ -215,7 +214,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         <button
           className="filters-btn-mobile"
           onClick={() => {
-            setOpenFilters(true);
+            setOpenFilters && setOpenFilters(true);
           }}
         >
           FILTRER PAR
