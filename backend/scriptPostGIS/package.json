@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsx import-cities.ts"
+    "start": "tsx import-cities.ts",
+    "build": "tsc",
+    "startprod": "node ./dist/import-cities.js"
   },
   "keywords": [],
   "author": "",
