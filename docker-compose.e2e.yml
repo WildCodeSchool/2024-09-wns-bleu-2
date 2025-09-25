@@ -111,7 +111,6 @@ services:
       - .db.env
     # volumes:
     #  - ./backend/scriptPostGIS:/app/
-    # command: sh -c "tail -f /dev/null"
     profiles:
       - initialize
 
