@@ -32,8 +32,8 @@ try {
     await expect(page.getByRole('button', { name: /mon compte/i })).toBeVisible({ timeout: 15000 });
   } catch {
     // Option 3: Final fallback — check if redirected to homepage
-    //await expect(page).toHaveURL('http://localhost:8000/', { timeout: 15000 });
-    console.log("🔴 CI fallback failed — no toast.");
+    await expect(page).toHaveURL('http://localhost:8000/', { timeout: 15000 });
+    //console.log("🔴 CI fallback failed — no toast.");
   }
 }
 
