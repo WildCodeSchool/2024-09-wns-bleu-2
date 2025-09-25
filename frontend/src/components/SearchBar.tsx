@@ -16,6 +16,7 @@ type SearchBarProps = {
   showTime?: boolean;
   showButton?: boolean;
   showKm?: boolean;
+  onKmChange?: (km: number) => void;
   onDepartureChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onArrivalChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onDateChange: (date: Date) => void;
@@ -41,6 +42,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   showTime,
   showButton = true,
   showKm = false,
+  onKmChange,
   onDepartureChange,
   onArrivalChange,
   onDateChange,
@@ -61,7 +63,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const [errors, setErrors] = useState<SearchErrors>({});
 
   const handleSearch = () => {
-
     const newErrors: SearchErrors = {};
 
     if (!departure) newErrors.departure = "Ce champ est requis.";
@@ -227,7 +228,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
             Dans un rayon de
             <select
               value={km}
-              onChange={(e) => setKm(parseInt(e.target.value))}
+              onChange={(e) => {
+                const newKm = parseInt(e.target.value);
+                setKm(newKm);
+                onKmChange?.(newKm);
+              }}
             >
               <option value={0}>0</option>
               <option value={2}>2</option>

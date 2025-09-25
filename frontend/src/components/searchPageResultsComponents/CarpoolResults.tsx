@@ -15,6 +15,7 @@ type SearchResultsProps = {
   arrival: string;
   date: Date;
   passengers: number;
+  radiusKm: number;
   filters?: {
     sortByPrice: boolean;
     selectedOptions: string[];
@@ -25,6 +26,7 @@ const CarpoolResults: React.FC<SearchResultsProps> = ({
   departure,
   arrival,
   date,
+  radiusKm,
   filters,
 }) => {
   const navigate = useNavigate();
@@ -38,6 +40,7 @@ const CarpoolResults: React.FC<SearchResultsProps> = ({
       departure,
       arrival,
       date: formattedDate,
+      radiusKm,
       // passengers
     },
     skip: !areFieldsValid,
