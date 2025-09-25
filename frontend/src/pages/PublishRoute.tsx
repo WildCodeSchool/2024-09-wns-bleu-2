@@ -34,6 +34,10 @@ const PublishRoute = () => {
   //   error: errorCities,
   // } = useGetCitiesQuery();
 
+  const [hasResults, setHasResults] = useState(false);
+  const [openFilters, setOpenFilters] = useState(false);
+
+
   const { data: userData } = useGetUserInfoQuery();
   const userId = userData?.getUserInfo?.id;
 
@@ -125,6 +129,8 @@ const PublishRoute = () => {
         onDateChange={setDate}
         onTimeChange={setDepartureTime}
         onPassengersChange={(e) => setPassengers(Number(e.target.value))}
+        hasResults={hasResults}         // ✅ added
+        setOpenFilters={setOpenFilters} // ✅ added
       />
 
       <PriceSelector price={price} setPrice={setPrice} />
