@@ -61,7 +61,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const [errors, setErrors] = useState<SearchErrors>({});
 
   const handleSearch = () => {
-
     const newErrors: SearchErrors = {};
 
     if (!departure) newErrors.departure = "Ce champ est requis.";
