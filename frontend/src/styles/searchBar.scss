@@ -1,163 +1,162 @@
 @use "./variables.scss" as *;
 
+@keyframes moveUp {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .search-bar {
-  display: flex;
-  width: 90%;
-  max-width: 360px;
-  margin: 0 auto;
-  flex-direction: column;
-  gap: 10px;
-  padding: 28px 15px 42px;
+  padding: 16px 8px;
   background-color: #d8d8d3;
-  border-radius: 12px;
-  box-shadow: 0 10px 3px -3px #cfccc9;
+  border-radius: $main-radius;
+  box-shadow: $box-shadow;
   align-items: center;
+  width: 100%;
+
   .search-wrapper {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 10px;
+
     .input-container {
+      input,
+      select,
+      .react-datepicker__input-container input {
+        font-size: clamp(1rem, 2.5vw, 1.25rem);
+      }
       display: flex;
       align-items: center;
       padding: 8px 12px;
       gap: 8px;
       flex: 1;
-      .datepicker-container {
-        display: flex;
-        align-items: center;
-        background-color: white;
-        padding: 8px 12px;
-        border-radius: 8px;
-        gap: 8px;
-        flex: 1;
-        position: relative;
+
+      &:not(:last-child) {
+        border-right: solid 1px #000;
       }
 
+      .input-city {
+        background-color: #d8d8d3;
+        padding: 0.5rem;
+        border: none;
+        outline: none;
+        width: 100%;
+
+        &:hover,
+        &:focus {
+          background: rgba($color-search, 20%);
+        }
+      }
+      #passenger-select {
+        cursor: pointer;
+      }
+      .react-datepicker-wrapper {
+        padding: 0 8px 0;
+      }
       .react-datepicker__input-container input {
         border: none;
         outline: none;
-        font-size: $font-size-text-desk;
         background-color: transparent;
         width: 100%;
         cursor: pointer;
+        flex: 1;
+        .datepicker-input {
+          width: 100%;
+          min-width: 0;
+          flex: 1;
+        }
       }
 
-      .duration-selects {
-        display: flex;
-        align-items: center;
+      &.button-container {
+        justify-content: center;
+
+        .search-button {
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+          animation: moveUp 1s ease-in-out infinite;
+        }
+      }
+      .error {
+        color: red;
+        margin-top: 5px;
       }
     }
   }
-
-  #hidden-arrow {
-    display: none;
-    width: 0;
-    height: 0;
-  }
-
-  .separator {
-    width: 18.2rem;
-    height: 0.5px;
-    margin-top: 12px;
-    margin-bottom: 12px;
-    background-color: black;
-  }
-
   .icon {
-    color: #e38a83;
+    color: $color-card-red;
+    flex-shrink: 0;
   }
+
   select {
     border: none;
     outline: none;
-    font-size: $font-size-text-desk;
     background-color: transparent;
   }
-
-  .flex-container {
-    display: flex;
-    padding-left: 1em;
-    .select-container {
-      display: flex;
-      align-items: center;
-      select {
-        border: none;
-        outline: none;
-        font-size: $font-size-text-desk;
-        background-color: transparent;
-      }
-      #sr-only {
-        visibility: hidden;
-        font-size: 0;
-      }
-      #passenger-select {
-        padding-left: 14px;
-      }
-    }
-  }
-
-  #hidden-separator {
-    visibility: hidden;
-  }
-
-  .search-button {
-    background-color: #d8d8d3;
+}
+.kilometer {
+  margin-top: 1rem;
+  align-self: flex-start;
+  select {
     border: none;
-    padding: 14px;
-    cursor: pointer;
-    position: relative;
-    left: 4em;
+    background: $primary-color-bg;
+    padding: 0.5rem;
+    margin: 0 0.5rem;
   }
 }
 
-/* Responsive */
-@media screen and (min-width: $bp-mobile) {
+@media (min-width: 992px) and (max-width: 1200px) {
+  .layout .main-content .page-wrapper {
+    width: 90%;
+  }
+}
+@media (max-width: 992px) {
   .search-bar {
-    padding: 10px 20px;
-    gap: 15px;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    max-width: 1350px;
     .search-wrapper {
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
-    #hidden-arrow {
-      visibility: visible !important;
-      width: 1em !important;
-      height: 1em !important;
-      color: black;
-    }
-
-    .separator {
-      width: 0.5px;
-      height: 45px;
-      background-color: black;
-      margin-right: 14px;
-    }
-
-    #visible-separator {
-      visibility: hidden;
-      width: 0;
-      height: 0;
-    }
-
-    #hidden-separator {
-      visibility: visible !important;
-      width: 0.5px;
-      height: 45px;
-      background-color: black;
-      margin-right: 14px;
-      margin-left: 6em;
-    }
-
-    .flex-container {
+      flex-direction: column;
       align-items: center;
-      padding-left: 0;
-    }
-
-    .search-button {
-      position: static;
+      .input-container {
+        /*  width: 167px; */
+        min-height: 37px;
+        /* position: relative; */
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        &:after {
+          content: none;
+        }
+        &:not(:last-child) {
+          border-right: none;
+          margin-bottom: 1em;
+          &:after {
+            content: "";
+            position: absolute;
+            top: 60px;
+            display: block;
+            width: 80%;
+            border-bottom: solid 1px #524f4f;
+            margin-top: 8px;
+          }
+        }
+        input,
+        .input-city,
+        .react-datepicker-wrapper {
+          width: 167px;
+        }
+        select,
+        .datepicker-input {
+          width: 183px;
+        }
+      }
     }
   }
 }

@@ -2,8 +2,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useConfirmEmailMutation } from "../generated/graphql-types";
-import "../styles/EmailConfirm.scss";
+import "../styles/emailConfirm.scss";
 import { ApolloError } from "@apollo/client";
+import { ChevronRight } from "lucide-react";
 
 const EmailConfirmation = () => {
   const [confirmEmail] = useConfirmEmailMutation();
@@ -51,7 +52,9 @@ const EmailConfirmation = () => {
         {errors.code && (
           <span className="error-message">Le code est obligatoire !</span>
         )}
-        <button type="submit">Confirmer</button>
+        <button type="submit" className="submit-button" title="Confirmer mon compte">
+          <ChevronRight /> Confirmer
+        </button>
       </form>
     </div>
   );

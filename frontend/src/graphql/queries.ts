@@ -31,9 +31,10 @@ export const GET_CARPOOL_BY_ID = gql`
       arrival_city
       num_passenger
       toll
-      duration
       price
       options
+      duration
+      arrival_time
       driver {
         firstname
         id
@@ -67,9 +68,10 @@ export const GET_CARPOOLS_BY_USER_ID = gql`
       arrival_city
       num_passenger
       toll
-      duration
       price
       options
+      duration
+      arrival_time
       driver {
         firstname
         id
@@ -95,6 +97,8 @@ export const GET_BOOKINGS_FOR_PASSENGER = gql`
         departure_city
         departure_date
         departure_time
+        duration
+        arrival_time
         driver {
           avatar
           birthdate
@@ -111,7 +115,6 @@ export const GET_BOOKINGS_FOR_PASSENGER = gql`
           lastname
           phone
         }
-        duration
         id
         num_passenger
         price
@@ -161,9 +164,10 @@ export const SEARCH_CARPOOLS = gql`
       departure_time
       num_passenger
       price
-      duration
       toll
       options
+      arrival_time
+      duration
       driver {
         firstname
         lastname
@@ -178,33 +182,36 @@ export const GET_CARPOOLS = gql`
     getCarpools {
       id
       departure_date
-      departure_time
       departure_city
+      departure_time
       arrival_city
       num_passenger
-      price
-      duration
       toll
+
+      price
       options
       driver {
-        firstname
-        lastname
-        avatar
-        car {
-          brand
-          color
-          year
-        }
+        id
       }
+      bookings {
+        id
+        numPassenger
+      }
+      duration
+      arrival_time
     }
   }
 `;
 
 export const GET_CITIES = gql`
-  query GetCities {
-    getCities {
+  query GetCities($city: String) {
+    getCities(city: $city) {
       id
       name
+      location {
+        type
+        coordinates
+      }
     }
   }
 `;

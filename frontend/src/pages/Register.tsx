@@ -352,14 +352,14 @@ const Register = () => {
           </Link>
         </div>
 
-        <div className="submit-container">
-          <button type="submit" title="Créer mon compte">
-            <ChevronRight /> S'inscrire
-          </button>
-        </div>
-      </div>
-    </form>
-  );
+				<div className="submit-container">
+					<button type="submit" className="submit-button" title="Créer mon compte">
+						<ChevronRight /> S'inscrire
+					</button>
+				</div>
+			</div>
+		</form>
+	);
 };
 
 export default Register;

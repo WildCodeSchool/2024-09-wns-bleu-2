@@ -1,14 +1,12 @@
 @use "./variables.scss" as *;
 
 .search-route {
-  padding: 0 24px;
   font-family: $font-family;
-  color: #333;
-  max-width: 1900px;
+  color: $text;
   h1 {
-    text-align: center;
+    @include main-title;
   }
-  h2 {
+  h2:not(.react-datepicker__current-month) {
     font-size: 18px;
     font-weight: bold;
     padding: 25px;
@@ -17,10 +15,10 @@
 .result-layout {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 @media (min-width: $bp-mobile) {
   .search-route {
-    padding: 0 16px;
     h2 {
       font-size: $font-size-title-mobile;
     }
@@ -29,7 +27,27 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 100%;
     gap: 35px;
+  }
+}
+@media (max-width: 992px) {
+  .result-layout {
+    flex-direction: inherit;
+  }
+}
+.filters-btn-mobile {
+  border-radius: 10px;
+  border: none;
+  padding: 15px 10px;
+  background-color: $color-card-red;
+  width: 102%;
+  margin-top: 10px;
+  color: white;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  @media screen and (min-width: 992px) {
+    display: none;
   }
 }

@@ -2,18 +2,6 @@ export const formatTime = (time: string): string => {
   const [hours, minutes] = time.split(":");
   return `${hours}:${minutes}`;
 };
-export const calculateArrivalTime = (
-  departureTime: string,
-  duration: number
-): string => {
-  const [hours, minutes, seconds] = departureTime.split(":").map(Number);
-  const departureDate = new Date();
-
-  departureDate.setHours(hours, minutes, seconds);
-  departureDate.setMinutes(departureDate.getMinutes() + duration);
-
-  return departureDate.toTimeString().slice(0, 5);
-};
 
 export const formatDuration = (duration: number): string => {
   const hours = Math.floor(duration / 60);

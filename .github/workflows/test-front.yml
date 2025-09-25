@@ -1,12 +1,45 @@
 name: test-front
 
-on: push
+on:
+  push:
+    paths:
+      - "frontend/**"
+      - ".github/workflows/test-front.yml"
+  workflow_dispatch: {}
 
 jobs:
-  test-client:
+  run-front-tests:
     runs-on: ubuntu-latest
+    env:
+      CI: true
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Goto client and run tests
-        run: cd frontend && npm i && npm test
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Client tests
+        run: |
+          npm ci
+          npm test
+
+      - name: Integration tests (publishRouteTest/integrationTest)
+        run: |
+          cd src/tests/publishRouteTest/integrationTest
+          npm ci || npm i
+          npm run test
+
+      - name: Unit tests (searchBarTest/unitTest)
+        run: |
+          cd src/tests/searchBarTest/unitTest
+          npm ci || npm i
+          npm run test

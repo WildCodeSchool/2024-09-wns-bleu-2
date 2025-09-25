@@ -1,25 +1,44 @@
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { Booking } from "../entities/Booking";
 import { Carpool } from "../entities/Carpool";
 import { BookingInput } from "../inputs/BookingInput";
 import { User } from "../entities/User";
+import { GraphQLError } from "graphql";
 
 @Resolver(Booking)
 export class BookingResolver {
   @Query(() => [Booking])
-  async getBookings() {
-    return await Booking.find({
-      relations: ["carpool", "carpool.driver", "passenger"],
-    });
+  async getBookings(@Ctx() context: any) {
+    if (context && context.email) {
+      return await Booking.find({
+        relations: ["carpool", "carpool.driver", "passenger"],
+      });
+    } else {
+      throw new Error("Unauthorized");
+    }
   }
 
   @Query(() => [Booking])
-  async getBookingsForPassenger(@Arg("passengerId") passengerId: number) {
+  async getBookingsForPassenger(@Arg("passengerId") passengerId: number, @Ctx() context: any) {
+    // return await Booking.find({
+    //   where: { passenger: { id: passengerId } },
+    //   relations: ["carpool", "carpool.driver", "passenger"],
+    // });
+    if (!context.email) {
+      throw new Error("Unauthorized. Please log in to access bookings.");
+    }
+
+    const user = await User.findOneBy({ email: context.email });
+    if (!user || user.id !== passengerId) {
+      throw new Error("Forbidden. You can only access your own bookings.");
+    }
+
     return await Booking.find({
       where: { passenger: { id: passengerId } },
       relations: ["carpool", "carpool.driver", "passenger"],
     });
   }
+  
 
   @Mutation(() => Booking)
   async createBooking(@Arg("data") bookingInput: BookingInput) {
@@ -29,6 +48,18 @@ export class BookingResolver {
     const carpool = await Carpool.findOne({ where: { id: carpool_id } });
     if (!carpool) {
       throw new Error("Carpool not found");
+    }
+
+    /* Empêcher l'utilisateur de réserver un covoiturage à une date antérieure à celle du jour. S'il réserve pour la date du jour, l'empêcher de réserver à une heure déjà passée */
+    const now = new Date();
+    const [year, month, day] = carpool.departure_date.split('-').map(Number);
+    const [hours, minutes, seconds] = carpool.departure_time.split(':').map(Number);
+    const departureDateTime = new Date(year, month - 1, day, hours, minutes, seconds);
+
+    if (departureDateTime <= now) {
+      throw new GraphQLError("The carpool is already gone.", {
+        extensions: { code: "CARPOOL_ALREADY_LEFT"}
+      });
     }
 
     // Récupérer le passager
@@ -49,9 +80,32 @@ export class BookingResolver {
 
   @Mutation(() => String)
   async deleteBooking(
+  //   @Arg("passengerId") passengerId: number,
+  //   @Arg("carpoolId") carpoolId: number
+  // ) {
+    // const booking = await Booking.findOne({
+    //   where: { passenger: { id: passengerId }, carpool: { id: carpoolId } },
+    // });
+
+    // if (!booking) {
+    //   throw new Error("Booking not found");
+    // }
+
+    // await Booking.remove(booking);
+    // return "Booking deleted successfully";
     @Arg("passengerId") passengerId: number,
-    @Arg("carpoolId") carpoolId: number
-  ) {
+    @Arg("carpoolId") carpoolId: number,
+    @Ctx() context: any
+  ){
+    if (!context.email) {
+      throw new Error("Unauthorized. Please log in to delete a booking.");
+    }
+
+    const user = await User.findOneBy({ email: context.email });
+    if (!user || user.id !== passengerId) {
+      throw new Error("Forbidden. You can only delete your own bookings.");
+    }
+
     const booking = await Booking.findOne({
       where: { passenger: { id: passengerId }, carpool: { id: carpoolId } },
     });

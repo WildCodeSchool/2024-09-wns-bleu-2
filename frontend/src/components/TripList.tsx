@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 
 type TripListProps = {
-  trips: any[]; // Remplace `any` par le type correct si tu en as un
+  trips: any[];
   titleUpcoming: string;
   titlePast: string;
   showPublishButton?: boolean;
@@ -25,7 +25,7 @@ export default function TripList({
   const navigate = useNavigate();
 
   const buttonLabel =
-    mode === "carpool" ? "Publier un trajet" : "Réserver un autre trajet";
+    mode === "carpool" ? "Publier un trajet" : "Réserver un trajet";
   const buttonRedirect = mode === "carpool" ? "/publish-route" : "/search-page";
 
   return (

@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
 import {
   Carpool,
   useCreateBookingMutation,
   useGetCarpoolByIdQuery,
   useGetUserInfoQuery,
 } from "../generated/graphql-types";
+import { useModal } from "../contexts/ModalContext";
 
 import TripCard from "../components/TripCard";
 import "../styles/book-a-trip-page.scss";
@@ -13,10 +13,12 @@ import { formatLongDate } from "../utils/dateUtils";
 import DriverInfo from "../components/bookATripPageComponents/DriverInfo";
 import BookingSummaryCard from "../components/bookATripPageComponents/BookingSummaryCard";
 import { toast } from "react-toastify";
+import { ApolloError } from "@apollo/client";
 
 const BookATripPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { setIsLoginModalOpen, setRedirectAfterLogin } = useModal();
 
   const { data, loading, error } = useGetCarpoolByIdQuery({
     variables: { getCarpoolByIdId: Number(id) },
@@ -30,6 +32,9 @@ const BookATripPage = () => {
   const handleBooking = async () => {
     if (!userId) {
       toast.error("Vous devez être connecté pour réserver un trajet.");
+
+      setRedirectAfterLogin(`/book/${id}`); //on stocke le carpool piur que l'utilisateur ne perde pas sa page de réservation
+      setIsLoginModalOpen(true);
 
       return;
     }
@@ -57,7 +62,14 @@ const BookATripPage = () => {
       toast.success("Réservation réussie !");
       navigate(`/myreservations/${userId}`);
     } catch (error) {
-      toast.error("Erreur lors de la réservation.");
+      const apolloError = error as ApolloError;
+      const graphQLError = apolloError.graphQLErrors[0];
+      const code = graphQLError?.extensions?.code;
+      if (code === "CARPOOL_ALREADY_LEFT") {
+        toast.error("Ce covoiturage est déjà parti.");
+      } else {
+        toast.error("Erreur lors de la réservation.");
+      }
     }
   };
 

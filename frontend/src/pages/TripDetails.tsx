@@ -9,7 +9,7 @@ import { formatDate } from "../utils/dateUtils";
 import "../styles/trip-details.scss";
 import { getBookedSeats } from "../utils/tripUtils";
 import { ChevronRight, HeartCrack } from "lucide-react";
-import avatar from "/public/avatar.webp";
+import avatar from '/avatar.webp?url';
 import { toast } from "react-toastify";
 import React from "react";
 

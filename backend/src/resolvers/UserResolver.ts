@@ -80,8 +80,7 @@ export class UserResolver {
         );
       }
 
-      // On génère un code aléatoire
-      // const randomCode = uuidv4();
+      // On génère un code aléatoire à 6 chiffres
       const generateRandomCode = () => {
         let code = "";
         // code à 6 chiffres random, de 0 à 9
@@ -92,7 +91,7 @@ export class UserResolver {
       };
       const randomCode = generateRandomCode();
 
-      // On sauvegarde l'utilisateur dans la table TempUser ave toutes ses infos
+      // On sauvegarde l'utilisateur dans la table TempUser avec toutes ses infos
       const result = new TempUser();
       result.email = newUserData.email;
       result.password = await argon2.hash(newUserData.password);
@@ -193,6 +192,7 @@ export class UserResolver {
   @Mutation(() => String)
   async login(@Arg("data") loginData: LoginInput, @Ctx() context: any) {
     const user = await User.findOneBy({ email: loginData.email });
+
     if (!user) throw new GraphQLError("Incorrect login", { extensions: { code: "INVALID_CREDENTIALS" } });
 
     const isPasswordCorrect = await argon2.verify(user.password, loginData.password);
@@ -207,6 +207,7 @@ export class UserResolver {
  
       // Stockage du token dans les cookies
       // Cookie sécurisé en prod, pas en dev
+
     const isProd = process.env.NODE_ENV === "production";
     context.res.setHeader(
       "Set-Cookie",
@@ -355,6 +356,73 @@ export class UserResolver {
       await user.car.save();
 
       return user.car;
+    }
+  }
+
+  @Mutation(() => String)
+  async forgotPassword(@Arg("email") email: string) {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      throw new GraphQLError("User not found", {
+        extensions: { code: "USER_NOT_FOUND" },
+      });
+    }
+
+    const resetToken = jwt.sign(
+      { email: user.email },
+      process.env.JWT_SECRET_KEY as Secret,
+      { expiresIn: "15m" }
+    );
+
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const { error } = await resend.emails.send({
+      from: "GrumpyCar <onboarding@resend.dev>",
+      to: [email],
+      subject: "Réinitialisation de votre mot de passe",
+      html: `
+      <p style="color:#1a1a1a;">Bonjour <strong>cher Grumpy</strong> 😺🚗,</p>
+      <p style="color:#1a1a1a;">Vous avez demandé à réinitialiser votre mot de passe ! Alors, c'est parti !</p>
+      <p style="color:#1a1a1a;"><a href="${resetLink}">Cliquez ici pour le réinitialiser</a> (🕙 lien valable uniquement durant 15 minutes).</p>
+      <p style="color:#1a1a1a;">Si vous n’êtes pas à l’origine de cette demande, ignorez cet email 🤫.</p>
+      <p style="color:#1a1a1a;">L'équipe <strong>GrumpyCar</strong></p>
+    `,
+    });
+
+    if (error) {
+      console.error(error);
+      throw new Error("Failed to send reset email");
+    }
+
+    return "Password reset email sent";
+  }
+
+  @Mutation(() => String)
+  async resetPassword(
+    @Arg("token") token: string,
+    @Arg("newPassword") newPassword: string
+  ) {
+    try {
+      const payload = jwt.verify(
+        token,
+        process.env.JWT_SECRET_KEY as Secret
+      ) as { email: string };
+
+      const user = await User.findOne({ where: { email: payload.email } });
+      if (!user)
+        throw new GraphQLError("User not found", {
+          extensions: { code: "USER_NOT_FOUND" },
+        });
+
+      user.password = await argon2.hash(newPassword);
+      await user.save();
+
+      return "Password successfully reset";
+    } catch (err) {
+      throw new GraphQLError("Invalid or expired token", {
+        extensions: { code: "TOKEN_INVALID" },
+      });
     }
   }
 }

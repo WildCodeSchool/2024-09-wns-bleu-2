@@ -1,4 +1,4 @@
-import "../../styles/tips-preferences.scss";
+import "../../styles/trips-preferences.scss";
 
 type TripPreferencesProps = {
   options: string[];
@@ -36,20 +36,21 @@ const TripPreferences: React.FC<TripPreferencesProps> = ({
 
   return (
     <div className="trip-preferences">
-      <h2>Quelles sont vos préférences de voyage ?</h2>
-      <p className="optional">(Optionnel)</p>
+      <h2>Quelles sont vos préférences de voyage ? <span>(Optionnel)</span></h2>
 
       <div className="preferences-box">
         {availableOptions.map((option) => (
-          <label key={option} className="checkbox-label">
-            <input
-              type="checkbox"
-              value={option}
-              checked={options.includes(option)}
-              onChange={() => toggleOption(option)}
-            />
-            {labelMap[option]}
-          </label>
+          <div key={option} className="preference-item">
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                value={option}
+                checked={options.includes(option)}
+                onChange={() => toggleOption(option)}
+              />
+              {labelMap[option]}
+            </label>
+          </div>
         ))}
       </div>
     </div>

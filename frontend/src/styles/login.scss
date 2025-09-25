@@ -12,7 +12,6 @@
   backdrop-filter: blur(20px);
   padding: 2em 4em;
   z-index: 500;
-  height: 80%;
   .close-btn {
     cursor: pointer;
     align-self: flex-end;
@@ -26,10 +25,6 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 90%;
-    h1 {
-      font-size: $font-size-h1;
-    }
     .login-form {
       width: 50%;
       margin: 2em auto;
@@ -89,21 +84,8 @@
     }
     .submit-container {
       margin-top: 1em;
-      button {
-        margin: 2em auto 0;
-        padding: 12px 30px;
-        font-size: 1.2rem;
-        border-radius: 30px;
-        background-color: $color-card-green;
-        border: none;
-        display: flex;
-        align-items: center;
-        transition: 0.3s ease;
-        cursor: pointer;
-        &:hover {
-          background-color: $color-card-red;
-        }
-      }
+      display: flex;
+      justify-content: center;
     }
   }
 }
@@ -138,5 +120,27 @@
   .modal {
     padding: 1em;
     width: 90%;
+  }
+}
+
+.retour-button,
+.mdp-button {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  font: inherit;
+  margin-bottom: 0.8em;
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  &:focus {
+    outline: none;
   }
 }

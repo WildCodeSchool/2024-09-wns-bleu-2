@@ -59,12 +59,14 @@ services:
     ports:
       - 8000:80
   img :
-    build: ./img
+    build:
+      context: ./img
+      dockerfile: Dockerfile.prod
     healthcheck:
       test: "curl --fail --request GET --url 'http://localhost:4000' || exit 1"
       interval: 1s
       timeout: 2s
       retries: 100
     volumes:
-      - ./img/upload:/app/upload
+      - ./img/uploads:/app/uploads
       - ./img/clean.js:/app/clean.js

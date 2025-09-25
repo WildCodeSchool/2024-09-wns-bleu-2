@@ -2,6 +2,8 @@ import { Carpool } from "../entities/Carpool";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import CarpoolInput from "../inputs/CarpoolInput";
 import { User } from "../entities/User";
+import { City } from "../entities/City";
+import { getTripInfos } from "../utils/geopify";
 
 @Resolver(Carpool)
 export default class CarpoolResolver {
@@ -50,6 +52,8 @@ export default class CarpoolResolver {
     @Arg("date", { nullable: true }) date?: string,
     @Arg("time", { nullable: true }) time?: string
   ): Promise<Carpool[]> {
+    const DEFAULT_KM = 10; // Recherche 10km par défaut autour de la ville demandée
+
     // requête dynamique au lieu de 'find()'
     const query = Carpool.createQueryBuilder("carpool").leftJoinAndSelect(
       "carpool.driver",
@@ -64,9 +68,30 @@ export default class CarpoolResolver {
     }
 
     if (arrival) {
-      query.andWhere("LOWER(carpool.arrival_city) LIKE LOWER(:arrival)", {
-        arrival: `%${arrival}%`,
-      });
+      // On récupère la ville d'arrivée pour appliquer le filtrage par défaut
+      const arrivalCity = await City.findOne({ where: { name: arrival } });
+      if (arrivalCity) {
+        // Trouver toutes les villes dans un rayon de DEFAULT_KM km
+        const nearbyCities = await City.createQueryBuilder("city")
+          .where(
+            "ST_DWithin(city.location, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography, :radius)",
+            {
+              lng: arrivalCity.location.coordinates[0],
+              lat: arrivalCity.location.coordinates[1],
+              radius: DEFAULT_KM * 1000, // convertir km en mètres
+            }
+          )
+          .getMany();
+
+        const cityNames = nearbyCities.map((city) => city.name);
+
+        query.andWhere("carpool.arrival_city IN (:...cityNames)", {
+          cityNames,
+        });
+      } else {
+        // Si la ville n'existe pas, on ne retourne rien
+        return [];
+      }
     }
 
     if (date) {
@@ -85,12 +110,32 @@ export default class CarpoolResolver {
 
     const filteredOptions = data.options?.filter((o) => o != "Autoroute");
 
+    const departureCity = await City.findOne({
+      where: { name: data.departure_city },
+    });
+    const arrivalCity = await City.findOne({
+      where: { name: data.arrival_city },
+    });
+
+    if (!departureCity || !arrivalCity) {
+      throw new Error("Ville de départ ou d'arrivée introuvable");
+    }
+
+    // Calcul via Geoapify
+    const tripInfo = await getTripInfos(
+      departureCity.location.coordinates as [number, number],
+      arrivalCity.location.coordinates as [number, number],
+      data.departure_time,
+      toll
+    );
+
     const carpool = Carpool.create({
       ...data,
       toll,
       options: filteredOptions,
+      duration: tripInfo.duration,
+      arrival_time: tripInfo.arrival,
     });
-
     // If a user ID is provided, assign the user to the carpool
     if (data.driver_id) {
       const user = await User.findOne({ where: { id: data.driver_id } });

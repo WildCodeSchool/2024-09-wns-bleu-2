@@ -1,0 +1,120 @@
+@use "./variables.scss" as *;
+
+.trip-preferences {
+  text-align: center;
+  margin-top: 6em;
+  width: 100%;
+  h2 {
+    @include main-title;
+    span {
+      font-style: italic;
+      font-size: 1rem;
+      font-weight: normal;
+    }
+  }
+
+  .preferences-box {
+    background-color: $color-card-yellow;
+    padding: 2em 6em;
+    border-radius: $main-radius;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    .preference-item {
+      display: flex;
+      flex: 0 0 50%;
+      max-width: 50%;
+      &:last-child {
+        justify-content: center;
+      }
+
+      .checkbox-label {
+        display: flex;
+        align-items: center;
+        padding: 2em;
+        gap: 20px;
+        font-family: $font-family-secondary;
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        text-align: left;
+        font-weight: 700;
+        margin: 0.5rem;
+        cursor: pointer;
+  
+        input[type="checkbox"] {
+          width: 30px;
+          height: 30px;
+          appearance: none;
+          border: solid 2px $light-gray;
+          flex-shrink: 0;
+          position: relative;
+          cursor: pointer;
+          &:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60%;
+            height: 60%;
+            background: $light-gray;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.2s ease;
+          }
+          &:checked {
+            background: $primary-color-bg;
+          }
+          &:checked::after {
+              transform: translate(-50%, -50%) scale(1);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .trip-preferences .preferences-box {
+    padding: 2em 3em;
+  }
+}
+@media (max-width: 992px) {
+  .trip-preferences {
+    .preferences-box {
+      .preference-item {
+        flex: 0 0 100%;
+        max-width: 100%;
+        &:last-child {
+          justify-content: initial;
+        }
+      }
+    }
+  } 
+}
+@media (max-width: 574px) {
+  .trip-preferences {
+    .preferences-box {
+      padding: 1.5em;
+      .preference-item {
+        .checkbox-label {
+          input[type="checkbox"] {
+            width: 25px;
+            height: 25px;
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 375px) {
+  .trip-preferences {
+    width: 80%;
+    .preferences-box {
+      padding: 0.5rem;
+      .preference-item {
+        .checkbox-label {
+          padding: 1em;
+        }
+      }
+    }
+  }
+}
