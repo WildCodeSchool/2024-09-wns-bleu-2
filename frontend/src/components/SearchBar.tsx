@@ -22,8 +22,8 @@ type SearchBarProps = {
   onTimeChange?: (date: Date | null) => void;
   onPassengersChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   onSearch?: () => void;
-  hasResults?: boolean;
-  setOpenFilters?: (value: boolean) => void;
+  hasResults: boolean;
+  setOpenFilters: (value: boolean) => void;
 };
 
 // Gestion d'erreur pour les champs de formulaire requis (villes + date)
@@ -214,9 +214,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         <button
           className="filters-btn-mobile"
           onClick={() => {
-            if (setOpenFilters) {
-              setOpenFilters(true);
-            }
+            setOpenFilters(true);
           }}
         >
           FILTRER PAR

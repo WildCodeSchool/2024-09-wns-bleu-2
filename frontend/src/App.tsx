@@ -15,6 +15,7 @@ import BookATripPage from "./pages/BookATripPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./styles/root.scss";
 import Error404 from "./pages/Error404";
+import ResetPassword from "./components/ResetPassword";
 import SingleFileUploader from "./pages/SingleFileUploader";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route
             path="/myreservations/:id"
             element={
