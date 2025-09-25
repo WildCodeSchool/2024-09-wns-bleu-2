@@ -22,36 +22,11 @@ const PublishRoute = () => {
   const [price, setPrice] = useState<number>(0);
   const [options, setOptions] = useState<string[]>([]);
   const [departureTime, setDepartureTime] = useState<Date | null>(null);
-  // const [hours, setHours] = useState(0);
-  // const [minutes, setMinutes] = useState(0);
 
   const [createCarpool] = useCreateCarpoolMutation();
 
-  // const {
-  //   data: cityData,
-  //   loading: loadingCities,
-  //   error: errorCities,
-  // } = useGetCitiesQuery();
-
   const { data: userData } = useGetUserInfoQuery();
   const userId = userData?.getUserInfo?.id;
-
-  // const handleDeparture = (e: React.ChangeEvent<HTMLSelectElement>) =>
-  //   setDeparture(e.target.value);
-
-  // const handleArrival = (e: React.ChangeEvent<HTMLSelectElement>) =>
-  //   setArrival(e.target.value);
-
-  // const handleDate = (date: Date) => setDate(date);
-
-  // const handlePassengers = (e: React.ChangeEvent<HTMLSelectElement>) =>
-  //   setPassengers(Number(e.target.value));
-
-  // const handleHourChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-  //   setHours(Number(e.target.value));
-
-  // const handleMinuteChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-  //   setMinutes(Number(e.target.value));
 
   const handlePublish = () => {
     if (!departure || !arrival || !price || passengers <= 0 || !date) {
@@ -63,7 +38,6 @@ const PublishRoute = () => {
     const departure_time = formatTime(departureTime);
 
     const toll = options.includes("Autoroute");
-    // const duration = hours * 60 + minutes;
 
     if (!userId) {
       toast.error("Vous devez être connecté pour publier un trajet.");
