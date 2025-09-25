@@ -109,7 +109,7 @@ export default function TripCard({ tripDetails, mode }: TripCardProps) {
             <div className="horizontal-line small departure" />
             <p className="duration">{formatDuration(carpool.duration)}</p>
             <div className="horizontal-line small arrival" />
-            <p className="time">{carpool.arrival_time}</p>
+            <p className="time">{formatTime(carpool.arrival_time)}</p>
           </div>
           <div className="trip-card-cities">
             <p className="city">{carpool.departure_city}</p>

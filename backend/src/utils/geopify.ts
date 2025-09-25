@@ -1,17 +1,5 @@
 import fetch from "node-fetch";
-/* export const calculateArrivalTime = (
-  departureTime: string,
-  duration: number
-): string => {
-  const [hours, minutes, seconds] = departureTime.split(":").map(Number);
-  const departureDate = new Date();
 
-  departureDate.setHours(hours, minutes, seconds);
-  departureDate.setMinutes(departureDate.getMinutes() + duration);
-
-  return departureDate.toTimeString().slice(0, 5);
-};
- */
 export const getTripInfos = async (
   from: [number, number],
   to: [number, number],
@@ -32,9 +20,9 @@ export const getTripInfos = async (
   const durationSeconds = data.features[0].properties.time;
   const durationMinutes = Math.round(durationSeconds / 60);
 
-  const [h, m, s] = departureTime.split(":").map(Number);
+  const [h, m] = departureTime.split(":").map(Number);
   const departureDate = new Date();
-  departureDate.setHours(h, m, s);
+  departureDate.setHours(h, m);
   departureDate.setMinutes(departureDate.getMinutes() + durationMinutes);
 
   const arrival = departureDate.toTimeString().slice(0, 5);
