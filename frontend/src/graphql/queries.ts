@@ -150,12 +150,14 @@ export const SEARCH_CARPOOLS = gql`
     $arrival: String!
     $date: String!
     $time: String
+    $radiusKm: Float
   ) {
     searchCarpools(
       departure: $departure
       arrival: $arrival
       date: $date
       time: $time
+      radiusKm: $radiusKm
     ) {
       id
       departure_city

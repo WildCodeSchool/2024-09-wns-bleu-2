@@ -14,6 +14,7 @@ const SearchPage = () => {
   const [departure, setDeparture] = useState("");
   const [arrival, setArrival] = useState("");
   const [date, setDate] = useState(new Date());
+  const [radiusKm, setRadiusKm] = useState(10);
   const [passengers, setPassengers] = useState(1);
   const [departureTime, setDepartureTime] = useState<Date | null>(null);
   const [sortByPrice, setSortByPrice] = useState(false);
@@ -41,6 +42,7 @@ const SearchPage = () => {
       arrival,
       date: date.toISOString().split("T")[0],
       passengers: passengers.toString(),
+      radiusKm: radiusKm.toString(),
     });
     setParams(params); ////// met à jour l’URL
   };
@@ -61,6 +63,7 @@ const SearchPage = () => {
         date={date}
         passengers={passengers}
         showKm={true}
+        onKmChange={(km) => setRadiusKm(km)}
         onDepartureChange={(e) => setDeparture(e.target.value)}
         onArrivalChange={(e) => setArrival(e.target.value)}
         onDateChange={setDate}
@@ -85,6 +88,7 @@ const SearchPage = () => {
           setSelectedOptions={setSelectedOptions}
           setOpenFilters={setOpenFilters}
           handleResetFilters={handleResetFilters}
+          radiusKm={radiusKm}
         />
       )}
     </div>
