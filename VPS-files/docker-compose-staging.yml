@@ -1,0 +1,124 @@
+services:
+  db:
+    image: postgis/postgis
+    network_mode: "bridge"
+    container_name: staging-db
+    env_file:
+      - .db.env
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -p 5432 -U postgres"]
+      interval: 1s
+      timeout: 2s
+      retries: 100
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - grumpydatabase:/var/lib/postgresql/data
+    profiles:
+      - initialize
+      - dev
+      - staging
+
+  adminer:
+    image: adminer
+    network_mode: "bridge"
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles:
+      - initialize
+      - dev
+
+  backend:
+#    command: sh -c "tail -f /dev/null"
+    network_mode: "bridge"
+    links:
+      - db:db
+    image: grumpycar/backend-staging:latest
+    ports:
+      - 4000:4000
+    healthcheck:
+      test: 'curl --fail --request POST --header ''content-type: application/json'' --url ''http://localhost:4000'' --data ''{"query":"query { __typename }"}'' || exit 1'
+      interval: 1s
+      timeout: 2s
+      retries: 50
+    env_file:
+      - .env
+      - .db.env
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles:
+      - initialize
+      - dev
+      - staging
+
+  frontend:
+    image: grumpycar/frontend-staging:latest
+    network_mode: "bridge"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      interval: 1s
+      timeout: 2s
+      retries: 100
+    ports:
+      - "5173:5173"
+    profiles:
+      - dev
+      - staging
+
+  img:
+    image: grumpycar/img-staging:latest
+    network_mode: "bridge"
+    healthcheck:
+      test: "curl --fail --request GET --url 'http://localhost:4000' || exit 1"
+      interval: 1s
+      timeout: 2s
+      retries: 100
+    volumes:
+      - ./img/uploads:/app/uploads
+      - ./img/clean.js:/app/clean.js
+    profiles:
+      - dev
+      - staging
+  cities:
+    image: grumpycar/cities-staging:latest
+    network_mode: "bridge"
+    links:
+      - db:db
+    depends_on:
+      backend:
+        condition: service_healthy
+    env_file:
+      - .db.env
+    profiles:
+      - initialize
+
+  api_gateway:
+    image: nginx
+    network_mode: "bridge"
+    links:
+      - backend:backend
+      - frontend:frontend
+      - img:img
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      backend:
+        condition: service_healthy
+#      frontend:
+ #       condition: service_healthy
+      img:
+        condition: service_healthy
+    ports:
+      - 8001:80
+    profiles:
+      - dev
+      - staging
+
+volumes:
+  grumpydatabase:
+
