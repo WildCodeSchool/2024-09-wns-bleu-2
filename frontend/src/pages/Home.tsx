@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="container-principal">
       <div className="homepage-first-content">
-        <h1 className="home-title">Réservez votre trajet dès maintenant !</h1>
+        <h1 className="home-title">Réservez votre trajet dès maintenant !!!</h1>
         <img
           src="/homepage_cat.webp"
           alt="Image en homepage"
