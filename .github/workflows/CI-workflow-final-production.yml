@@ -1,8 +1,8 @@
-name: build and push docker images FINAL
+name: build and push docker PRODUCTION IMAGES
 
 on:
   pull_request:
-    branches: [ dev ]
+    branches: [ main ]
     types: [ closed ]
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
           push: true
           context: "{{defaultContext}}:frontend"
           file: Dockerfile.prod
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend-staging:latest,${{ secrets.DOCKERHUB_USERNAME }}/frontend-staging:${{ env.COMMIT_SHORT_SHA }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend-production:latest,${{ secrets.DOCKERHUB_USERNAME }}/frontend-production:${{ env.COMMIT_SHORT_SHA }}
 
       - name: Build and push backend
         uses: docker/build-push-action@v4
@@ -44,7 +44,7 @@ jobs:
           push: true
           context: "{{defaultContext}}:backend"
           file: Dockerfile.prod
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend-staging:latest,${{ secrets.DOCKERHUB_USERNAME }}/backend-staging:${{ env.COMMIT_SHORT_SHA }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend-production:latest,${{ secrets.DOCKERHUB_USERNAME }}/backend-production:${{ env.COMMIT_SHORT_SHA }}
 
       - name: Build and push image service
         uses: docker/build-push-action@v4
@@ -52,7 +52,7 @@ jobs:
           push: true
           context: "{{defaultContext}}:img"
           file: Dockerfile.prod
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/img-staging:latest,${{ secrets.DOCKERHUB_USERNAME }}/img-staging:${{ env.COMMIT_SHORT_SHA }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/img-production:latest,${{ secrets.DOCKERHUB_USERNAME }}/img-production:${{ env.COMMIT_SHORT_SHA }}
 
       - name: Build and push cities service
         uses: docker/build-push-action@v4
@@ -60,7 +60,7 @@ jobs:
           push: true
           context: ./backend/scriptPostGIS
           file: ./backend/scriptPostGIS/Dockerfile.prod
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cities-staging:latest,${{ secrets.DOCKERHUB_USERNAME }}/cities-staging:${{ env.COMMIT_SHORT_SHA }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cities-production:latest,${{ secrets.DOCKERHUB_USERNAME }}/cities-production:${{ env.COMMIT_SHORT_SHA }}
 
   webhook:
     runs-on: ubuntu-latest
@@ -71,6 +71,6 @@ jobs:
           curl --fail --silent --show-error \
                --max-time 10 \
                --connect-timeout 5 \
-               -X POST https://webhook.092024-bleu-2.wns.wilders.dev/hooks/update-staging \
+               -X POST https://webhook.092024-bleu-2.wns.wilders.dev/hooks/update-production \
           || echo "⚠️ Webhook failed or server is down, skipping..."
 
