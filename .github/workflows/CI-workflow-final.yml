@@ -1,4 +1,4 @@
-name: build and push docker images
+name: build and push docker images FINAL
 
 on:
   pull_request:
