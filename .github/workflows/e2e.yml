@@ -1,22 +1,85 @@
 name: e2e-tests-workflow
 
-on: push
+on:
+  push:
+    branches: [ dev, main, e2e-tests/**, staging/**, feature/** ] 
+  pull_request:
+    branches: [ dev, main ]
 
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
+
     steps:
+      # 1️⃣ Checkout the repository
       - name: Check out code
-        uses: actions/checkout@v2
-      - name: create .env
+        uses: actions/checkout@v4
+
+      # 2️⃣ Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      # 3️⃣ Install root dependencies (backend/frontend/etc.)
+      - name: Install root dependencies
+        run: npm ci
+
+      # 4️⃣ Install Playwright deps inside e2e/
+      - name: Install E2E dependencies
         run: |
-          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
-          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
-          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          cd e2e
+          npm ci
+          npx playwright install --with-deps
+
+      # 5️⃣ Create .env for app
+      - name: Create .env
+        run: |
           echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
           echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env
 
-      - name: Launch e2e tests
-        run: docker compose -f docker-compose.e2e.yml up --build --exit-code-from=e2e
+      # 6️⃣ Create .db.env for database
+      - name: Create .db.env
+        run: |
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .db.env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .db.env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .db.env
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .db.env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .db.env
+
+      # 7️⃣ Launch initialize profile (seed DB, create user)
+      - name: Initialize database and seed
+        run: docker compose -f docker-compose.e2e.yml --profile initialize up --build --abort-on-container-exit
+
+      # 8️⃣ Launch dev profile (services only)
+      - name: Start Docker Compose services
+        run: |
+          docker compose -f docker-compose.e2e.yml --profile dev up -d
+          docker compose -f docker-compose.e2e.yml --profile dev ps
+          # Wait for services to be ready
+          echo "Waiting 20s for services to be ready..."
+          sleep 20
+
+      # 9️⃣ Run Playwright tests (inside e2e/)
+      - name: Run E2E tests
+        run: |
+          cd e2e
+          npx playwright test -c playwright.config.ts --timeout=60000
+
+      # 🔟 Upload test artifacts for debugging
+      - name: Upload Playwright reports + debug image
+        uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: playwright-report
+          path: |
+            e2e/playwright-report/
+            e2e/test-results/
+            e2e/debug-*.png
+            e2e/tests/.auth/user.json
+
+      # 1️⃣1️⃣ Stop Docker Compose after tests
+      - name: Stop Docker Compose
+        if: always()
+        run: docker compose -f docker-compose.e2e.yml down

@@ -239,6 +239,7 @@ export type QuerySearchCarpoolsArgs = {
   arrival?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['String']['input']>;
   departure?: InputMaybe<Scalars['String']['input']>;
+  radiusKm?: InputMaybe<Scalars['Float']['input']>;
   time?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -405,6 +406,7 @@ export type SearchCarpoolsQueryVariables = Exact<{
   arrival: Scalars['String']['input'];
   date: Scalars['String']['input'];
   time?: InputMaybe<Scalars['String']['input']>;
+  radiusKm?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
 
@@ -1135,12 +1137,13 @@ export type GetBookingsForPassengerLazyQueryHookResult = ReturnType<typeof useGe
 export type GetBookingsForPassengerSuspenseQueryHookResult = ReturnType<typeof useGetBookingsForPassengerSuspenseQuery>;
 export type GetBookingsForPassengerQueryResult = Apollo.QueryResult<GetBookingsForPassengerQuery, GetBookingsForPassengerQueryVariables>;
 export const SearchCarpoolsDocument = gql`
-    query SearchCarpools($departure: String!, $arrival: String!, $date: String!, $time: String) {
+    query SearchCarpools($departure: String!, $arrival: String!, $date: String!, $time: String, $radiusKm: Float) {
   searchCarpools(
     departure: $departure
     arrival: $arrival
     date: $date
     time: $time
+    radiusKm: $radiusKm
   ) {
     id
     departure_city
@@ -1178,6 +1181,7 @@ export const SearchCarpoolsDocument = gql`
  *      arrival: // value for 'arrival'
  *      date: // value for 'date'
  *      time: // value for 'time'
+ *      radiusKm: // value for 'radiusKm'
  *   },
  * });
  */
