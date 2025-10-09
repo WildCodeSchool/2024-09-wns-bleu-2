@@ -48,7 +48,7 @@ const start = async () => {
   });
 
   const corsOptions: cors.CorsOptions = {
-    origin: ["http://localhost:5173", "https://studio.apollographql.com"],
+    origin: ["http://localhost:5173", "https://studio.apollographql.com", "https://092024-bleu-2.wns.wilders.dev", "https://staging.092024-bleu-2.wns.wilders.dev"],
     credentials: true,
   };
 
