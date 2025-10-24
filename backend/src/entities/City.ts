@@ -1,6 +1,6 @@
 import { Field, ObjectType, ID, Float } from "type-graphql";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { Point } from 'geojson';
+import { Point } from "geojson";
 
 @ObjectType()
 class GeoPoint {
@@ -28,9 +28,9 @@ export class City extends BaseEntity {
 
   @Field(() => GeoPoint)
   @Column({
-      type: 'geography',
-      spatialFeatureType: 'Point',
-      srid: 4326,
+    type: "geography",
+    spatialFeatureType: "Point",
+    srid: 4326,
   })
   location: Point;
 }

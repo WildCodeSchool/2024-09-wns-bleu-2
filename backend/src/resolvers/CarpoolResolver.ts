@@ -50,9 +50,11 @@ export default class CarpoolResolver {
     @Arg("departure", { nullable: true }) departure?: string,
     @Arg("arrival", { nullable: true }) arrival?: string,
     @Arg("date", { nullable: true }) date?: string,
-    @Arg("time", { nullable: true }) time?: string
+    @Arg("time", { nullable: true }) time?: string,
+    @Arg("radiusKm", { nullable: true }) radiusKm?: number
   ): Promise<Carpool[]> {
-    const DEFAULT_KM = 10; // Recherche 10km par défaut autour de la ville demandée
+    const DEFAULT_KM = 0; // Recherche 0km par défaut autour de la ville demandée
+    const radius = radiusKm ?? DEFAULT_KM; // Comme ça, si l'utilisateur n'a rien mis, il y aura 10km par défaut
 
     // requête dynamique au lieu de 'find()'
     const query = Carpool.createQueryBuilder("carpool").leftJoinAndSelect(
@@ -60,47 +62,92 @@ export default class CarpoolResolver {
       "driver"
     ); // On récupère les infos du conducteur en même temps
 
+    // Filtrage sur la ville de départ
     if (departure) {
-      query.andWhere("LOWER(carpool.departure_city) LIKE LOWER(:departure)", {
-        // LOWER et LIKE LOWER : l'utilisateur peut taper en majuscule ou minuscule
-        departure: `%${departure}%`, // Recherche avec ('%mot%') pour trouver "Paris" avec "Par"
-      });
+      // On cherche la ville exacte dans la table City (par nom, insensible à la casse)
+      const departureCity = await City.createQueryBuilder("city")
+        .where("LOWER(city.name) LIKE LOWER(:name)", { name: `%${departure}%` })
+        .getOne();
+
+      if (departureCity && departureCity.location) {
+        console.log("📍 departureCity found:", departureCity);
+
+        // Trouver toutes les villes dans un rayon de X km autour de la ville demandée
+        const nearbyDepartureCities = await City.createQueryBuilder("city")
+          .where(
+            "ST_DWithin(city.location, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography, :radius)",
+            {
+              lng: departureCity.location.coordinates[0],
+              lat: departureCity.location.coordinates[1],
+              radius: radius * 1000, // convertir km en mètres
+            }
+          )
+          .getMany();
+
+        const departureNames = nearbyDepartureCities.map((city) => city.name);
+
+        // On ne garde que les trajets dont la ville de départ est dans ce rayon
+        if (departureNames.length) {
+          query.andWhere("carpool.departure_city IN (:...departureNames)", {
+            departureNames,
+          });
+        }
+      } else {
+        // Si la ville n'existe pas en base City, on filtre uniquement par LIKE
+        query.andWhere("LOWER(carpool.departure_city) LIKE LOWER(:departure)", {
+          departure: `%${departure}%`,
+        });
+      }
     }
 
+    // Filtrage sur la ville d'arrivée
     if (arrival) {
-      // On récupère la ville d'arrivée pour appliquer le filtrage par défaut
-      const arrivalCity = await City.findOne({ where: { name: arrival } });
-      if (arrivalCity) {
-        // Trouver toutes les villes dans un rayon de DEFAULT_KM km
-        const nearbyCities = await City.createQueryBuilder("city")
+      // On cherche la ville exacte dans la table City (par nom, insensible à la casse)
+      const arrivalCity = await City.createQueryBuilder("city")
+        .where("LOWER(city.name) LIKE LOWER(:name)", { name: `%${arrival}%` })
+        .getOne();
+
+      if (arrivalCity && arrivalCity.location) {
+        console.log("📍 arrivalCity found:", arrivalCity);
+
+        // Trouver toutes les villes dans un rayon de X km autour de la ville demandée
+        const nearbyArrivalCities = await City.createQueryBuilder("city")
           .where(
             "ST_DWithin(city.location, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography, :radius)",
             {
               lng: arrivalCity.location.coordinates[0],
               lat: arrivalCity.location.coordinates[1],
-              radius: DEFAULT_KM * 1000, // convertir km en mètres
+              radius: radius * 1000, // convertir km en mètres
             }
           )
           .getMany();
 
-        const cityNames = nearbyCities.map((city) => city.name);
+        const arrivalNames = nearbyArrivalCities.map((city) => city.name);
 
-        query.andWhere("carpool.arrival_city IN (:...cityNames)", {
-          cityNames,
-        });
+        // On ne garde que les trajets dont la ville d'arrivée est dans ce rayon
+        if (arrivalNames.length) {
+          query.andWhere("carpool.arrival_city IN (:...arrivalNames)", {
+            arrivalNames,
+          });
+        }
       } else {
-        // Si la ville n'existe pas, on ne retourne rien
-        return [];
+        // Si la ville n'existe pas en base City, on filtre uniquement par LIKE
+        query.andWhere("LOWER(carpool.arrival_city) LIKE LOWER(:arrival)", {
+          arrival: `%${arrival}%`,
+        });
       }
     }
 
+    // Filtrage sur la date exacte
     if (date) {
       query.andWhere("carpool.departure_date = :date", { date });
     }
 
+    // Filtrage sur l'heure de départ
     if (time) {
       query.andWhere("carpool.departure_time >= :time", { time });
     }
+
     return await query.getMany(); // `getMany()` retourne un tableau contenant tous les trajets trouvés.
   }
 

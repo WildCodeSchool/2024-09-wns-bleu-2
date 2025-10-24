@@ -11,13 +11,11 @@ export async function importCar() {
   );
   const carBrands = JSON.parse(rawData);
 
-  // Vérifie que carBrands est un tableau
   if (!Array.isArray(carBrands)) {
     console.log("Le fichier JSON n'est pas un tableau valide.");
     return;
   }
 
-  // Assure-toi que les données correspondent à l'entité CarInfos
   const carInfos: Partial<CarInfos>[] = carBrands.map((brandData: any) => ({
     id: brandData.id,
     brand: brandData.brand,
@@ -26,7 +24,7 @@ export async function importCar() {
   console.log(`Importing ${carInfos.length} car brands...`);
 
   const repo = dataSourceGrumpyCar.getRepository(CarInfos);
-  await repo.save(carInfos); // Sauvegarde les marques dans la base de données
+  await repo.save(carInfos);
 
   console.log("✅ Importation des marques terminée !");
 }
