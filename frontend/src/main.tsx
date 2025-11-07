@@ -5,7 +5,7 @@ import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ModalProvider } from "./contexts/ModalContext.tsx";
-
+import { SearchProvider } from "./contexts/SearchContext.tsx";
 const client = new ApolloClient({
   uri: "http://localhost:8000/api",
   cache: new InMemoryCache(),
@@ -18,7 +18,9 @@ createRoot(document.getElementById("root")!).render(
       <ApolloProvider client={client}>
         <StrictMode>
           <ModalProvider>
-            <App />
+            <SearchProvider>
+              <App />
+            </SearchProvider>
           </ModalProvider>
         </StrictMode>
       </ApolloProvider>

@@ -4,17 +4,23 @@
 $bp-mobile: 885px; //to include galaxy fold and tablets
 $bp-desktop-large: 1220px; //to adapt to larger screen
 
-$primary-color-bg: #f8f4ee;
-$color-card-green: #bcc6ad;
+$primary-color-bg: #ffffff;
+$color-card-green: #2f4c5e;
+$color-card-red: #2f4c5e;
+$color-card-blue: #2f4c5e;
+$color-card-yellow: #2f4c5e;
+
+/* $color-card-green: #bcc6ad;
 $color-card-red: #eba095;
 $color-card-blue: #a7b6c2;
-$color-card-yellow: #f9eac3;
-$color-search: #666666;
+$color-card-yellow: #f9eac3; */
+$color-search: #ffffff;
 $summary-color: #f1eae0;
 $text: #2a2a2a;
 $text-secondary: #fff;
 $light-gray: #999999;
-$box-shadow: 0 4px 4px 0px rgba(#000, 25%);
+/* $box-shadow: 0 4px 4px 0px rgba(#000, 25%); */
+$box-shadow: -7px 2px 22.1px 7px rgba(#000, 25%);
 $main-radius: 16px;
 $secondary-radius: 30px;
 
@@ -35,12 +41,12 @@ $font-size-normal-text: 16px;
 
 // MIXIN
 @mixin main-title {
-   text-align: center;
-   font-weight: 800;
-   font-size: $font-size-h1;
-   font-family: $font-family;
-   color: $text;
-   margin-bottom: 1em;
+  text-align: center;
+  font-weight: 800;
+  font-size: $font-size-h1;
+  font-family: $font-family;
+  color: $text;
+  margin-bottom: 1em;
 }
 // @mixin btn {
 

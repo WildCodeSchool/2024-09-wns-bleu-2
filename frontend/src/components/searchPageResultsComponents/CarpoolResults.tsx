@@ -54,7 +54,7 @@ const CarpoolResults: React.FC<SearchResultsProps> = ({
   if (loading) return <p>Chargement...</p>;
   if (error) return <p>Erreur : {error.message}</p>;
   if (!data?.searchCarpools.length) return <p>Aucun trajet trouvé.</p>;
-
+  console.log("Search carpools data:", data);
   let filteredResults = data.searchCarpools;
 
   if (filters?.selectedOptions.length) {

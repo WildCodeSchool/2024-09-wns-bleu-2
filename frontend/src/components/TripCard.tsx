@@ -131,7 +131,6 @@ export default function TripCard({ tripDetails, mode }: TripCardProps) {
                 className={`${windowWidth > 885 ? btnClass : ""}`}
                 onClick={async (event: React.MouseEvent<HTMLButtonElement>) => {
                   event.stopPropagation();
-                  console.log("delete carpool with id", carpool.id);
                   if (carpool.id) {
                     if (
                       window.confirm(
@@ -148,7 +147,7 @@ export default function TripCard({ tripDetails, mode }: TripCardProps) {
                   }
                 }}
               >
-                {windowWidth > 885 ? "ANNULER" : <X />}
+                {windowWidth > 885 ? "ANNULER" : <X color="white" />}
               </button>
             )}
         </div>

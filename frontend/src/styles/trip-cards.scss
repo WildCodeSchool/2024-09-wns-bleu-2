@@ -14,6 +14,7 @@
   z-index: -1;
   p {
     font-family: $font-family-secondary;
+    color: $primary-color-bg;
   }
   .trip-card-header {
     display: flex;
@@ -39,8 +40,10 @@
         .time,
         .duration {
           font-family: $font-family-secondary;
+          color: $primary-color-bg;
         }
         .time {
+          color: $primary-color-bg;
           font-size: $font-size-text-desk;
         }
 
@@ -193,7 +196,7 @@
 .horizontal-line {
   width: 100%;
   height: 1px;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(255, 255, 255, 0.763);
   margin: 0 auto;
 }
 

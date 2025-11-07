@@ -16,11 +16,12 @@
 
 .search-bar {
   padding: 16px 8px;
-  background-color: #d8d8d3;
+  background-color: $primary-color-bg;
   border-radius: $main-radius;
   box-shadow: $box-shadow;
   align-items: center;
   width: 100%;
+  max-width: 1200px;
 
   .search-wrapper {
     display: flex;
@@ -40,11 +41,11 @@
       flex: 1;
 
       &:not(:last-child) {
-        border-right: solid 1px #000;
+        border-right: solid 1px #847e7e;
       }
 
       .input-city {
-        background-color: #d8d8d3;
+        background-color: $primary-color-bg;
         padding: 0.5rem;
         border: none;
         outline: none;
@@ -143,7 +144,7 @@
             top: 60px;
             display: block;
             width: 80%;
-            border-bottom: solid 1px #524f4f;
+            border-bottom: solid 1px #847e7e;
             margin-top: 8px;
           }
         }

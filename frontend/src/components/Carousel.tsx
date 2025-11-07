@@ -38,7 +38,7 @@ export default function EmblaCarousel() {
                 <div className="trip-card-cities">
                   <p className="city">{carpool.departure_city}</p>
 
-                  <ArrowRight width={25} height={25} />
+                  <ArrowRight width={25} height={25} color="white" />
                   <p className="city">{carpool.arrival_city}</p>
                 </div>
               </div>

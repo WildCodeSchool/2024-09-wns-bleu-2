@@ -239,6 +239,7 @@ export type QuerySearchCarpoolsArgs = {
   arrival?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['String']['input']>;
   departure?: InputMaybe<Scalars['String']['input']>;
+  radiusKm?: InputMaybe<Scalars['Float']['input']>;
   time?: InputMaybe<Scalars['String']['input']>;
 };
 
